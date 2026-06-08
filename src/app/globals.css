@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lato);
+  --font-mono: var(--font-geist-mono);
+}
+
+/*
+ * v-watch design tokens — source of truth: Figma "v-watch color palette".
+ * Defining these in @theme generates utilities automatically, e.g.
+ * bg-navy-900, text-primary-blue-600, border-primary-green-500.
+ */
+@theme {
+  /* Brand / base colors */
+  --color-primary: #0a8ec8;        /* Primary Blue (base) — note: equals Primary Blue 600 in the scale */
+  --color-accent: #a6c936;         /* Primary Green (base) */
+  --color-neutral: #19213d;        /* equals Navy 900 */
+  --color-secondary: #0a4b6e;      /* equals Secondary Blue 800 */
+  --color-purple: #7a0ca2;         /* Secondary Purple */
+  --color-brand-white: #ffffff;
+  --color-brand-black: #101010;
+
+  /* Navy */
+  --color-navy-50: #f9fbff;
+  --color-navy-100: #e9eeff;
+  --color-navy-200: #d9e2ff;
+  --color-navy-300: #c9d5ff;
+  --color-navy-400: #aebbec;
+  --color-navy-500: #8d9ccf;
+  --color-navy-600: #6f7eb2;
+  --color-navy-700: #556394;
+  --color-navy-800: #3e4b77;
+  --color-navy-900: #19213d;
+
+  /* Primary Blue */
+  --color-primary-blue-50: #e9f8ff;
+  --color-primary-blue-100: #c1ecff;
+  --color-primary-blue-200: #99e0ff;
+  --color-primary-blue-300: #72d4ff;
+  --color-primary-blue-400: #4ac8ff;
+  --color-primary-blue-500: #21b1f1;
+  --color-primary-blue-600: #0a8ec8;
+  --color-primary-blue-700: #006f9f;
+  --color-primary-blue-800: #005276;
+  --color-primary-blue-900: #00364e;
+
+  /* Primary Green */
+  --color-primary-green-50: #fbffef;
+  --color-primary-green-100: #f2ffcb;
+  --color-primary-green-200: #eaffa8;
+  --color-primary-green-300: #e1ff84;
+  --color-primary-green-400: #d9ff60;
+  --color-primary-green-500: #c5eb4c;
+  --color-primary-green-600: #a6c936;
+  --color-primary-green-700: #88a724;
+  --color-primary-green-800: #6a8515;
+  --color-primary-green-900: #4e630a;
+
+  /* Secondary Blue */
+  --color-secondary-blue-50: #eff9ff;
+  --color-secondary-blue-100: #d4f0ff;
+  --color-secondary-blue-200: #b8e6ff;
+  --color-secondary-blue-300: #9cdcff;
+  --color-secondary-blue-400: #7ecffa;
+  --color-secondary-blue-500: #5cb7e8;
+  --color-secondary-blue-600: #3890c0;
+  --color-secondary-blue-700: #1d6c97;
+  --color-secondary-blue-800: #0a4b6e;
+  --color-secondary-blue-900: #002d45;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, Arial, Helvetica, sans-serif;
+}
