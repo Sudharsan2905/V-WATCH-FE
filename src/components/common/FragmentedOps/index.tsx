@@ -31,7 +31,7 @@ const RESULTS: { text: string; icon: string }[] = [
 
 function ResultsCard() {
   return (
-    <div className="relative w-[380px] shrink-0 self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)]">
+    <div className="relative w-full self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1">
       <h3 className="text-[20px] font-bold text-[#0A4B6E]">The Results?</h3>
       <ul className="mt-[14px] flex flex-col gap-4">
         {RESULTS.map((r) => (
@@ -45,7 +45,7 @@ function ResultsCard() {
       </ul>
 
       <div className="mt-6 flex items-end justify-between">
-        <p className="text-[20px] font-normal leading-7 text-[#FE5E33]">
+        <p className="mb-7 text-[20px] font-normal leading-7 text-[#FE5E33]">
           You&apos;re not lacking data
           <br />
           You&apos;re lacking connection.
@@ -59,7 +59,7 @@ function ResultsCard() {
 // ── Section ────────────────────────────────────────────────────────────────
 export default function FragmentedOps() {
   return (
-    <section className="relative z-10 -mt-6 rounded-t-[40px] bg-white px-6 pb-20 pt-[56px] lg:px-[60px]">
+    <section className="relative z-10 -mt-[40px] rounded-t-[40px] bg-white px-6 pb-20 pt-10 lg:-mt-[62px] lg:px-[60px]">
       <div className="mx-auto w-full max-w-[1410px]">
         <div className="max-w-[642px]">
           <h2 className="text-[26px] font-bold text-[#0A4B6E]">Operations today are fragmented and it shows</h2>
@@ -68,17 +68,17 @@ export default function FragmentedOps() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col items-stretch gap-8 lg:flex-row lg:items-center lg:gap-[30px]">
-          {/* Left: fragmented cards */}
-          <div className="flex w-full flex-col gap-9 lg:w-[380px] lg:shrink-0">
+        <div className="mt-10 flex flex-col items-stretch gap-8 lg:flex-row lg:items-center lg:gap-[40px]">
+          {/* Left: fragmented cards — primary content, grows to fill */}
+          <div className="flex w-full flex-col gap-9 lg:flex-1">
             {FRAG_CARDS.map((c) => (
               <FragCard key={c.text} {...c} />
             ))}
           </div>
 
-          {/* Middle: connected-core render */}
-          <div className="relative h-[300px] w-full overflow-hidden rounded-[20px] lg:h-[338px] lg:flex-1">
-            <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+          {/* Middle: connected-core render — compact, fixed-size supporting square */}
+          <div className="relative mx-auto aspect-square w-full max-w-[300px] shrink-0 overflow-hidden rounded-[20px] lg:mx-0 lg:w-[300px] lg:max-w-none">
+            <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="300px" className="object-cover" />
           </div>
 
           {/* Right: results */}
