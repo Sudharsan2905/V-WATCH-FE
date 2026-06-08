@@ -41,9 +41,30 @@ export default function Footer({
   ctaVariant = "light",
 }: Readonly<FooterProps>) {
   return (
-    <footer className="bg-[#19213D] pb-10">
+    <footer className="relative overflow-hidden bg-[#19213D] pb-10">
+      {/* Decorative background glow */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/footer/footer-img.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 w-[1280px] max-w-none -translate-x-1/2 -translate-y-1/4 select-none opacity-50"
+      />
+
       {/* ── CTA band ─────────────────────────────────────────────────────── */}
       <div className={`relative overflow-hidden px-6 pt-10 pb-20 text-center ${CTA_BG[ctaVariant]}`}>
+        {/* faint square-tile mosaic texture, fading out from the centre */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20x='10'%20y='10'%20width='76'%20height='76'%20rx='8'%20fill='%23ffffff'%20fill-opacity='0.06'/%3E%3C/svg%3E\")",
+            maskImage:
+              "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
+            WebkitMaskImage:
+              "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
+          }}
+        />
         {/* soft cyan glow blobs */}
         <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#0DBFC4] opacity-40 blur-[170px]" />
         <div className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-[26rem] rounded-full bg-[#4DAFE0] opacity-30 blur-[200px]" />

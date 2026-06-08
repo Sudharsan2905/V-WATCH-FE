@@ -1,9 +1,12 @@
 import Link from "next/link";
 
-// Muted brand gradient, shared across the navbar/hero/footer CTAs.
-const DEMO_GRADIENT = "bg-[linear-gradient(180deg,#2FA3C2_0%,#72B16C_100%)]";
+// Brand gradient (Figma 215:7878) — bright blue→green with a 10% black overlay,
+// shared across the navbar/hero/footer CTAs.
+const DEMO_GRADIENT =
+  "bg-[linear-gradient(90deg,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.1)_100%),linear-gradient(180deg,#21B1F1_20.69%,#A6C936_151.72%)]";
 
-const BUTTON_CLASSES = "h-11 gap-[10px] px-4 text-base shadow-[0_6px_42px_rgba(38,124,153,0.40),2px_5px_14px_rgba(79,148,104,0.60)]";
+const BUTTON_CLASSES =
+  "h-11 gap-[10px] rounded-full border-[1.24px] border-white px-4 text-base shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)]";
 
 function ArrowBadge() {
   return (

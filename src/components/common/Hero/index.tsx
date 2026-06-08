@@ -3,7 +3,7 @@ import BookADemo from "@/components/common/BookADemo";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#030515]">
+    <section className="relative overflow-hidden bg-[#0A2A4A]">
       {/* Baked glass-tile render (labels + icons composited in Figma) */}
       <div className="pointer-events-none absolute inset-0">
         <Image
@@ -14,22 +14,76 @@ export default function Hero() {
           sizes="100vw"
           className="object-cover object-top"
         />
-        {/* Light scrim keeps the left-side copy legible over the render */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030515] to-transparent" />
+        {/* Electric-blue glow tint over the render */}
+        <div
+          className="absolute inset-0 mix-blend-screen"
+          style={{
+            background:
+              "radial-gradient(55% 55% at 60% 40%, rgba(59,130,246,0.45) 0%, rgba(59,130,246,0.12) 40%, transparent 72%)",
+          }}
+        />
+        {/* Cyan highlights drifting in from the edges */}
+        <div
+          className="absolute inset-0 mix-blend-screen"
+          style={{
+            background:
+              "radial-gradient(38% 48% at 100% 8%, rgba(34,211,238,0.20) 0%, transparent 60%)," +
+              "radial-gradient(40% 50% at 96% 92%, rgba(34,211,238,0.18) 0%, transparent 60%)",
+          }}
+        />
+        {/* Navy scrim keeps the left-side copy legible over the render */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A2A4A] from-5% via-[#0A2A4A]/55 via-45% to-transparent" />
+        {/* Soft vignette to deepen the edges */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(120% 120% at 50% 45%, transparent 55%, rgba(5,20,38,0.55) 90%, rgba(5,20,38,0.8) 100%)",
+          }}
+        />
       </div>
 
       {/* Left-side copy */}
       <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
-        <div className="flex min-h-[640px] max-w-[642px] flex-col justify-center gap-[30px] pt-[160px] pb-[120px] lg:min-h-[760px]">
+        <div className="flex min-h-[600px] max-w-[642px] flex-col justify-center gap-[30px] pt-[150px] pb-[100px] lg:min-h-[753px] lg:py-[140px]">
           <div className="flex flex-col items-start gap-[14px]">
-            {/* "In Real Time" pill — dark-navy with a subtle light edge */}
-            <span className="inline-flex items-center gap-[6px] rounded-full bg-[linear-gradient(180deg,#1E1E3D_0%,#222349_100%)] px-[13px] py-[9px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]">
-              <span className="h-[11px] w-[11px] rounded-full bg-[#86D58B]" />
-              <span className="text-[18px] font-bold leading-none text-white">In Real Time</span>
+            {/* "In Real Time" pill — glassmorphism with a directional gradient
+                border: bright at the top corners, fading down the sides, dim at
+                the bottom (light source from above). */}
+            <span className="relative inline-flex items-center gap-2 rounded-full bg-white/[0.08] px-[14px] py-[9px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),inset_0_-1px_0_0_rgba(255,255,255,0.16),0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md">
+              {/* gradient border ring — dominant top highlight + corner glow (masked to 1px) */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-full"
+                style={{
+                  padding: "1px",
+                  background:
+                    "radial-gradient(135% 135% at 50% -35%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.45) 26%, rgba(255,255,255,0.08) 58%, rgba(255,255,255,0) 100%)",
+                  WebkitMask:
+                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+              {/* secondary faint reflected highlight along the bottom curve (masked to 1px) */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-full"
+                style={{
+                  padding: "1px",
+                  background:
+                    "radial-gradient(120% 120% at 50% 138%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0) 60%)",
+                  WebkitMask:
+                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+              <span className="relative h-[11px] w-[11px] rounded-full bg-[#86D58B]" />
+              <span className="relative text-[18px] font-bold leading-none text-white">In Real Time</span>
             </span>
 
-            <h1 className="text-[34px] font-black leading-[1.15] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+            <h1 className="text-[34px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
               Run Your Operations on One Intelligent System
             </h1>
           </div>
@@ -43,7 +97,7 @@ export default function Hero() {
             <BookADemo />
             <a
               href="#"
-              className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold"
             >
               <span className="bg-gradient-to-b from-[#21B1F1] to-[#A6C936] bg-clip-text text-transparent">
                 See How It Works
