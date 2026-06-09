@@ -26,13 +26,13 @@ function Arrow() {
 
 export default function Explore() {
   return (
-    <section className="bg-white px-6 pb-20 lg:px-[60px]">
+    <section className="px-6 pb-20 pt-[120px] lg:px-[60px]">
       <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-10">
-        <header className="flex max-w-[1160px] flex-col gap-2.5 text-[#0A4B6E]">
-          <h2 className="max-w-[889px] text-[26px] font-extrabold">
+        <header className="flex max-w-[1160px] flex-col gap-2.5">
+          <h2 className="max-w-[889px] text-[26px] font-extrabold text-white">
             Explore how V-Watch Ai works across different environments
           </h2>
-          <p className="max-w-[804px] text-[20px] font-normal leading-[28px]">
+          <p className="max-w-[804px] text-[20px] font-normal leading-[28px] text-[#B8DEFF]">
             While every industry is unique, the need for visibility, safety, and control remains the
             same. These are some of the environments where V-Watch Ai delivers the most impact.
           </p>
