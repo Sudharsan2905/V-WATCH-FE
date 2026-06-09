@@ -40,6 +40,9 @@
  * bg-navy-900, text-primary-blue-600, border-primary-green-500.
  */
 @theme {
+  /* Lato has no 600 weight — map Tailwind's font-semibold to Lato Bold (700). */
+  --font-weight-semibold: 700;
+
   /* Brand / base colors */
   --color-primary: #0a8ec8; /* Primary Blue (base) — note: equals Primary Blue 600 in the scale */
   --color-accent: #a6c936; /* Primary Green (base) */
