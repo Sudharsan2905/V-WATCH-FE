@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// How long each accordion item stays active (and its progress bar takes to
+// fill). Must match the progressGrow animation duration applied to the bar.
+const ITEM_DURATION = 5000;
 
 // Products capability tabs (Figma node 270:5624). The Workforce tab matches the
 // design exactly; the other tabs reuse the same layout with their own content.
 type Item = { title: string; desc?: string };
 type Tab = { key: string; num: string; subtitle: string; img: string; items: Item[] };
+type Selection = { tab: number; item: number; cycle: number };
 
 const TABS: Tab[] = [
   {
@@ -117,39 +122,88 @@ const TABS: Tab[] = [
 ];
 
 export default function CapabilityTabs() {
-  const [tab, setTab] = useState(0);
-  const [item, setItem] = useState(0);
+  const [{ tab, item, cycle }, setSelection] = useState<Selection>({
+    tab: 0,
+    item: 0,
+    cycle: 0,
+  });
+  const [isLoopReady, setIsLoopReady] = useState(false);
   const active = TABS[tab];
 
   function selectTab(i: number) {
-    setTab(i);
-    setItem(0);
+    setSelection((current) => ({
+      tab: i,
+      item: 0,
+      cycle: current.cycle + 1,
+    }));
   }
+
+  function selectItem(i: number) {
+    setSelection((current) => ({
+      ...current,
+      item: i,
+      cycle: current.cycle + 1,
+    }));
+  }
+
+  // Start the timer and progress bar together after the initial browser paint.
+  useEffect(() => {
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => setIsLoopReady(true));
+    });
+
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isLoopReady) return;
+
+    const id = setTimeout(() => {
+      setSelection((current) => {
+        const nextItem = current.item + 1;
+
+        if (nextItem < TABS[current.tab].items.length) {
+          return { ...current, item: nextItem, cycle: current.cycle + 1 };
+        }
+
+        return {
+          ...current,
+          item: 0,
+          cycle: current.cycle + 1,
+        };
+      });
+    }, ITEM_DURATION);
+
+    return () => clearTimeout(id);
+  }, [cycle, isLoopReady]);
 
   return (
     <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-[60px]">
-      {/* faint abstract grid behind the panel */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-[154px] z-0 hidden h-[519px] w-[705px] -translate-x-1/2 opacity-60 lg:block"
-        style={{ backgroundImage: "url(/products/abstract-grid.svg)", backgroundSize: "contain", backgroundRepeat: "no-repeat" }}
-        aria-hidden
-      />
-
       <div className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-10">
         {/* Tab bar */}
-        <div className="mx-auto flex h-14 w-full max-w-[1158px] items-center gap-2.5 overflow-x-auto rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
+        <div className="flex h-14 w-full items-center gap-2.5 overflow-x-auto rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
           {TABS.map((t, i) => (
             <button
               key={t.key}
               type="button"
               onClick={() => selectTab(i)}
-              className={`flex h-full flex-1 items-center justify-center whitespace-nowrap rounded-full px-4 text-[20px] transition-colors ${
-                i === tab
-                  ? "border border-white bg-[linear-gradient(180deg,#21B1F1,#9CDCFF)] font-medium text-white shadow-[inset_0_-2px_27px_#7ecffa]"
-                  : "font-medium text-[#202020] hover:text-[#0A4B6E]"
+              className={`relative flex h-full flex-1 items-center justify-center whitespace-nowrap rounded-full px-4 text-[20px] font-medium transition-colors duration-300 ${
+                i === tab ? "text-white" : "text-[#202020] hover:text-[#0A4B6E]"
               }`}
             >
-              {t.key}
+              {/* active gradient + glow as an overlay so it can crossfade —
+                  gradients/shadows can't be tweened by transition-colors */}
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute inset-0 rounded-full border border-transparent [background:linear-gradient(180deg,#21B1F1,#9CDCFF)_padding-box,linear-gradient(180deg,rgba(255,255,255,0.83),rgba(255,255,255,0.2))_border-box] shadow-[0_6px_42px_0_rgba(212,240,255,0.4),2px_5px_14px_0_rgba(255,255,255,0.6),inset_0_-2px_27px_rgba(126,207,250,0.6)] transition-opacity duration-300 ${
+                  i === tab ? "opacity-100" : "opacity-0"
+                }`}
+              />
+              <span className="relative z-10">{t.key}</span>
             </button>
           ))}
         </div>
@@ -157,15 +211,23 @@ export default function CapabilityTabs() {
         {/* Panel */}
         <div className="flex flex-col items-stretch gap-[30px] lg:flex-row lg:items-stretch">
           {/* Left: illustration */}
-          <div className="relative min-h-[300px] overflow-hidden rounded-[32px] border border-white p-[15px] shadow-[0_0_26px_2px_rgba(92,183,232,0.16),0_0_14px_rgba(79,194,255,0.1)] lg:h-[474px] lg:w-[614px] lg:shrink-0">
-            <div className="relative h-full w-full overflow-hidden rounded-[24px]">
+          <div className="relative min-h-[300px] overflow-hidden rounded-[32px] border border-white p-[15px] [background:linear-gradient(180deg,rgba(43,127,255,0.05),rgba(97,95,255,0.05))] shadow-[0_0_14px_0_rgba(79,194,255,0.1),0_0_26px_2px_rgba(92,183,232,0.16),inset_0_0_18px_6px_rgba(255,255,255,0.9)] lg:h-[474px] lg:w-[614px] lg:shrink-0">
+            {/* All four edges are masked to transparent so the illustration
+                dissolves into the card's gradient background instead of ending
+                on a hard rectangle. Two gradients intersected fade the corners. */}
+            <div
+              className="relative h-full w-full overflow-hidden rounded-[24px]"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
+                WebkitMaskComposite: "source-in",
+                maskImage:
+                  "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
+                maskComposite: "intersect",
+              }}
+            >
               <Image src={active.img} alt={`${active.key} illustration`} fill className="object-cover" sizes="585px" />
             </div>
-            {/* white edge fades */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-[53px] bg-gradient-to-b from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48px] bg-gradient-to-t from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-[50px] bg-gradient-to-r from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-[50px] bg-gradient-to-l from-white to-transparent" />
           </div>
 
           {/* Right: heading + accordion */}
@@ -187,27 +249,46 @@ export default function CapabilityTabs() {
                   <button
                     key={it.title}
                     type="button"
-                    onClick={() => setItem(i)}
+                    onClick={() => selectItem(i)}
                     className="flex w-full flex-col gap-2.5 text-left"
                   >
                     <p
-                      className={`text-[20px] font-bold ${
+                      className={`text-[20px] font-bold transition-colors duration-500 ease-out ${
                         isOpen ? "text-[#5CB7E8]" : "text-[#0A4B6E]"
                       }`}
                     >
                       {it.title}
                     </p>
-                    {isOpen && it.desc && (
-                      <p className="text-[18px] font-normal leading-[26px] text-[#5CB7E8]">{it.desc}</p>
+                    {it.desc && (
+                      <span
+                        aria-hidden={!isOpen}
+                        className={`grid transition-[grid-template-rows,opacity] duration-500 ease-out ${
+                          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                        }`}
+                      >
+                        <span className="overflow-hidden">
+                          <span className="block text-[18px] font-normal leading-[26px] text-[#5CB7E8]">
+                            {it.desc}
+                          </span>
+                        </span>
+                      </span>
                     )}
-                    {/* divider / progress track */}
-                    <span
-                      className={`h-1.5 w-full rounded-full ${
-                        isOpen
-                          ? "bg-[linear-gradient(90deg,#4AC8FF,#7ECFFA)]"
-                          : "bg-[#EAF3FB] shadow-[0_-2px_4px_rgba(156,220,255,0.10)]"
-                      }`}
-                    />
+                    {/* divider / progress track — the active item's bar fills
+                        0→100% over ITEM_DURATION, then the loop advances */}
+                    <span className="relative h-1.5 w-full overflow-hidden rounded-full bg-[#EAF3FB] shadow-[0_-2px_4px_rgba(156,220,255,0.10)]">
+                      {isOpen && (
+                        <span
+                          key={`${tab}-${item}-${cycle}`}
+                          className="absolute inset-0 w-full rounded-full bg-[linear-gradient(90deg,#4AC8FF,#7ECFFA)] [will-change:transform]"
+                          style={{
+                            animation: isLoopReady
+                              ? `progressGrow ${ITEM_DURATION}ms linear forwards`
+                              : "none",
+                            transform: isLoopReady ? undefined : "translateX(-100%)",
+                          }}
+                        />
+                      )}
+                    </span>
                   </button>
                 );
               })}

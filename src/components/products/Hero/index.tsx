@@ -11,16 +11,57 @@ export default function ProductsHero() {
           src="/products/hero.png"
           alt=""
           fill
+          quality={80}
           priority
           sizes="100vw"
           className="object-cover object-bottom"
         />
         {/* left scrim to keep copy legible */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
+
+        {/* bottom bezier divider — fills everything below the curve with the
+            colour of the next section (white) so the hero reads as a curved edge
+            that flows straight into CapabilityTabs, then traces it with a glow.
+            Normalised viewBox keeps the curve aligned at any size. */}
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="hero-curve-stroke" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor="#21B1F1" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#7ECFFA" stopOpacity="1" />
+              <stop offset="1" stopColor="#21B1F1" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* fill below the curve with the next section's colour */}
+          <path d="M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z" fill="#ffffff" />
+
+          {/* layered strokes give the glow without a blur filter (which would
+              distort when the viewBox is stretched) */}
+          {[
+            { w: 6, o: 0.2 },
+            { w: 3, o: 0.45 },
+            { w: 1.5, o: 1 },
+          ].map(({ w, o }) => (
+            <path
+              key={w}
+              d="M0 84 C33.33 103 66.67 103 100 84"
+              fill="none"
+              stroke="url(#hero-curve-stroke)"
+              strokeOpacity={o}
+              strokeWidth={w}
+              vectorEffect="non-scaling-stroke"
+            />
+          ))}
+        </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
-        <div className="flex min-h-[754px] flex-col justify-center gap-[30px] py-[140px]">
+      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px] xl:px-[10px]">
+        <div className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
               {/* badge */}

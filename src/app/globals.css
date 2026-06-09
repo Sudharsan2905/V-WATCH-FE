@@ -5,6 +5,18 @@
   --foreground: #171717;
 }
 
+/* Auto-advancing accordion progress bar (products CapabilityTabs).
+   Animate transform (GPU-composited, no per-frame layout) instead of width
+   so the fill is smooth on the very first run. */
+@keyframes progressGrow {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
