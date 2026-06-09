@@ -9,7 +9,7 @@ import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (
-    <div className="relative bg-[#030515]">
+    <div className="relative">
       <Navbar />
       <Hero />
       <FragmentedOps />

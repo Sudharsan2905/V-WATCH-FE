@@ -47,7 +47,7 @@ function IndustryCard({ title, img, size }: Readonly<Card>) {
 
 export default function Adaptable() {
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(180deg,#0A1A2E_0%,#0C2138_50%,#0A1A2E_100%)] px-6 py-20 lg:px-[60px]">
+    <section className="relative overflow-hidden px-6 py-20 lg:px-[60px]">
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex max-w-[804px] flex-col gap-2.5 text-white">
           <h2 className="text-[26px] font-extrabold">Also used across a wide range of environments</h2>
@@ -58,8 +58,8 @@ export default function Adaptable() {
         </header>
 
         <div className="flex flex-col gap-6">
-          {ROWS.map((row, i) => (
-            <div key={i} className="flex flex-col gap-6 sm:flex-row">
+          {ROWS.map((row) => (
+            <div key={row[0].title} className="flex flex-col gap-6 sm:flex-row">
               {row.map((c) => (
                 <IndustryCard key={c.title} {...c} />
               ))}

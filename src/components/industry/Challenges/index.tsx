@@ -1,79 +1,105 @@
-// "Different industries. The same core challenges." — layered challenge cards
-// connected as a flow, with a cloud-sync callout. (Figma node 270:12946)
-type Challenge = { title: string; desc: string; icon: React.ReactNode };
+import Image from "next/image";
 
-const I = (paths: React.ReactNode) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-    {paths}
-  </svg>
-);
+type Challenge = {
+  title: string;
+  desc: string;
+  icon: string;
+  iconW: number;
+  iconH: number;
+};
 
 const CHALLENGES: Challenge[] = [
   {
     title: "Blind Visibility",
     desc: "Limited real-time visibility of people and activity.",
-    icon: I(
-      <>
-        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" stroke="#0A8EC8" strokeWidth="1.7" />
-        <circle cx="12" cy="12" r="2.5" stroke="#0A8EC8" strokeWidth="1.7" />
-      </>
-    ),
+    icon: "/industry/challenges/blind-visibility.svg",
+    iconW: 32,
+    iconH: 27,
   },
   {
     title: "Tracking Burden",
     desc: "Compliance requirements that are difficult to track.",
-    icon: I(
-      <>
-        <rect x="6" y="4" width="12" height="16" rx="2" stroke="#0A8EC8" strokeWidth="1.7" />
-        <path d="M9 9h6M9 13h6M9 17h3" stroke="#0A8EC8" strokeWidth="1.7" strokeLinecap="round" />
-      </>
-    ),
+    icon: "/industry/challenges/tracking-burden.svg",
+    iconW: 27,
+    iconH: 22,
   },
   {
     title: "System Fragmentation",
     desc: "Disconnected systems across teams and functions.",
-    icon: I(
-      <>
-        <path d="M4 8h6v6H4zM14 10h6v6h-6z" stroke="#0A8EC8" strokeWidth="1.7" />
-        <path d="M10 11h4" stroke="#0A8EC8" strokeWidth="1.7" strokeDasharray="2 2" />
-      </>
-    ),
+    icon: "/industry/challenges/system-fragmentation.svg",
+    iconW: 29,
+    iconH: 29,
   },
   {
     title: "Critical Delays",
     desc: "Delayed response to incidents and risks.",
-    icon: I(
-      <>
-        <circle cx="12" cy="12" r="8" stroke="#0A8EC8" strokeWidth="1.7" />
-        <path d="M12 8v4l3 2" stroke="#0A8EC8" strokeWidth="1.7" strokeLinecap="round" />
-      </>
-    ),
+    icon: "/industry/challenges/critical-delays.svg",
+    iconW: 28,
+    iconH: 28,
   },
   {
     title: "Data Misalignment",
-    desc: "Workforce and operational data that don’t align.",
-    icon: I(
-      <>
-        <path d="M4 18V9M9 18V5M14 18v-6M19 18v-9" stroke="#0A8EC8" strokeWidth="1.7" strokeLinecap="round" />
-      </>
-    ),
+    desc: "Workforce and operational data that don't align.",
+    icon: "/industry/challenges/data-misalignment.svg",
+    iconW: 28,
+    iconH: 28,
   },
 ];
 
-function ChallengeCard({ title, desc, icon }: Readonly<Challenge>) {
+function ChallengeCard({
+  title,
+  desc,
+  icon,
+  iconW,
+  iconH,
+}: Readonly<Challenge>) {
   return (
     <div className="relative z-10 h-[171px] w-[314px] shrink-0">
-      {/* title card (behind, peeks below) */}
-      <div className="absolute left-[34px] top-[78px] flex h-[93px] w-[280px] flex-col justify-end rounded-[14px] border border-[#0a8ec8] bg-[linear-gradient(180deg,rgba(233,238,255,0.4),rgba(193,236,255,0.4))] px-4 pb-4 pt-10 shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85)]">
-        <p className="text-[18px] font-bold tracking-[-0.036px] text-[#0f172a]">{title}</p>
+      {/* Title card — behind, peeks below-right */}
+      <div
+        className="absolute left-[34px] top-[78px] flex h-[93px] w-[280px] flex-col justify-end rounded-[14px] px-4 pb-4 pt-10"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(233, 238, 255, 0.40) 0%, rgba(193, 236, 255, 0.40) 100%), white",
+          boxShadow:
+            "10px -16px 52px rgba(153, 224, 255, 0.18), 6px 10px 23px rgba(217, 226, 255, 0.85), -40px 14px 250px rgba(184, 230, 255, 0.20), 9px 7px 60px rgba(255, 255, 255, 0.40)",
+          outlineOffset: "-1px",
+        }}
+      >
+        <p className="text-[18px] font-bold text-[#0f172a]">{title}</p>
       </div>
-      {/* description card */}
-      <div className="absolute left-0 top-[24px] flex h-[98px] w-[280px] items-end rounded-[16px] border-2 border-white bg-[rgba(255,247,244,0.6)] px-[19px] py-5 shadow-[inset_0_0_24px_rgba(255,107,107,0.14),0_13px_100px_rgba(199,199,199,0.25)]">
+
+      {/* Description card — in front */}
+      <div
+        className="absolute left-0 top-[24px] flex h-[98px] w-[280px] items-end overflow-hidden rounded-[16px] px-[19px] py-5"
+        style={{
+          background: "rgba(255, 247, 244, 0.20)",
+          boxShadow:
+            "0px 13px 100px rgba(199, 199, 199, 0.25), 0px 0px 24px rgba(255, 107, 107, 0.14) inset",
+          outline: "2px rgba(255, 255, 255, 0.60) solid",
+          outlineOffset: "-2px",
+        }}
+      >
         <p className="text-[18px] leading-[22px] text-[#314158]">{desc}</p>
       </div>
-      {/* icon */}
-      <div className="absolute left-[13px] top-0 flex size-12 items-center justify-center rounded-[14px] border-[1.5px] border-white bg-[rgba(222,239,255,0.6)] backdrop-blur-[2px]">
-        {icon}
+
+      {/* Icon badge — top-left, above both cards */}
+      <div
+        className="absolute left-[13px] top-0 flex size-12 items-center justify-center rounded-[14px] backdrop-blur-[2px]"
+        style={{
+          background: "rgba(222, 239, 255, 0.10)",
+          outline: "1.5px white solid",
+          outlineOffset: "-1.5px",
+        }}
+      >
+        <Image
+          src={icon}
+          alt=""
+          width={iconW}
+          height={iconH}
+          unoptimized
+          className="object-contain"
+        />
       </div>
     </div>
   );
@@ -81,41 +107,153 @@ function ChallengeCard({ title, desc, icon }: Readonly<Challenge>) {
 
 export default function Challenges() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pb-20 pt-[90px] lg:px-[60px]">
-      <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
-        <header className="flex max-w-[1160px] flex-col gap-2.5 text-[#0A4B6E]">
-          <h2 className="max-w-[889px] text-[26px] font-extrabold">
+    <section className="relative z-10 mt-20 overflow-hidden bg-white px-6 pb-4 pt-10 lg:px-[60px]">
+      {/* Decorative blur blobs */}
+      <div
+        className="pointer-events-none absolute hidden lg:block"
+        style={{
+          width: 274,
+          height: 193,
+          right: 60,
+          top: 232,
+          background: "rgba(193, 236, 255, 0.30)",
+          filter: "blur(85px)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute hidden lg:block"
+        style={{
+          width: 274,
+          height: 193,
+          left: 60,
+          top: 96,
+          background: "rgba(184, 230, 255, 0.43)",
+          filter: "blur(85px)",
+        }}
+      />
+
+      <div className="relative mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]">
+        <header className="flex flex-col gap-2.5">
+          <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
             Different industries. The same core challenges.
           </h2>
-          <p className="max-w-[735px] text-[20px] font-normal leading-[28px]">
+          <p className="max-w-[735px] text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
             No matter the environment, operations face similar problems
           </p>
         </header>
 
         <div className="flex flex-col gap-[50px]">
+          {/* Row 1 — 3 cards */}
           <div className="relative flex flex-wrap gap-[30px]">
-            {/* dotted flow connector — shows only in the gaps between cards */}
-            <div className="pointer-events-none absolute left-[160px] right-[160px] top-[120px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/50 lg:block" />
+            {/* Dotted connector line */}
+            <div className="pointer-events-none absolute left-[160px] right-[160px] top-[85px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/60 lg:block" />
             {CHALLENGES.slice(0, 3).map((c) => (
               <ChallengeCard key={c.title} {...c} />
             ))}
           </div>
+
+          {/* Row 2 — 2 cards + callout */}
           <div className="relative flex flex-wrap items-center gap-[30px]">
-            <div className="pointer-events-none absolute left-[160px] right-[420px] top-[120px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/50 lg:block" />
+            {/* Dotted connector line (shorter — only spans the 2 cards) */}
+            <div
+              className="pointer-events-none absolute left-[160px] top-[85px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/60 lg:block"
+              style={{ right: "calc(100% - 628px)" }}
+            />
             {CHALLENGES.slice(3).map((c) => (
               <ChallengeCard key={c.title} {...c} />
             ))}
 
-            {/* cloud-sync callout */}
-            <div className="relative flex h-[111px] flex-1 items-center gap-3.5 rounded-[24px] pl-2 pr-4">
-              <div className="relative flex h-[95px] w-[55px] shrink-0 items-center justify-center">
-                {/* simplified toggle */}
-                <span className="flex h-[28px] w-[50px] items-center rounded-full bg-[linear-gradient(108deg,#E86C5C,#97351D)] px-[3px]">
-                  <span className="ml-auto size-[22px] rounded-full bg-white" />
-                </span>
+            {/* Toggle callout */}
+            <div className="relative flex flex-1 items-center gap-4">
+              {/* Concentric circle rings background */}
+              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Image
+                  src="/industry/challenges/circles-outer.svg"
+                  alt=""
+                  width={230}
+                  height={238}
+                  unoptimized
+                  className="opacity-80"
+                />
               </div>
+              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Image
+                  src="/industry/challenges/circles-inner.svg"
+                  alt=""
+                  width={172}
+                  height={178}
+                  unoptimized
+                  className="opacity-80"
+                />
+              </div>
+
+              {/* Toggle + halos */}
+              <div className="relative flex h-[100px] w-[142px] shrink-0 items-center justify-center">
+                {/* Outer halo */}
+                <div
+                  className="absolute"
+                  style={{
+                    width: 141.92,
+                    height: 100.18,
+                    borderRadius: 67.74,
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 100%)",
+                  }}
+                />
+                {/* Middle halo */}
+                <div
+                  className="absolute"
+                  style={{
+                    width: 116.12,
+                    height: 75.14,
+                    borderRadius: 38.71,
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.16) 100%)",
+                    boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.10)",
+                    borderTop: "0.81px rgba(255,255,255,0.02) solid",
+                  }}
+                />
+                {/* Inner halo */}
+                <div
+                  className="absolute"
+                  style={{
+                    width: 103.22,
+                    height: 62.61,
+                    borderRadius: 38.71,
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, white 100%)",
+                    boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.24)",
+                    borderTop: "0.81px rgba(255,255,255,0.04) solid",
+                  }}
+                />
+                {/* Toggle switch — ON state (knob on right) */}
+                <div
+                  className="relative flex items-center justify-end"
+                  style={{
+                    width: 90,
+                    height: 50,
+                    borderRadius: 27.05,
+                    background:
+                      "linear-gradient(120deg, #E86C5C 0%, #97351D 100%)",
+                    padding: "3px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 19.35,
+                      background: "white",
+                      flexShrink: 0,
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Callout text */}
               <p className="flex-1 text-[16px] font-bold leading-6 text-[#314158]">
-                When systems are fragmented, control is limited and risks increase.
+                When systems are fragmented, control is limited and risks
+                increase.
               </p>
             </div>
           </div>

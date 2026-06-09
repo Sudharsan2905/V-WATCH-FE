@@ -22,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Platform",   href: "#", hasDropdown: true },
   { label: "Solutions",  href: "#", hasDropdown: true },
   { label: "Industries", href: "#", hasDropdown: true },
-  { label: "Products",   href: "#" },
+  { label: "Products",   href: "/products" },
   { label: "About Us",   href: "#" },
   { label: "Contact Us", href: "#" },
   { label: "Resources",  href: "#", hasDropdown: true },
@@ -56,7 +56,7 @@ const DROPDOWNS: Record<string, DropdownData> = {
     illustration: "/nav/illus-industries.svg",
     illustrationSize: 140,
     items: [
-      { icon: "/nav/icons/industries-hub.svg",          title: "Industries Hub",          desc: "Explore industry-specific capabilities.",     href: "#" },
+      { icon: "/nav/icons/industries-hub.svg",          title: "Industries Hub",          desc: "Explore industry-specific capabilities.",     href: "/industry-hub" },
       { icon: "/nav/icons/industries-construction.svg", title: "Construction",            desc: "Optimize construction lifecycle operations.", href: "#" },
       { icon: "/nav/icons/industries-energy.svg",       title: "Industrial & Energy",     desc: "Manage industrial workforce environments.",   href: "#" },
       { icon: "/nav/icons/industries-commercial.svg",   title: "Commercial & Facilities", desc: "Improve facility operational efficiency.",    href: "#" },
