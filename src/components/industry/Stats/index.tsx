@@ -1,69 +1,402 @@
-// "Built for high-scale, high-complexity environments" — dark stats band.
-// (Figma node 270:13581)
-type Stat = { value: string; label: string; icon: React.ReactNode };
+import { Fragment, type JSX } from "react";
+
+// "Built for high-scale, high-complexity environments" — stats card.
+
+const CARD_BG =
+  "linear-gradient(0deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.20) 100%), " +
+  "radial-gradient(ellipse 86.78% 295.89% at 86.08% 9.73%, rgba(21,21,21,0) 0%, rgba(3,46,69,0.80) 100%), " +
+  "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 0%), " +
+  "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 0%), " +
+  "#0A4B6E";
+
+const SHADOW_BG =
+  "linear-gradient(0deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.20) 100%), " +
+  "radial-gradient(ellipse 86.78% 295.89% at 86.08% 9.73%, rgba(21,21,21,0) 0%, rgba(10,75,110,0.80) 100%), " +
+  "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 0%), " +
+  "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 0%), " +
+  "#3890C0";
+
+// ── Icons ────────────────────────────────────────────────────────────────────
+
+const ClipboardIcon = () => (
+  <svg width="16" height="20" viewBox="0 0 16 20" fill="none" aria-hidden="true">
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M11.7505 8.22966C11.9006 8.38451 11.9846 8.59172 11.9846 8.80741C11.9846 9.0231 11.9006 9.23032 11.7505 9.38516L7.48902 13.7425C7.41566 13.8181 7.32787 13.8782 7.23086 13.9192C7.13385 13.9603 7.02959 13.9814 6.92425 13.9814C6.81892 13.9814 6.71465 13.9603 6.61764 13.9192C6.52063 13.8782 6.43285 13.8181 6.35949 13.7425L4.22826 11.5633C4.07811 11.4085 3.99414 11.2013 3.99414 10.9856C3.99414 10.7699 4.07811 10.5627 4.22826 10.4078C4.30156 10.332 4.38939 10.2716 4.4865 10.2304C4.58362 10.1892 4.68803 10.168 4.79353 10.168C4.89902 10.168 5.00344 10.1892 5.10055 10.2304C5.19767 10.2716 5.28549 10.332 5.35879 10.4078L6.92375 12.0097L10.6199 8.22966C10.6933 8.15392 10.7812 8.09369 10.8783 8.05256C10.9754 8.01143 11.0797 7.99023 11.1852 7.99023C11.2907 7.99023 11.395 8.01143 11.4921 8.05256C11.5893 8.09369 11.6771 8.15392 11.7505 8.22966Z"
+      fill="#82B3FF"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M4.96154 0.865873C5.11917 0.603563 5.34156 0.386165 5.60739 0.23454C5.87321 0.0829156 6.17354 0.0021522 6.47956 0H9.49963C10.1338 0 10.6971 0.343553 11.0177 0.865873L11.5829 1.78568C12.1422 1.82962 12.6715 1.87556 13.1339 1.9195C13.7822 1.97845 14.3889 2.26465 14.8467 2.72755C15.3045 3.19044 15.5839 3.80024 15.6356 4.44921C15.7775 6.24487 15.9792 9.16507 15.9792 11.3302C15.9792 13.3726 15.7994 15.6916 15.6596 17.1936C15.5992 17.831 15.3177 18.4272 14.8639 18.8788C14.4101 19.3305 13.8125 19.6091 13.1748 19.6664C11.7397 19.8022 9.60749 19.974 7.9896 19.974C6.3717 19.974 4.23948 19.8022 2.80435 19.6664C2.16648 19.6093 1.5687 19.3308 1.11468 18.8791C0.660648 18.4275 0.379005 17.8312 0.318585 17.1936C0.179766 15.6916 0 13.3726 0 11.3292C0 9.16507 0.200738 6.24487 0.343553 4.44921C0.395288 3.80024 0.67473 3.19044 1.13251 2.72755C1.59029 2.26465 2.19694 1.97845 2.8453 1.9195C3.30769 1.87656 3.837 1.82962 4.39628 1.78568L4.96154 0.865873ZM4.01877 3.35763C3.65324 3.38759 3.30669 3.41955 2.99011 3.44951C2.70307 3.47536 2.43449 3.60212 2.23208 3.80728C2.02967 4.01243 1.90653 4.28269 1.88455 4.57005C1.74273 6.36471 1.54599 9.23198 1.54599 11.3292C1.54599 13.3007 1.71976 15.5637 1.85858 17.0518C1.88445 17.332 2.00792 17.5942 2.20744 17.7926C2.40695 17.991 2.66983 18.1131 2.95016 18.1374C4.38229 18.2722 6.4516 18.437 7.9896 18.437C9.52759 18.437 11.5969 18.2722 13.029 18.1374C13.3094 18.1131 13.5722 17.991 13.7718 17.7926C13.9713 17.5942 14.0947 17.332 14.1206 17.0518C14.2594 15.5637 14.4332 13.2997 14.4332 11.3292C14.4332 9.23198 14.2365 6.36471 14.0936 4.57005C14.0717 4.28269 13.9485 4.01243 13.7461 3.80728C13.5437 3.60212 13.2751 3.47536 12.9881 3.44951C12.6454 3.41708 12.3025 3.38646 11.9594 3.35763C11.9198 3.573 11.8446 3.78025 11.7367 3.97083C11.4451 4.48316 10.8948 4.89063 10.1867 4.89063H5.79246C5.08338 4.89063 4.5341 4.48316 4.24248 3.97183C4.13415 3.78102 4.05853 3.57341 4.01877 3.35763ZM6.47956 1.536C6.42463 1.536 6.34374 1.56596 6.28182 1.66583L5.59472 2.78437C5.55591 2.84906 5.53492 2.92286 5.53387 2.99829C5.53281 3.07371 5.55174 3.14807 5.58872 3.21382C5.64964 3.32367 5.72654 3.35363 5.79246 3.35363H10.1867C10.2527 3.35363 10.3296 3.32367 10.3905 3.21481C10.4275 3.14907 10.4464 3.07471 10.4453 2.99929C10.4443 2.92386 10.4233 2.85006 10.3845 2.78537L9.69737 1.66683C9.63545 1.56696 9.55456 1.537 9.49963 1.537L6.47956 1.536Z"
+      fill="#82B3FF"
+    />
+  </svg>
+);
+
+const SyncIcon = () => (
+  <svg width="23" height="24" viewBox="0 0 23 24" fill="none" aria-hidden="true">
+    <path d="M11.1421 13.7156H8.57093C8.34362 13.7156 8.12563 13.6253 7.9649 13.4646C7.80416 13.3039 7.71387 13.0859 7.71387 12.8586C7.71387 12.6312 7.80416 12.4133 7.9649 12.2525C8.12563 12.0918 8.34362 12.0015 8.57093 12.0015H10.7136L13.0277 8.91607C13.164 8.73422 13.3671 8.614 13.5921 8.58186C13.7035 8.56594 13.817 8.57212 13.926 8.60006C14.035 8.62799 14.1375 8.67712 14.2275 8.74465C14.3176 8.81219 14.3934 8.89679 14.4508 8.99364C14.5081 9.09048 14.5458 9.19768 14.5618 9.3091C14.5777 9.42052 14.5715 9.53398 14.5436 9.64301C14.5156 9.75204 14.4665 9.8545 14.399 9.94454L11.8278 13.3728C11.748 13.4793 11.6445 13.5657 11.5255 13.6252C11.4064 13.6847 11.2752 13.7157 11.1421 13.7156Z" fill="#96EEFF"/>
+    <path d="M11.1418 23.1416C4.99839 23.1416 0 18.1432 0 11.9998C0 8.80463 1.35416 5.76034 3.71365 3.64768C3.7973 3.57138 3.89524 3.51241 4.00181 3.47418C4.10838 3.43594 4.22146 3.4192 4.33454 3.42492C4.44761 3.43064 4.55844 3.45871 4.6606 3.50751C4.76277 3.5563 4.85425 3.62485 4.92977 3.70921C5.0053 3.79356 5.06335 3.89204 5.1006 3.99896C5.13784 4.10588 5.15353 4.21911 5.14676 4.33213C5.14 4.44515 5.1109 4.5557 5.06116 4.65741C5.01142 4.75912 4.94202 4.84997 4.85697 4.9247C3.8656 5.81713 3.07335 6.9084 2.53184 8.12742C1.99033 9.34645 1.71171 10.6659 1.71413 11.9998C1.71413 17.1978 5.94373 21.4274 11.1418 21.4274C11.3691 21.4274 11.5871 21.5177 11.7479 21.6785C11.9086 21.8392 11.9989 22.0572 11.9989 22.2845C11.9989 22.5118 11.9086 22.7298 11.7479 22.8905C11.5871 23.0513 11.3691 23.1416 11.1418 23.1416Z" fill="#96EEFF"/>
+    <path d="M10.2865 24.0001C10.0932 24.0004 9.9054 23.9355 9.75368 23.8157C9.60196 23.6959 9.4952 23.5283 9.45073 23.3402C9.40625 23.1521 9.42668 22.9544 9.50869 22.7794C9.5907 22.6043 9.72948 22.4622 9.90249 22.3759L10.0825 22.2859L9.90249 22.196C9.69905 22.0943 9.54431 21.9161 9.4723 21.7004C9.4003 21.4847 9.41692 21.2492 9.51853 21.0458C9.62014 20.8423 9.7984 20.6876 10.0141 20.6156C10.2298 20.5436 10.4653 20.5602 10.6687 20.6618L12.3828 21.5189C12.5255 21.59 12.6454 21.6994 12.7293 21.8349C12.8132 21.9704 12.8576 22.1266 12.8576 22.2859C12.8576 22.4453 12.8132 22.6015 12.7293 22.737C12.6454 22.8725 12.5255 22.9819 12.3828 23.053L10.6687 23.9101C10.55 23.9694 10.4191 24.0002 10.2865 24.0001Z" fill="#96EEFF"/>
+    <path d="M17.9992 20.5718C17.8256 20.5718 17.6562 20.5191 17.5133 20.4207C17.3703 20.3223 17.2606 20.1829 17.1986 20.0208C17.1367 19.8587 17.1254 19.6816 17.1663 19.5129C17.2071 19.3443 17.2982 19.192 17.4275 19.0762C18.4189 18.1838 19.2111 17.0926 19.7526 15.8735C20.2941 14.6545 20.5728 13.3351 20.5704 12.0012C20.5704 6.80311 16.3407 2.5735 11.1427 2.5735C10.9154 2.5735 10.6974 2.4832 10.5366 2.32247C10.3759 2.16174 10.2856 1.94374 10.2856 1.71644C10.2856 1.48913 10.3759 1.27113 10.5366 1.1104C10.6974 0.949672 10.9154 0.859375 11.1427 0.859375C17.2861 0.859375 22.2845 5.85776 22.2845 12.0012C22.2845 15.1972 20.9303 18.2406 18.5708 20.3533C18.4138 20.4943 18.2102 20.5721 17.9992 20.5718Z" fill="#96EEFF"/>
+    <path d="M11.9989 3.42861C11.8662 3.42879 11.7353 3.39797 11.6166 3.33862L9.90249 2.48155C9.75987 2.41047 9.63989 2.30104 9.55602 2.16553C9.47216 2.03003 9.42773 1.87384 9.42773 1.71448C9.42773 1.55513 9.47216 1.39893 9.55602 1.26343C9.63989 1.12793 9.75987 1.01849 9.90249 0.947412L11.6166 0.090349C11.7173 0.0400387 11.827 0.0100618 11.9393 0.00213006C12.0516 -0.00580169 12.1644 0.00846689 12.2712 0.0441213C12.378 0.0797756 12.4768 0.136118 12.5618 0.20993C12.6468 0.283742 12.7165 0.37358 12.7668 0.474313C12.8171 0.575046 12.8471 0.684703 12.855 0.797021C12.8629 0.909339 12.8487 1.02212 12.813 1.12892C12.7774 1.23573 12.721 1.33446 12.6472 1.41949C12.5734 1.50452 12.4836 1.57418 12.3828 1.62449L12.2028 1.71448L12.3828 1.80447C12.5558 1.89067 12.6945 2.03278 12.7765 2.20774C12.8586 2.3827 12.8791 2.58024 12.8347 2.76831C12.7903 2.95638 12.6837 3.12395 12.5321 3.24381C12.3806 3.36367 12.1921 3.42879 11.9989 3.42861Z" fill="#96EEFF"/>
+    <path d="M17.1414 22.2857C18.0881 22.2857 18.8555 21.5182 18.8555 20.5715C18.8555 19.6249 18.0881 18.8574 17.1414 18.8574C16.1947 18.8574 15.4272 19.6249 15.4272 20.5715C15.4272 21.5182 16.1947 22.2857 17.1414 22.2857Z" fill="#96EEFF"/>
+    <path d="M5.14235 5.14407C6.08903 5.14407 6.85647 4.37663 6.85647 3.42995C6.85647 2.48326 6.08903 1.71582 5.14235 1.71582C4.19566 1.71582 3.42822 2.48326 3.42822 3.42995C3.42822 4.37663 4.19566 5.14407 5.14235 5.14407Z" fill="#96EEFF"/>
+  </svg>
+);
+
+const ShieldIcon = () => (
+  <svg width="21" height="24" viewBox="0 0 21 24" fill="none" aria-hidden="true">
+    <path d="M20.0959 4.14427C16.7938 3.23949 13.4723 1.83066 10.4905 0.0701369C10.4127 0.0242209 10.3241 0 10.2338 0C10.1435 0 10.0549 0.0242209 9.97718 0.0701369C6.90931 1.88124 3.76729 3.21385 0.371437 4.14427C0.264713 4.1735 0.170551 4.23699 0.103439 4.32497C0.0363273 4.41295 -1.64193e-05 4.52055 5.56475e-09 4.6312V9.7896C5.56475e-09 15.1016 2.45057 18.6178 4.50641 20.632C6.71966 22.8007 9.29778 24 10.2338 24C11.1698 24 13.7479 22.8007 15.9611 20.632C18.0169 18.6178 20.4674 15.1016 20.4674 9.7896V4.63116C20.4674 4.40372 20.3153 4.20431 20.0959 4.14427ZM19.4577 9.78955C19.4577 14.7509 17.172 18.0319 15.2544 19.9108C13.078 22.0434 10.751 22.9902 10.2338 22.9902C9.71665 22.9902 7.3895 22.0434 5.213 19.9108C3.29549 18.0319 1.00973 14.7509 1.00973 9.78955V5.01441C4.25713 4.09238 7.28141 2.80561 10.2339 1.08985C13.1127 2.7601 16.2879 4.11085 19.4577 5.01422V9.78955Z" fill="#D6C0FF"/>
+    <path d="M5.75891 4.95808C5.65672 4.69863 5.36362 4.57118 5.10412 4.67341C4.19881 5.02998 3.28112 5.35426 2.35279 5.64565C2.25023 5.67782 2.16061 5.74189 2.09698 5.82852C2.03335 5.91516 1.99904 6.01984 1.99902 6.12733V8.07691C1.99902 8.35572 2.2251 8.58175 2.50387 8.58175C2.78263 8.58175 3.00871 8.35572 3.00871 8.07691V6.49629C3.83952 6.22744 4.66176 5.93279 5.47424 5.61279C5.73369 5.51065 5.86115 5.21754 5.75891 4.95808ZM6.71793 5.05385C6.78566 5.05385 6.85443 5.04021 6.92038 5.01143L6.92966 5.0074C7.18508 4.89546 7.30012 4.59813 7.18818 4.3428C7.07615 4.08738 6.77713 3.97183 6.52199 4.08368L6.51383 4.08719C6.25827 4.1988 6.14287 4.4959 6.25448 4.75137C6.3373 4.94102 6.52316 5.05385 6.71793 5.05385ZM16.2488 16.279C16.0155 16.1266 15.7026 16.1921 15.55 16.4255C15.134 17.0623 14.6459 17.672 14.0991 18.2377C13.6494 18.7028 13.1654 19.1335 12.651 19.526C12.4294 19.6951 12.3867 20.0118 12.5557 20.2336C12.6028 20.2955 12.6636 20.3456 12.7333 20.3801C12.803 20.4146 12.8797 20.4325 12.9575 20.4324C13.0643 20.4324 13.1719 20.3987 13.2633 20.329C13.8179 19.9056 14.34 19.4411 14.825 18.9395C15.4161 18.328 15.9444 17.668 16.3953 16.9778C16.5478 16.7444 16.4822 16.4315 16.2488 16.279ZM11.4786 20.3178L11.4496 20.3349C11.2084 20.4746 11.1259 20.7834 11.2656 21.0247C11.2988 21.0821 11.343 21.1324 11.3956 21.1727C11.4482 21.213 11.5083 21.2425 11.5724 21.2596C11.6364 21.2767 11.7032 21.281 11.769 21.2722C11.8347 21.2635 11.8981 21.2419 11.9554 21.2086L11.9988 21.189C12.2294 21.0481 12.3103 20.7388 12.1693 20.4982C12.0283 20.2577 11.7191 20.177 11.4786 20.3178ZM6.79255 10.9698C6.48257 10.6598 6.0703 10.4891 5.63183 10.4891C5.19337 10.4891 4.78105 10.6598 4.47093 10.9698C3.83094 11.6099 3.83094 12.6515 4.47093 13.2916L7.45199 16.2725C7.76202 16.5825 8.17429 16.7531 8.6128 16.7531C9.05132 16.7531 9.46358 16.5825 9.77366 16.2724L15.9968 10.0492C16.6368 9.40896 16.6368 8.36754 15.9967 7.72765C15.6867 7.41761 15.2744 7.24699 14.8359 7.24699C14.3974 7.24699 13.9851 7.41766 13.675 7.72765L8.61276 12.7899L6.79255 10.9698ZM14.389 8.44165C14.4476 8.3828 14.5172 8.33615 14.5939 8.3044C14.6707 8.27265 14.7529 8.25643 14.8359 8.25668C15.0049 8.25668 15.1635 8.32235 15.2829 8.44165C15.5292 8.68797 15.5292 9.08894 15.2828 9.33536L9.05971 15.5585C8.94041 15.6778 8.78165 15.7435 8.6128 15.7435C8.44396 15.7435 8.28519 15.6778 8.16585 15.5585L5.18488 12.5776C4.93846 12.3312 4.93846 11.9302 5.18479 11.6839C5.30413 11.5646 5.4629 11.4988 5.63179 11.4988C5.80068 11.4988 5.95935 11.5645 6.07865 11.6838L8.25576 13.861C8.35049 13.9556 8.47883 14.0088 8.61276 14.0088C8.74668 14.0088 8.87502 13.9556 8.96966 13.861L14.389 8.44165Z" fill="#D6C0FF"/>
+  </svg>
+);
+
+// ── Blurred divider (diamond spindle, matches Group 1321316986.svg) ──────────
+
+const Divider = ({ uid }: { uid: string }) => (
+  <svg
+    width="5"
+    height="122"
+    viewBox="0 0 5 122"
+    fill="none"
+    style={{ flexShrink: 0 }}
+    aria-hidden="true"
+  >
+    <g opacity="0.8">
+      <g filter={`url(#${uid}a)`}>
+        <path d="M1 61H4L2.5 121L1 61Z" fill="#D4F0FF" fillOpacity="0.8" />
+      </g>
+      <g filter={`url(#${uid}b)`}>
+        <path d="M1 61H4L2.5 1L1 61Z" fill="#D4F0FF" fillOpacity="0.8" />
+      </g>
+    </g>
+    <defs>
+      <filter id={`${uid}a`} x="0" y="60" width="5" height="62" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+        <feGaussianBlur stdDeviation="0.5" result="effect1_foregroundBlur" />
+      </filter>
+      <filter id={`${uid}b`} x="0" y="0" width="5" height="62" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+        <feGaussianBlur stdDeviation="0.5" result="effect1_foregroundBlur" />
+      </filter>
+    </defs>
+  </svg>
+);
+
+// ── Decorative arc SVGs ───────────────────────────────────────────────────────
+
+const Arc1 = () => (
+  <svg width="219" height="149" viewBox="0 0 219 149" fill="none">
+    <path
+      d="M0.815877 140.826C24.0407 145.666 47.9915 145.883 71.3006 141.467C94.6096 137.05 116.82 128.084 136.664 115.083C156.508 102.082 173.597 85.2988 186.954 65.6927C200.312 46.0867 209.676 24.0415 214.513 0.816006"
+      stroke="url(#arc1g)"
+      strokeOpacity="0.15"
+      strokeWidth="8"
+      strokeMiterlimit="10"
+    />
+    <defs>
+      <linearGradient id="arc1g" x1="19.2449" y1="52.3943" x2="196.084" y2="89.2474" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#1668E8" />
+        <stop offset="1" stopColor="#1668E8" stopOpacity="0.23" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const Arc2 = () => (
+  <svg width="268" height="182" viewBox="0 0 268 182" fill="none">
+    <path
+      d="M0.816004 172.947C29.3696 178.897 58.8157 179.165 87.4729 173.735C116.13 168.305 143.437 157.283 167.834 141.299C192.231 125.315 213.241 104.681 229.664 80.577C246.086 56.4728 257.6 29.3696 263.548 0.815331"
+      stroke="url(#arc2g)"
+      strokeOpacity="0.15"
+      strokeWidth="8"
+      strokeMiterlimit="10"
+    />
+    <defs>
+      <linearGradient id="arc2g" x1="23.4732" y1="64.2263" x2="240.891" y2="109.536" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#1668E8" />
+        <stop offset="1" stopColor="#1668E8" stopOpacity="0.23" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+type Stat = { value: string; label: string; icon: JSX.Element; iconBg: string };
 
 const STATS: Stat[] = [
   {
     value: "500K+",
     label: "Users & Tasks Managed",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <circle cx="9" cy="8" r="3" stroke="#9CDCFF" strokeWidth="1.7" />
-        <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#9CDCFF" strokeWidth="1.7" strokeLinecap="round" />
-        <circle cx="17" cy="9" r="2.2" stroke="#9CDCFF" strokeWidth="1.5" />
-      </svg>
-    ),
+    icon: <ClipboardIcon />,
+    iconBg: "rgba(239, 246, 255, 0.10)",
   },
   {
     value: "1M+",
     label: "Real-Time Data Events Processed",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M3 13h4l2-6 3 12 2-7 2 4h5" stroke="#9CDCFF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    icon: <SyncIcon />,
+    iconBg: "rgba(236, 254, 255, 0.10)",
   },
   {
     value: "99.99%",
     label: "Reliable System Performance",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M12 3l7 3v5c0 4.2-2.9 7.4-7 8.5C7.9 18.4 5 15.2 5 11V6l7-3Z" stroke="#9CDCFF" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M9 11.5l2 2 4-4" stroke="#9CDCFF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    icon: <ShieldIcon />,
+    iconBg: "rgba(245, 243, 255, 0.10)",
   },
 ];
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function Stats() {
   return (
-    <section className="bg-white px-6 lg:px-[60px]">
-      <div className="mx-auto w-full max-w-[1160px]">
-        <div className="relative overflow-hidden rounded-[40px] bg-[radial-gradient(120%_140%_at_50%_-10%,#16365c_0%,#0c1c30_55%,#081320_100%)] px-6 py-[52px] shadow-[inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(126,207,250,0.15)]">
-          <div className="mx-auto flex max-w-[991px] flex-col items-center gap-2.5 text-center">
-            <h2 className="text-[26px] font-bold text-white">
-              Built for high-scale, high-complexity environments
-            </h2>
-            <p className="max-w-[845px] text-[20px] font-normal leading-7 text-[#D4F0FF]">
-              V-Watch Ai manages large volumes of users, tasks, and real-time data across complex
-              environments ensuring reliability when it matters most.
-            </p>
+    <section
+      className="bg-white"
+      style={{ paddingBottom: 80, paddingLeft: 60, paddingRight: 60 }}
+    >
+      {/* Outer wrapper: relative so shadow + card backgrounds can be absolute.
+          No fixed height — content determines height so labels never clip. */}
+      <div style={{ position: "relative" }}>
+
+        {/* ── Shadow / glow layer (behind the card, 40 px lower) ── */}
+        <div
+          style={{
+            position: "absolute",
+            width: 999,
+            height: 286,
+            left: "50%",
+            top: 40,
+            transform: "translateX(-50%)",
+            background: SHADOW_BG,
+            boxShadow: "0px 16px 30px -12.34px rgba(10, 75, 110, 0.20)",
+            borderRadius: 31.56,
+            border: "1px rgba(56, 144, 192, 0.20) solid",
+            zIndex: 0,
+          }}
+        />
+
+        {/* ── Main card background — fills the wrapper height dynamically ── */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: "50%",
+            width: 1061,
+            transform: "translateX(-50%)",
+            background: CARD_BG,
+            boxShadow: "0px 16.69px 50.07px -12.52px rgba(15, 23, 42, 0.20)",
+            borderRadius: 32,
+            border: "1px rgba(255, 255, 255, 0.20) solid",
+            overflow: "hidden",
+            zIndex: 1,
+          }}
+        >
+          {/* Decorative arc lines — anchored to bottom-left, curving upward */}
+          <div style={{ position: "absolute", left: 0, bottom: 0, pointerEvents: "none" }}>
+            <Arc2 />
+          </div>
+          <div style={{ position: "absolute", left: 22, bottom: 0, pointerEvents: "none" }}>
+            <Arc1 />
           </div>
 
-          <div className="mt-8 flex flex-col items-stretch justify-center gap-6 sm:flex-row sm:items-center sm:gap-0">
-            {STATS.map((s, i) => (
-              <div key={s.label} className="flex flex-1 items-center">
-                <div className="flex flex-1 flex-col items-center gap-2 text-center">
-                  <span className="flex size-12 items-center justify-center rounded-full border border-white/15 bg-white/5">
-                    {s.icon}
-                  </span>
-                  <p className="text-[42px] font-extrabold leading-none text-white">{s.value}</p>
-                  <p className="text-[16px] font-normal text-[#D4F0FF]">{s.label}</p>
-                </div>
-                {i < STATS.length - 1 && (
-                  <span className="hidden h-[120px] w-px bg-white/15 sm:block" />
+          {/* Decorative concentric rings — circles rotated 102° around top-left corner,
+              borderRadius:50% makes outline follow the circle arc (not a square outline) */}
+          <div style={{ position: "absolute", width: "100%", height: "100%", left: 0, top: 0 }}>
+            <div
+              style={{
+                position: "absolute",
+                width: 258,
+                height: 257.98,
+                left: 305.19,
+                top: 52.63,
+                transform: "rotate(102deg)",
+                transformOrigin: "top left",
+                borderRadius: "50%",
+                outline: "8px rgba(22, 104, 232, 0.15) solid",
+                outlineOffset: "-4px",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                width: 222.11,
+                height: 222.09,
+                left: 270.05,
+                top: 45.38,
+                transform: "rotate(102deg)",
+                transformOrigin: "top left",
+                borderRadius: "50%",
+                outline: "8px rgba(22, 104, 232, 0.15) solid",
+                outlineOffset: "-4px",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                width: 180.66,
+                height: 180.64,
+                left: 229.48,
+                top: 36.85,
+                transform: "rotate(102deg)",
+                transformOrigin: "top left",
+                borderRadius: "50%",
+                outline: "8px rgba(22, 104, 232, 0.15) solid",
+                outlineOffset: "-4px",
+              }}
+            />
+          </div>
+        </div>
+
+        {/* ── Flex content (heading + stats) ── */}
+        <div
+          style={{
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingTop: 26,
+            paddingBottom: 26,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 24,
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          {/* Heading + description */}
+          <div
+            style={{
+              width: 845,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <div
+              style={{
+                color: "#F3FBFF",
+                fontSize: 26,
+                fontFamily: "Lato, sans-serif",
+                fontWeight: 800,
+                lineHeight: "32px",
+                textAlign: "center",
+                wordWrap: "break-word",
+              }}
+            >
+              Built for high-scale, high-complexity environments
+            </div>
+            <div
+              style={{
+                alignSelf: "stretch",
+                textAlign: "center",
+                color: "#EBF7FE",
+                fontSize: 20,
+                fontFamily: "Lato, sans-serif",
+                fontWeight: 500,
+                lineHeight: "28px",
+                wordWrap: "break-word",
+              }}
+            >
+              V-Watch Ai manages large volumes of users, tasks, and real-time data across complex
+              environments ensuring reliability when it matters most.
+            </div>
+          </div>
+
+          {/* Stats row */}
+          <div
+            style={{
+              alignSelf: "stretch",
+              paddingLeft: 140,
+              paddingRight: 140,
+              display: "inline-flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 40,
+            }}
+          >
+            {STATS.map((stat, i) => (
+              <Fragment key={stat.label}>
+                {i > 0 && (
+                  <>
+                    <Divider uid={`d${i}a`} />
+                    <Divider uid={`d${i}b`} />
+                  </>
                 )}
-              </div>
+                <div
+                  style={{
+                    flex: "1 1 0",
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    display: "inline-flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  {/* Icon circle */}
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      paddingLeft: 12,
+                      paddingRight: 12,
+                      background: stat.iconBg,
+                      borderRadius: 9999,
+                      outline: "1px rgba(255, 255, 255, 0.20) solid",
+                      outlineOffset: "-1px",
+                      display: "inline-flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {stat.icon}
+                  </div>
+
+                  {/* Value + label */}
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        textAlign: "center",
+                        color: "white",
+                        fontSize: 36,
+                        fontFamily: "Lato, sans-serif",
+                        fontWeight: 800,
+                        lineHeight: "42px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "center",
+                        color: "#EFF9FF",
+                        fontSize: 16,
+                        fontFamily: "Lato, sans-serif",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              </Fragment>
             ))}
           </div>
         </div>
