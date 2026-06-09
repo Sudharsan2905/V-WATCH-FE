@@ -8,19 +8,40 @@ import Stats from "@/components/industry/Stats";
 import Footer from "@/components/layout/Footer";
 
 const INDUSTRY_COLUMNS = [
-  { heading: "Platform", links: ["DVA Access", "RTLS Tracking", "SMS Workflow", "HRMS Management"] },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
-  { heading: "Company", links: ["About Us", "Contact", "Career", "Terms of Service"] },
+  {
+    heading: "Platform",
+    links: ["DVA Access", "RTLS Tracking", "SMS Workflow", "HRMS Management"],
+  },
+  {
+    heading: "Industries",
+    links: ["Construction", "Industrial", "Commercial"],
+  },
+  {
+    heading: "Company",
+    links: ["About Us", "Contact", "Career", "Terms of Service"],
+  },
 ];
 
 export default function IndustryHubPage() {
   return (
-    <div className="relative bg-[#030515]">
+    <div className="relative">
       <Navbar active="Industries" />
       <IndustryHero />
       <Challenges />
-      <Explore />
-      <Adaptable />
+      {/* Dark band — dome arch rises into Challenges, bg image provides all visual styling */}
+      <div
+        className="relative z-20 -mt-20 overflow-hidden"
+        style={{
+          borderRadius: "50% 50% 0 0 / 80px 80px 0 0",
+          backgroundImage: "url('/industry/explore-adaptable-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <Explore />
+        <Adaptable />
+      </div>
       <Solutions />
       <Stats />
       <Footer

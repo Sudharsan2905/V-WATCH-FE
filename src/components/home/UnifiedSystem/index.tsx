@@ -26,16 +26,35 @@ function NumberBadge({ n, active }: Readonly<{ n: number; active?: boolean }>) {
 
 export default function UnifiedSystem() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-[60px]">
-      {/* faint concentric rings, centered and bleeding downward */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2" aria-hidden>
-        <div className="absolute left-1/2 top-0 size-[1280px] -translate-x-1/2 rounded-full border-[71px] border-white/[0.02] shadow-[0_0_74px_rgba(92,183,232,0.08)]" />
-        <div className="absolute left-1/2 top-[213px] size-[853px] -translate-x-1/2 rounded-full border-[35px] border-white/[0.02] shadow-[0_0_74px_rgba(92,183,232,0.08)]" />
-        <div className="absolute left-1/2 top-[560px] size-[533px] -translate-x-1/2 rounded-full border-[17px] border-[#9CDCFF]/10 shadow-[0_0_74px_rgba(92,183,232,0.08)]" />
-      </div>
-      {/* gradient fades to hide ring shadow clipping at section edges */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" aria-hidden />
+    <section className="relative z-20 -mt-10 overflow-hidden rounded-t-[40px] bg-[#EDF1F8] px-6 pb-20 pt-[100px] lg:px-[60px]">
+      {/* ── Layered organic background — soft translucent flowing curves ──── */}
+      {/* light blue-gray base, fading to white at the bottom so it blends into
+          the white section below */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#E7EDF7_0%,#EDF2FA_30%,#F6F9FD_62%,#FFFFFF_92%)]"
+      />
+      {/* oversized top-right curve — slightly darker blue-gray, sweeping toward
+          the centre and fading out */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-[12%] -top-[36%] h-[840px] w-[1100px] -rotate-12 rounded-[50%] opacity-80 bg-[radial-gradient(ellipse_at_center,#C9D5EB_0%,rgba(201,213,235,0)_62%)]"
+      />
+      {/* oversized bottom-left curve — overlaps the top-right shape, lower opacity */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-[34%] -left-[18%] h-[780px] w-[1020px] rotate-[8deg] rounded-[50%] opacity-70 bg-[radial-gradient(ellipse_at_center,#D5DFF1_0%,rgba(213,223,241,0)_62%)]"
+      />
+      {/* mid-layer curve for added depth */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[4%] top-[26%] h-[580px] w-[800px] rotate-[6deg] rounded-[55%] opacity-60 bg-[radial-gradient(ellipse_at_center,#DEE7F4_0%,rgba(222,231,244,0)_60%)]"
+      />
+      {/* extremely soft centre glow to lift the content off the background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(58%_42%_at_50%_46%,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0)_72%)]"
+      />
 
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex max-w-[807px] flex-col gap-2.5 text-[#0A4B6E]">
@@ -53,23 +72,26 @@ export default function UnifiedSystem() {
               Instead of switching between systems, you get
             </p>
 
+            {/* Stacked cards fanning forward: each lower card overlaps on top of
+                the one above it (card 3 frontmost), each with a light white liner */}
             <div className="flex flex-col">
-              {/* Active card */}
-              <div className="z-10 flex h-[80px] items-center rounded-[14px] bg-[#F4FBFF] p-5 shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(219,228,255,0.85),0_13px_100px_rgba(219,219,219,0.25)]">
-                <div className="flex items-center gap-3.5">
-                  <NumberBadge n={BENEFITS[0].n} active />
-                  <p className="text-[18px] font-bold text-[#0A8EC8]">{BENEFITS[0].text}</p>
-                </div>
-              </div>
-              {/* Faded items */}
-              {BENEFITS.slice(1).map((b) => (
+              {BENEFITS.map((b, i) => (
                 <div
                   key={b.n}
-                  className="-mt-[1px] flex h-[80px] items-center rounded-[14px] bg-[rgba(244,251,255,0.04)] p-5 shadow-[0_-6px_4px_rgba(156,220,255,0.10)]"
+                  style={{ zIndex: i + 1 }}
+                  className={`relative flex h-[90px] items-center rounded-[14px] px-5 ${
+                    i === 0 ? "py-5" : "-mt-[11px] pb-5 pt-[31px]"
+                  } ${
+                    b.active
+                      ? "border border-white/80 bg-[rgba(244,251,255,0.65)] shadow-[0_10px_40px_rgba(219,228,255,0.55),0_2px_10px_rgba(255,255,255,0.30)] backdrop-blur-sm"
+                      : "border border-white/50 bg-white/25 shadow-[0_10px_24px_rgba(120,140,170,0.06),0_-6px_8px_rgba(156,220,255,0.08)] backdrop-blur-sm"
+                  }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <NumberBadge n={b.n} />
-                    <p className="text-[18px] font-bold text-[rgba(15,23,42,0.6)]">{b.text}</p>
+                    <NumberBadge n={b.n} active={b.active} />
+                    <p className={`text-[18px] font-bold ${b.active ? "text-[#0A8EC8]" : "text-[rgba(15,23,42,0.6)]"}`}>
+                      {b.text}
+                    </p>
                   </div>
                 </div>
               ))}

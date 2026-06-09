@@ -31,11 +31,11 @@
  */
 @theme {
   /* Brand / base colors */
-  --color-primary: #0a8ec8;        /* Primary Blue (base) — note: equals Primary Blue 600 in the scale */
-  --color-accent: #a6c936;         /* Primary Green (base) */
-  --color-neutral: #19213d;        /* equals Navy 900 */
-  --color-secondary: #0a4b6e;      /* equals Secondary Blue 800 */
-  --color-purple: #7a0ca2;         /* Secondary Purple */
+  --color-primary: #0a8ec8; /* Primary Blue (base) — note: equals Primary Blue 600 in the scale */
+  --color-accent: #a6c936; /* Primary Green (base) */
+  --color-neutral: #19213d; /* equals Navy 900 */
+  --color-secondary: #0a4b6e; /* equals Secondary Blue 800 */
+  --color-purple: #7a0ca2; /* Secondary Purple */
   --color-brand-white: #ffffff;
   --color-brand-black: #101010;
 
@@ -96,7 +96,6 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, Arial, Helvetica, sans-serif;
 }
