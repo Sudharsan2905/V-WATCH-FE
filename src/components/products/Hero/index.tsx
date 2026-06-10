@@ -30,7 +30,14 @@ export default function ProductsHero() {
           aria-hidden
         >
           <defs>
-            <linearGradient id="hero-curve-stroke" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="hero-curve-stroke"
+              x1="0"
+              y1="0"
+              x2="100"
+              y2="0"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop offset="0" stopColor="#21B1F1" stopOpacity="0" />
               <stop offset="0.5" stopColor="#7ECFFA" stopOpacity="1" />
               <stop offset="1" stopColor="#21B1F1" stopOpacity="0" />
@@ -38,7 +45,10 @@ export default function ProductsHero() {
           </defs>
 
           {/* fill below the curve with the next section's colour */}
-          <path d="M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z" fill="#ffffff" />
+          <path
+            d="M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z"
+            fill="#ffffff"
+          />
 
           {/* layered strokes give the glow without a blur filter (which would
               distort when the viewBox is stretched) */}
@@ -60,14 +70,16 @@ export default function ProductsHero() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px] xl:px-[10px]">
+      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6">
         <div className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
               {/* badge */}
               <span className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]">
                 <span className="size-[11px] rounded-full bg-[#86D58B]" />
-                <span className="text-[18px] font-bold leading-none text-white">What V-Watch Ai</span>
+                <span className="text-[18px] font-bold leading-none text-white">
+                  What V-Watch Ai
+                </span>
               </span>
 
               <h1 className="w-[642px] max-w-full text-[50px] font-black leading-[68px] tracking-[0.5px] text-white">
@@ -80,8 +92,9 @@ export default function ProductsHero() {
             </div>
 
             <p className="max-w-[561px] text-[20px] font-bold leading-8 text-white">
-              V-Watch Ai brings together a suite of integrated capabilities that manage your
-              workforce, operations, assets, and security all in one connected system.
+              V-Watch Ai brings together a suite of integrated capabilities that
+              manage your workforce, operations, assets, and security all in one
+              connected system.
             </p>
             <p className="max-w-[561px] text-[20px] font-extrabold leading-8 text-white">
               Start with what you need. Scale as you grow.

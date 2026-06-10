@@ -45,7 +45,7 @@ export default function Explore() {
           </p>
         </header>
 
-        <div className="flex flex-wrap gap-[30px]">
+        <div className="flex flex-wrap justify-center gap-[30px]">
           {CARDS.map((c) => (
             <div
               key={c.title}

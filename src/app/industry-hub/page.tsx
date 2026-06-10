@@ -31,7 +31,7 @@ export default function IndustryHubPage() {
       {/* Dark band — dome arch rises into Challenges, bg image provides all visual styling */}
       <Explore />
       <div
-        className="relative z-1 -mt-83 overflow-hidden"
+        className="relative z-1 -mt-20 overflow-hidden sm:-mt-52 lg:-mt-83"
         style={{
           borderRadius: "50% 50% 0 0 / 80px 80px 0 0",
           backgroundImage: "url('/industry/explore-adaptable-bg.png')",

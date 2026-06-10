@@ -67,22 +67,22 @@ export default function IndustryHero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[754px] flex-col items-start justify-center gap-[30px] px-[60px] py-[140px]">
+      <div className="relative z-10 flex min-h-[500px] flex-col items-start justify-center gap-[30px] px-4 py-16 sm:px-8 sm:py-24 lg:min-h-[754px] lg:px-[60px] lg:py-[140px]">
         {/* Badge + heading */}
         <div className="flex flex-col gap-[14px]">
           <div className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13px] py-[9.5px]">
             <span className="size-[11.4px] shrink-0 rounded-full bg-[#86D58B]" />
-            <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-white">
+            <span className="whitespace-nowrap text-[14px] font-semibold leading-none text-white sm:text-[16px] lg:text-[18px]">
               What V-Watch Ai
             </span>
           </div>
-          <h1 className="w-[642px] max-w-full text-[50px] font-black leading-[68px] tracking-[1px] text-white">
+          <h1 className="w-[642px] max-w-full text-[30px] font-black leading-tight tracking-[1px] text-white sm:text-[38px] sm:leading-[50px] lg:text-[50px] lg:leading-[68px]">
             Built for Any Environment That Demands Control
           </h1>
         </div>
 
         {/* Subtitle */}
-        <p className="w-[561px] max-w-full text-[20px] font-bold leading-8 text-white">
+        <p className="w-[561px] max-w-full text-[15px] font-bold leading-7 text-white sm:text-[17px] lg:text-[20px] lg:leading-8">
           V-Watch Ai is designed for complex, high-activity environments where
           visibility, safety, and operational control are critical from
           construction sites to data centers and beyond.

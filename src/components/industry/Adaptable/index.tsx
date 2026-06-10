@@ -84,13 +84,13 @@ function IndustryCard({ title, img, size }: Readonly<Card>) {
 
 export default function Adaptable() {
   return (
-    <section className="relative overflow-hidden px-6 pt-[21em] lg:px-[60px] min-h-[190vh]">
+    <section className="relative overflow-hidden px-4 pt-24 sm:px-6 sm:pt-52 lg:px-[60px] lg:pt-[21em] lg:pb-[5em]">
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex max-w-[804px] flex-col gap-2.5 text-white">
-          <h2 className="text-[26px] font-extrabold">
+          <h2 className="text-[22px] font-extrabold lg:text-[26px]">
             Also used across a wide range of environments
           </h2>
-          <p className="text-[20px] font-normal leading-[28px]">
+          <p className="text-[16px] font-normal leading-[26px] sm:text-[18px] lg:text-[20px] lg:leading-[28px]">
             V-Watch Ai is adaptable and scalable making it suitable for any
             environment where operational control matters.
           </p>
@@ -108,7 +108,7 @@ export default function Adaptable() {
 
         {/* unifying callout */}
         <div
-          className="relative mx-auto flex w-full max-w-[1120px] items-center overflow-hidden rounded-3xl"
+          className="relative mx-auto flex w-full max-w-[1120px] flex-col overflow-hidden rounded-3xl sm:flex-row sm:items-center"
           style={{
             background: "linear-gradient(180deg, #EFF9FF 0%, white 100%)",
             boxShadow:
@@ -160,15 +160,15 @@ export default function Adaptable() {
 
           {/* centre: headline */}
           <p
-            className="relative z-10 flex-1 text-[20px] font-bold leading-8"
+            className="relative z-10 flex-1 px-4 py-4 text-[16px] font-bold leading-7 sm:px-0 sm:py-0 sm:text-[18px] sm:leading-8 lg:text-[20px]"
             style={{ color: "#0F172B", wordWrap: "break-word" }}
           >
-            If your operations involve people, movement, and risk.&nbsp; <br />{" "}
+            If your operations involve people, movement, and risk.{" "}
             V-Watch Ai is built for you.
           </p>
 
-          {/* right: city-map + robot illustration */}
-          <div className="relative z-10 shrink-0 self-stretch pr-[10px]">
+          {/* right: city-map + robot illustration — hidden on mobile */}
+          <div className="relative z-10 hidden shrink-0 self-stretch pr-[10px] sm:block">
             <Image
               src="/industry/callout-illustration.svg"
               alt=""

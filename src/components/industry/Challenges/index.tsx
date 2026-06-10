@@ -132,7 +132,7 @@ export default function Challenges() {
         }}
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]">
+      <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex flex-col gap-2.5">
           <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
             Different industries. The same core challenges.
