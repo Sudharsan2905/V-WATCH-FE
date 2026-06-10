@@ -41,8 +41,8 @@ const CHALLENGES: Challenge[] = [
     title: "Data Misalignment",
     desc: "Workforce and operational data that don't align.",
     icon: "/industry/challenges/data-misalignment.svg",
-    iconW: 28,
-    iconH: 28,
+    iconW: 32,
+    iconH: 32,
   },
 ];
 
@@ -105,6 +105,219 @@ function ChallengeCard({
   );
 }
 
+/**
+ * Thin connector vector (exact export from Figma — do not modify the paths).
+ * It links each card pair with a ⊔ bracket and routes the trunk lines into the
+ * toggle. Its own origin sits ~165px right of the card column's left edge, so
+ * the parent positions it at left:165 / top:171 (bottom edge of row 1); the
+ * trunk's natural endpoint (854, 87) then lands at the toggle past card 3.
+ */
+function ChallengeConnectors({ className }: { className?: string }) {
+  return (
+    <svg
+      width="855"
+      height="281"
+      viewBox="0 0 855 281"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <g opacity="0.6">
+        <path
+          d="M1 0V22.5C1 31.3366 8.16344 38.5 17 38.5H343C351.837 38.5 359 31.3366 359 22.5V3.5"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+        <path
+          d="M359 0V22.5C359 31.3366 366.163 38.5 375 38.5H701C709.837 38.5 717 31.3366 717 22.5V3.5"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+        <path
+          d="M1 220V242.5C1 251.337 8.16344 258.5 17 258.5H343C351.837 258.5 359 251.337 359 242.5V223.5"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+        <path
+          d="M179 39V53C179 61.8366 186.163 69 195 69H593L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854.5"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+        <path
+          d="M533 38V53C533 61.8366 540.163 69 549 69L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+        <path
+          d="M180 259.5V264C180 272.837 187.163 280 196 280H560C568.837 280 576 272.837 576 264V119.5C576 110.663 583.163 103.5 592 103.5H772.75C777.306 103.5 781 99.8063 781 95.25C781 90.6937 784.694 87 789.25 87H834.5"
+          stroke="#E08665"
+          strokeOpacity="0.6"
+          strokeWidth="2"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function ToggleDial() {
+  return (
+    <div className="relative flex h-[100px] w-[142px] shrink-0 items-center justify-center">
+      {/* Outer halo */}
+      <div
+        className="absolute"
+        style={{
+          width: 141.92,
+          height: 100.18,
+          borderRadius: 67.74,
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 100%)",
+        }}
+      />
+      {/* Middle halo */}
+      <div
+        className="absolute"
+        style={{
+          width: 116.12,
+          height: 75.14,
+          borderRadius: 38.71,
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.16) 100%)",
+          boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.10)",
+          borderTop: "0.81px rgba(255,255,255,0.02) solid",
+        }}
+      />
+      {/* Inner halo */}
+      <div
+        className="absolute"
+        style={{
+          width: 103.22,
+          height: 62.61,
+          borderRadius: 38.71,
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, white 100%)",
+          boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.24)",
+          borderTop: "0.81px rgba(255,255,255,0.04) solid",
+        }}
+      />
+      {/* Toggle switch — ON state (knob on right) */}
+      <div
+        className="relative flex items-center justify-end"
+        style={{
+          width: 90,
+          height: 50,
+          borderRadius: 27.05,
+          background: "linear-gradient(120deg, #E86C5C 0%, #97351D 100%)",
+          padding: "3px",
+        }}
+      >
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: 19.35,
+            background: "white",
+            flexShrink: 0,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Concentric dotted rings that sit behind the toggle (exact arc geometry from
+ * Figma). Three circles centered at (137, 144) — radii ~143 / 118 / 88 — that
+ * fade inward; the dotted look is rendered with a fine round-capped dash.
+ */
+function ToggleRings({ className }: { className?: string }) {
+  const outer =
+    "M-6.44434 143.938C-6.44434 115.629 1.95001 87.9563 17.6775 64.4185C33.405 40.8807 55.7593 22.5352 81.9133 11.7019C108.067 0.868657 136.846 -1.96582 164.611 3.55693C192.375 9.07969 217.879 22.7116 237.896 42.7289C257.913 62.7462 271.545 88.2499 277.068 116.014C282.591 143.779 279.756 172.558 268.923 198.712C258.09 224.866 239.744 247.22 216.206 262.947C192.669 278.675 164.996 287.069 136.687 287.069";
+  const middle =
+    "M19.31 143.938C19.31 120.546 26.2465 97.6785 39.2427 78.2285C52.2388 58.7785 70.7108 43.619 92.3226 34.6672C113.934 25.7153 137.715 23.3731 160.658 27.9367C183.6 32.5003 204.675 43.7648 221.216 60.3056C237.757 76.8466 249.021 97.921 253.585 120.863C258.148 143.807 255.806 167.587 246.854 189.199C237.903 210.811 222.743 229.283 203.293 242.279C183.843 255.275 160.976 262.211 137.584 262.211";
+  return (
+    <svg
+      width="281"
+      height="291"
+      viewBox="0 0 281 291"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d={outer}
+        stroke="#3890C0"
+        strokeOpacity="0.45"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeDasharray="1 7.5"
+      />
+      <path
+        d={middle}
+        stroke="#3890C0"
+        strokeOpacity="0.28"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeDasharray="1 7"
+      />
+      <g transform="translate(137 144) scale(0.74) translate(-137 -144)">
+        <path
+          d={middle}
+          stroke="#3890C0"
+          strokeOpacity="0.16"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeDasharray="1.3 9"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function CalloutCard({ className }: { className?: string }) {
+  return (
+    <div className={`relative h-[111px] w-[376px] ${className ?? ""}`}>
+      {/* Card shape — rounded body with a curved tab cut into the top-left for
+          the badge. Exact Figma vector; the SVG carries the gradient border and
+          layered glassy shadows. The card art sits at (290,236) inside the
+          876×611 canvas, so the image is offset to land at the container origin. */}
+      <Image
+        src="/industry/challenges/callout-card.svg"
+        alt=""
+        aria-hidden="true"
+        width={876}
+        height={611}
+        unoptimized
+        className="pointer-events-none absolute"
+        style={{ left: -282, top: -236, maxWidth: "none" }}
+      />
+
+      {/* Bot badge — nestles in the curved top-left tab, rising above the body */}
+      <Image
+        src="/industry/callout-logo.svg"
+        alt=""
+        width={55}
+        height={95}
+        unoptimized
+        className="absolute bottom-1.5 left-4 drop-shadow-[0_10px_22px_rgba(120,170,205,0.35)]"
+      />
+
+      {/* Callout text — in the card body, to the right of the badge */}
+      <div className="absolute left-[88px] top-[35px] flex h-[76px] items-center pr-5">
+        <p className="text-[15px] font-bold leading-[21px] text-[#314158]">
+          When systems are fragmented, control is limited and risks increase.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Challenges() {
   return (
     <section className="relative z-10 mt-20 overflow-hidden bg-white px-6 pb-4 pt-10 lg:px-[60px]">
@@ -142,120 +355,56 @@ export default function Challenges() {
           </p>
         </header>
 
-        <div className="flex flex-col gap-[50px]">
-          {/* Row 1 — 3 cards */}
-          <div className="relative flex flex-wrap gap-[30px]">
-            {/* Dotted connector line */}
-            <div className="pointer-events-none absolute left-[160px] right-[160px] top-[85px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/60 lg:block" />
-            {CHALLENGES.slice(0, 3).map((c) => (
-              <ChallengeCard key={c.title} {...c} />
-            ))}
+        {/* Diagram — cards, connector vector, toggle + callout.
+            The absolute connector/toggle layout needs the full 1160px container,
+            so it's gated on xl (≥1280px); below that the cards wrap and a stacked
+            callout is shown instead. */}
+        <div className="relative xl:min-h-[470px]">
+          {/* Connector vector — its own origin sits ~165px right of the card
+              column, so the brackets land in the gaps between cards (xl only) */}
+          <ChallengeConnectors className="pointer-events-none absolute left-[165px] top-[171px] z-0 hidden xl:block" />
+
+          {/* Card rows */}
+          <div className="flex flex-col">
+            {/* Row 1 — 3 cards */}
+            <div className="flex flex-wrap gap-[30px] xl:flex-nowrap xl:gap-[44px]">
+              {CHALLENGES.slice(0, 3).map((c) => (
+                <ChallengeCard key={c.title} {...c} />
+              ))}
+            </div>
+
+            {/* Row 2 — 2 cards */}
+            <div className="mt-[30px] flex flex-wrap gap-[30px] xl:mt-[49px] xl:flex-nowrap xl:gap-[44px]">
+              {CHALLENGES.slice(3).map((c) => (
+                <ChallengeCard key={c.title} {...c} />
+              ))}
+            </div>
           </div>
 
-          {/* Row 2 — 2 cards + callout */}
-          <div className="relative flex flex-wrap items-center gap-[30px]">
-            {/* Dotted connector line (shorter — only spans the 2 cards) */}
-            <div
-              className="pointer-events-none absolute left-[160px] top-[85px] z-0 hidden border-t-2 border-dashed border-[#9CD8F0]/60 lg:block"
-              style={{ right: "calc(100% - 628px)" }}
-            />
-            {CHALLENGES.slice(3).map((c) => (
-              <ChallengeCard key={c.title} {...c} />
-            ))}
+          {/* Toggle dial — sits where the trunk lines converge (xl only) */}
+          <div
+            className="absolute z-10 hidden xl:block"
+            style={{ left: 1000, top: 208 }}
+          >
+            <ToggleDial />
+          </div>
 
-            {/* Toggle callout */}
-            <div className="relative flex flex-1 items-center gap-4">
-              {/* Concentric circle rings background */}
-              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Image
-                  src="/industry/challenges/circles-outer.svg"
-                  alt=""
-                  width={230}
-                  height={238}
-                  unoptimized
-                  className="opacity-80"
-                />
-              </div>
-              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Image
-                  src="/industry/challenges/circles-inner.svg"
-                  alt=""
-                  width={172}
-                  height={178}
-                  unoptimized
-                  className="opacity-80"
-                />
-              </div>
+          {/* Concentric dotted rings behind the toggle — centered on the dial
+              (toggle center 1071, 258; ring center 137, 144) (xl only) */}
+          <ToggleRings className="pointer-events-none absolute left-[934px] top-[114px] z-0 hidden xl:block" />
 
-              {/* Toggle + halos */}
-              <div className="relative flex h-[100px] w-[142px] shrink-0 items-center justify-center">
-                {/* Outer halo */}
-                <div
-                  className="absolute"
-                  style={{
-                    width: 141.92,
-                    height: 100.18,
-                    borderRadius: 67.74,
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 100%)",
-                  }}
-                />
-                {/* Middle halo */}
-                <div
-                  className="absolute"
-                  style={{
-                    width: 116.12,
-                    height: 75.14,
-                    borderRadius: 38.71,
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.16) 100%)",
-                    boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.10)",
-                    borderTop: "0.81px rgba(255,255,255,0.02) solid",
-                  }}
-                />
-                {/* Inner halo */}
-                <div
-                  className="absolute"
-                  style={{
-                    width: 103.22,
-                    height: 62.61,
-                    borderRadius: 38.71,
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, white 100%)",
-                    boxShadow: "0px 2.15px 12.9px rgba(29, 108, 151, 0.24)",
-                    borderTop: "0.81px rgba(255,255,255,0.04) solid",
-                  }}
-                />
-                {/* Toggle switch — ON state (knob on right) */}
-                <div
-                  className="relative flex items-center justify-end"
-                  style={{
-                    width: 90,
-                    height: 50,
-                    borderRadius: 27.05,
-                    background:
-                      "linear-gradient(120deg, #E86C5C 0%, #97351D 100%)",
-                    padding: "3px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 19.35,
-                      background: "white",
-                      flexShrink: 0,
-                    }}
-                  />
-                </div>
-              </div>
+          {/* Callout card (xl only) — positioned by its tab top-left */}
+          <div
+            className="absolute z-10 hidden xl:block"
+            style={{ left: 782, top: 300 }}
+          >
+            <CalloutCard />
+          </div>
 
-              {/* Callout text */}
-              <p className="flex-1 text-[16px] font-bold leading-6 text-[#314158]">
-                When systems are fragmented, control is limited and risks
-                increase.
-              </p>
-            </div>
+          {/* Callout message under the cards (below xl). The toggle is part of
+              the connector diagram, so it's hidden whenever the connector is. */}
+          <div className="mt-8 xl:hidden">
+            <CalloutCard />
           </div>
         </div>
       </div>
