@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -281,7 +281,37 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
 export default function Navbar({ active }: Readonly<{ active?: string }>) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSub, setMobileSub] = useState<string | null>(null);
+  const [shift, setShift] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Keep the open dropdown inside the viewport: measure it and shift
+  // horizontally if it overflows either edge. Re-runs on open + on resize.
+  useEffect(() => {
+    if (!openDropdown) {
+      setShift(0);
+      return;
+    }
+    const PAD = 24;
+    function adjust() {
+      const el = panelRef.current;
+      if (!el) return;
+      // Measure at the un-shifted position to compute the needed delta.
+      el.style.setProperty("--shift", "0px");
+      const rect = el.getBoundingClientRect();
+      let next = 0;
+      if (rect.right > window.innerWidth - PAD) {
+        next = window.innerWidth - PAD - rect.right;
+      } else if (rect.left < PAD) {
+        next = PAD - rect.left;
+      }
+      setShift(next);
+    }
+    adjust();
+    window.addEventListener("resize", adjust);
+    return () => window.removeEventListener("resize", adjust);
+  }, [openDropdown]);
 
   function scheduleClose() {
     closeTimer.current = setTimeout(() => setOpenDropdown(null), 120);
@@ -336,7 +366,12 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                 openDropdown === item.label &&
                 DROPDOWNS[item.label] && (
                   <div
-                    className="absolute left-1/2 top-full mt-2 w-[660px] -translate-x-1/2"
+                  ref={panelRef}
+                    className="absolute left-1/2 top-full mt-2 w-[min(660px,calc(100vw-48px))]"
+                  style={{
+                    transform: "translateX(calc(-50% + var(--shift, 0px)))",
+                    ["--shift"]: `${shift}px`,
+                  } as React.CSSProperties}
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
                   >
@@ -386,22 +421,61 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
 
       {/* ── Mobile panel ────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
+        <div className="max-h-[calc(100vh-60px)] overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
           <ul className="flex flex-col">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between border-b border-white/5 py-3 text-sm font-bold text-white"
-                >
-                  {item.label}
-                  {item.hasDropdown && (
-                    <ChevronDown className="text-white/80" />
+            {NAV_ITEMS.map((item) => {
+              const menu = item.hasDropdown ? DROPDOWNS[item.label] : undefined;
+              const expanded = mobileSub === item.label;
+              return (
+                <li key={item.label} className="border-b border-white/5">
+                  {menu ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setMobileSub(expanded ? null : item.label)}
+                        aria-expanded={expanded}
+                        className="flex w-full items-center justify-between py-3 text-left text-sm font-bold text-white"
+                      >
+                        {item.label}
+                        <ChevronDown open={expanded} className="text-white/80" />
+                      </button>
+                      {expanded && (
+                        <ul className="flex flex-col gap-1 pb-2">
+                          {menu.items.map((sub) => (
+                            <li key={sub.title}>
+                              <Link
+                                href={sub.href}
+                                onClick={() => {
+                                  setMobileOpen(false);
+                                  setMobileSub(null);
+                                }}
+                                className="flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
+                              >
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
+                                  <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                </span>
+                                <span className="flex min-w-0 flex-col">
+                                  <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
+                                  <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center justify-between py-3 text-sm font-bold text-white"
+                    >
+                      {item.label}
+                    </Link>
                   )}
-                </Link>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
           <DemoButton className="mt-3 w-full" />
         </div>

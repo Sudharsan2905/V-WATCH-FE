@@ -31,17 +31,17 @@ function IndustryTile({ name, img }: Readonly<Industry>) {
 export default function Industries() {
   return (
     <section className="bg-white">
-      <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[40px]">
+      <div className="relative w-full overflow-hidden rounded-[40px]">
         {/* background texture + glow */}
         <Image
           src="/home/industries-bg.png"
           alt=""
           fill
           className="object-cover object-[center_90%]"
-          sizes="1280px"
+          sizes="100vw"
         />
 
-        <div className="relative mx-auto flex w-full max-w-[1140px] flex-col gap-[30px] px-6 py-12 lg:px-0 lg:py-[61px]">
+        <div className="relative mx-auto flex w-full flex-col gap-[30px] px-6 py-12 lg:px-[70px] lg:py-[61px]">
           <div className="flex max-w-[959px] flex-col gap-2.5 text-white">
             <h2 className="text-[26px] font-bold leading-[44px]">
               Built for complex operational environments
