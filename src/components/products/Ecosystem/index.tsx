@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-// "Built on a Strong Integration & Delivery Ecosystem" (Figma node 270:5625).
 const COMPANIES: { name: string; country: string; logo: string }[] = [
   {
     name: "SS Surveillance and Communication Sdn Bhd",
@@ -56,19 +55,19 @@ export default function Ecosystem() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_85%_35%,rgba(176,226,243,0.5),transparent_60%),linear-gradient(180deg,#f6fcfe_0%,#eaf7fa_45%,#dff2f3_70%)]"
         style={{
           WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0, #000 180px, #000 80%)",
+            "linear-gradient(to bottom, transparent 0, #000 180px, #000 90%)",
           maskImage:
             "linear-gradient(to bottom, transparent 0, #000 180px, #000 80%)",
         }}
       />
 
       <Image
-        src="/products/BackgroundEcoSystem.png"
+        src="/products/BackgroundEcoSystem.webp"
         alt=""
         aria-hidden
         width={1728}
-        height={2145}
-        className="pointer-events-none absolute inset-x-0 top-0 h-auto w-full max-w-none opacity-8 mix-blend-exclusion"
+        height={1629}
+        className="pointer-events-none absolute inset-0 h-full w-full max-w-none object-cover object-top opacity-20 [filter:invert(1)_hue-rotate(25deg)_saturate(0.4)_brightness(1.2)]"
         sizes="100vw"
         style={{
           WebkitMaskImage:
@@ -134,13 +133,12 @@ export default function Ecosystem() {
           <div className="relative flex flex-1 items-start self-stretch">
             <div className="relative h-[380px] w-full lg:-mr-[60px] lg:-mt-2">
               <Image
-                src="/products/World_map.svg"
+                src="/products/World_map.webp"
                 alt="Global delivery map"
                 height={380}
                 width={700}
                 className="object-contain [filter:drop-shadow(0_18px_34px_rgba(79,194,255,0.28))]"
                 sizes="900px"
-                priority
               />
             </div>
             <div className="absolute bottom-2 left-0 flex h-[60px] w-full max-w-[633px] items-center gap-3.5 rounded-l-[40px] rounded-r-[16px] border border-white/60 bg-[linear-gradient(180deg,rgba(184,230,255,0.6),rgba(193,236,255,0.6))] py-px pl-px pr-[14px] shadow-[0_1px_2px_0_rgba(184,230,255,0.5),inset_0_-6px_23px_rgba(212,240,255,0.24)] backdrop-blur-[10px]">
