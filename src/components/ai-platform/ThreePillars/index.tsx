@@ -211,9 +211,9 @@ export default function ThreePillars() {
 
         {/* Bottom flow banner — stays stacked until lg; the row layout needs the
             full desktop width or the text gets crushed between icons and logo. */}
-        <div className="mt-6 flex flex-col items-start gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center">
+        <div className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center">
           {/* Flow icons */}
-          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+          <div className="flex w-full shrink-0 items-center justify-between gap-2 sm:gap-4 lg:w-auto lg:justify-start">
             <FlowIcon type="link" />
             <ConnectsArrow />
             <FlowIcon type="gear" />
@@ -222,7 +222,7 @@ export default function ThreePillars() {
           </div>
 
           {/* Text */}
-          <p className="flex-1 text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0]">
+          <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0] lg:text-left">
             One platform that{" "}
             <span className="font-bold text-[#21B1F1]">Connects</span> your systems,{" "}
             <span className="font-bold text-[#88A724]">Understands</span> your operations,
