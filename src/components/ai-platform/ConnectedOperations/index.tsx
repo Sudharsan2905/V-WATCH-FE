@@ -101,7 +101,7 @@ export default function ConnectedOperations() {
   const current = MODULES[active]!;
 
   return (
-    <section className="relative bg-white px-6 pb-20 pt-16 lg:px-[60px]">
+    <section className="relative px-6 pb-20 pt-16 lg:px-[60px]">
       <div className="mx-auto w-full max-w-[1410px]">
         {/* Header */}
         <header className="flex max-w-[807px] flex-col gap-2.5">

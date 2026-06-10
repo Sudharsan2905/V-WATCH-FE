@@ -14,11 +14,14 @@ const STEPS: Step[] = [
 
 export default function PlatformVisibility() {
   return (
-    <section className="relative z-10 -mt-10 bg-white px-6 pb-20 pt-16 lg:px-[60px]">
-      {/* Curved top — dips the dark hero down into this white section */}
+    <section className="relative z-10 px-6 pb-20 pt-16 lg:px-[60px]">
+      {/* Curved top — carves the dark hero into a downward dip above this section.
+          Anchored to the section's top edge (bottom-full) so the curve position is
+          independent of section height — otherwise tall mobile layouts push the dip
+          down onto the heading. */}
       <svg
         aria-hidden
-        className="pointer-events-none absolute bottom-full left-0 h-10 w-full text-white lg:h-17.5"
+        className="pointer-events-none absolute bottom-full left-0 h-12 w-full text-[#F2F8FE] lg:h-[90px]"
         viewBox="0 0 1440 100"
         preserveAspectRatio="none"
         fill="none"

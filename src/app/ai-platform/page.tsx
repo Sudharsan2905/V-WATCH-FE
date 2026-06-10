@@ -14,7 +14,7 @@ const AI_PLATFORM_COLUMNS = [
 
 export default function AIPlatformPage() {
   return (
-    <div className="relative bg-[#030515]">
+    <div className="relative bg-[#F2F8FE]">
       <Navbar active="Platform" />
       <AIPlatformHero />
       <PlatformVisibility />
