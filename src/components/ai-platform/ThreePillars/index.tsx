@@ -94,16 +94,13 @@ function DotBullet({ text }: Readonly<{ text: string }>) {
 
 function PillarCard({ icon, title, desc, bullets, image }: Readonly<Pillar>) {
   return (
-    <div className="flex relative h-[580px] flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]">
-      {/* Card content */}
-      <div className="flex z-1 flex-col gap-4 p-6">
-        {/* Icon + title */}
-        <div className="flex items-center gap-3">
-          <div className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[rgba(10,142,200,0.15)] text-[#4AC8FF]">
-            {icon}
-          </div>
+    <div className="flex relative h-[650px] w-full max-w-114 mx-auto lg:max-w-none lg:mx-0 lg:flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]">
+        <div className="flex z-1 absolute top-10 left-[30%] items-center gap-3">
           <p className="text-[20px] font-bold leading-[24px] text-white">{title}</p>
         </div>
+      {/* Card content */}
+      <div className="flex absolute left-4 top-25 z-1 flex-col gap-4 p-6">
+        {/* title */}
 
         {/* Description */}
         <p className="text-[18px] font-normal leading-[22px] text-[#AEBBEC]">{desc}</p>
@@ -117,7 +114,7 @@ function PillarCard({ icon, title, desc, bullets, image }: Readonly<Pillar>) {
       </div>
 
       {/* Bottom illustration — full-bleed scene anchored to the card bottom */}
-      <div className="absolute top-0 mt-auto h-[580px] w-full">
+      <div className="absolute top-0 mt-auto h-[650px] w-full">
         <Image
           src={image}
           alt=""
@@ -212,10 +209,11 @@ export default function ThreePillars() {
           ))}
         </div>
 
-        {/* Bottom flow banner */}
-        <div className="mt-6 flex flex-col items-start gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 sm:flex-row sm:items-center">
+        {/* Bottom flow banner — stays stacked until lg; the row layout needs the
+            full desktop width or the text gets crushed between icons and logo. */}
+        <div className="mt-6 flex flex-col items-start gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center">
           {/* Flow icons */}
-          <div className="flex shrink-0 items-center gap-4">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             <FlowIcon type="link" />
             <ConnectsArrow />
             <FlowIcon type="gear" />
@@ -233,7 +231,7 @@ export default function ThreePillars() {
           </p>
 
           {/* V-Watch mark */}
-          <div className="ml-auto shrink-0">
+          <div className="shrink-0 lg:ml-auto">
             <Image
               src="/ai-platform/logo-rounded.png"
               alt="V-Watch"
