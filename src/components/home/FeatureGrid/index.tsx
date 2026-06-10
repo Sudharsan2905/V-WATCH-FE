@@ -79,8 +79,21 @@ export default function FeatureGrid() {
   const rows = [FEATURES.slice(0, 2), FEATURES.slice(2, 4), FEATURES.slice(4, 6)];
 
   return (
-    <section className="bg-white px-6 pb-20 lg:px-[60px]">
-      <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
+    <section className="relative overflow-hidden bg-white px-6 pb-20 lg:px-[60px]">
+      {/* Bottom half of one-system.svg. UnifiedSystem above pins the same image's
+          centre to the seam and shows the top half; this mirrors it (top:-half)
+          so the bottom half lines up, making the ring read as one continuous
+          circle spanning both sections. Exact aspect (111.5625vw tall at full
+          width), never cropped, so the arcs join perfectly. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 select-none"
+        style={{ top: "-50.78125vw", height: "111.5625vw" }}
+      >
+        <Image src="/home/one-system.svg" alt="" fill priority={false} sizes="100vw" className="object-cover" />
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex max-w-[807px] flex-col gap-2.5">
           <h2 className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]">
             Everything your operation depends on in one place

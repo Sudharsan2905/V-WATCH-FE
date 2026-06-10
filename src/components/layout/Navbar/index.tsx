@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -19,13 +19,13 @@ type DropdownData = {
 // ─── Data ──────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Platform",   href: "#", hasDropdown: true },
-  { label: "Solutions",  href: "#", hasDropdown: true },
+  { label: "Platform", href: "#", hasDropdown: true },
+  { label: "Solutions", href: "#", hasDropdown: true },
   { label: "Industries", href: "#", hasDropdown: true },
-  { label: "Products",   href: "/products" },
-  { label: "About Us",   href: "#" },
+  { label: "Products", href: "/products" },
+  { label: "About Us", href: "#" },
   { label: "Contact Us", href: "#" },
-  { label: "Resources",  href: "#", hasDropdown: true },
+  { label: "Resources", href: "#", hasDropdown: true },
 ];
 
 const DROPDOWNS: Record<string, DropdownData> = {
@@ -35,9 +35,24 @@ const DROPDOWNS: Record<string, DropdownData> = {
     illustration: "/nav/illus-platform.svg",
     illustrationSize: 100,
     items: [
-      { icon: "/nav/icons/platform-dashboard.svg",   title: "V-Watch AI Dashboard", desc: "Real-time visibility across all operations.", href: "#" },
-      { icon: "/nav/icons/platform-integrators.svg", title: "System Integrators",   desc: "Advanced analytics and reporting insights.", href: "#" },
-      { icon: "/nav/icons/platform-bi.svg",          title: "Power BI Reports",     desc: "Actionable insights from operational data.", href: "#" },
+      {
+        icon: "/nav/icons/platform-dashboard.svg",
+        title: "V-Watch AI Dashboard",
+        desc: "Real-time visibility across all operations.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/platform-integrators.svg",
+        title: "System Integrators",
+        desc: "Advanced analytics and reporting insights.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/platform-bi.svg",
+        title: "Power BI Reports",
+        desc: "Actionable insights from operational data.",
+        href: "#",
+      },
     ],
   },
   Solutions: {
@@ -46,8 +61,18 @@ const DROPDOWNS: Record<string, DropdownData> = {
     illustration: "/nav/illus-solutions.svg",
     illustrationSize: 68,
     items: [
-      { icon: "/nav/icons/solutions-pre.svg",  title: "Pre Construction",  desc: "Smarter planning and risk reduction.",       href: "#" },
-      { icon: "/nav/icons/solutions-post.svg", title: "Post Construction", desc: "Performance tracking and project closeout.", href: "#" },
+      {
+        icon: "/nav/icons/solutions-pre.svg",
+        title: "Pre Construction",
+        desc: "Smarter planning and risk reduction.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/solutions-post.svg",
+        title: "Post Construction",
+        desc: "Performance tracking and project closeout.",
+        href: "#",
+      },
     ],
   },
   Industries: {
@@ -56,10 +81,30 @@ const DROPDOWNS: Record<string, DropdownData> = {
     illustration: "/nav/illus-industries.svg",
     illustrationSize: 140,
     items: [
-      { icon: "/nav/icons/industries-hub.svg",          title: "Industries Hub",          desc: "Explore industry-specific capabilities.",     href: "/industry-hub" },
-      { icon: "/nav/icons/industries-construction.svg", title: "Construction",            desc: "Optimize construction lifecycle operations.", href: "#" },
-      { icon: "/nav/icons/industries-energy.svg",       title: "Industrial & Energy",     desc: "Manage industrial workforce environments.",   href: "#" },
-      { icon: "/nav/icons/industries-commercial.svg",   title: "Commercial & Facilities", desc: "Improve facility operational efficiency.",    href: "#" },
+      {
+        icon: "/nav/icons/industries-hub.svg",
+        title: "Industries Hub",
+        desc: "Explore industry-specific capabilities.",
+        href: "/industry-hub",
+      },
+      {
+        icon: "/nav/icons/industries-construction.svg",
+        title: "Construction",
+        desc: "Optimize construction lifecycle operations.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/industries-energy.svg",
+        title: "Industrial & Energy",
+        desc: "Manage industrial workforce environments.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/industries-commercial.svg",
+        title: "Commercial & Facilities",
+        desc: "Improve facility operational efficiency.",
+        href: "#",
+      },
     ],
   },
   Resources: {
@@ -68,28 +113,55 @@ const DROPDOWNS: Record<string, DropdownData> = {
     illustration: "/nav/illus-resources.svg",
     illustrationSize: 80,
     items: [
-      { icon: "/nav/icons/resources-case-studies.svg", title: "Case Studies",  desc: "Real implementation success stories.", href: "#" },
-      { icon: "/nav/icons/resources-digest.svg",       title: "Weekly Digest", desc: "Latest trends and platform updates.",  href: "#" },
+      {
+        icon: "/nav/icons/resources-case-studies.svg",
+        title: "Case Studies",
+        desc: "Real implementation success stories.",
+        href: "#",
+      },
+      {
+        icon: "/nav/icons/resources-digest.svg",
+        title: "Weekly Digest",
+        desc: "Latest trends and platform updates.",
+        href: "#",
+      },
     ],
   },
 };
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
-function ChevronDown({ open = false, className = "" }: Readonly<{ open?: boolean; className?: string }>) {
+function ChevronDown({
+  open = false,
+  className = "",
+}: Readonly<{ open?: boolean; className?: string }>) {
   return (
     <svg
-      width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      aria-hidden
       className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""} ${className}`}
     >
-      <path d="M3.5 5.25 7 8.75l3.5-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M3.5 5.25 7 8.75l3.5-3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
 function Logo() {
   return (
-    <Link href="/" aria-label="V-WATCH home" className="flex h-10 shrink-0 items-center px-3.5">
+    <Link
+      href="/"
+      aria-label="V-WATCH home"
+      className="flex h-10 shrink-0 items-center px-3.5"
+    >
       <Image
         src="/vwatch-logo.png"
         alt="V-WATCH"
@@ -107,8 +179,11 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
   return (
     <Link
       href="#"
-      className={`inline-flex h-9 items-center justify-center rounded-full border border-white px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] ${className}`}
-      style={{ backgroundImage: "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)" }}
+      className={`inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] ${className}`}
+      style={{
+        backgroundImage:
+          "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+      }}
     >
       Request Demo
     </Link>
@@ -122,16 +197,33 @@ function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
       className="flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition-colors hover:bg-[rgba(10,78,110,0.06)]"
     >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center">
-        <Image src={icon} alt="" width={24} height={24} unoptimized className="h-6 w-6 object-contain" />
+        <Image
+          src={icon}
+          alt=""
+          width={24}
+          height={24}
+          unoptimized
+          className="h-6 w-6 object-contain"
+        />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-        <p className="text-[16px] font-bold leading-normal text-[#3E4B77]">{title}</p>
-        <p className="truncate text-[14px] font-normal leading-normal text-[#556394]">{desc}</p>
+        <p className="text-[16px] font-bold leading-normal text-[#3E4B77]">
+          {title}
+        </p>
+        <p className="truncate text-[14px] font-normal leading-normal text-[#556394]">
+          {desc}
+        </p>
       </div>
       {/* Chevron-right button */}
       <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border border-[#EFF0F6] bg-gradient-to-b from-white to-[#F1F2F9] shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)]">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-          <path d="M4.5 2.5 8 6l-3.5 3.5" stroke="#556394" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M4.5 2.5 8 6l-3.5 3.5"
+            stroke="#556394"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
     </Link>
@@ -142,7 +234,10 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
   return (
     <div
       className="flex gap-3.5 rounded-[20px] bg-white p-3.5"
-      style={{ boxShadow: "0px 0px 34px 0px #0a4b6e, 0px 14px 40px 0px rgba(0,0,0,0.4)" }}
+      style={{
+        boxShadow:
+          "0px 0px 34px 0px #0a4b6e, 0px 14px 40px 0px rgba(0,0,0,0.4)",
+      }}
     >
       {/* Left info panel */}
       <div className="relative flex w-[230px] shrink-0 flex-col justify-end gap-2.5 overflow-hidden rounded-[16px] border border-white p-2.5">
@@ -162,8 +257,12 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
         </div>
         {/* Label + description */}
         <div className="relative z-10 flex flex-col gap-1.5">
-          <p className="text-[18px] font-bold leading-normal text-[#002D45]">{data.label}</p>
-          <p className="text-[14px] font-normal leading-[19px] text-[#002D45]">{data.desc}</p>
+          <p className="text-[18px] font-bold leading-normal text-[#002D45]">
+            {data.label}
+          </p>
+          <p className="text-[14px] font-normal leading-[19px] text-[#002D45]">
+            {data.desc}
+          </p>
         </div>
       </div>
 
@@ -182,7 +281,37 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
 export default function Navbar({ active }: Readonly<{ active?: string }>) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSub, setMobileSub] = useState<string | null>(null);
+  const [shift, setShift] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Keep the open dropdown inside the viewport: measure it and shift
+  // horizontally if it overflows either edge. Re-runs on open + on resize.
+  useEffect(() => {
+    if (!openDropdown) {
+      setShift(0);
+      return;
+    }
+    const PAD = 24;
+    function adjust() {
+      const el = panelRef.current;
+      if (!el) return;
+      // Measure at the un-shifted position to compute the needed delta.
+      el.style.setProperty("--shift", "0px");
+      const rect = el.getBoundingClientRect();
+      let next = 0;
+      if (rect.right > window.innerWidth - PAD) {
+        next = window.innerWidth - PAD - rect.right;
+      } else if (rect.left < PAD) {
+        next = PAD - rect.left;
+      }
+      setShift(next);
+    }
+    adjust();
+    window.addEventListener("resize", adjust);
+    return () => window.removeEventListener("resize", adjust);
+  }, [openDropdown]);
 
   function scheduleClose() {
     closeTimer.current = setTimeout(() => setOpenDropdown(null), 120);
@@ -225,20 +354,30 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
               >
                 {item.label}
                 {item.hasDropdown && (
-                  <ChevronDown open={openDropdown === item.label} className="text-white" />
+                  <ChevronDown
+                    open={openDropdown === item.label}
+                    className="text-white"
+                  />
                 )}
               </Link>
 
               {/* Dropdown panel */}
-              {item.hasDropdown && openDropdown === item.label && DROPDOWNS[item.label] && (
-                <div
-                  className="absolute left-1/2 top-full mt-2 w-[660px] -translate-x-1/2"
-                  onMouseEnter={cancelClose}
-                  onMouseLeave={scheduleClose}
-                >
-                  <DropdownPanel data={DROPDOWNS[item.label]!} />
-                </div>
-              )}
+              {item.hasDropdown &&
+                openDropdown === item.label &&
+                DROPDOWNS[item.label] && (
+                  <div
+                  ref={panelRef}
+                    className="absolute left-1/2 top-full mt-2 w-[min(660px,calc(100vw-48px))]"
+                  style={{
+                    transform: "translateX(calc(-50% + var(--shift, 0px)))",
+                    ["--shift"]: `${shift}px`,
+                  } as React.CSSProperties}
+                    onMouseEnter={cancelClose}
+                    onMouseLeave={scheduleClose}
+                  >
+                    <DropdownPanel data={DROPDOWNS[item.label]!} />
+                  </div>
+                )}
             </li>
           ))}
         </ul>
@@ -254,11 +393,27 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
           aria-expanded={mobileOpen}
           className="flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
             {mobileOpen ? (
-              <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <path
+                d="M6 6l12 12M18 6 6 18"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
             ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <path
+                d="M4 7h16M4 12h16M4 17h16"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
             )}
           </svg>
         </button>
@@ -266,20 +421,61 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
 
       {/* ── Mobile panel ────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
+        <div className="max-h-[calc(100vh-60px)] overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
           <ul className="flex flex-col">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between border-b border-white/5 py-3 text-sm font-bold text-white"
-                >
-                  {item.label}
-                  {item.hasDropdown && <ChevronDown className="text-white/80" />}
-                </Link>
-              </li>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const menu = item.hasDropdown ? DROPDOWNS[item.label] : undefined;
+              const expanded = mobileSub === item.label;
+              return (
+                <li key={item.label} className="border-b border-white/5">
+                  {menu ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setMobileSub(expanded ? null : item.label)}
+                        aria-expanded={expanded}
+                        className="flex w-full items-center justify-between py-3 text-left text-sm font-bold text-white"
+                      >
+                        {item.label}
+                        <ChevronDown open={expanded} className="text-white/80" />
+                      </button>
+                      {expanded && (
+                        <ul className="flex flex-col gap-1 pb-2">
+                          {menu.items.map((sub) => (
+                            <li key={sub.title}>
+                              <Link
+                                href={sub.href}
+                                onClick={() => {
+                                  setMobileOpen(false);
+                                  setMobileSub(null);
+                                }}
+                                className="flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
+                              >
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
+                                  <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                </span>
+                                <span className="flex min-w-0 flex-col">
+                                  <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
+                                  <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center justify-between py-3 text-sm font-bold text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           <DemoButton className="mt-3 w-full" />
         </div>

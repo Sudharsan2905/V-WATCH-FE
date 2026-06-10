@@ -12,7 +12,21 @@ const FRAG_CARDS: Frag[] = [
 
 function FragCard({ text, iconSrc, iconW, iconH }: Readonly<Frag>) {
   return (
-    <div className="relative rounded-[14px] bg-[linear-gradient(180deg,#E9EEFF_0%,#C1ECFF_100%)] px-4 pb-4 pt-[34px] shadow-[inset_0_0_0_1px_#0A8EC8,0_4px_20px_rgba(92,183,232,0.10)]">
+    <div className="relative rounded-[14px] bg-[linear-gradient(180deg,#E9EEFF_0%,#C1ECFF_100%)] px-4 pb-4 pt-[34px] shadow-[8px_14px_28px_-10px_rgba(130,175,215,0.35)]">
+      {/* Blue accent stroke: gradient ring that's brightest at the top-left corner and fades out along the top + left edges */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[14px]"
+        style={{
+          padding: "2px",
+          background:
+            "radial-gradient(100% 100% at 0% 0%, #2FA8DC 0%, rgba(47,168,220,0.5) 30%, rgba(47,168,220,0) 62%)",
+          WebkitMask:
+            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+        }}
+      />
       <div className="absolute -top-[17px] left-5 flex h-10 w-10 items-center justify-center rounded-[10px] bg-white shadow-[2.5px_5.8px_25px_-2.5px_rgba(56,144,192,0.40)]">
         <Image src={iconSrc} alt="" width={iconW} height={iconH} />
       </div>

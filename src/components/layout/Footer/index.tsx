@@ -55,14 +55,17 @@ export default function Footer({
       <div className={`relative overflow-hidden px-6 pt-10 pb-20 text-center ${CTA_BG[ctaVariant]}`}>
         {/* faint square-tile mosaic texture, fading out from the centre */}
         <div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 bg-repeat opacity-55"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20x='10'%20y='10'%20width='76'%20height='76'%20rx='8'%20fill='%23ffffff'%20fill-opacity='0.06'/%3E%3C/svg%3E\")",
+              "url('footer/bg-grid.svg')",
+            backgroundSize: "cover",
+            width: "100%",
             maskImage:
-              "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
+             "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
             WebkitMaskImage:
-              "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
+              "radial-gradient(75% 85% at 50% 22%, #000 135%, transparent 78%)",
+
           }}
         />
         {/* soft cyan glow blobs */}

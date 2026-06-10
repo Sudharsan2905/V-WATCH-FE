@@ -34,22 +34,20 @@ export default function UnifiedSystem() {
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#E7EDF7_0%,#EDF2FA_30%,#F6F9FD_62%,#FFFFFF_92%)]"
       />
-      {/* oversized top-right curve — slightly darker blue-gray, sweeping toward
-          the centre and fading out */}
+      {/* concentric-rings + radial-blob decoration (one-system.svg). The artwork
+          is portrait (1280×1428 → 111.5625vw tall at full width). To make the
+          ring read as ONE continuous circle across this section AND FeatureGrid
+          below, the image is shown at its exact aspect (never cropped) with its
+          CENTRE pinned to the seam between the two sections. Here the centre is
+          pushed below the section bottom (bottom: -half-height), so only the TOP
+          half of the circle shows; FeatureGrid mirrors this with top:-half. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-[12%] -top-[36%] h-[840px] w-[1100px] -rotate-12 rounded-[50%] opacity-80 bg-[radial-gradient(ellipse_at_center,#C9D5EB_0%,rgba(201,213,235,0)_62%)]"
-      />
-      {/* oversized bottom-left curve — overlaps the top-right shape, lower opacity */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-[34%] -left-[18%] h-[780px] w-[1020px] rotate-[8deg] rounded-[50%] opacity-70 bg-[radial-gradient(ellipse_at_center,#D5DFF1_0%,rgba(213,223,241,0)_62%)]"
-      />
-      {/* mid-layer curve for added depth */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[4%] top-[26%] h-[580px] w-[800px] rotate-[6deg] rounded-[55%] opacity-60 bg-[radial-gradient(ellipse_at_center,#DEE7F4_0%,rgba(222,231,244,0)_60%)]"
-      />
+        className="pointer-events-none absolute inset-x-0 select-none"
+        style={{ bottom: "-60.78125vw", height: "111.5625vw" }}
+      >
+        <Image src="/home/one-system.svg" alt="" fill priority={false} sizes="100vw" className="object-cover" />
+      </div>
       {/* extremely soft centre glow to lift the content off the background */}
       <div
         aria-hidden
