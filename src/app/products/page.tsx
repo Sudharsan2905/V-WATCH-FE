@@ -3,6 +3,8 @@ import ProductsHero from "@/components/products/Hero";
 import CapabilityTabs from "@/components/products/CapabilityTabs";
 import Ecosystem from "@/components/products/Ecosystem";
 import Footer from "@/components/layout/Footer";
+import SectionHeader from "@/components/common/SectionHeader";
+import { ECOSYSTEM_HEADER } from "@/constants/products";
 
 const PRODUCTS_COLUMNS = [
   { heading: "Platform", links: ["DVA Access", "RTLS Tracking", "BMS Worker", "HRMS Management"] },
@@ -16,6 +18,11 @@ export default function ProductsPage() {
       <Navbar active="Products" />
       <ProductsHero />
       <CapabilityTabs />
+      <SectionHeader
+        {...ECOSYSTEM_HEADER}
+        titleClassName="max-w-[642px]"
+        subtitleClassName="max-w-[962px]"
+      />
       <Ecosystem />
       <Footer
         ctaTitle="Start with what you need. Expand as you grow."
