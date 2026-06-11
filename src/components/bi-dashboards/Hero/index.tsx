@@ -31,13 +31,13 @@ export default function BiDashboardsHero() {
           </span>
 
           {/* Heading */}
-          <h1 className="text-[34px] font-black leading-[1.18] tracking-[0.5px] text-white sm:text-[44px] lg:text-[52px] lg:leading-[1.2]">
+          <h1 className="text-[34px] font-semibold leading-[1.18] tracking-[0.5px] text-white sm:text-[44px] lg:text-[52px] lg:leading-[1.2]">
             See Your Operations Clearly With Real-Time <br />
             BI Dashboards
           </h1>
 
           {/* Description */}
-          <p className="max-w-[560px] text-base leading-7 text-white lg:text-[20px] lg:leading-8">
+          <p className="max-w-[560px] text-base font-semibold leading-7 text-white lg:text-[20px] lg:leading-8">
             V-Watch Ai leverages Microsoft Power BI to transform real-time
             operational data into clear, actionable dashboards giving you full
             visibility across workforce, operations, assets, and movement.

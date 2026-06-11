@@ -113,7 +113,7 @@ export default function IntegratorNetwork() {
       <div className="relative mx-auto w-full max-w-[1410px]">
         {/* Header */}
         <header className="flex max-w-[760px] flex-col gap-2.5">
-          <h2 className="text-[26px] font-black text-[#0A4B6E] lg:text-[28px]">
+          <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
             Our system integrator network
           </h2>
           <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">

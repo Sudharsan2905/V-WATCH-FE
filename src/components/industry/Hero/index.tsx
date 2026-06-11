@@ -1,20 +1,19 @@
 import BookADemo from "@/components/common/BookADemo";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function IndustryHero() {
   return (
-    <section className="relative">
-      {/* Wave-masked 1280×828 industrial night scene. Extends 74px past the 754px
-          hero frame so the curved bottom wave overlaps the next section. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[828px]">
+    <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      {/* Background: industrial night scene, full-bleed cover (no distortion at
+          any width — replaces the old object-fill stretch). */}
+      <div className="pointer-events-none absolute inset-0">
         <Image
           src="/industry/hero-bg.png"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-fill"
+          className="object-cover object-center"
         />
       </div>
 
@@ -66,31 +65,48 @@ export default function IndustryHero() {
         </div>
       </div>
 
+      {/* Curved bottom — white dip carved into the hero so it flows into the
+          (white) Challenges section below. Same technique as PlatformVisibility:
+          full-width SVG with preserveAspectRatio="none" stretches edge-to-edge so
+          there are no corner gaps, and the responsive height keeps the curve
+          proportional from mobile (h-12) to desktop (lg:h-[90px]). */}
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-12 w-full text-white lg:h-[90px]"
+        viewBox="0 0 1440 100"
+        preserveAspectRatio="none"
+        fill="none"
+      >
+        <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="currentColor" />
+      </svg>
+
       {/* Content */}
-      <div className="relative z-10 flex min-h-[754px] flex-col items-start justify-center gap-[30px] px-[60px] py-[140px]">
-        {/* Badge + heading */}
-        <div className="flex flex-col gap-[14px]">
-          <div className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13px] py-[9.5px]">
-            <span className="size-[11.4px] shrink-0 rounded-full bg-[#86D58B]" />
-            <span className="whitespace-nowrap text-[18px] font-semibold leading-none text-white">
-              What V-Watch Ai
-            </span>
+      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+        <div className="flex flex-col items-start justify-center gap-[30px] pt-[150px] pb-[100px] lg:min-h-[754px] lg:py-[140px]">
+          {/* Badge + heading */}
+          <div className="flex flex-col gap-[14px]">
+            <div className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13px] py-[9.5px]">
+              <span className="size-[11.4px] shrink-0 rounded-full bg-[#86D58B]" />
+              <span className="whitespace-nowrap text-base font-semibold leading-none text-white lg:text-[18px]">
+                What V-Watch Ai
+              </span>
+            </div>
+            <h1 className="max-w-[642px] text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px] lg:tracking-[1px]">
+              Built for Any Environment That Demands Control
+            </h1>
           </div>
-          <h1 className="w-[642px] max-w-full text-[50px] font-black leading-[68px] tracking-[1px] text-white">
-            Built for Any Environment That Demands Control
-          </h1>
-        </div>
 
-        {/* Subtitle */}
-        <p className="w-[561px] max-w-full text-[20px] font-bold leading-8 text-white">
-          V-Watch Ai is designed for complex, high-activity environments where
-          visibility, safety, and operational control are critical from
-          construction sites to data centers and beyond.
-        </p>
+          {/* Subtitle */}
+          <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+            V-Watch Ai is designed for complex, high-activity environments where
+            visibility, safety, and operational control are critical from
+            construction sites to data centers and beyond.
+          </p>
 
-        {/* CTA button */}
-        <div className="flex flex-wrap items-center gap-5">
-          <BookADemo />
+          {/* CTA button */}
+          <div className="flex flex-wrap items-center gap-5">
+            <BookADemo />
+          </div>
         </div>
       </div>
     </section>

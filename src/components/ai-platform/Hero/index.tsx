@@ -27,12 +27,12 @@ export default function AIPlatformHero() {
           </span>
 
           {/* Heading */}
-          <h1 className="text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+          <h1 className="text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
             One Platform to Run Your Entire Operation
           </h1>
 
           {/* Description */}
-          <p className="max-w-140 text-base leading-7 text-white lg:text-[20px] lg:leading-8">
+          <p className="max-w-140 text-base leading-7 font-semibold text-white lg:text-[20px] lg:leading-8">
             V-Watch Ai is an AI-driven operations platform that connects your
             people, processes, assets, and environments giving you real-time
             visibility, automation, and control across every part of your

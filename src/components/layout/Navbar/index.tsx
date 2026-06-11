@@ -190,11 +190,31 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
   );
 }
 
+// Chevron-right button shown on every dropdown link (desktop + mobile). Resting
+// state is the light white→grey pill; on card hover it becomes the brand
+// blue→green gradient with a white arrow (Figma hovered state). currentColor
+// drives the arrow so group-hover:text-white flips it.
+function ChevronRightButton() {
+  return (
+    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border border-[#EFF0F6] bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F2F9_100%)] text-[#556394] shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)] transition-colors group-hover:border-transparent group-hover:bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] group-hover:text-white">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+        <path
+          d="M4.5 2.5 8 6l-3.5 3.5"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
 function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
   return (
     <Link
       href={href}
-      className="flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition-colors hover:bg-[rgba(10,78,110,0.06)]"
+      className="group flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition-colors hover:bg-[rgba(10,78,110,0.06)]"
     >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center">
         <Image
@@ -214,18 +234,7 @@ function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
           {desc}
         </p>
       </div>
-      {/* Chevron-right button */}
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border border-[#EFF0F6] bg-gradient-to-b from-white to-[#F1F2F9] shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)]">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-          <path
-            d="M4.5 2.5 8 6l-3.5 3.5"
-            stroke="#556394"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+      <ChevronRightButton />
     </Link>
   );
 }
@@ -449,15 +458,16 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                   setMobileOpen(false);
                                   setMobileSub(null);
                                 }}
-                                className="flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
+                                className="group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
                               >
                                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
                                   <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
                                 </span>
-                                <span className="flex min-w-0 flex-col">
+                                <span className="flex min-w-0 flex-1 flex-col">
                                   <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
                                   <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
                                 </span>
+                                <ChevronRightButton />
                               </Link>
                             </li>
                           ))}
@@ -477,7 +487,6 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
               );
             })}
           </ul>
-          <DemoButton className="mt-3 w-full" />
         </div>
       )}
     </header>

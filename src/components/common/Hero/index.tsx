@@ -8,38 +8,11 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0">
         <Image
           src="/hero/hero-visual.png"
-          alt=""
+          alt="V-Watch Ai platform modules: HRMS (Human Resource Management System), Secure Access, SMS, RTL, Workflow Management and AI Location Tracking"
           fill
           priority
           sizes="100vw"
           className="object-cover object-top"
-        />
-        {/* Electric-blue glow tint over the render */}
-        <div
-          className="absolute inset-0 mix-blend-screen"
-          style={{
-            background:
-              "radial-gradient(55% 55% at 60% 40%, rgba(59,130,246,0.45) 0%, rgba(59,130,246,0.12) 40%, transparent 72%)",
-          }}
-        />
-        {/* Cyan highlights drifting in from the edges */}
-        <div
-          className="absolute inset-0 mix-blend-screen"
-          style={{
-            background:
-              "radial-gradient(38% 48% at 100% 8%, rgba(34,211,238,0.20) 0%, transparent 60%)," +
-              "radial-gradient(40% 50% at 96% 92%, rgba(34,211,238,0.18) 0%, transparent 60%)",
-          }}
-        />
-        {/* Navy scrim keeps the left-side copy legible over the render */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A2A4A] from-5% via-[#0A2A4A]/55 via-45% to-transparent" />
-        {/* Soft vignette to deepen the edges */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(120% 120% at 50% 45%, transparent 55%, rgba(5,20,38,0.55) 90%, rgba(5,20,38,0.8) 100%)",
-          }}
         />
       </div>
 

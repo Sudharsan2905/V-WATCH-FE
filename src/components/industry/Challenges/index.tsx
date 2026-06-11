@@ -320,7 +320,7 @@ function CalloutCard({ className }: { className?: string }) {
 
 export default function Challenges() {
   return (
-    <section className="relative z-10 mt-20 overflow-hidden bg-white px-6 pb-4 pt-10 lg:px-[60px]">
+    <section className="relative z-10 overflow-hidden bg-white px-6 pb-4 pt-10 lg:px-[60px]">
       {/* Decorative blur blobs */}
       <div
         className="pointer-events-none absolute hidden lg:block"
