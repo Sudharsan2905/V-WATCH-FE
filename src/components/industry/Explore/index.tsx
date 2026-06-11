@@ -45,11 +45,11 @@ export default function Explore() {
           </p>
         </header>
 
-        <div className="flex flex-wrap gap-[30px]">
+        <div className="flex flex-wrap justify-center gap-[30px]">
           {CARDS.map((c) => (
             <div
               key={c.title}
-              className="relative h-[500px] w-full max-w-[367px] flex-1 overflow-hidden rounded-[20px] border-[1.245px] border-[#0a8ec8] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
+              className="relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] border-[1.245px] border-[#0a8ec8] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
             >
               <div className="relative h-full w-full overflow-hidden rounded-[16px]">
                 <Image
@@ -60,7 +60,7 @@ export default function Explore() {
                   sizes="367px"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-[200px] bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                <div className="absolute inset-x-0 bottom-6 mx-auto flex w-[323px] flex-col gap-2.5">
+                <div className="absolute inset-x-0 bottom-6 flex flex-col gap-2.5 px-5">
                   <p className="text-[18px] font-bold leading-6 text-white">
                     {c.title}
                   </p>

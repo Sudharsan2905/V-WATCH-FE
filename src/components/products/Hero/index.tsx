@@ -159,7 +159,7 @@ export default function ProductsHero() {
                 <span className="text-[18px] font-bold leading-none text-white">What V-Watch Ai</span>
               </motion.span>
 
-              <h1 className="w-[642px] max-w-full text-[50px] font-black leading-[68px] tracking-[0.5px] text-white">
+              <h1 className="w-[642px] max-w-full text-[50px] font-semibold leading-[68px] tracking-[0.5px] text-white">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     One Platform
@@ -178,7 +178,7 @@ export default function ProductsHero() {
               </h1>
             </div>
 
-            <p className="max-w-[561px] text-[20px] font-bold leading-8 text-white">
+            <p className="max-w-[561px] text-[21px] leading-8 text-white">
               <motion.span custom={0.8} variants={copyReveal} className="block">
                 V-Watch Ai brings together a suite of integrated capabilities
               </motion.span>
@@ -192,7 +192,7 @@ export default function ProductsHero() {
             <motion.p
               custom={1.45}
               variants={copyReveal}
-              className="max-w-[561px] text-[20px] font-extrabold leading-8 text-white"
+              className="max-w-[561px] text-[20px] font-semibold leading-8 text-white"
             >
               Start with what you need. Scale as you grow.
             </motion.p>

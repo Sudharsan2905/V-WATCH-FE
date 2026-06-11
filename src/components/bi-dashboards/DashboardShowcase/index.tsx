@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 
 // Dashboard → Reporting → Power BI Data.
 // Three alternating showcase rows, each pairing a copy column (with a check
@@ -31,9 +32,11 @@ type CopyProps = {
   items: string[];
   /** When the column sits on the right (reversed row), fade the white toward the left. */
   reverse?: boolean;
+  /** Mockup rendered inside the card on sm/md screens (hidden on lg, where it sits beside the column). */
+  mockup?: ReactNode;
 };
 
-function CopyColumn({ ghost, title, body, listHeading, items, reverse = false }: Readonly<CopyProps>) {
+function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, mockup }: Readonly<CopyProps>) {
   return (
     <div
       className={`relative flex w-full flex-col gap-4 rounded-[24px] p-8 lg:flex-1 lg:p-10 ${
@@ -60,23 +63,24 @@ function CopyColumn({ ghost, title, body, listHeading, items, reverse = false }:
           <CheckBullet key={it} text={it} />
         ))}
       </ul>
+      {mockup && <div className="mt-6 lg:hidden">{mockup}</div>}
     </div>
   );
 }
 
 // ── Mockup image ──────────────────────────────────────────────────────────────
 
-function MockupImage({ src, alt, width, height }: Readonly<{ src: string; alt: string; width: number; height: number }>) {
+function MockupImage({ src, alt, width, height, className = "" }: Readonly<{ src: string; alt: string; width: number; height: number; className?: string }>) {
   return (
-    <div className="flex-1">
-      <div className="flex h-100 w-100 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#F9FDFF_0%,#F6FCFF_100%)] shadow-[-5px_8px_32px_4px_#002D450A,-20px_14px_44px_0px_#1D6C970F] lg:flex-1">
+    <div className={`flex-1 ${className}`}>
+      <div className="flex md:h-100 md:w-100 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#F9FDFF_0%,#F6FCFF_100%)] shadow-[-5px_8px_32px_4px_#002D450A,-20px_14px_44px_0px_#1D6C970F] lg:flex-1">
         <Image
           src={src}
           alt={alt}
           width={width}
           height={height}
           sizes="(min-width: 1024px) 520px, 100vw"
-          className="ml-10"
+          className="ml-10 mt-2"
         />
       </div>
     </div>
@@ -150,12 +154,22 @@ export default function DashboardShowcase() {
               "Customisable layouts and metrics",
               "Multi-site visibility in one interface",
             ]}
+            mockup={
+              <MockupImage
+                src="/bi-dashboards/dashboard-overview.png"
+                alt="V-Watch Ai live site overview dashboard"
+                width={1086}
+                height={1275}
+                className="flex justify-center"
+              />
+            }
           />
           <MockupImage
             src="/bi-dashboards/dashboard-overview.png"
             alt="V-Watch Ai live site overview dashboard"
             width={1086}
             height={1275}
+            className="hidden lg:block"
           />
         </div>
 
@@ -173,12 +187,22 @@ export default function DashboardShowcase() {
               "Historical data tracking and trend analysis",
               "Custom report configurations",
             ]}
+            mockup={
+              <MockupImage
+                src="/bi-dashboards/dashboard-report.png"
+                alt="V-Watch Ai automated reporting with exportable formats"
+                width={855}
+                height={788}
+                className="flex justify-center"
+              />
+            }
           />
           <MockupImage
             src="/bi-dashboards/dashboard-report.png"
             alt="V-Watch Ai automated reporting with exportable formats"
             width={855}
             height={788}
+            className="hidden lg:block"
           />
         </div>
 
@@ -197,12 +221,22 @@ export default function DashboardShowcase() {
               "Asset and equipment monitoring",
               "Safety and compliance systems",
             ]}
+            mockup={
+              <MockupImage
+                src="/bi-dashboards/dashboard-data.png"
+                alt="V-Watch Ai Power BI data across vehicle and workforce sources"
+                width={808}
+                height={712}
+                className="flex justify-center"
+              />
+            }
           />
           <MockupImage
             src="/bi-dashboards/dashboard-data.png"
             alt="V-Watch Ai Power BI data across vehicle and workforce sources"
             width={808}
             height={712}
+            className="hidden lg:block"
           />
         </div>
       </div>

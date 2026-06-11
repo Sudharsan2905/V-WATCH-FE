@@ -42,7 +42,7 @@ const CARDS: Card[] = [
 
 export default function Solutions() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pt-10 pb-20 lg:px-[60px]">
+    <section className="relative z-10 -mt-10 overflow-hidden rounded-t-[40px] bg-white px-6 pt-10 pb-20 lg:px-[60px]">
       {/* Ellipse 3550 — blue, W:610 H:148, centred at gap between cards 1 and 2 */}
       <div
         aria-hidden

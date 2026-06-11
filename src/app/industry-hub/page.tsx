@@ -34,10 +34,17 @@ export default function IndustryHubPage() {
         className="relative z-1 -mt-83 overflow-hidden"
         style={{
           borderRadius: "50% 50% 0 0 / 80px 80px 0 0",
-          backgroundImage: "url('/industry/explore-adaptable-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
+          // Keep the textured dome image, but fade it to solid navy over the
+          // bottom ~20% so the image's baked-in white strip is masked (that strip
+          // was what cover/min-h cropped + inflated). The rounded white transition
+          // into the next section is done in CSS on <Solutions>, and a fixed pb
+          // (not min-h:vh) keeps the dark buffer consistent across screen sizes.
+          backgroundColor: "#19213d",
+          backgroundImage:
+            "linear-gradient(180deg, rgba(25,33,61,0) 78%, #19213d 92%), url('/industry/explore-adaptable-bg.png')",
+          backgroundSize: "cover, cover",
+          backgroundPosition: "center top, center top",
+          backgroundRepeat: "no-repeat, no-repeat",
         }}
       >
         <Adaptable />

@@ -62,8 +62,10 @@ function PinIcon() {
 function IndustryCard({ title, img, size }: Readonly<Card>) {
   return (
     <div
-      className={`relative h-[280px] overflow-hidden rounded-[24px] ${
-        size === "lg" ? "flex-[608_1_0]" : "flex-[488_1_0]"
+      className={`relative h-[280px] w-full overflow-hidden rounded-[24px] sm:w-auto ${
+        // flex-basis:0 only on sm+ (row axis = width). On mobile the cards are a
+        // column, where flex-basis:0 would zero their HEIGHT — so keep w-full.
+        size === "lg" ? "sm:flex-[608_1_0]" : "sm:flex-[488_1_0]"
       }`}
     >
       <Image
@@ -84,7 +86,7 @@ function IndustryCard({ title, img, size }: Readonly<Card>) {
 
 export default function Adaptable() {
   return (
-    <section className="relative overflow-hidden px-6 pt-[21em] lg:px-[60px] min-h-[190vh]">
+    <section className="relative overflow-hidden px-6 pt-[21em] pb-24 lg:px-[60px]">
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <header className="flex max-w-[804px] flex-col gap-2.5 text-white">
           <h2 className="text-[26px] font-extrabold">
@@ -108,7 +110,7 @@ export default function Adaptable() {
 
         {/* unifying callout */}
         <div
-          className="relative mx-auto flex w-full max-w-[1120px] items-center overflow-hidden rounded-3xl"
+          className="relative mx-auto flex w-full max-w-[1120px] flex-col items-center gap-4 overflow-hidden rounded-3xl p-6 text-center sm:flex-row sm:gap-0 sm:p-0 sm:text-left"
           style={{
             background: "linear-gradient(180deg, #EFF9FF 0%, white 100%)",
             boxShadow:
@@ -150,7 +152,7 @@ export default function Adaptable() {
           {/* left: V-Watch logo mark */}
           <div className="relative z-10 shrink-0">
             <Image
-              src="/industry/callout-logo.svg"
+              src="/industry/callout-logo-rounded.png"
               alt="V-Watch AI"
               width={140}
               height={99}
@@ -160,21 +162,21 @@ export default function Adaptable() {
 
           {/* centre: headline */}
           <p
-            className="relative z-10 flex-1 text-[20px] font-bold leading-8"
-            style={{ color: "#0F172B", wordWrap: "break-word" }}
+            className="relative z-10 flex-1 text-[18px] font-bold leading-7 sm:text-[20px] sm:leading-8"
+            style={{ color: "#0F172B" }}
           >
-            If your operations involve people, movement, and risk.&nbsp; <br />{" "}
-            V-Watch Ai is built for you.
+            If your operations involve people, movement, and risk. V-Watch Ai is
+            built for you.
           </p>
 
           {/* right: city-map + robot illustration */}
-          <div className="relative z-10 shrink-0 self-stretch pr-[10px]">
+          <div className="relative z-10 w-full shrink-0 sm:w-auto sm:self-stretch sm:pr-[10px]">
             <Image
               src="/industry/callout-illustration.svg"
               alt=""
               width={274}
               height={132}
-              className="h-full w-auto object-contain object-right"
+              className="mx-auto h-auto w-full max-w-[274px] sm:mx-0 sm:h-full sm:w-auto sm:object-contain sm:object-right"
               aria-hidden
             />
           </div>
