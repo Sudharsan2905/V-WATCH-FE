@@ -26,12 +26,13 @@ const IMAGE_BLUR =
   "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAACQAQCdASoQAAsAA4BaJQ4ABYgDgwAA/vDkTH8gHqVybLxW4UavS/+YNsu0pDMpq96KUY0BGt8Q89p7ONGGRd3U4AA=";
 
 type Item = { title: string; desc?: string };
-type Tab = { key: string; num: string; subtitle: string; img: string; items: Item[] };
+type Tab = { key: string; tab: string; num: string; subtitle: string; img: string; items: Item[] };
 type Selection = { tab: number; item: number; cycle: number };
 
 const TABS: Tab[] = [
   {
     key: "Workforce",
+    tab: "Workforce",
     num: "01",
     subtitle: "Managing people, identity, access, and activity",
     img: "/products/workforce.webp",
@@ -40,99 +41,140 @@ const TABS: Tab[] = [
         title: "Person Management",
         desc: "Centralise and manage all workforce profiles with real-time identification, tracking, and activity visibility across your operations.",
       },
-      { title: "Access Management", desc: "Managing work, workflows, and execution" },
-      { title: "Profile & Pass Management", desc: "Managing people, identity, access, and activity" },
-      { title: "Fatigue / Vital Monitoring", desc: "Managing people, identity, access, and activity"},
+      {
+        title: "Access Management",
+        desc: "Control and monitor who enters your sites and facilities, ensuring only authorised personnel have access at all times.",
+      },
+      {
+        title: "Profile & Pass Management",
+        desc: "Maintain accurate worker records, certifications, and digital passes to ensure compliance and smooth site access.",
+      },
+      {
+        title: "Fatigue / Vital Monitoring",
+        desc: "Monitor working hours and physical conditions to detect fatigue risks early and improve workforce safety.",
+      },
     ],
   },
   {
     key: "Operations",
+    tab: "Operations",
     num: "02",
-    subtitle: "Coordinating workflows, tasks, and execution",
-    img: "/products/workforce.webp",
+    subtitle: "Managing work, workflows, and execution",
+    img: "/products/operations.png",
     items: [
       {
-        title: "Task Management",
-        desc: "Plan, assign, and track tasks from start to finish with full accountability across teams and sites.",
+        title: "Task & Project Management",
+        desc: "Assign, track, and manage tasks and projects with full visibility from planning through to completion.",
       },
-      { title: "Workflow Automation" },
-      { title: "SOP Compliance" },
-      { title: "Incident Management" },
+      {
+        title: "Work Program Management",
+        desc: "Structure and coordinate site activities to ensure work progresses according to schedule and plan.",
+      },
+      {
+        title: "Container & Site Logistics",
+        desc: "Track and manage on-site materials, containers, and equipment movement to ensure efficient coordination and minimise delays.",
+      },
     ],
   },
   {
-    key: "Logistics",
+    key: "Movement & Logistics",
+    tab: "Logistics",
     num: "03",
-    subtitle: "Tracking movement across your supply chain",
-    img: "/products/workforce.webp",
+    subtitle: "Tracking movement of people, vehicles, and goods across operations",
+    img: "/products/logistics.png",
     items: [
       {
-        title: "Fleet Tracking",
-        desc: "Monitor vehicles and goods in real time, from on-site movement to cross-border logistics.",
+        title: "Vehicle Management",
+        desc: "Monitor vehicle movement in real time, manage site entry/exit, and detect overstay or unauthorised usage.",
       },
-      { title: "Route Optimisation" },
-      { title: "Goods Movement" },
-      { title: "Cross-border Visibility" },
+      {
+        title: "Logistics Management",
+        desc: "Plan and manage deliveries, routes, and dispatch operations to improve efficiency and reduce downtime.",
+      },
+      {
+        title: "Fleet Management",
+        desc: "Maintain full visibility over fleet operations, including driver activity, fuel usage, and maintenance schedules.",
+      },
     ],
   },
   {
-    key: "Assets",
+    key: "Assets & Quality",
+    tab: "Assets",
     num: "04",
-    subtitle: "Monitoring equipment, usage, and maintenance",
-    img: "/products/workforce.webp",
+    subtitle: "Managing physical resources and ensuring operational standards",
+    img: "/products/assets.png",
     items: [
       {
-        title: "Asset Tracking",
-        desc: "Track equipment location, usage, and condition with full visibility across every location.",
+        title: "Asset Management",
+        desc: "Track asset location, usage, and lifecycle while maintaining accurate records for audits and accountability.",
       },
-      { title: "Usage Analytics" },
-      { title: "Maintenance Scheduling" },
-      { title: "Lifecycle Management" },
+      {
+        title: "Quality Assurance",
+        desc: "Ensure operational standards are met through structured audits, training records, and service management workflows.",
+      },
     ],
   },
   {
-    key: "Safety",
+    key: "Safety & Compliance",
+    tab: "Safety",
     num: "05",
-    subtitle: "Protecting people, sites, and compliance",
-    img: "/products/workforce.webp",
+    subtitle: "Ensuring safe operations and regulatory compliance",
+    img: "/products/safety.png",
     items: [
       {
-        title: "Access Control",
-        desc: "Control site access, monitor risks, and ensure safety standards are always met.",
+        title: "PTW (Permit-to-Work)",
+        desc: "Digitise permit workflows to ensure all high-risk work is properly authorised, tracked, and compliant.",
       },
-      { title: "Risk Monitoring" },
-      { title: "Permit Management" },
-      { title: "Standards Compliance" },
+      {
+        title: "LOTO (Lockout Tagout)",
+        desc: "Control hazardous energy sources and enforce safety procedures during maintenance and operations.",
+      },
+      {
+        title: "EMS (Environmental Monitoring)",
+        desc: "Monitor environmental conditions such as air quality, emissions, and site impact to ensure compliance with environmental standards.",
+      },
+      {
+        title: "AI Safety Monitoring",
+        desc: "Use intelligent video analytics to detect unsafe behaviour, monitor traffic flow, and identify potential hazards in real time.",
+      },
     ],
   },
   {
-    key: "AI Intelligence",
+    key: "Intelligence & Productivity",
+    tab: "AI Intelligence",
     num: "06",
-    subtitle: "Turning operational data into decisions",
-    img: "/products/workforce.webp",
+    subtitle: "Turning operational data into measurable performance",
+    img: "/products/ai.png",
     items: [
       {
-        title: "Predictive Insights",
-        desc: "Surface trends and anomalies automatically so you can act before issues escalate.",
+        title: "Productivity Management",
+        desc: "Track manhours, monitor progress, and analyse productivity using real-time data and Power BI dashboards.",
       },
-      { title: "Anomaly Detection" },
-      { title: "Smart Alerts" },
-      { title: "Reporting & BI" },
+      {
+        title: "IIMP AI Assistance",
+        desc: "Leverage AI-driven assistance to support decision-making, automate insights, and improve operational efficiency.",
+      },
+      {
+        title: "HRMS",
+        desc: "Simplify HR operations with integrated attendance, payroll, claims, and employee management.",
+      },
     ],
   },
   {
-    key: "Integrations",
+    key: "Advanced & Emerging",
+    tab: "Integrations",
     num: "07",
-    subtitle: "Connecting your existing systems",
-    img: "/products/workforce.webp",
+    subtitle: "Expanding capabilities through advanced technologies",
+    img: "/products/integrations.png",
     items: [
       {
-        title: "API Access",
-        desc: "Integrate with your existing infrastructure through open APIs and trusted system integrators.",
+        title: "Drone Integration",
+        desc: "Capture aerial data and monitor site progress through drone integration for enhanced visibility and analysis.",
       },
-      { title: "System Integrators" },
-      { title: "Hardware Support" },
-      { title: "Data Sync" },
+      {
+        title: "AI Robotics",
+        desc: "Introduce automation into construction and operational workflows to improve efficiency and reduce manual dependency.",
+      },
     ],
   },
 ];
@@ -218,7 +260,7 @@ export default function CapabilityTabs() {
                     className="pointer-events-none absolute inset-0 rounded-full border border-transparent [background:linear-gradient(180deg,#21B1F1,#9CDCFF)_padding-box,linear-gradient(180deg,rgba(255,255,255,0.83),rgba(255,255,255,0.2))_border-box] shadow-[0_6px_42px_0_rgba(212,240,255,0.4),2px_5px_14px_0_rgba(255,255,255,0.6),inset_0_-2px_27px_rgba(126,207,250,0.6)]"
                   />
                 )}
-                <span className="relative z-10">{t.key}</span>
+                <span className="relative z-10">{t.tab}</span>
               </motion.button>
             ))}
           </motion.div>
@@ -291,7 +333,7 @@ export default function CapabilityTabs() {
               </AnimatePresence>
             </motion.div>
             <motion.div
-              className="flex flex-1 flex-col justify-between gap-5 pt-2.5"
+              className="flex flex-1 flex-col justify-start gap-7 pt-2.5"
               variants={hasEntered ? undefined : panelItemsReveal}
               initial={hasEntered ? false : "hidden"}
               animate={hasEntered ? false : itemsAnimate}

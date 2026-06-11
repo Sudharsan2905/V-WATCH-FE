@@ -26,6 +26,7 @@ type FooterProps = {
   ctaText?: string;
   linkColumns?: LinkColumn[];
   ctaVariant?: "light" | "dark";
+  isBookADemoVisible?: boolean;
 };
 
 const CTA_BG = {
@@ -39,6 +40,7 @@ export default function Footer({
   ctaText = "See how V-Watch Ai helps you automate processes, strengthen security, and improve productivity across your organisation.",
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
+  isBookADemoVisible = true,
 }: Readonly<FooterProps>) {
   return (
     <footer className="relative overflow-hidden bg-[#19213D] pb-10">
@@ -82,7 +84,7 @@ export default function Footer({
             </p>
           </div>
 
-          <BookADemo />
+          { isBookADemoVisible && <BookADemo /> }
         </div>
       </div>  
 
