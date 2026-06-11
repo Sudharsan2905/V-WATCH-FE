@@ -1,0 +1,14 @@
+<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-4" y="-4" width="40.5298" height="40.5298"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(2px);clip-path:url(#bgblur_0_386_55386_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="4">
+<rect width="32.53" height="32.53" rx="4.07" fill="url(#paint0_linear_386_55386)"/>
+<path d="M14.7948 10.394C14.4444 10.8026 14.2438 11.3285 14.2438 11.8827V19.576C14.2438 20.1302 14.4444 20.6561 14.7948 21.0647H13.2573C13.6077 20.6561 13.8083 20.1302 13.8083 19.576V11.8827C13.8083 11.3285 13.6077 10.8026 13.2573 10.394H14.7948Z" stroke="white" stroke-width="1.52539"/>
+<path d="M20.8964 10.394C20.546 10.8026 20.3454 11.3285 20.3454 11.8827V19.576C20.3454 20.1302 20.546 20.6561 20.8964 21.0647H19.3589C19.7093 20.6561 19.9099 20.1302 19.9099 19.576V11.8827C19.9099 11.3285 19.7093 10.8026 19.3589 10.394H20.8964Z" stroke="white" stroke-width="1.52539"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_386_55386_clip_path" transform="translate(4 4)"><rect width="32.53" height="32.53" rx="4.07"/>
+</clipPath><linearGradient id="paint0_linear_386_55386" x1="16.265" y1="0" x2="16.265" y2="32.53" gradientUnits="userSpaceOnUse">
+<stop stop-color="#21B1F1"/>
+<stop offset="1" stop-color="#005276" stop-opacity="0.9"/>
+</linearGradient>
+</defs>
+</svg>

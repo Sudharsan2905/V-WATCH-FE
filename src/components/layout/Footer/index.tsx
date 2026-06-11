@@ -60,7 +60,7 @@ export default function Footer({
           className="pointer-events-none absolute inset-0 bg-repeat opacity-55"
           style={{
             backgroundImage:
-              "url('footer/bg-grid.svg')",
+              "url('/footer/bg-grid.svg')",
             backgroundSize: "cover",
             width: "100%",
             maskImage:
