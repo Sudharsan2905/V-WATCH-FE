@@ -1,6 +1,30 @@
+"use client";
 import Image from "next/image";
 
 type Feature = { icon: string; title: string; desc: string };
+import { motion, type Variants } from "motion/react";
+
+// Wipe-in-from-top: content reveals downward behind a moving top edge.
+// `custom` is the per-element delay in seconds.
+const wipeTop: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  visible: (delay = 0) => ({
+    clipPath: "inset(0 0 0 0)",
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
+
+// Soft fade + scale, used for the circuit visual "loading" in.
+// `custom` is the per-element delay in seconds.
+const loadIn: Variants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
 
 const FEATURES: Feature[] = [
   {
@@ -38,10 +62,17 @@ const FEATURES: Feature[] = [
 const CARD_GRADIENT =
   "linear-gradient(90deg, rgba(156,220,255,0.04) 0%, rgba(156,220,255,0.04) 100%), linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.10) 100%)";
 
-function FeatureCard({ icon, title, desc }: Readonly<Feature>) {
+const CARD_STAGGER = 0.8;
+const CARD_START=1;
+
+function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: number }>) {
   return (
     // Outer shell: natural on mobile, fixed 554×211.5 cell on desktop
-    <div className="relative w-full shrink-0 lg:h-[211.5px] lg:w-[554px]">
+    <motion.div
+      variants={wipeTop}
+      custom={CARD_START + index * CARD_STAGGER}
+      className="relative w-full shrink-0 lg:h-[211.5px] lg:w-[554px]"
+    >
       {/* Blob background — desktop only, inset to match SVG natural dims */}
       <div className="pointer-events-none absolute bottom-0 left-[5px] right-[3px] top-[4px] hidden lg:block">
         <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" />
@@ -71,7 +102,7 @@ function FeatureCard({ icon, title, desc }: Readonly<Feature>) {
           <p className="mt-2.5 text-[18px] leading-6 text-[#202020]">{desc}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -94,33 +125,47 @@ export default function FeatureGrid() {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
-        <header className="flex max-w-[807px] flex-col gap-2.5">
-          <h2 className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]">
+        <motion.header
+          className="flex max-w-[807px] flex-col gap-2.5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.h2 variants={wipeTop} custom={0} className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]">
             Everything your operation depends on in one place
-          </h2>
-          <p className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
+          </motion.h2>
+          <motion.p variants={wipeTop} custom={0.5} className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
             V-Watch <span className="uppercase">Ai</span> is built around how your business actually runs.
-          </p>
-        </header>
+          </motion.p>
+        </motion.header>
 
-        <div className="flex flex-col items-center gap-[30px]">
+        <motion.div
+          className="flex flex-col items-center gap-[30px]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
           <div className="flex w-full max-w-[1160px] flex-col gap-[30px]">
-            {rows.map((row) => (
+            {rows.map((row, r) => (
               <div
                 key={row[0].title}
                 className="flex flex-col gap-[30px] lg:flex-row lg:items-center lg:justify-between"
               >
-                {row.map((f) => (
-                  <FeatureCard key={f.title} {...f} />
+                {row.map((f, c) => (
+                  <FeatureCard key={f.title} {...f} index={r * 2 + c} />
                 ))}
               </div>
             ))}
           </div>
 
-          <p className="text-center text-[20px] font-normal text-[#0A8EC8]">
+          <motion.p
+            variants={wipeTop}
+            custom={FEATURES.length * CARD_STAGGER}
+            className="text-center text-[20px] font-normal text-[#0A8EC8]"
+          >
             Not separate systems, One connected operation.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </div>
     </section>
   );

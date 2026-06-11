@@ -17,6 +17,41 @@
   }
 }
 
+/* Hero copy entrance sequence, line-by-line with staggered animation-delays.
+   Each element uses `motion-safe:animate-[...]` so the whole sequence is skipped
+   for users who prefer reduced motion.
+   wipeInLeft: text revealed left -> right via a clip-path wipe.
+   wipeInTop:  text revealed top  -> bottom via a clip-path wipe.
+   heroFadeUp: fade + slide-up (CTA buttons). */
+@keyframes wipeInLeft {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes wipeInTop {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes progressBrightness {
   0%,
   100% {
