@@ -1,4 +1,58 @@
+"use client";
+
 import Image from "next/image";
+import { motion, type Variants } from "motion/react";
+
+// Wipe-in-from-top: content reveals downward behind a moving top edge.
+// `custom` is the per-element delay in seconds.
+const wipeTop: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  visible: (delay = 0) => ({
+    clipPath: "inset(0 0 0 0)",
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
+
+// Soft fade + scale, used for the circuit visual "loading" in.
+// `custom` is the per-element delay in seconds.
+const loadIn: Variants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
+
+// Benefit cards:
+//   1. load   — all three fade in together, sitting a bit below their spot
+//   2. then, ONE card at a time (top → bottom): it expands (scales up in place,
+//      bottom edge touching the next card — no gap) then moves up into its place,
+//      before the next card takes its turn.
+const LOAD_DOWN = 30; // how far below the resting spot the cards load in
+const BASE_H = 90; // resting card height (px)
+const EXPANDED_H = 168; // height while a card is expanded
+const BENEFITS_DELAY = 1.3; // wait until the heading + image have loaded in first
+const CARD_STEP = 0.7; // gap between each card's expand→move turn
+const benefitCard: Variants = {
+  hidden: { opacity: 0, y: LOAD_DOWN, height: BASE_H },
+  visible: (i = 0) => {
+    const turn = BENEFITS_DELAY + i * CARD_STEP; // this card's sequential turn
+    return {
+      opacity: 1,
+      // grow taller (pushing the next card down so its bottom touches) → collapse back
+      height: [BASE_H, EXPANDED_H, BASE_H],
+      // stay down through the expand, then move up into place
+      y: [LOAD_DOWN, LOAD_DOWN, 0],
+      transition: {
+        opacity: { duration: 0.4, ease: "easeOut", delay: BENEFITS_DELAY },
+        height: { duration: 0.8, times: [0, 0.5, 1], ease: "easeInOut", delay: turn },
+        y: { duration: 0.8, times: [0, 0.5, 1], ease: [0.22, 1, 0.36, 1], delay: turn },
+      },
+    };
+  },
+};
 
 // "What if everything worked as one system?" — a two-column section: a numbered
 // benefits list on the left and a circuit visual on the right. (Figma node 215:8079)
@@ -55,29 +109,47 @@ export default function UnifiedSystem() {
       />
 
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
-        <header className="flex max-w-[807px] flex-col gap-2.5 text-[#0A4B6E]">
-          <h2 className="max-w-[642px] text-[26px] font-bold">What if everything worked as one system?</h2>
-          <p className="text-[20px] font-normal leading-[26px]">
+        <motion.header
+          className="flex max-w-[807px] flex-col gap-2.5 text-[#0A4B6E]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          <motion.h2 variants={wipeTop} custom={0} className="max-w-[642px] text-[26px] font-bold">
+            What if everything worked as one system?
+          </motion.h2>
+          <motion.p variants={wipeTop} custom={0.15} className="text-[20px] font-normal leading-[26px]">
             V-Watch Ai brings your entire operation into a single, connected platform where
             everything is tracked, managed, and automated in real time.
-          </p>
-        </header>
+          </motion.p>
+        </motion.header>
 
-        <div className="flex flex-col items-stretch gap-[30px] lg:flex-row lg:items-center">
+        <motion.div
+          className="flex flex-col items-stretch gap-[30px] lg:flex-row lg:items-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {/* Left: benefits list */}
           <div className="flex flex-1 flex-col gap-3.5 p-3.5">
-            <p className="max-w-[415px] text-[20px] font-bold text-[#0A4B6E]">
+            <motion.p
+              variants={wipeTop}
+              custom={BENEFITS_DELAY - 0.3}
+              className="max-w-[415px] text-[20px] font-bold text-[#0A4B6E]"
+            >
               Instead of switching between systems, you get
-            </p>
+            </motion.p>
 
             {/* Stacked cards fanning forward: each lower card overlaps on top of
                 the one above it (card 3 frontmost), each with a light white liner */}
             <div className="flex flex-col">
               {BENEFITS.map((b, i) => (
-                <div
+                <motion.div
                   key={b.n}
+                  variants={benefitCard}
+                  custom={i}
                   style={{ zIndex: i + 1 }}
-                  className={`relative flex h-[90px] items-center rounded-[14px] px-5 ${
+                  className={`relative flex items-start overflow-hidden rounded-[14px] px-5 ${
                     i === 0 ? "py-5" : "-mt-[11px] pb-5 pt-[31px]"
                   } ${
                     b.active
@@ -91,13 +163,17 @@ export default function UnifiedSystem() {
                       {b.text}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Right: circuit visual (rendered from Figma — caption baked in) */}
-          <div className="relative h-[302px] w-full overflow-hidden rounded-[16px] lg:w-[590px] lg:shrink-0">
+          <motion.div
+            variants={loadIn}
+            custom={0.25}
+            className="relative h-[302px] w-full overflow-hidden rounded-[16px] lg:w-[590px] lg:shrink-0"
+          >
             <Image
               src="/home/unified-visual.png"
               alt="From security to execution, everything is connected, automated, and measurable"
@@ -105,8 +181,8 @@ export default function UnifiedSystem() {
               className="object-cover"
               sizes="590px"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

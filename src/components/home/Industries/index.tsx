@@ -2,39 +2,85 @@ import Image from "next/image";
 
 // "Built for complex operational environments" — a full-bleed dark card with a
 // 3 + 2 grid of industry photo tiles. (Figma node 219:1532)
-type Industry = { name: string; img: string; wide?: boolean };
+type Industry = { name: string; img: string; desc: string; wide?: boolean };
 
 const ROW_1: Industry[] = [
-  { name: "Construction", img: "/home/ind-construction.png" },
-  { name: "Industrial & Energy", img: "/home/ind-industrial.png" },
-  { name: "Commercial & Facilities", img: "/home/ind-commercial.png" },
+  {
+    name: "Construction",
+    img: "/home/ind-construction.png",
+    desc: "Track workforce, equipment, and site activity in real time keeping projects safe, compliant, and on schedule from groundbreaking to handover.",
+  },
+  {
+    name: "Industrial & Energy",
+    img: "/home/ind-industrial.png",
+    desc: "Operate safely in high-risk environments with real-time tracking, restricted zone monitoring, and instant response capabilities reducing risk while maintaining strict compliance.",
+  },
+  {
+    name: "Commercial & Facilities",
+    img: "/home/ind-commercial.png",
+    desc: "Manage access, monitor occupancy, and coordinate teams across buildings ensuring security and efficiency in every facility.",
+  },
 ];
 
 const ROW_2: Industry[] = [
-  { name: "Data Centers", img: "/home/ind-datacenter.png", wide: true },
-  { name: "Logistics & Warehousing", img: "/home/ind-logistics.png", wide: true },
+  {
+    name: "Data Centers",
+    img: "/home/ind-datacenter.png",
+    wide: true,
+    desc: "Secure critical infrastructure with controlled access, asset tracking, and continuous monitoring to protect uptime and compliance.",
+  },
+  {
+    name: "Logistics & Warehousing",
+    img: "/home/ind-logistics.png",
+    wide: true,
+    desc: "Gain end-to-end visibility over goods, vehicles, and people from on-site movement to cross-border delivery.",
+  },
 ];
 
-function IndustryTile({ name, img }: Readonly<Industry>) {
+function IndustryTile({ name, img, desc }: Readonly<Industry>) {
   return (
-    <div className="relative h-[240px] w-full overflow-hidden rounded-[24px] sm:h-[320px]">
+    <div className="group relative h-[240px] w-full overflow-hidden rounded-[24px] sm:h-[320px]">
       <Image src={img} alt={name} fill className="object-cover" sizes="(min-width: 1024px) 555px, 100vw" />
-      {/* bottom scrim */}
-      <div className="absolute inset-x-0 bottom-0 h-[135px] bg-gradient-to-b from-transparent to-black/80" />
-      <p className="absolute bottom-6 left-6 text-[20px] font-bold tracking-[-0.5px] text-white">
+
+      {/* Resting state: bottom scrim + name — fade out on hover */}
+      <div className="absolute inset-x-0 bottom-0 h-[135px] bg-gradient-to-b from-transparent to-black/80 transition-opacity duration-300 group-hover:opacity-0" />
+      <p className="absolute bottom-6 left-6 text-[20px] font-bold tracking-[-0.5px] text-white transition-opacity duration-300 group-hover:opacity-0">
         {name}
       </p>
+
+      {/* Hover state: frosted glass card anchored near the bottom; wipes in
+          from bottom → top on hover (clip-path inset reveal). */}
+      <div className="pointer-events-none absolute inset-0 flex items-end justify-center p-4">
+        <div className="pointer-events-auto w-[90%] max-w-[700px] max-h-[200px] rounded-[14px] border border-white/30 bg-black/25 p-6 backdrop-blur-[1px] transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
+          <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
+          <p className="mt-1.5 text-[16px] font-normal leading-[17px] text-white/90">{desc}</p>
+          <a href="#" className="mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white">
+            Learn More
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                <path
+                  d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function Industries() {
   return (
-    <section className="bg-white">
+    <section className="bg-white transition-transform duration-300 ease-out hover:scale-95">
       <div className="relative w-full overflow-hidden rounded-[40px]">
         {/* background texture + glow */}
         <Image
-          src="/home/industries-bg.png"
+          src="/home/industries_bg.svg"
           alt=""
           fill
           className="object-cover object-[center_90%]"
