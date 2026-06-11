@@ -1,4 +1,47 @@
+"use client";
+
 import Image from "next/image";
+import { motion, type Variants } from "motion/react";
+
+// ── Scroll-reveal variants ──────────────────────────────────────────────────
+// Wipe-in-from-top: content reveals downward behind a moving top edge.
+// `custom` is the per-element delay in seconds.
+const wipeTop: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  visible: (delay = 0) => ({
+    clipPath: "inset(0 0 0 0)",
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
+
+// `custom` is the per-element delay in seconds.
+const loadIn: Variants = {
+  hidden: { opacity: 0 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    transition: { duration: 0.7, ease: "easeOut", delay },
+  }),
+};
+
+// Cards: fade + rise up into place (transform-based, keeps their shadow intact).
+const riseUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay },
+  }),
+};
+
+// Reveal timeline (seconds) — each element follows the previous one
+const ELLIPSE_DELAY = 1; // 3 glow ellipses
+const BULLET_DELAY = 1.7; // centre command-centre image
+const ROCKET_DELAY = 2.5; // rocket
+const DOTS_DELAY = 3.5; // accent dots
+const BOW_DELAY = 4.2; // the arc
+const CARDS_START = 5.9; // cards begin, then one-by-one bottom → top
+const CARD_STAGGER = 0.7;
 
 // "Built to perform at scale" — composed from the exact Figma layer exports so
 // it matches the design 1:1. On md+ the layers sit on a fixed-aspect "stage"
@@ -49,16 +92,26 @@ const CARDS: Card[] = [
 function RocketCluster() {
   return (
     <>
-      <Image src="/home/glow-outer.png" alt="" fill className="object-contain" priority />
-      <div className="absolute" style={{ left: "2%", top: "15.9%", width: "68.7%", aspectRatio: "387 / 313" }}>
-        <Image src="/home/glow-mid.png" alt="" fill className="object-contain" />
-      </div>
-      <div className="absolute" style={{ left: "1%", top: "34.65%", width: "33.2%", aspectRatio: "1 / 1" }}>
-        <Image src="/home/glow-bulb.png" alt="" fill className="object-contain" />
-      </div>
-      <div className="absolute" style={{ left: "3%", top: "40.4%", width: "23.4%", aspectRatio: "132 / 134" }}>
+      {/* The 3 concentric glow ellipses — fade in together, first */}
+      <motion.div variants={loadIn} custom={ELLIPSE_DELAY} className="absolute inset-0">
+        <Image src="/home/glow-outer.png" alt="" fill className="object-contain" priority />
+        <div className="absolute" style={{ left: "2%", top: "15.9%", width: "68.7%", aspectRatio: "387 / 313" }}>
+          <Image src="/home/glow-mid.png" alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute" style={{ left: "1%", top: "34.65%", width: "33.2%", aspectRatio: "1 / 1" }}>
+          <Image src="/home/glow-bulb.png" alt="" fill className="object-contain" />
+        </div>
+      </motion.div>
+
+      {/* rocket — fades in after the bullet image */}
+      <motion.div
+        variants={loadIn}
+        custom={ROCKET_DELAY}
+        className="absolute"
+        style={{ left: "3%", top: "40.4%", width: "23.4%", aspectRatio: "132 / 134" }}
+      >
         <Image src="/home/rocket.png" alt="V-Watch Ai rocket" fill className="object-contain" />
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -91,17 +144,34 @@ export default function BuiltToScale() {
       <div className="mx-auto w-full max-w-[1410px]">
         <div className="mx-auto w-full max-w-[1160px]">
           {/* Heading */}
-          <div className="max-w-[860px]">
-            <h2 className="text-[22px] font-bold text-[#0A4B6E] sm:text-[26px]">Built to perform at scale</h2>
-            <p className="mt-2.5 text-base font-normal leading-[24px] text-[#0A4B6E] sm:text-[20px] sm:leading-[26px]">
+          <motion.div
+            className="max-w-[860px]"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.6 }}
+          >
+            <motion.h2 variants={wipeTop} custom={0} className="text-[22px] font-bold text-[#0A4B6E] sm:text-[26px]">
+              Built to perform at scale
+            </motion.h2>
+            <motion.p
+              variants={wipeTop}
+              custom={0.15}
+              className="mt-2.5 text-base font-normal leading-[24px] text-[#0A4B6E] sm:text-[20px] sm:leading-[26px]"
+            >
               V-Watch Ai is designed for high-volume, high-complexity environments delivering
               real-time performance without compromise.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* ── md+ : layered stage (scales as one unit) ── */}
-          <div className="relative mt-8 hidden w-full md:block" style={{ aspectRatio: "1221 / 392" }}>
-            {/* Left cluster: 3 concentric glow ellipses + rocket */}
+          <motion.div
+            className="relative mt-8 hidden w-full md:block"
+            style={{ aspectRatio: "1221 / 392" }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            {/* Left cluster: 3 concentric glow ellipses (group 1) + rocket (group 2) */}
             <div
               className="absolute"
               style={{ left: "5%", top: "50%", width: "43%", aspectRatio: "563 / 459", transform: "translateY(-50%)" }}
@@ -109,16 +179,20 @@ export default function BuiltToScale() {
               <RocketCluster />
             </div>
 
-            {/* Accent dots */}
-            <div
+            {/* Accent dots — after the rocket */}
+            <motion.div
+              variants={loadIn}
+              custom={DOTS_DELAY}
               className="absolute"
               style={{ left: "4%", top: "50%", width: "17%", aspectRatio: "239 / 313", transform: "translateY(-50%)" }}
             >
               <Image src="/home/dots.png" alt="" fill className="object-contain" />
-            </div>
+            </motion.div>
 
-            {/* Centre command-centre image (caption baked in) */}
-            <div
+            {/* Centre command-centre image — after the ellipses */}
+            <motion.div
+              variants={loadIn}
+              custom={BULLET_DELAY}
               className="absolute"
               style={{ left: "20%", top: "50%", width: "40%", aspectRatio: "516 / 271", transform: "translateY(-50%)" }}
             >
@@ -130,23 +204,31 @@ export default function BuiltToScale() {
                 sizes="600px"
                 priority
               />
-            </div>
+            </motion.div>
 
             {/* Bow — concentric arc the card nodes rest on */}
-            <div
+            <motion.div
+              variants={loadIn}
+              custom={BOW_DELAY}
               className="absolute"
               style={{ left: "48%", top: "52%", width: "22%", aspectRatio: "291 / 459", transform: "translateY(-50%)" }}
             >
               <Image src="/home/bow.png" alt="" fill className="object-contain" />
-            </div>
+            </motion.div>
 
-            {/* Capability cards — fanned so each node lands on the bow */}
-            {CARDS.map((c) => (
-              <div key={c.text} className="absolute" style={{ top: c.top, left: c.left, width: c.width }}>
+            {/* Capability cards — revealed one by one, bottom → top, after the bow */}
+            {CARDS.map((c, i) => (
+              <motion.div
+                key={c.text}
+                variants={riseUp}
+                custom={CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER}
+                className="absolute"
+                style={{ top: c.top, left: c.left, width: c.width }}
+              >
                 <CardBody icon={c.icon} text={c.text} highlight={c.highlight} />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* ── below md : stacked layout ── */}
           <div className="mt-10 flex flex-col items-center gap-9 md:hidden">

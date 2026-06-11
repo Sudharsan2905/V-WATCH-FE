@@ -84,16 +84,31 @@ export default function Hero() {
             </span>
 
             <h1 className="text-[34px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
-              Run Your Operations on One Intelligent System
+              {/* Line 1 reveals left -> right; line 2 reveals top -> bottom, staggered after it. */}
+              <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_both]">
+                Run Your Operations on
+              </span>
+              <span className="block motion-safe:animate-[wipeInTop_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
+                One Intelligent System
+              </span>
             </h1>
           </div>
 
+          {/* Split into its visible lines so each wipes in left -> right, one after
+              another, continuing the cascade started by the headline. */}
           <p className="max-w-[615px] text-[18px] font-bold leading-[28px] text-white lg:text-[20px] lg:leading-[32px]">
-            V-Watch Ai is an AI-driven platform that automates, secures, and connects your entire operation giving you
-            real-time visibility and control across people, processes, assets, and movement.
+            <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
+              V-Watch Ai is an AI-driven platform that automates, secures, and
+            </span>
+            <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_1.8s_both]">
+              connects your entire operation giving you real-time visibility and
+            </span>
+            <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_2.05s_both]">
+              control across people, processes, assets, and movement.
+            </span>
           </p>
 
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5 motion-safe:animate-[heroFadeUp_0.6s_cubic-bezier(0.16,1,0.3,1)_2.8s_both]">
             <BookADemo />
             <a
               href="#"
