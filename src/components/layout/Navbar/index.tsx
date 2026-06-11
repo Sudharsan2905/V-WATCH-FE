@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Industries", href: "#", hasDropdown: true },
   { label: "Products", href: "/products" },
   { label: "About Us", href: "#" },
-  { label: "Contact Us", href: "#" },
+  { label: "Contact Us", href: "/contact-us" },
   { label: "Resources", href: "#", hasDropdown: true },
 ];
 
