@@ -107,7 +107,7 @@ export default function IntegratorNetwork() {
       {/* Soft bottom glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(68_199_169/5%)_72%)]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(253_255_254/5%)_72%)]"
       />
 
       <div className="relative mx-auto w-full max-w-[1410px]">
