@@ -41,7 +41,7 @@ export default function PlatformVisibility() {
         </header>
 
         {/* Two-column layout */}
-        <div className="mt-5 flex flex-col gap-[60px] lg:flex-row lg:items-center lg:gap-[80px]">
+        <div className="mt-5 flex flex-col gap-[60px] justify-between lg:flex-row lg:items-center lg:gap-[80px]">
           {/* Left: numbered steps */}
           <div className="flex flex-1 flex-col gap-6 lg:max-w-[520px]">
             <p className="text-[18px] font-bold text-[#006F9F]">
@@ -70,13 +70,13 @@ export default function PlatformVisibility() {
           </div>
 
           {/* Right: funnel diagram */}
-          <div className="flex w-full items-start justify-center lg:w-[540px] lg:shrink-0">
+          <div className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0">
             <Image
               src="/ai-platform/funnel-diagram.png"
               alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
               width={593}
               height={453}
-              className="h-auto w-full max-w-[540px] object-fill lg:h-[440px]"
+              className="h-auto max-w-[670px] object-fill"
             />
           </div>
         </div>
