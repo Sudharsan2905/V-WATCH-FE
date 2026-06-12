@@ -3,9 +3,9 @@
  * Mirrors the construction page structure and composes the same shared
  * components; all copy lives here so it can be edited in one place.
  *
- * NOTE: imagery currently reuses the construction assets as placeholders.
- * Swap the `/industries/construction/...` paths for industrial-energy
- * specific assets once they are available.
+ * Hero, Challenges, One-Platform, Why-Choose and Use-Cases use the dedicated
+ * /industries/industrial&energy assets. Environments + Connected reuse the
+ * construction imagery as placeholders.
  */
 
 export const industrialEnergyContent = {
@@ -101,28 +101,28 @@ export const industrialEnergyContent = {
     platformImage: "/industries/industrial&energy/real-time/factory-image.png",
   },
   whyChoose: {
-    heading: "Why industrial & energy teams choose V-Watch Ai",
-    subheading: "Most solutions address only one part of the problem.",
-    cardTitle: "V-Watch AI connects everything.",
+    heading: "Why industrial and energy operators choose V-Watch Ai",
+    subheading: "Most systems provide partial visibility.",
+    cardTitle: "V-Watch AI provides complete awareness.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage: "/industries/construction/v-watch-ai/AI.png",
+    cardImage: "/industries/industrial&energy/v-watch-ai/industrcial-ai.png",
     items: [
       {
-        icon: "/industries/construction/v-watch-ai/access.png",
-        title: "Not just access",
-        desc: "But movement, operations, and workforce.",
+        icon: "/industries/industrial&energy/v-watch-ai/tracking.svg",
+        title: "Not just tracking",
+        desc: "But real-time situational control.",
         number: "/industries/construction/v-watch-ai/01.png",
       },
       {
-        icon: "/industries/construction/v-watch-ai/track.png",
-        title: "Not just tracking",
-        desc: "But real-time control.",
+        icon: "/industries/industrial&energy/v-watch-ai/alerts.svg",
+        title: "Not just alerts",
+        desc: "But actionable insights.",
         number: "/industries/construction/v-watch-ai/02.png",
       },
       {
-        icon: "/industries/construction/v-watch-ai/Shield.png",
+        icon: "/industries/industrial&energy/v-watch-ai/data.svg",
         title: "Not just data",
-        desc: "But proof you can act on.",
+        desc: "But verifiable proof for safety and compliance.",
         number: "/industries/construction/v-watch-ai/03.png",
       },
     ],
@@ -194,22 +194,22 @@ export const industrialEnergyContent = {
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     cards: [
       {
-        image: "/industries/industrial&energy/critical-usecase/workforce.png",
+        image: "/industries/industrial&energy/critical-usecase/workforces.png",
         title: "Workforce Operations",
         desc: "Track and coordinate personnel across plants, zones, and shifts in real time.",
       },
       {
-        image: "/industries/industrial&energy/critical-usecase/facialrecognition.png",
+        image: "/industries/industrial&energy/critical-usecase/facialrecognitions.png",
         title: "Facial Recognition",
         desc: "Deploy touchless entry points across high-security and high-traffic zones.",
       },
       {
-        image: "/industries/industrial&energy/critical-usecase/maintenance.png",
+        image: "/industries/industrial&energy/critical-usecase/maintenances.png",
         title: "Predictive Maintenance",
         desc: "Anticipate equipment issues before they cause downtime or safety risk.",
       },
       {
-        image: "/industries/industrial&energy/critical-usecase/prevention.png",
+        image: "/industries/industrial&energy/critical-usecase/preventions.png",
         title: "Hazard Detection & Prevention",
         desc: "Detect unsafe conditions and unauthorized movement across high-risk areas.",
       },
