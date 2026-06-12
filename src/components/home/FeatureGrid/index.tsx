@@ -62,8 +62,8 @@ const FEATURES: Feature[] = [
 const CARD_GRADIENT =
   "linear-gradient(90deg, rgba(156,220,255,0.04) 0%, rgba(156,220,255,0.04) 100%), linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.10) 100%)";
 
-const CARD_STAGGER = 0.8;
-const CARD_START=1;
+const CARD_STAGGER = 0.12;
+const CARD_START = 0.3;
 
 function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: number }>) {
   return (
@@ -75,7 +75,7 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
     >
       {/* Blob background — desktop only, inset to match SVG natural dims */}
       <div className="pointer-events-none absolute bottom-0 left-[5px] right-[3px] top-[4px] hidden lg:block">
-        <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" />
+        <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" sizes="554px" priority />
       </div>
 
       {/* Card — full-width on mobile; offset 46.5 × 43.5 on desktop */}
@@ -92,8 +92,8 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
         </div>
 
         {/* Icon tile */}
-        <div className="absolute left-[17.5px] top-[19.5px] flex h-[50px] w-[50px] items-center justify-center rounded-[11.4px] border-[1.2px] border-white bg-[rgba(244,251,255,0.4)] p-[9.35px] shadow-[4.889px_8.148px_18.741px_0px_rgba(217,226,255,0.4)]">
-          <Image src={icon} alt="" width={32} height={32} className="h-8 w-8 brightness-0 invert" />
+        <div className="absolute left-[17.5px] top-[19.5px] flex h-[50px] w-[50px] items-center justify-center rounded-[11.4px] border-[1.2px] border-white bg-[rgba(244,251,255,0.4)] p-[9px] shadow-[4.889px_8.148px_18.741px_0px_rgba(217,226,255,0.4)]">
+          <Image src={icon} alt="" width={32} height={32} className="shrink-0 brightness-0 invert" />
         </div>
 
         {/* Text content */}
@@ -134,7 +134,7 @@ export default function FeatureGrid() {
           <motion.h2 variants={wipeTop} custom={0} className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]">
             Everything your operation depends on in one place
           </motion.h2>
-          <motion.p variants={wipeTop} custom={0.5} className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
+          <motion.p variants={wipeTop} custom={0.15} className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
             V-Watch <span className="uppercase">Ai</span> is built around how your business actually runs.
           </motion.p>
         </motion.header>
@@ -160,7 +160,7 @@ export default function FeatureGrid() {
 
           <motion.p
             variants={wipeTop}
-            custom={FEATURES.length * CARD_STAGGER}
+            custom={CARD_START + FEATURES.length * CARD_STAGGER}
             className="text-center text-[20px] font-normal text-[#0A8EC8]"
           >
             Not separate systems, One connected operation.

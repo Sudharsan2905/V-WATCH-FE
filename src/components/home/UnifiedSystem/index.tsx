@@ -25,33 +25,23 @@ const loadIn: Variants = {
   }),
 };
 
-// Benefit cards:
-//   1. load   — all three fade in together, sitting a bit below their spot
-//   2. then, ONE card at a time (top → bottom): it expands (scales up in place,
-//      bottom edge touching the next card — no gap) then moves up into its place,
-//      before the next card takes its turn.
-const LOAD_DOWN = 30; // how far below the resting spot the cards load in
+// Benefit cards: fade + rise into place one after another (top → bottom),
+// each following the previous with a short gap.
 const BASE_H = 90; // resting card height (px)
-const EXPANDED_H = 168; // height while a card is expanded
-const BENEFITS_DELAY = 1.3; // wait until the heading + image have loaded in first
-const CARD_STEP = 0.7; // gap between each card's expand→move turn
+const BENEFITS_DELAY = 0.5; // wait until the heading + image have loaded in first
+const CARD_STEP = 0.15; // follow-up gap between consecutive cards
 const benefitCard: Variants = {
-  hidden: { opacity: 0, y: LOAD_DOWN, height: BASE_H },
-  visible: (i = 0) => {
-    const turn = BENEFITS_DELAY + i * CARD_STEP; // this card's sequential turn
-    return {
-      opacity: 1,
-      // grow taller (pushing the next card down so its bottom touches) → collapse back
-      height: [BASE_H, EXPANDED_H, BASE_H],
-      // stay down through the expand, then move up into place
-      y: [LOAD_DOWN, LOAD_DOWN, 0],
-      transition: {
-        opacity: { duration: 0.4, ease: "easeOut", delay: BENEFITS_DELAY },
-        height: { duration: 0.8, times: [0, 0.5, 1], ease: "easeInOut", delay: turn },
-        y: { duration: 0.8, times: [0, 0.5, 1], ease: [0.22, 1, 0.36, 1], delay: turn },
-      },
-    };
-  },
+  hidden: { opacity: 0, y: 24, height: BASE_H },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    height: BASE_H,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+      delay: BENEFITS_DELAY + i * CARD_STEP,
+    },
+  }),
 };
 
 // "What if everything worked as one system?" — a two-column section: a numbered
@@ -180,6 +170,7 @@ export default function UnifiedSystem() {
               fill
               className="object-cover"
               sizes="590px"
+              priority
             />
           </motion.div>
         </motion.div>

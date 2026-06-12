@@ -1,4 +1,34 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+// Cards enter from their own side — left card from the left, right card from
+// the right — slightly after the header so the order reads header → cards.
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -60 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 60 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
+};
 
 // "Also used across a wide range of environments" — dark masonry of industry
 // image cards (alternating 488 / 608 widths). (Figma node 270:13152)
@@ -59,9 +89,15 @@ function PinIcon() {
   );
 }
 
-function IndustryCard({ title, img, size }: Readonly<Card>) {
+function IndustryCard({
+  title,
+  img,
+  size,
+  side,
+}: Readonly<Card & { side: "left" | "right" }>) {
   return (
-    <div
+    <motion.div
+      variants={side === "left" ? slideFromLeft : slideFromRight}
       className={`relative h-[280px] w-full overflow-hidden rounded-[24px] sm:w-auto ${
         // flex-basis:0 only on sm+ (row axis = width). On mobile the cards are a
         // column, where flex-basis:0 would zero their HEIGHT — so keep w-full.
@@ -80,15 +116,22 @@ function IndustryCard({ title, img, size }: Readonly<Card>) {
         <PinIcon />
         <p className="text-[20px] font-bold text-white">{title}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Adaptable() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden px-6 pt-[21em] pb-24 lg:px-[60px]">
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
-        <header className="flex max-w-[804px] flex-col gap-2.5 text-white">
+        <motion.header
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.5 }}
+          className="flex max-w-[804px] flex-col gap-2.5 text-white"
+        >
           <h2 className="text-[26px] font-extrabold">
             Also used across a wide range of environments
           </h2>
@@ -96,20 +139,32 @@ export default function Adaptable() {
             V-Watch Ai is adaptable and scalable making it suitable for any
             environment where operational control matters.
           </p>
-        </header>
+        </motion.header>
 
         <div className="flex flex-col gap-6">
+          {/* each row reveals as it scrolls into view: left card slides in
+              from the left, right card from the right */}
           {ROWS.map((row) => (
-            <div key={row[0].title} className="flex flex-col gap-6 sm:flex-row">
-              {row.map((c) => (
-                <IndustryCard key={c.title} {...c} />
+            <motion.div
+              key={row[0].title}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              className="flex flex-col gap-6 sm:flex-row"
+            >
+              {row.map((c, i) => (
+                <IndustryCard key={c.title} {...c} side={i === 0 ? "left" : "right"} />
               ))}
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* unifying callout */}
-        <div
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
           className="relative mx-auto flex w-full max-w-[1120px] flex-col items-center gap-4 overflow-hidden rounded-3xl p-6 text-center sm:flex-row sm:gap-0 sm:p-0 sm:text-left"
           style={{
             background: "linear-gradient(180deg, #EFF9FF 0%, white 100%)",
@@ -180,8 +235,9 @@ export default function Adaptable() {
               aria-hidden
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
+    </MotionConfig>
   );
 }

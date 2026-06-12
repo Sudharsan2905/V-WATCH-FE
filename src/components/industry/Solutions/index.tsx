@@ -1,5 +1,30 @@
+"use client";
+
 import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Reveal order: header first, then the cards one after another.
+const CARDS_START = 0.25;
+const CARD_STAGGER = 0.15;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+// Cards fade in from their centre — slightly scaled down, growing into place
+// while fading. `custom` is the delay in seconds.
+const paintIn: Variants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
 
 type Card = {
   title: string;
@@ -42,6 +67,7 @@ const CARDS: Card[] = [
 
 export default function Solutions() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative z-10 -mt-10 overflow-hidden rounded-t-[40px] bg-white px-6 pt-10 pb-20 lg:px-[60px]">
       {/* Ellipse 3550 — blue, W:610 H:148, centred at gap between cards 1 and 2 */}
       <div
@@ -74,9 +100,17 @@ export default function Solutions() {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
+      <motion.div
+        className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         {/* Header */}
-        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+        <motion.div
+          variants={fadeUp}
+          className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center"
+        >
           <div className="flex max-w-[845px] flex-col gap-2.5 text-[#0A4B6E]">
             <h2 className="text-[26px] font-extrabold">
               Start with your challenge
@@ -87,13 +121,15 @@ export default function Solutions() {
             </p>
           </div>
           <ViewAllUseCases className="shrink-0" />
-        </div>
+        </motion.div>
 
         {/* Cards */}
         <div className="flex flex-wrap gap-5">
-          {CARDS.map((c) => (
-            <div
+          {CARDS.map((c, i) => (
+            <motion.div
               key={c.title}
+              variants={paintIn}
+              custom={CARDS_START + i * CARD_STAGGER}
               className="group relative h-[302px] min-w-[240px] flex-1 rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px]"
               style={{ outline: "2px solid white", outlineOffset: -2 }}
             >
@@ -159,10 +195,11 @@ export default function Solutions() {
                   </svg>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }
