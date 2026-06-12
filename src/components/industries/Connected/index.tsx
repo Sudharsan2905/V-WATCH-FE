@@ -1,11 +1,31 @@
+"use client";
+
 import Image from "next/image";
 import { Fragment, type ReactNode } from "react";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
-/**
- * Shared "capture → control → prove" connected-flow section for the per-industry
- * pages. Design is fixed; copy comes from props. Step icons are referenced by
- * key (resolved from the inline set below) or by asset path.
- */
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const wipeDown: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)" },
+  show: (delay = 0) => ({
+    clipPath: "inset(0 0 0% 0)",
+    transition: { delay, duration: 0.65, ease: EASE },
+  }),
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE, delay },
+  }),
+};
+
+const CARDS_START  = 0.45;
+const CARD_STAGGER = 0.18;
+
 type Step = { icon: string; title: string; desc: string };
 
 type ConnectedContent = {
@@ -16,15 +36,11 @@ type ConnectedContent = {
 
 const ASSET = "/industries/construction/connected";
 
-// Map the well-known step keys to the fully-composed medallion images
-// (icon + glow disc + broken orbit ring baked into one asset).
 const ICON_SRC: Record<string, string> = {
   capture: `${ASSET}/capture-1.png`,
   control: `${ASSET}/control-1.png`,
-  prove: `${ASSET}/prove-1.png`,
+  prove:   `${ASSET}/prove-1.png`,
 };
-
-// ─── Inline icon set (fallback when no image asset matches) ──────────────────
 
 const ICONS: Record<string, ReactNode> = {
   capture: (
@@ -40,10 +56,7 @@ const ICONS: Record<string, ReactNode> = {
   ),
   control: (
     <svg viewBox="0 0 40 40" fill="none" aria-hidden className="size-8">
-      <path
-        d="M20 6 L24 16 L34 20 L24 24 L20 34 L16 24 L6 20 L16 16 Z"
-        fill="#3DA9F5"
-      />
+      <path d="M20 6 L24 16 L34 20 L24 24 L20 34 L16 24 L6 20 L16 16 Z" fill="#3DA9F5" />
       <circle cx="20" cy="20" r="3" fill="#1E8FD6" />
     </svg>
   ),
@@ -57,12 +70,8 @@ const ICONS: Record<string, ReactNode> = {
   ),
 };
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
-
 function Medallion({ icon }: Readonly<{ icon: string }>) {
   const iconSrc = icon.startsWith("/") ? icon : ICON_SRC[icon];
-
-  // The -1 assets are self-contained medallions (icon + glow disc + orbit ring).
   if (iconSrc) {
     return (
       <Image
@@ -75,21 +84,10 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
       />
     );
   }
-
-  // Fallback: inline glyph on a plain glow disc.
   return (
     <div className="relative flex size-[128px] items-center justify-center">
-      <Image
-        src={`${ASSET}/circle.png`}
-        alt=""
-        width={128}
-        height={128}
-        unoptimized
-        className="absolute inset-0 size-[128px] object-contain"
-      />
-      <span className="relative flex items-center justify-center">
-        {ICONS[icon] ?? null}
-      </span>
+      <Image src={`${ASSET}/circle.png`} alt="" width={128} height={128} unoptimized className="absolute inset-0 size-[128px] object-contain" />
+      <span className="relative flex items-center justify-center">{ICONS[icon] ?? null}</span>
     </div>
   );
 }
@@ -97,7 +95,8 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
 function StepCard({
   step,
   tilt = 0,
-}: Readonly<{ step: Step; tilt?: number }>) {
+  delay = 0,
+}: Readonly<{ step: Step; tilt?: number; delay?: number }>) {
   return (
     <div
       className="relative flex w-full max-w-[380px] flex-col items-center justify-start gap-3 rounded-[26px] px-8 pb-6 pt-6 text-center lg:flex-1"
@@ -113,24 +112,17 @@ function StepCard({
         border: "1px solid rgba(255,255,255,0.9)",
         backdropFilter: "blur(14px)",
         WebkitBackdropFilter: "blur(14px)",
-        boxShadow:
-          "0 30px 60px -32px rgba(40,90,160,0.28), 0 4px 16px -6px rgba(40,90,160,0.08)",
+        boxShadow: "0 30px 60px -32px rgba(40,90,160,0.28), 0 4px 16px -6px rgba(40,90,160,0.08)",
       }}
     >
-      {/* Soft top highlight */}
       <span
         className="pointer-events-none absolute inset-x-0 top-0 h-[44%] rounded-t-[26px]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)",
-        }}
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)" }}
       />
       <Medallion icon={step.icon} />
       <div className="flex flex-col gap-2.5">
         <p className="text-[19px] font-bold text-[#13476B]">{step.title}</p>
-        <p className="mx-auto max-w-[220px] text-[13.5px] leading-[20px] text-[#5E7C95]">
-          {step.desc}
-        </p>
+        <p className="mx-auto max-w-[220px] text-[13.5px] leading-[20px] text-[#5E7C95]">{step.desc}</p>
       </div>
     </div>
   );
@@ -145,8 +137,7 @@ function Connector() {
         backdropFilter: "blur(8px)",
         WebkitBackdropFilter: "blur(8px)",
         padding: "5px 7px",
-        boxShadow:
-          "0 10px 26px -10px rgba(40,90,160,0.35), 0 2px 6px rgba(40,90,160,0.08)",
+        boxShadow: "0 10px 26px -10px rgba(40,90,160,0.35), 0 2px 6px rgba(40,90,160,0.08)",
       }}
     >
       <span
@@ -167,8 +158,6 @@ function Connector() {
   );
 }
 
-// ─── Section ─────────────────────────────────────────────────────────────────
-
 export default function Connected({
   connected = {},
 }: Readonly<{ connected?: ConnectedContent }> = {}) {
@@ -178,64 +167,64 @@ export default function Connected({
     steps = [],
   } = connected;
 
-  // Side cards tilt inward in 3D; the middle card is the flat anchor.
-  // Left card: positive rotateY → left edge forward/taller, right edge recedes.
-  // Right card: negative rotateY → right edge forward/taller, left edge recedes.
   const tiltFor = (i: number, total: number) => {
     if (total < 2) return 0;
     if (i === 0) return 16;
     if (i === total - 1) return -16;
     return 0;
   };
-  return (
-    <section
-      className="relative z-10 overflow-hidden px-6 py-20 lg:px-[60px]"
-      style={{
-        background:
-          "linear-gradient(180deg, #F8FCFF 0%, #ECF5FE 55%, #F8FCFF 100%)",
-      }}
-    >
-      {/* Layered abstract background shapes */}
-      <span
-        className="pointer-events-none absolute -left-32 top-10 size-[420px] rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(61,169,245,0.16) 0%, rgba(61,169,245,0) 70%)",
-          filter: "blur(20px)",
-        }}
-      />
-      <span
-        className="pointer-events-none absolute -right-40 bottom-0 size-[460px] rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(122,59,208,0.10) 0%, rgba(122,59,208,0) 70%)",
-          filter: "blur(20px)",
-        }}
-      />
-      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-16">
-        {/* Full-width header */}
-        <header className="flex flex-col gap-2.5">
-          <h2 className="text-[28px] font-extrabold leading-[34px] text-[#13476B]">
-            {heading}
-          </h2>
-          <p className="max-w-[620px] text-[16px] leading-[24px] text-[#5E7C95]">
-            {subtitle}
-          </p>
-        </header>
 
-        {/* Steps row with connectors */}
-        <div
-          className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-10"
-          style={{ perspective: 1400 }}
+  return (
+    <MotionConfig reducedMotion="user">
+      <section
+        className="relative z-10 overflow-hidden px-6 py-20 lg:px-[60px]"
+        style={{ background: "linear-gradient(180deg, #F8FCFF 0%, #ECF5FE 55%, #F8FCFF 100%)" }}
+      >
+        <span className="pointer-events-none absolute -left-32 top-10 size-[420px] rounded-full" style={{ background: "radial-gradient(circle, rgba(61,169,245,0.16) 0%, rgba(61,169,245,0) 70%)", filter: "blur(20px)" }} />
+        <span className="pointer-events-none absolute -right-40 bottom-0 size-[460px] rounded-full" style={{ background: "radial-gradient(circle, rgba(122,59,208,0.10) 0%, rgba(122,59,208,0) 70%)", filter: "blur(20px)" }} />
+
+        <motion.div
+          className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-16"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
         >
-          {steps.map((step, i) => (
-            <Fragment key={step.title}>
-              {i > 0 && <Connector />}
-              <StepCard step={step} tilt={tiltFor(i, steps.length)} />
-            </Fragment>
-          ))}
-        </div>
-      </div>
-    </section>
+          {/* Header — wipeTop */}
+          <header className="flex flex-col gap-2.5">
+            <motion.h2
+              variants={wipeDown}
+              custom={0.05}
+              className="text-[28px] font-extrabold leading-[34px] text-[#13476B]"
+            >
+              {heading}
+            </motion.h2>
+            <motion.p
+              variants={wipeDown}
+              custom={0.2}
+              className="max-w-[620px] text-[16px] leading-[24px] text-[#5E7C95]"
+            >
+              {subtitle}
+            </motion.p>
+          </header>
+
+          {/* Step cards — one by one */}
+          <div
+            className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-10"
+            style={{ perspective: 1400 }}
+          >
+            {steps.map((step, i) => (
+              <Fragment key={step.title}>
+                {i > 0 && <Connector />}
+                <StepCard
+                  step={step}
+                  tilt={tiltFor(i, steps.length)}
+                  delay={CARDS_START + i * CARD_STAGGER}
+                />
+              </Fragment>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
