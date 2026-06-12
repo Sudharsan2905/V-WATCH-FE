@@ -1,4 +1,50 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Reveal timeline (seconds): header → cards one by one → toggle cluster →
+// connector rails drawing in last.
+const CARDS_START = 0.25;
+const CARD_STAGGER = 0.15;
+const TOGGLE_DELAY = 1.05;
+const RINGS_DELAY = 1.15;
+const CALLOUT_DELAY = 1.25;
+const RAILS_DELAY = 1.5;
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const cardItem: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: EASE, delay },
+  }),
+};
+
+// Connector rails draw in along their length.
+const railDraw: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  show: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      pathLength: { delay: RAILS_DELAY, duration: 0.8, ease: "easeInOut" },
+      opacity: { delay: RAILS_DELAY, duration: 0.2 },
+    },
+  },
+};
 
 type Challenge = {
   title: string;
@@ -52,9 +98,14 @@ function ChallengeCard({
   icon,
   iconW,
   iconH,
-}: Readonly<Challenge>) {
+  index,
+}: Readonly<Challenge & { index: number }>) {
   return (
-    <div className="relative z-10 h-[171px] w-[314px] shrink-0">
+    <motion.div
+      variants={cardItem}
+      custom={CARDS_START + index * CARD_STAGGER}
+      className="relative z-10 h-[171px] w-[314px] shrink-0"
+    >
       {/* Title card — behind, peeks below-right */}
       <div
         className="absolute left-[34px] top-[78px] flex h-[93px] w-[280px] flex-col justify-end rounded-[14px] px-4 pb-4 pt-10"
@@ -101,7 +152,7 @@ function ChallengeCard({
           className="object-contain"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -124,37 +175,43 @@ function ChallengeConnectors({ className }: { className?: string }) {
       aria-hidden="true"
     >
       <g opacity="0.6">
-        <path
+        <motion.path
+          variants={railDraw}
           d="M1 0V22.5C1 31.3366 8.16344 38.5 17 38.5H343C351.837 38.5 359 31.3366 359 22.5V3.5"
           stroke="#E08665"
           strokeOpacity="0.6"
           strokeWidth="2"
         />
-        <path
+        <motion.path
+          variants={railDraw}
           d="M359 0V22.5C359 31.3366 366.163 38.5 375 38.5H701C709.837 38.5 717 31.3366 717 22.5V3.5"
           stroke="#E08665"
           strokeOpacity="0.6"
           strokeWidth="2"
         />
-        <path
+        <motion.path
+          variants={railDraw}
           d="M1 220V242.5C1 251.337 8.16344 258.5 17 258.5H343C351.837 258.5 359 251.337 359 242.5V223.5"
           stroke="#E08665"
           strokeOpacity="0.6"
           strokeWidth="2"
         />
-        <path
+        <motion.path
+          variants={railDraw}
           d="M179 39V53C179 61.8366 186.163 69 195 69H593L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854.5"
           stroke="#E08665"
           strokeOpacity="0.6"
           strokeWidth="2"
         />
-        <path
+        <motion.path
+          variants={railDraw}
           d="M533 38V53C533 61.8366 540.163 69 549 69L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854"
           stroke="#E08665"
           strokeOpacity="0.6"
           strokeWidth="2"
         />
-        <path
+        <motion.path
+          variants={railDraw}
           d="M180 259.5V264C180 272.837 187.163 280 196 280H560C568.837 280 576 272.837 576 264V119.5C576 110.663 583.163 103.5 592 103.5H772.75C777.306 103.5 781 99.8063 781 95.25C781 90.6937 784.694 87 789.25 87H834.5"
           stroke="#E08665"
           strokeOpacity="0.6"
@@ -320,6 +377,7 @@ function CalloutCard({ className }: { className?: string }) {
 
 export default function Challenges() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative z-10 overflow-hidden bg-white px-6 pb-4 pt-10 lg:px-[60px]">
       {/* Decorative blur blobs */}
       <div
@@ -345,15 +403,20 @@ export default function Challenges() {
         }}
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]">
-        <header className="flex flex-col gap-2.5">
+      <motion.div
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.header variants={fadeUp} custom={0} className="flex flex-col gap-2.5">
           <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
             Different industries. The same core challenges.
           </h2>
           <p className="max-w-[735px] text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
             No matter the environment, operations face similar problems
           </p>
-        </header>
+        </motion.header>
 
         {/* Diagram — cards, connector vector, toggle + callout.
             The absolute connector/toggle layout needs the full 1160px container,
@@ -368,46 +431,57 @@ export default function Challenges() {
           <div className="flex flex-col">
             {/* Row 1 — 3 cards */}
             <div className="flex flex-wrap gap-[30px] xl:flex-nowrap xl:gap-[44px]">
-              {CHALLENGES.slice(0, 3).map((c) => (
-                <ChallengeCard key={c.title} {...c} />
+              {CHALLENGES.slice(0, 3).map((c, i) => (
+                <ChallengeCard key={c.title} {...c} index={i} />
               ))}
             </div>
 
             {/* Row 2 — 2 cards */}
             <div className="mt-[30px] flex flex-wrap gap-[30px] xl:mt-[49px] xl:flex-nowrap xl:gap-[44px]">
-              {CHALLENGES.slice(3).map((c) => (
-                <ChallengeCard key={c.title} {...c} />
+              {CHALLENGES.slice(3).map((c, i) => (
+                <ChallengeCard key={c.title} {...c} index={3 + i} />
               ))}
             </div>
           </div>
 
           {/* Toggle dial — sits where the trunk lines converge (xl only) */}
-          <div
+          <motion.div
+            variants={fadeUp}
+            custom={TOGGLE_DELAY}
             className="absolute z-10 hidden xl:block"
             style={{ left: 1000, top: 208 }}
           >
             <ToggleDial />
-          </div>
+          </motion.div>
 
           {/* Concentric dotted rings behind the toggle — centered on the dial
               (toggle center 1071, 258; ring center 137, 144) (xl only) */}
-          <ToggleRings className="pointer-events-none absolute left-[934px] top-[114px] z-0 hidden xl:block" />
+          <motion.div
+            variants={fadeUp}
+            custom={RINGS_DELAY}
+            className="pointer-events-none absolute left-[934px] top-[114px] z-0 hidden xl:block"
+          >
+            <ToggleRings />
+          </motion.div>
 
           {/* Callout card (xl only) — positioned by its tab top-left */}
-          <div
+          <motion.div
+            variants={fadeUp}
+            custom={CALLOUT_DELAY}
             className="absolute z-10 hidden xl:block"
             style={{ left: 782, top: 300 }}
           >
             <CalloutCard />
-          </div>
+          </motion.div>
 
           {/* Callout message under the cards (below xl). The toggle is part of
               the connector diagram, so it's hidden whenever the connector is. */}
-          <div className="mt-8 xl:hidden">
+          <motion.div variants={fadeUp} custom={CALLOUT_DELAY} className="mt-8 xl:hidden">
             <CalloutCard />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

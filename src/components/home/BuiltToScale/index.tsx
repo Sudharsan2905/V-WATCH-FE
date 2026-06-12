@@ -34,14 +34,16 @@ const riseUp: Variants = {
   }),
 };
 
-// Reveal timeline (seconds) — each element follows the previous one
-const ELLIPSE_DELAY = 1; // 3 glow ellipses
-const BULLET_DELAY = 1.7; // centre command-centre image
-const ROCKET_DELAY = 2.5; // rocket
-const DOTS_DELAY = 3.5; // accent dots
-const BOW_DELAY = 4.2; // the arc
-const CARDS_START = 5.9; // cards begin, then one-by-one bottom → top
-const CARD_STAGGER = 0.7;
+// Reveal timeline (seconds) — header first, then the rocket backdrop, the
+// command-centre image above it, the right-side point cards, and finally the
+// arc that connects them.
+const ELLIPSE_DELAY = 0.3; // 3 glow ellipses (rocket backdrop)
+const ROCKET_DELAY = 0.5; // rocket
+const BULLET_DELAY = 0.8; // centre command-centre image
+const DOTS_DELAY = 0.95; // accent dots
+const CARDS_START = 1.1; // cards begin, then one-by-one bottom → top
+const CARD_STAGGER = 0.18;
+const BOW_DELAY = 1.75; // the arc connecting the cards — last
 
 // "Built to perform at scale" — composed from the exact Figma layer exports so
 // it matches the design 1:1. On md+ the layers sit on a fixed-aspect "stage"
@@ -94,12 +96,12 @@ function RocketCluster() {
     <>
       {/* The 3 concentric glow ellipses — fade in together, first */}
       <motion.div variants={loadIn} custom={ELLIPSE_DELAY} className="absolute inset-0">
-        <Image src="/home/glow-outer.png" alt="" fill className="object-contain" priority />
+        <Image src="/home/glow-outer.png" alt="" fill className="object-contain" sizes="(max-width: 768px) 90vw, 500px" priority />
         <div className="absolute" style={{ left: "2%", top: "15.9%", width: "68.7%", aspectRatio: "387 / 313" }}>
-          <Image src="/home/glow-mid.png" alt="" fill className="object-contain" />
+          <Image src="/home/glow-mid.png" alt="" fill className="object-contain" sizes="350px" />
         </div>
         <div className="absolute" style={{ left: "1%", top: "34.65%", width: "33.2%", aspectRatio: "1 / 1" }}>
-          <Image src="/home/glow-bulb.png" alt="" fill className="object-contain" />
+          <Image src="/home/glow-bulb.png" alt="" fill className="object-contain" sizes="170px" />
         </div>
       </motion.div>
 
@@ -110,7 +112,7 @@ function RocketCluster() {
         className="absolute"
         style={{ left: "3%", top: "40.4%", width: "23.4%", aspectRatio: "132 / 134" }}
       >
-        <Image src="/home/rocket.png" alt="V-Watch Ai rocket" fill className="object-contain" />
+        <Image src="/home/rocket.png" alt="V-Watch Ai rocket" fill className="object-contain" sizes="120px" />
       </motion.div>
     </>
   );
@@ -131,7 +133,7 @@ function CardBody({ icon, text, highlight }: Readonly<Pick<Card, "icon" | "text"
       <span className="absolute -left-3.5 top-1/2 size-7 -translate-y-1/2 rounded-full bg-white shadow-[0_6px_16px_-3px_rgba(56,144,192,0.45)]" />
       {/* Icon sits directly on the card (no badge) */}
       <span className="relative size-7 shrink-0">
-        <Image src={icon} alt="" fill className="object-contain" />
+        <Image src={icon} alt="" fill className="object-contain" sizes="28px" />
       </span>
       <p className="text-[clamp(13px,1.15vw,16px)] font-semibold leading-tight text-[#0A4B6E]">{text}</p>
     </div>
@@ -186,7 +188,7 @@ export default function BuiltToScale() {
               className="absolute"
               style={{ left: "4%", top: "50%", width: "17%", aspectRatio: "239 / 313", transform: "translateY(-50%)" }}
             >
-              <Image src="/home/dots.png" alt="" fill className="object-contain" />
+              <Image src="/home/dots.png" alt="" fill className="object-contain" sizes="200px" />
             </motion.div>
 
             {/* Centre command-centre image — after the ellipses */}
@@ -213,7 +215,7 @@ export default function BuiltToScale() {
               className="absolute"
               style={{ left: "48%", top: "52%", width: "22%", aspectRatio: "291 / 459", transform: "translateY(-50%)" }}
             >
-              <Image src="/home/bow.png" alt="" fill className="object-contain" />
+              <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="260px" />
             </motion.div>
 
             {/* Capability cards — revealed one by one, bottom → top, after the bow */}

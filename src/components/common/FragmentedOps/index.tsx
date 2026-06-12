@@ -5,12 +5,12 @@ import { motion, type Variants } from "motion/react";
 
 // Animation timeline (seconds)
 const TEXT_DELAY = 0;
-const IMAGE_DELAY = 0.4;
-const CARDS_START = 0.75;
-const CARD_STAGGER = 0.5;
-const RESULTS_START=2.7;
-const RESULTS_ITEMS_START=3.5;
-const RESULTS_ITEM_STAGGER = 0.7;
+const IMAGE_DELAY = 0.2;
+const CARDS_START = 0.3;
+const CARD_STAGGER = 0.12;
+const RESULTS_START = 0.6;
+const RESULTS_ITEMS_START = 0.8;
+const RESULTS_ITEM_STAGGER = 0.12;
 // After the 4 result items have finished staggering in.
 const RESULTS_FOOTER_START = RESULTS_ITEMS_START + 4 * RESULTS_ITEM_STAGGER;
 
@@ -112,7 +112,7 @@ function ResultsCard() {
       custom={RESULTS_START}
       className="relative w-full self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
     >
-      <motion.h3 variants={wipeTop} custom={TEXT_DELAY + 2} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
+      <motion.h3 variants={wipeTop} custom={RESULTS_START + 0.1} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
       <ul className="mt-[14px] flex flex-col gap-4">
         {RESULTS.map((r, i) => (
           <motion.li
@@ -139,7 +139,7 @@ function ResultsCard() {
           <br />
           You&apos;re lacking connection.
         </motion.p>
-        <motion.div variants={riseItem} custom={RESULTS_FOOTER_START + 0.35} className="shrink-0">
+        <motion.div variants={riseItem} custom={RESULTS_FOOTER_START + 0.15} className="shrink-0">
           <Image src="/home/results-illustration.svg" alt="" width={76.45} height={108.44} style={{ width: "76.45px", height: "108.44px" }} />
         </motion.div>
       </div>

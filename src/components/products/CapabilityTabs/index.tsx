@@ -326,9 +326,6 @@ export default function CapabilityTabs() {
                   <p className="text-[26px] font-bold">{active.key}</p>
                   <p className="text-[20px] font-normal">{active.subtitle}</p>
                 </div>
-                <span className="flex size-[54px] shrink-0 items-center justify-center rounded-full border-2 border-white bg-[rgba(244,251,255,0.2)] text-[24px] font-extrabold text-[#3890c0] shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
-                  {active.num}
-                </span>
                 </motion.div>
               </AnimatePresence>
             </motion.div>

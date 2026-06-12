@@ -1,5 +1,31 @@
+"use client";
+
 import { Fragment } from "react";
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Reveal order: the background plaque first, then the header, then the stat
+// columns one after another.
+const HEADER_DELAY = 0.3;
+const STATS_START = 0.55;
+const STAT_STAGGER = 0.15;
+
+const bannerIn: Variants = {
+  hidden: { opacity: 0, scale: 0.98 },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE } },
+};
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
 
 // ── Data ────────────────────────────────────────────────────────────────────
 // Icons live in /public/industry.
@@ -27,15 +53,24 @@ const STATS: Stat[] = [
 
 export default function Stats() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="bg-white px-6 pb-20 lg:px-[60px]">
       {/* Banner — stats-bg.png holds the dark navy plaque art. On sm+ (wide,
           short) we stretch it to fill the box (100% 100%). On mobile the card
           is tall/narrow, so the cropped art looks uneven — there we drop the
           image entirely and use a flat navy card (#0a3f5c) with rounded corners. */}
-      <div
+      <motion.div
+        variants={bannerIn}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
         className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[24px] bg-[#0a3f5c] px-6 py-10 sm:rounded-none sm:bg-transparent sm:bg-[url(/industry/stats-bg.png)] sm:bg-[length:100%_100%] sm:bg-center sm:bg-no-repeat sm:px-8 sm:py-12 lg:px-20 lg:py-16"
       >
-        <div className="relative z-10 mx-auto flex max-w-[900px] flex-col items-center gap-3.5 text-center">
+        <motion.div
+          variants={fadeUp}
+          custom={HEADER_DELAY}
+          className="relative z-10 mx-auto flex max-w-[900px] flex-col items-center gap-3.5 text-center"
+        >
           <h2 className="text-balance text-[20px] font-semibold leading-tight text-[#EBF7FE] sm:text-[26px] lg:text-[32px]">
             Built for high-scale, high-complexity environments
           </h2>
@@ -44,25 +79,33 @@ export default function Stats() {
             across complex environments ensuring reliability when it matters
             most.
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative z-10 mt-10 mb-7 flex flex-col items-stretch gap-8 sm:flex-row sm:items-center sm:justify-center sm:gap-0">
           {STATS.map((stat, i) => (
             <Fragment key={stat.label}>
               {/* Tapered, blurred vertical separator between columns (sm+ only).
-                  On mobile the stacked columns use a horizontal top border. */}
+                  On mobile the stacked columns use a horizontal top border.
+                  Fades in with the column that follows it. */}
               {i > 0 && (
-                <Image
-                  src="/industry/stat-divider.svg"
-                  alt=""
-                  width={5}
-                  height={122}
-                  aria-hidden
-                  unoptimized
+                <motion.div
+                  variants={fadeUp}
+                  custom={STATS_START + i * STAT_STAGGER}
                   className="hidden shrink-0 self-center sm:block"
-                />
+                >
+                  <Image
+                    src="/industry/stat-divider.svg"
+                    alt=""
+                    width={5}
+                    height={122}
+                    aria-hidden
+                    unoptimized
+                  />
+                </motion.div>
               )}
-              <div
+              <motion.div
+                variants={fadeUp}
+                custom={STATS_START + i * STAT_STAGGER}
                 className={`flex flex-1 flex-col items-center gap-3 text-center sm:max-w-[360px] sm:px-4 lg:px-8 ${
                   i > 0 ? "border-t border-white/10 pt-8 sm:border-t-0 sm:pt-0" : ""
                 }`}
@@ -83,11 +126,12 @@ export default function Stats() {
                     {stat.label}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </Fragment>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

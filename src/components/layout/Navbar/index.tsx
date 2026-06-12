@@ -165,11 +165,10 @@ function Logo() {
       <Image
         src="/vwatch-logo.png"
         alt="V-WATCH"
-        width={141}
+        width={135}
         height={32}
         priority
-        style={{ width: "auto" }}
-        className="h-8 self-start"
+        className="self-start"
       />
     </Link>
   );

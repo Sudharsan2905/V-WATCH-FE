@@ -99,8 +99,7 @@ export default function Footer({
                 alt="V-WATCH"
                 width={169}
                 height={40}
-                style={{ width: "auto" }}
-                className="h-10 self-start"
+                className="self-start"
               />
               <p className="text-[14px] font-normal leading-[22px] text-white">
                 AI-driven business process automation platform for real-time

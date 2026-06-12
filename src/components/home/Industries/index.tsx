@@ -1,4 +1,43 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Reveal timeline (seconds): the dark band shows first, then the header,
+// then the tiles one after another, and the bottom pill last.
+const HEADER_DELAY = 0.25;
+const CARDS_START = 0.55;
+const CARD_STAGGER = 0.2;
+const PILL_DELAY = CARDS_START + 5 * CARD_STAGGER + 0.15;
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: EASE, delay },
+  }),
+};
+
+// Opacity-only: the band's background is a large filtered SVG — translating
+// it during the reveal forces full re-composites every frame, so it only
+// fades.
+const bandIn: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.7, ease: EASE } },
+};
+
+const cardItem: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: EASE, delay },
+  }),
+};
 
 // "Built for complex operational environments" — a full-bleed dark card with a
 // 3 + 2 grid of industry photo tiles. (Figma node 219:1532)
@@ -7,17 +46,17 @@ type Industry = { name: string; img: string; desc: string; wide?: boolean };
 const ROW_1: Industry[] = [
   {
     name: "Construction",
-    img: "/home/ind-construction.png",
+    img: "/home/ind-construction.webp",
     desc: "Track workforce, equipment, and site activity in real time keeping projects safe, compliant, and on schedule from groundbreaking to handover.",
   },
   {
     name: "Industrial & Energy",
-    img: "/home/ind-industrial.png",
+    img: "/home/ind-industrial.webp",
     desc: "Operate safely in high-risk environments with real-time tracking, restricted zone monitoring, and instant response capabilities reducing risk while maintaining strict compliance.",
   },
   {
     name: "Commercial & Facilities",
-    img: "/home/ind-commercial.png",
+    img: "/home/ind-commercial.webp",
     desc: "Manage access, monitor occupancy, and coordinate teams across buildings ensuring security and efficiency in every facility.",
   },
 ];
@@ -25,22 +64,40 @@ const ROW_1: Industry[] = [
 const ROW_2: Industry[] = [
   {
     name: "Data Centers",
-    img: "/home/ind-datacenter.png",
+    img: "/home/ind-datacenter.webp",
     wide: true,
     desc: "Secure critical infrastructure with controlled access, asset tracking, and continuous monitoring to protect uptime and compliance.",
   },
   {
     name: "Logistics & Warehousing",
-    img: "/home/ind-logistics.png",
+    img: "/home/ind-logistics.webp",
     wide: true,
     desc: "Gain end-to-end visibility over goods, vehicles, and people from on-site movement to cross-border delivery.",
   },
 ];
 
-function IndustryTile({ name, img, desc }: Readonly<Industry>) {
+function IndustryTile({
+  name,
+  img,
+  desc,
+  index,
+}: Readonly<Industry & { index: number }>) {
   return (
-    <div className="group relative h-[240px] w-full overflow-hidden rounded-[24px] sm:h-[320px]">
-      <Image src={img} alt={name} fill className="object-cover" sizes="(min-width: 1024px) 555px, 100vw" />
+    // Motion wrapper carries the scroll reveal; the inner div keeps the CSS
+    // hover scale so it doesn't fight Motion's inline transform.
+    <motion.div
+      variants={cardItem}
+      custom={CARDS_START + index * CARD_STAGGER}
+      className="w-full"
+    >
+      <div className="group relative h-[240px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
+        <Image
+          src={img}
+          alt={name}
+          fill
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          sizes="(min-width: 1024px) 555px, 100vw"
+        />
 
       {/* Resting state: bottom scrim + name — fade out on hover */}
       <div className="absolute inset-x-0 bottom-0 h-[135px] bg-gradient-to-b from-transparent to-black/80 transition-opacity duration-300 group-hover:opacity-0" />
@@ -51,7 +108,7 @@ function IndustryTile({ name, img, desc }: Readonly<Industry>) {
       {/* Hover state: frosted glass card anchored near the bottom; wipes in
           from bottom → top on hover (clip-path inset reveal). */}
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center p-4">
-        <div className="pointer-events-auto w-[90%] max-w-[700px] max-h-[200px] rounded-[14px] border border-white/30 bg-black/25 p-6 backdrop-blur-[1px] transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
+        <div className="pointer-events-auto w-[90%] max-w-[700px] max-h-[200px] rounded-[14px] border border-white/30 bg-black/40 p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
           <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
           <p className="mt-1.5 text-[16px] font-normal leading-[17px] text-white/90">{desc}</p>
           <a href="#" className="mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white">
@@ -70,51 +127,66 @@ function IndustryTile({ name, img, desc }: Readonly<Industry>) {
           </a>
         </div>
       </div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 
 export default function Industries() {
   return (
-    <section className="bg-white transition-transform duration-300 ease-out hover:scale-95">
-      <div className="relative w-full overflow-hidden rounded-[40px]">
-        {/* background texture + glow */}
-        <Image
-          src="/home/industries_bg.svg"
-          alt=""
-          fill
-          className="object-cover object-[center_90%]"
-          sizes="100vw"
-        />
+    <MotionConfig reducedMotion="user">
+      <section className="bg-white">
+        <motion.div
+          className="relative w-full overflow-hidden rounded-[40px]"
+          variants={bandIn}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          {/* background texture + glow */}
+          <Image
+            src="/home/industries_bg.webp"
+            alt=""
+            fill
+            className="object-cover object-[center_90%]"
+            sizes="100vw"
+          />
 
-        <div className="relative mx-auto flex w-full flex-col gap-[30px] px-6 py-12 lg:px-[70px] lg:py-[61px]">
-          <div className="flex max-w-[959px] flex-col gap-2.5 text-white">
-            <h2 className="text-[26px] font-bold leading-[44px]">
-              Built for complex operational environments
-            </h2>
-            <p className="text-[20px] font-normal leading-[30px]">
-              V-Watch Ai is designed to adapt across industries where visibility, security, and
-              operational efficiency are critical. While each environment is different, the need for
-              real-time control and automation remains the same.
-            </p>
-          </div>
+          <div className="relative mx-auto flex w-full flex-col gap-[30px] px-6 py-12 lg:px-[70px] lg:py-[61px]">
+            <motion.div
+              variants={fadeUp}
+              custom={HEADER_DELAY}
+              className="flex max-w-[959px] flex-col gap-2.5 text-white"
+            >
+              <h2 className="text-[26px] font-bold leading-[44px]">
+                Built for complex operational environments
+              </h2>
+              <p className="text-[20px] font-normal leading-[30px]">
+                V-Watch Ai is designed to adapt across industries where visibility, security, and
+                operational efficiency are critical. While each environment is different, the need for
+                real-time control and automation remains the same.
+              </p>
+            </motion.div>
 
-          {/* grid */}
-          <div className="flex flex-col gap-[30px]">
-            <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3">
-              {ROW_1.map((i) => (
-                <IndustryTile key={i.name} {...i} />
-              ))}
+            {/* grid */}
+            <div className="flex flex-col gap-[30px]">
+              <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3">
+                {ROW_1.map((ind, i) => (
+                  <IndustryTile key={ind.name} {...ind} index={i} />
+                ))}
+              </div>
+              <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
+                {ROW_2.map((ind, i) => (
+                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} />
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
-              {ROW_2.map((i) => (
-                <IndustryTile key={i.name} {...i} />
-              ))}
-            </div>
-          </div>
 
-          {/* bottom unifying pill */}
-          <div className="flex items-center justify-center gap-4 rounded-[30px] border border-[rgba(233,238,255,0.35)] bg-[linear-gradient(90deg,#063043_0%,#063043_24%,rgba(6,48,67,0.3)_52%,#063043_76%,#063043_100%)] px-4 py-4 backdrop-blur-sm lg:h-[60px] lg:px-2.5 lg:py-0">
+            {/* bottom unifying pill */}
+            <motion.div
+              variants={fadeUp}
+              custom={PILL_DELAY}
+              className="flex items-center justify-center gap-4 rounded-[30px] border border-[rgba(233,238,255,0.35)] bg-[linear-gradient(90deg,#063043_0%,#063043_24%,rgba(6,48,67,0.3)_52%,#063043_76%,#063043_100%)] px-4 py-4 lg:h-[60px] lg:px-2.5 lg:py-0">
             <span className="hidden flex-1 items-center lg:flex">
               <span className="h-0.5 flex-1 rounded-full bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.7)_100%)]" />
               <span className="size-1.5 shrink-0 rounded-full bg-white" />
@@ -123,13 +195,14 @@ export default function Industries() {
               No matter the industry, V-Watch Ai brings visibility, automation, and control into one
               unified system.
             </p>
-            <span className="hidden flex-1 items-center lg:flex">
-              <span className="size-1.5 shrink-0 rounded-full bg-white" />
-              <span className="h-0.5 flex-1 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0.7)_0%,transparent_100%)]" />
-            </span>
+              <span className="hidden flex-1 items-center lg:flex">
+                <span className="size-1.5 shrink-0 rounded-full bg-white" />
+                <span className="h-0.5 flex-1 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0.7)_0%,transparent_100%)]" />
+              </span>
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
