@@ -68,10 +68,10 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
       <Image
         src={iconSrc}
         alt=""
-        width={180}
-        height={180}
+        width={210}
+        height={210}
         unoptimized
-        className="size-[180px] object-contain"
+        className="size-[210px] object-contain"
       />
     );
   }
@@ -100,17 +100,16 @@ function StepCard({
 }: Readonly<{ step: Step; tilt?: number }>) {
   return (
     <div
-      className="relative flex w-full max-w-[300px] flex-col items-center justify-start gap-4 rounded-[26px] px-7 pb-9 pt-9 text-center lg:flex-1"
+      className="relative flex w-full max-w-[380px] flex-col items-center justify-start gap-3 rounded-[26px] px-8 pb-6 pt-6 text-center lg:flex-1"
       style={{
-        minHeight: 325,
+        minHeight: 150,
         // Real 3D tilt: side cards rotate around the vertical axis so their
         // near edge comes forward and the far edge tapers away.
         transform: tilt
           ? `perspective(1100px) rotateY(${tilt}deg)`
           : undefined,
         transformOrigin: "center",
-        background:
-          "linear-gradient(160deg, rgba(255,255,255,0.94) 0%, rgba(236,246,255,0.80) 100%)",
+      
         border: "1px solid rgba(255,255,255,0.9)",
         backdropFilter: "blur(14px)",
         WebkitBackdropFilter: "blur(14px)",

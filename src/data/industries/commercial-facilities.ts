@@ -107,28 +107,29 @@ export const commercialFacilitiesContent = {
     platformImage: "/industries/commercial/facility/office.png",
   },
   whyChoose: {
-    heading: "Why facilities teams choose V-Watch Ai",
-    subheading: "Most solutions address only one part of the problem.",
-    cardTitle: "V-Watch AI connects everything.",
+    heading: "Why facility managers choose V-Watch Ai",
+    subheading:
+      "Most facility systems focus on one area access, maintenance, or workforce.",
+    cardTitle: "V-Watch AI connects them all.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
     cardImage: "/industries/construction/v-watch-ai/AI.png",
     items: [
       {
-        icon: "/industries/construction/v-watch-ai/access.png",
-        title: "Not just access",
-        desc: "But movement, operations, and workforce.",
+        icon: "/industries/commercial/v-watch-ai/access.svg",
+        title: "Not just access control",
+        desc: "But full operational visibility.",
         number: "/industries/construction/v-watch-ai/01.png",
       },
       {
-        icon: "/industries/construction/v-watch-ai/track.png",
-        title: "Not just tracking",
-        desc: "But real-time control.",
+        icon: "/industries/commercial/v-watch-ai/tracking.svg",
+        title: "Not just maintenance tracking",
+        desc: "But structured workflows.",
         number: "/industries/construction/v-watch-ai/02.png",
       },
       {
-        icon: "/industries/construction/v-watch-ai/Shield.png",
-        title: "Not just data",
-        desc: "But proof you can act on.",
+        icon: "/industries/commercial/v-watch-ai/workforce.svg",
+        title: "Not just workforce data",
+        desc: "But real performance insights.",
         number: "/industries/construction/v-watch-ai/03.png",
       },
     ],
@@ -200,22 +201,22 @@ export const commercialFacilitiesContent = {
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     cards: [
       {
-        image: "/industries/commercial/use-case/Ticketing.png",
+        image: "/industries/commercial/use-case/ticketings.png",
         title: "Maintenance Ticketing",
         desc: "Track and manage maintenance requests from report through to resolution.",
       },
       {
-        image: "/industries/commercial/use-case/tracking.png",
+        image: "/industries/commercial/use-case/trackings.png",
         title: "Compliance Tracking",
         desc: "Document and store records to stay audit-ready and meet building requirements.",
       },
       {
-        image: "/industries/commercial/use-case/emergency.png",
+        image: "/industries/commercial/use-case/emergencys.png",
         title: "Emergency Muster & Headcount",
         desc: "Track who is safe, missing, and onsite during emergencies.",
       },
       {
-        image: "/industries/commercial/use-case/zone.png",
+        image: "/industries/commercial/use-case/restrictedzones.png",
         title: "Geofencing Restricted Zones",
         desc: "Detect unauthorized movement across restricted building areas.",
       },
