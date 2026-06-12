@@ -76,6 +76,31 @@ export const constructionContent = {
         title: "Access & Zone Control",
         desc: "Ensure only authorized personnel enter your site and access specific areas.",
       },
+      {
+        icon: "/industries/construction/sites/icons/worker.svg",
+        title: "Real-Time Movement Tracking",
+        desc: "Monitor movement across zones to improve safety and coordination.",
+      },
+      {
+        icon: "/industries/construction/sites/icons/sheild.svg",
+        title: "Fatigue Monitoring & Safety Management",
+        desc: "Monitor working hours and detect fatigue risks to prevent accidents and improve workforce safety.",
+        bullets: [
+          "Identify overworked personnel",
+          "Reduce risk of fatigue-related incidents",
+          "Improve compliance with safety regulations",
+        ],
+      },
+      {
+        icon: "/industries/construction/sites/icons/tasks.svg",
+        title: "Manhour & Productivity Insights",
+        desc: "Capture actual manhours worked and measure productivity based on real activity not assumptions.",
+        bullets: [
+          "Understand time spent on-site",
+          "Track work duration and output",
+          "Identify inefficiencies and delays",
+        ],
+      },
     ],
     allowsLabel: "It allows you to",
     allows: [

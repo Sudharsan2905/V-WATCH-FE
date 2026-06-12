@@ -1,17 +1,37 @@
-import Image from "next/image";
+"use client";
 
-/**
- * Shared "Why teams choose V-Watch Ai" section for the per-industry pages.
- * Design is fixed; all copy + imagery comes from props so each industry route
- * can supply its own content. A left "connects everything" card branches via
- * connector lines into three "not just X — but Y" value rows.
- */
-type WhyChooseItem = {
-  icon: string;
-  title: string;
-  desc: string;
-  number: string;
+import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const wipeDown: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)" },
+  show: (delay = 0) => ({
+    clipPath: "inset(0 0 0% 0)",
+    transition: { delay, duration: 0.65, ease: EASE },
+  }),
 };
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE, delay },
+  }),
+};
+
+const fromLeft: Variants = {
+  hidden: { opacity: 0, x: -48 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.65, ease: EASE, delay },
+  }),
+};
+
+type WhyChooseItem = { icon: string; title: string; desc: string; number: string };
 
 type WhyChooseContent = {
   heading?: string;
@@ -21,8 +41,6 @@ type WhyChooseContent = {
   cardImage?: string;
   items?: WhyChooseItem[];
 };
-
-// ─── Sub-components ──────────────────────────────────────────────────────────
 
 function ConnectCard({
   title,
@@ -90,11 +108,6 @@ function ConnectCard({
   );
 }
 
-/**
- * Branching connector lines (desktop only), built from the design assets:
- * `top.png` rises from the card-center up to row 1, `down.png` drops from
- * center down to row 3, and a straight dashed line links the middle row.
- */
 function Connectors() {
   const base = "/industries/construction/v-watch-ai";
   return (
@@ -132,7 +145,10 @@ function Connectors() {
   );
 }
 
-function ValueRow({ item }: Readonly<{ item: WhyChooseItem }>) {
+function ValueRow({
+  item,
+  delay = 0,
+}: Readonly<{ item: WhyChooseItem; delay?: number }>) {
   return (
     <div className="flex items-center gap-4 rounded-[18px] border border-white  px-5 py-4 shadow-[0px_20px_44px_-26px_rgba(20,46,92,0.30),0px_1px_6px_rgba(20,46,92,0.04)]">
       <div className="border border-white rounded-[10px] p-2">
@@ -146,64 +162,53 @@ function ValueRow({ item }: Readonly<{ item: WhyChooseItem }>) {
       />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <p className="text-[16px] font-bold leading-[20px] text-[#0A4B6E]">
-          {item.title}
-        </p>
-        <p className="text-[14px] leading-[19px] text-[#5B7385]">
-          {item.desc}
-        </p>
+        <p className="text-[16px] font-bold leading-[20px] text-[#0A4B6E]">{item.title}</p>
+        <p className="text-[14px] leading-[19px] text-[#5B7385]">{item.desc}</p>
       </div>
-      <Image
-        src={item.number}
-        alt=""
-        width={56}
-        height={40}
-        unoptimized
-        className="h-9 w-auto shrink-0 object-contain"
-      />
+      <Image src={item.number} alt="" width={56} height={40} unoptimized className="h-9 w-auto shrink-0 object-contain" />
     </div>
   );
 }
-
-// ─── Section ─────────────────────────────────────────────────────────────────
 
 export default function WhyChoose({
   whyChoose = {},
 }: Readonly<{ whyChoose?: WhyChooseContent }> = {}) {
   const {
-    heading = "Why teams choose V-Watch Ai",
+    heading    = "Why teams choose V-Watch Ai",
     subheading = "Most solutions address only one part of the problem.",
-    cardTitle = "V-Watch AI connects everything.",
-    cardLogo = "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage = "/industries/construction/v-watch-ai/AI.png",
-    items = [],
+    cardTitle  = "V-Watch AI connects everything.",
+    cardLogo   = "/industries/construction/v-watch-ai/vwatch.png",
+    cardImage  = "/industries/construction/v-watch-ai/AI.png",
+    items      = [],
   } = whyChoose;
 
   return (
-    <section className="relative z-10 overflow-hidden bg-white px-6 py-16 lg:px-[60px]">
-      {/* Full-bleed backdrop — light wash + angled arrow panel on the right.
-          object-fill stretches the whole tag shape to span the entire section. */}
-      <Image
-        src="/industries/construction/v-watch-ai/ai-bg.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="pointer-events-none select-none object-fill"
-      />
+      <section className="relative z-10 overflow-hidden bg-white px-6 py-16 lg:px-[60px]">
+        <Image src="/industries/construction/v-watch-ai/ai-bg.png" alt="" fill sizes="100vw" className="pointer-events-none select-none object-fill" />
 
-      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10">
-        {/* Header */}
-        <header className="flex flex-col gap-2">
-          <h2 className="text-[28px] font-extrabold leading-[34px] text-[#0A4B6E]">
-            {heading}
-          </h2>
-          <p className="text-[16px] font-normal text-[#3890C0]">{subheading}</p>
-        </header>
+        <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10">
+          {/* Header — wipeTop */}
+          <header className="flex flex-col gap-2">
+            <motion.h2
+              variants={wipeDown}
+              custom={0.05}
+              className="text-[28px] font-extrabold leading-[34px] text-[#0A4B6E]"
+            >
+              {heading}
+            </motion.h2>
+            <motion.p
+              variants={wipeDown}
+              custom={0.2}
+              className="text-[16px] font-normal text-[#3890C0]"
+            >
+              {subheading}
+            </motion.p>
+          </header>
 
-        {/* Card → connectors → value rows. Card pins left, rows pin right, the
-            connectors stretch across the middle so the block spans full width. */}
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-0">
-          <ConnectCard title={cardTitle} logo={cardLogo} image={cardImage} />
+          {/* Connect card → connectors → value rows */}
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-0">
+            {/* Left card slides in from the left */}
+            <ConnectCard title={cardTitle} logo={cardLogo} image={cardImage} />
 
           {/* Connectors stretch to exactly the value-rows column height so the
               top branch meets row 1, the centre line meets row 2, and the
