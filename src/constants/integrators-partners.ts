@@ -38,7 +38,7 @@ export const INTEGRATORS: Integrator[] = [
     name: "SS Tech Pte Ltd",
     country: "Singapore",
     logo: "/products/eco/si-2.png",
-    map: "/integrators-partners/malaysia.svg",
+    map: "/integrators-partners/singapore.svg",
     description:
       "A technology solutions provider delivering smart building, communication, and enterprise system deployments.",
     capabilities: [
@@ -51,7 +51,7 @@ export const INTEGRATORS: Integrator[] = [
     name: "QuSol Innovations India Pvt Ltd",
     country: "India",
     logo: "/products/eco/si-3.png",
-    map: "/integrators-partners/malaysia.svg",
+    map: "/integrators-partners/india.svg",
     description:
       "An innovation-driven integrator delivering workforce management, automation, and large-scale enterprise rollouts.",
     capabilities: [
