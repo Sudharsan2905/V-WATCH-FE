@@ -1,10 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 // Dashboard → Reporting → Power BI Data.
 // Three alternating showcase rows, each pairing a copy column (with a check
 // list) against a product screenshot. A faint winding dashed path links the
 // rows on desktop, echoing the Figma "road" motif.
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -48 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE } },
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 48 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE, delay: 0.1 } },
+};
 
 // ── Shared bits ───────────────────────────────────────────────────────────────
 
@@ -34,11 +49,14 @@ type CopyProps = {
   reverse?: boolean;
   /** Mockup rendered inside the card on sm/md screens (hidden on lg, where it sits beside the column). */
   mockup?: ReactNode;
+  /** Scroll-reveal variant for this column. */
+  variants?: Variants;
 };
 
-function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, mockup }: Readonly<CopyProps>) {
+function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, mockup, variants }: Readonly<CopyProps>) {
   return (
-    <div
+    <motion.div
+      variants={variants}
       className={`relative flex w-full flex-col gap-4 rounded-[24px] p-8 lg:flex-1 lg:p-10 ${
         reverse
           ? "bg-[linear-gradient(270deg,#FFFFFF_0%,#FFFFFF00_100%)]"
@@ -64,15 +82,15 @@ function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, m
         ))}
       </ul>
       {mockup && <div className="mt-6 lg:hidden">{mockup}</div>}
-    </div>
+    </motion.div>
   );
 }
 
 // ── Mockup image ──────────────────────────────────────────────────────────────
 
-function MockupImage({ src, alt, width, height, className = "" }: Readonly<{ src: string; alt: string; width: number; height: number; className?: string }>) {
+function MockupImage({ src, alt, width, height, className = "", variants }: Readonly<{ src: string; alt: string; width: number; height: number; className?: string; variants?: Variants }>) {
   return (
-    <div className={`flex-1 ${className}`}>
+    <motion.div variants={variants} className={`flex-1 ${className}`}>
       <div className="flex md:h-100 md:w-100 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#F9FDFF_0%,#F6FCFF_100%)] shadow-[-5px_8px_32px_4px_#002D450A,-20px_14px_44px_0px_#1D6C970F] lg:flex-1">
         <Image
           src={src}
@@ -83,7 +101,7 @@ function MockupImage({ src, alt, width, height, className = "" }: Readonly<{ src
           className="ml-10 mt-2"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -130,6 +148,7 @@ function RoadPath() {
 
 export default function DashboardShowcase() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_100%)] px-6 py-20 lg:px-[60px]">
       <div
         aria-hidden
@@ -142,8 +161,14 @@ export default function DashboardShowcase() {
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-20 lg:gap-40">
         <RoadPath />
         {/* Row 1 — Dashboard */}
-        <div className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
+        <motion.div
+          className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <CopyColumn
+            variants={slideFromLeft}
             ghost="Dashboard"
             title="Dashboards built for clarity and control"
             body="V-Watch Ai dashboards provide a clear, real-time overview of your operations from ground-level activity to executive insights."
@@ -165,17 +190,24 @@ export default function DashboardShowcase() {
             }
           />
           <MockupImage
+            variants={slideFromRight}
             src="/bi-dashboards/dashboard-overview.png"
             alt="V-Watch Ai live site overview dashboard"
             width={1086}
             height={1275}
             className="hidden lg:block"
           />
-        </div>
+        </motion.div>
 
         {/* Row 2 — Reporting (mockup first on desktop) */}
-        <div className="relative z-10 flex flex-col items-center gap-10 lg:flex-row-reverse lg:gap-16">
+        <motion.div
+          className="relative z-10 flex flex-col items-center gap-10 lg:flex-row-reverse lg:gap-16"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <CopyColumn
+            variants={slideFromRight}
             reverse
             ghost="Reporting"
             title="Automated reporting, ready when you need it"
@@ -198,17 +230,24 @@ export default function DashboardShowcase() {
             }
           />
           <MockupImage
+            variants={slideFromLeft}
             src="/bi-dashboards/dashboard-report.png"
             alt="V-Watch Ai automated reporting with exportable formats"
             width={855}
             height={788}
             className="hidden lg:block"
           />
-        </div>
+        </motion.div>
 
         {/* Row 3 — Power BI Data */}
-        <div className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
+        <motion.div
+          className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <CopyColumn
+            variants={slideFromLeft}
             ghost="Power BI Data"
             title="Built on real-time data across your entire platform"
             body="The BI layer is powered by data captured across V-Watch Ai."
@@ -232,14 +271,16 @@ export default function DashboardShowcase() {
             }
           />
           <MockupImage
+            variants={slideFromRight}
             src="/bi-dashboards/dashboard-data.png"
             alt="V-Watch Ai Power BI data across vehicle and workforce sources"
             width={808}
             height={712}
             className="hidden lg:block"
           />
-        </div>
+        </motion.div>
       </div>
     </section>
+    </MotionConfig>
   );
 }

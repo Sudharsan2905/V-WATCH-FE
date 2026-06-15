@@ -1,7 +1,35 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 // "Connected. Intelligent. Built for real-world operations."
 // Three dark cards + a bottom banner strip.
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const CARDS_START = 0.3;
+const CARD_STAGGER = 0.14;
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const cardItem: Variants = {
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
 
 type Pillar = {
   icon: React.ReactNode;
@@ -92,9 +120,13 @@ function DotBullet({ text }: Readonly<{ text: string }>) {
   );
 }
 
-function PillarCard({ icon, title, desc, bullets, image }: Readonly<Pillar>) {
+function PillarCard({ icon, title, desc, bullets, image, index }: Readonly<Pillar & { index: number }>) {
   return (
-    <div className="flex relative h-[650px] w-full max-w-114 mx-auto lg:max-w-none lg:mx-0 lg:flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]">
+    <motion.div
+      variants={cardItem}
+      custom={CARDS_START + index * CARD_STAGGER}
+      className="flex relative h-[650px] w-full max-w-114 mx-auto lg:max-w-none lg:mx-0 lg:flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]"
+    >
         <div className="flex z-1 absolute top-10 left-[30%] items-center gap-3">
           <p className="text-[20px] font-bold leading-[24px] text-white">{title}</p>
         </div>
@@ -123,7 +155,7 @@ function PillarCard({ icon, title, desc, bullets, image }: Readonly<Pillar>) {
           className=""
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -173,10 +205,16 @@ function FlowIcon({ type }: Readonly<{ type: "link" | "gear" | "sparkle" }>) {
 
 export default function ThreePillars() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="bg-[#F4FAFF] px-6 py-20 lg:px-[60px]">
-      <div className="mx-auto w-full max-w-[1410px]">
+      <motion.div
+        className="mx-auto w-full max-w-[1410px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         {/* Header */}
-        <header className="flex max-w-[720px] flex-col gap-4">
+        <motion.header variants={fadeUp} className="flex max-w-[720px] flex-col gap-4">
           <h2 className="text-[26px] font-black text-[#0A4B6E] lg:text-[28px]">
             Connected. Intelligent. Built for real-world operations.
           </h2>
@@ -189,10 +227,10 @@ export default function ThreePillars() {
             It connects with your infrastructure, processes live data across your environment,
             and delivers actionable insights all within a single platform.
           </p>
-        </header>
+        </motion.header>
 
         {/* Pillars divider */}
-        <div className="my-10 flex items-center">
+        <motion.div variants={fadeUp} custom={0.15} className="my-10 flex items-center">
           <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,rgba(10,75,110,0)_16.35%,#0A4B6E_100%)]" />
           <span className="flex items-center gap-4 font-semibold text-[#0A4B6E]">
             <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
@@ -200,18 +238,22 @@ export default function ThreePillars() {
             <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
           </span>
           <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,#0A4B6E_0%,rgba(10,75,110,0)_83.65%)]" />
-        </div>
+        </motion.div>
 
         {/* Three cards */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch">
-          {PILLARS.map((p) => (
-            <PillarCard key={p.title} {...p} />
+          {PILLARS.map((p, i) => (
+            <PillarCard key={p.title} {...p} index={i} />
           ))}
         </div>
 
         {/* Bottom flow banner — stays stacked until lg; the row layout needs the
             full desktop width or the text gets crushed between icons and logo. */}
-        <div className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center">
+        <motion.div
+          variants={fadeUp}
+          custom={CARDS_START + PILLARS.length * CARD_STAGGER}
+          className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center"
+        >
           {/* Flow icons */}
           <div className="flex w-full shrink-0 items-center justify-between gap-2 sm:gap-4 lg:w-auto lg:justify-start">
             <FlowIcon type="link" />
@@ -240,8 +282,9 @@ export default function ThreePillars() {
               className="object-fill scale-150"
             />
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }
