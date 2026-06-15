@@ -1,7 +1,43 @@
 // "One Platform. Complete Operational Visibility"
 // Left: numbered operational steps. Right: funnel flow diagram → unified platform card.
 
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const STEPS_START = 0.35;
+const STEP_STAGGER = 0.12;
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const stepItem: Variants = {
+  hidden: { opacity: 0, x: -32 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.55, ease: EASE, delay },
+  }),
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.3 },
+  },
+};
 
 type Step = { num: string; label: string };
 
@@ -14,6 +50,7 @@ const STEPS: Step[] = [
 
 export default function PlatformVisibility() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative z-10 px-6 pb-20 pt-16 lg:px-[60px]">
       {/* Curved top — carves the dark hero into a downward dip above this section.
           Anchored to the section's top edge (bottom-full) so the curve position is
@@ -28,9 +65,14 @@ export default function PlatformVisibility() {
       >
         <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="currentColor" />
       </svg>
-      <div className="mx-auto w-full max-w-[1410px]">
+      <motion.div
+        className="mx-auto w-full max-w-[1410px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Header */}
-        <header className="flex max-w-[807px] flex-col gap-2.5">
+        <motion.header variants={fadeUp} className="flex max-w-[807px] flex-col gap-2.5">
           <h2 className="text-[26px] font-bold text-[#0A4B6E]">
             One Platform. Complete Operational Visibility
           </h2>
@@ -38,21 +80,23 @@ export default function PlatformVisibility() {
             Most organizations rely on multiple systems to manage different parts of their
             operations – access control, workforce, tracking, safety, maintenance, and reporting.
           </p>
-        </header>
+        </motion.header>
 
         {/* Two-column layout */}
         <div className="mt-5 flex flex-col gap-[60px] justify-between lg:flex-row lg:items-center lg:gap-[80px]">
           {/* Left: numbered steps */}
           <div className="flex flex-1 flex-col gap-6 lg:max-w-[520px]">
-            <p className="text-[18px] font-bold text-[#006F9F]">
+            <motion.p variants={fadeUp} custom={0.2} className="text-[18px] font-bold text-[#006F9F]">
               It acts as a central operational layer
-            </p>
+            </motion.p>
 
             <div className="relative">
               <ul className="relative flex flex-col gap-10 pl-3">
-                {STEPS.map((step) => (
-                  <li
+                {STEPS.map((step, i) => (
+                  <motion.li
                     key={step.num}
+                    variants={stepItem}
+                    custom={STEPS_START + i * STEP_STAGGER}
                     className="relative flex items-center gap-5 rounded-[16px] bg-white py-2 pl-[68px] pr-6 shadow-[0_14px_34px_-12px_rgba(150,190,230,0.55)]"
                   >
                     {/* Number badge — overhangs the card's left edge */}
@@ -63,14 +107,17 @@ export default function PlatformVisibility() {
                     <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E]">
                       {step.label}
                     </p>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </div>
           </div>
 
           {/* Right: funnel diagram */}
-          <div className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0">
+          <motion.div
+            variants={slideFromRight}
+            className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0"
+          >
             <Image
               src="/ai-platform/funnel-diagram.png"
               alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
@@ -78,9 +125,10 @@ export default function PlatformVisibility() {
               height={453}
               className="h-auto max-w-[670px] object-fill"
             />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

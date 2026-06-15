@@ -2,6 +2,32 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.3 },
+  },
+};
 
 // "Our system integrator network"
 // Left: a 5-step list + a vertical "section pointer" that tracks the active step.
@@ -103,6 +129,7 @@ export default function IntegratorNetwork() {
   const current = STEPS[active]!;
 
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden px-6 pb-20 pt-16 lg:px-[60px]">
       {/* Soft bottom glow */}
       <div
@@ -110,9 +137,14 @@ export default function IntegratorNetwork() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(253_255_254/5%)_72%)]"
       />
 
-      <div className="relative mx-auto w-full max-w-[1410px]">
+      <motion.div
+        className="relative mx-auto w-full max-w-[1410px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Header */}
-        <header className="flex max-w-[760px] flex-col gap-2.5">
+        <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
           <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
             Our system integrator network
           </h2>
@@ -120,11 +152,11 @@ export default function IntegratorNetwork() {
             Transform real-time operational data into visibility, intelligence,
             and action.
           </p>
-        </header>
+        </motion.header>
 
         <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
           {/* Left: step list + section pointer */}
-          <div className="relative lg:w-[400px] lg:shrink-0">
+          <motion.div variants={slideFromLeft} className="relative lg:w-[400px] lg:shrink-0">
             <ul className="flex flex-col gap-1.5 rounded-[20px] border border-[#E1EFF9] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(244,250,255,0.7))] p-3">
               {STEPS.map((step, i) => {
                 const isActive = i === active;
@@ -167,10 +199,10 @@ export default function IntegratorNetwork() {
                 style={{ top: `calc(${active * 20}% + 10px)`, height: "calc(20% - 20px)" }}
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: detail panel — fades to transparent at the bottom */}
-          <div className="flex flex-1 rounded-[24px] bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_42%,rgba(255,255,255,0)_100%)] p-6 sm:p-8">
+          <motion.div variants={slideFromRight} className="flex flex-1 rounded-[24px] bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_42%,rgba(255,255,255,0)_100%)] p-6 sm:p-8">
             <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
               {/* Copy */}
               <div className="flex flex-1 flex-col gap-4">
@@ -198,9 +230,10 @@ export default function IntegratorNetwork() {
                 <OpsVisual caption={current.caption} />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

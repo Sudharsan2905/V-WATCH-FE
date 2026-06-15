@@ -2,6 +2,36 @@
 // Large faded numbers sit on one side; step content on the other.
 // A vertical dotted centre line with dot connectors ties them together.
 
+"use client";
+
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const dotPop: Variants = {
+  hidden: { opacity: 0, scale: 0 },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE, delay: 0.15 } },
+};
+
 type DecisionStep = {
   num: string;
   title: string;
@@ -145,6 +175,7 @@ function StepContent({ step, flip = false }: Readonly<{ step: DecisionStep; flip
 
 export default function DataToDecisions() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden bg-[#F2F8FE] px-6 py-20 lg:px-[60px]">
       {/* Faint grid background */}
       <div
@@ -189,17 +220,31 @@ export default function DataToDecisions() {
 
       <div className="relative mx-auto w-full max-w-[1410px]">
         {/* Header */}
-        <header className="flex max-w-[500px] flex-col gap-2.5">
+        <motion.header
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.5 }}
+          className="flex max-w-[500px] flex-col gap-2.5"
+        >
           <h2 className="text-[26px] font-black text-[#0A4B6E]">From data to decisions</h2>
           <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">
             Connected intelligence across your operations
           </p>
-        </header>
+        </motion.header>
 
         {/* Mobile: vertical stack */}
         <div className="mt-10 flex flex-col gap-8 lg:hidden">
-          {STEPS.map((step) => (
-            <div key={step.num} className="flex items-start gap-5 rounded-[20px] border border-[#B8E6FF] bg-white p-5 shadow-[0_4px_20px_rgba(156,220,255,0.15)]">
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={step.num}
+              variants={fadeUp}
+              custom={i * 0.1}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.4 }}
+              className="flex items-start gap-5 rounded-[20px] border border-[#B8E6FF] bg-white p-5 shadow-[0_4px_20px_rgba(156,220,255,0.15)]"
+            >
               {/* Large number */}
               <span
                 className="shrink-0 text-[60px] font-black leading-none"
@@ -215,7 +260,7 @@ export default function DataToDecisions() {
                 </div>
                 <p className="text-[15px] font-normal leading-[22px] text-[#202020]">{step.desc}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -231,17 +276,24 @@ export default function DataToDecisions() {
             {STEPS.map((step, i) => {
               const isLeft = i % 2 === 0; // even → number on LEFT, content on RIGHT
               return (
-                <div key={step.num} className="relative flex min-h-[160px] items-center">
+                <motion.div
+                  key={step.num}
+                  className="relative flex min-h-[160px] items-center"
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.6 }}
+                >
                   {/* Centre target dot on the line */}
-                  <div
+                  <motion.div
+                    variants={dotPop}
                     aria-hidden
                     className="absolute left-1/2 z-10 flex size-[18px] -translate-x-1/2 items-center justify-center rounded-full border-2 border-[#7FCDEE] bg-white shadow-[0_0_8px_rgba(33,177,241,0.35)]"
                   >
                     <div className="size-[8px] rounded-full bg-[#21B1F1]" />
-                  </div>
+                  </motion.div>
 
                   {/* Left cell */}
-                  <div className="flex w-1/2 justify-end pr-16">
+                  <motion.div variants={slideFromLeft} className="flex w-1/2 justify-end pr-16">
                     {isLeft ? (
                       /* Large faded number — LEFT side */
                       <div className="flex items-center gap-5">
@@ -258,10 +310,10 @@ export default function DataToDecisions() {
                       /* Step content — LEFT side */
                       <StepContent step={step} flip />
                     )}
-                  </div>
+                  </motion.div>
 
                   {/* Right cell */}
-                  <div className="flex w-1/2 justify-start pl-16">
+                  <motion.div variants={slideFromRight} className="flex w-1/2 justify-start pl-16">
                     {isLeft ? (
                       /* Step content — RIGHT side */
                       <StepContent step={step} />
@@ -278,13 +330,14 @@ export default function DataToDecisions() {
                         </span>
                       </div>
                     )}
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               );
             })}
           </div>
         </div>
       </div>
     </section>
+    </MotionConfig>
   );
 }
