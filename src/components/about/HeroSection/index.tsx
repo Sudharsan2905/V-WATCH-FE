@@ -1,4 +1,22 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "motion/react";
+import {
+  fadeUp,
+  wipeTop,
+  popIn,
+  staggerFast,
+  staggerContainer,
+  viewportReveal,
+  EASE_SOFT,
+} from "../anim";
+
+// Slow ken-burns settle for the hero backdrop.
+const heroBg = {
+  hidden: { opacity: 0, scale: 1.08 },
+  show: { opacity: 1, scale: 1, transition: { duration: 1.3, ease: EASE_SOFT } },
+};
 
 export default function HeroSection() {
   return (
@@ -7,16 +25,22 @@ export default function HeroSection() {
       style={{ filter: "drop-shadow(0px 4px 125px rgba(10,75,110,0.2))" }}
     >
       {/* Main background — the orbital V-Watch illustration */}
-      <div className="absolute inset-0 pointer-events-none">
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportReveal}
+        variants={heroBg}
+      >
         <Image
-          src="/hero/about-us-hero.png"
+          src="/hero/about-us-hero.webp"
           alt=""
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-      </div>
+      </motion.div>
 
       {/* Left circle overlay — mix-blend-overlay */}
       <div
@@ -50,46 +74,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Center SVG graphic */}
-      <div
-        className="absolute hidden lg:block pointer-events-none"
-        style={{ left: "487px", top: "243px" }}
-      >
-        <svg
-          width="151"
-          height="134"
-          viewBox="0 0 151 134"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: "302px", height: "268px" }}
-        >
-          <mask id="path-1-inside-1_1043_2063" fill="white">
-            <path d="M99.0752 4.29492C79.8321 -2.95355 59.3416 -0.718028 42.7428 8.67388C40.9489 9.6889 38.867 10.1136 36.8392 9.74449L1.00098 3.22168C0.358063 3.10482 -0.170303 3.72746 0.0498047 4.34277L13.2565 41.2576C13.4771 41.8741 13.4632 42.5484 13.2324 43.1611C0.260483 77.5988 17.6619 116.032 52.0996 129.004C70.8478 136.066 90.7795 134.125 107.143 125.335C108.822 124.433 110.739 124.04 112.624 124.327L149.673 129.971C150.319 130.069 150.83 129.431 150.592 128.822L137.904 96.3438C137.125 94.3509 137.188 92.139 137.942 90.1367C150.914 55.6994 133.512 17.267 99.0752 4.29492Z" />
-          </mask>
-          <path
-            d="M99.0752 4.29492L99.3652 3.5249L99.3652 3.52491L99.0752 4.29492ZM1.00098 3.22168L1.14813 2.41211L1.14832 2.41214L1.00098 3.22168ZM0.0498047 4.34277L-0.724945 4.61995V4.61993L0.0498047 4.34277ZM13.2324 43.1611L12.4624 42.8711V42.8711L13.2324 43.1611ZM52.0996 129.004L51.8096 129.774V129.774L52.0996 129.004ZM149.673 129.971L149.549 130.784H149.549L149.673 129.971ZM150.592 128.822L149.825 129.122L149.825 129.122L150.592 128.822ZM137.942 90.1367L138.712 90.4268H138.712L137.942 90.1367ZM107.143 125.335L107.532 126.06L107.143 125.335ZM112.624 124.327L112.748 123.513L112.624 124.327ZM13.2565 41.2576L14.0313 40.9804L13.2565 41.2576ZM36.8392 9.74449L36.9865 8.93495V8.93495L36.8392 9.74449ZM99.0752 4.29492L98.7851 5.06494C79.7799 -2.09392 59.5436 0.113095 43.148 9.39003L42.7428 8.67388L42.3376 7.95774C59.1396 -1.54915 79.8843 -3.81317 99.3652 3.5249L99.0752 4.29492ZM36.8392 9.74449L36.6918 10.554L0.853638 4.03122L1.00098 3.22168L1.14832 2.41214L36.9865 8.93495L36.8392 9.74449ZM1.00098 3.22168L0.853821 4.03125C0.846954 4.03 0.843582 4.03028 0.84288 4.03035C0.84201 4.03043 0.841507 4.03056 0.840897 4.03079C0.839203 4.03143 0.834366 4.03391 0.829178 4.04002C0.82399 4.04614 0.822342 4.0513 0.821991 4.05302C0.821869 4.05365 0.821823 4.05415 0.821884 4.055C0.82193 4.05568 0.822205 4.05904 0.824554 4.06562L0.0498047 4.34277L-0.724945 4.61993C-1.15846 3.4081 -0.117691 2.18203 1.14813 2.41211L1.00098 3.22168ZM0.0498047 4.34277L0.824554 4.0656L14.0313 40.9804L13.2565 41.2576L12.4818 41.5348L-0.724945 4.61995L0.0498047 4.34277ZM13.2324 43.1611L14.0024 43.4512C1.19069 77.4636 18.3773 115.422 52.3897 128.234L52.0996 129.004L51.8096 129.774C16.9466 116.642 -0.669739 77.734 12.4624 42.8711L13.2324 43.1611ZM52.0996 129.004L52.3897 128.234C70.9062 135.209 90.5905 133.293 106.754 124.61L107.143 125.335L107.532 126.06C90.9684 134.958 70.7895 136.923 51.8096 129.774L52.0996 129.004ZM112.624 124.327L112.748 123.513L149.797 129.157L149.673 129.971L149.549 130.784L112.5 125.14L112.624 124.327ZM149.673 129.971L149.797 129.157C149.804 129.158 149.807 129.158 149.808 129.158C149.809 129.158 149.809 129.158 149.81 129.157C149.811 129.157 149.816 129.154 149.821 129.148C149.826 129.141 149.828 129.136 149.828 129.134C149.828 129.133 149.828 129.133 149.828 129.132C149.828 129.131 149.828 129.128 149.825 129.122L150.592 128.822L151.358 128.523C151.827 129.722 150.821 130.978 149.549 130.784L149.673 129.971ZM150.592 128.822L149.825 129.122L137.138 96.6432L137.904 96.3438L138.67 96.0444L151.358 128.523L150.592 128.822ZM137.942 90.1367L137.172 89.8467C149.984 55.8346 132.797 17.8768 98.7851 5.06494L99.0752 4.29492L99.3652 3.52491C134.228 16.6572 151.844 55.5641 138.712 90.4268L137.942 90.1367ZM137.904 96.3438L137.138 96.6432C136.277 94.4416 136.354 92.0187 137.172 89.8467L137.942 90.1367L138.712 90.4268C138.022 92.2592 137.973 94.2601 138.67 96.0444L137.904 96.3438ZM107.143 125.335L106.754 124.61C108.573 123.633 110.669 123.197 112.748 123.513L112.624 124.327L112.5 125.14C110.81 124.883 109.072 125.233 107.532 126.06L107.143 125.335ZM13.2565 41.2576L14.0313 40.9804C14.32 41.7875 14.2993 42.663 14.0024 43.4512L13.2324 43.1611L12.4624 42.8711C12.6271 42.4339 12.6341 41.9606 12.4818 41.5348L13.2565 41.2576ZM42.7428 8.67388L43.148 9.39003C41.2049 10.4895 38.9289 10.9612 36.6918 10.554L36.8392 9.74449L36.9865 8.93495C38.8051 9.26595 40.6929 8.88833 42.3376 7.95774L42.7428 8.67388Z"
-            fill="url(#paint0_linear_1043_2063)"
-            mask="url(#path-1-inside-1_1043_2063)"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_1043_2063"
-              x1="150.65"
-              y1="130.285"
-              x2="0.777432"
-              y2="2.10258"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="white" />
-              <stop offset="0.336538" stopColor="white" stopOpacity="0.1" />
-              <stop offset="0.461538" stopColor="white" stopOpacity="0" />
-              <stop offset="0.629437" stopColor="white" stopOpacity="0.1" />
-              <stop offset="0.961538" stopColor="white" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
       {/* Left-side gradient — keeps text readable */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -101,33 +85,45 @@ export default function HeroSection() {
 
       {/* Content — vertically centered to match Figma */}
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] py-[80px] lg:py-0">
-        <div className="flex flex-col gap-[20px] w-full max-w-[600px]">
-          {/* Badge + Heading sub-group — gap-[14px] between them per Figma 1043:1905 */}
-          <div className="flex flex-col gap-[14px]">
-            <div className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13.3px] py-[9.5px]">
+        <motion.div
+          className="flex flex-col gap-[20px] w-full max-w-[600px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportReveal}
+          variants={staggerContainer}
+        >
+          {/* Badge + Heading sub-group — gap-[14px] per Figma 1043:1905.
+              Sub-stagger: the badge pops first, then the heading wipes in. */}
+          <motion.div className="flex flex-col gap-[14px]" variants={staggerFast}>
+            <motion.div
+              variants={popIn}
+              className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13.3px] py-[9.5px]"
+            >
               <span className="size-[11.4px] rounded-full bg-[#86d58b] flex-shrink-0" />
               <span className="text-[18px] font-bold leading-none text-white">
                 About Us
               </span>
-            </div>
-            <h1
+            </motion.div>
+            <motion.h1
+              variants={wipeTop}
               className="text-[28px] sm:text-[38px] lg:text-[50px] font-black leading-[1.3] lg:leading-[68px] tracking-[1px] text-white"
               style={{ textShadow: "0px 4px 104px black" }}
             >
               Building the Future of Site Intelligence
-            </h1>
-          </div>
+            </motion.h1>
+          </motion.div>
 
           {/* Description — gap-[20px] from the badge+heading group */}
-          <p
+          <motion.p
             className="text-[15px] sm:text-[17px] lg:text-[20px] font-bold leading-[1.6] lg:leading-[32px] text-white"
             style={{ textShadow: "0px 4px 104px black" }}
+            variants={fadeUp}
           >
             V-Watch Ai exists to help organizations gain complete visibility,
             control, and accountability across their operations from access and
             safety to workforce and execution.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </div>
     </section>
   );
