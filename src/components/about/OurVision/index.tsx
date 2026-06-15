@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
+import { fadeUp, fadeIn, wipeTop, staggerContainer, viewportReveal } from "../anim";
 
 const ICONS = [
-  { src: "/about/vision-icon-people.png", label: "People" },
-  { src: "/about/vision-icon-movement.png", label: "Movement" },
-  { src: "/about/vision-icon-operations.png", label: "Operations" },
-  { src: "/about/vision-icon-workforce.png", label: "Workforce" },
+  { src: "/about/vision-icon-people.webp", label: "People" },
+  { src: "/about/vision-icon-movement.webp", label: "Movement" },
+  { src: "/about/vision-icon-operations.webp", label: "Operations" },
+  { src: "/about/vision-icon-workforce.webp", label: "Workforce" },
 ];
 
 // Desktop illustration is laid out at this native design width (Figma frame),
@@ -32,18 +34,31 @@ export default function OurVision() {
   return (
     <section className="bg-[#F5FBFF] overflow-hidden pb-[60px] lg:pb-0">
       {/* Section header */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] pt-[40px] lg:pt-[60px]">
+      <motion.div
+        variants={wipeTop}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportReveal}
+        className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] pt-[40px] lg:pt-[60px]"
+      >
         <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
           Our Vision
         </h2>
         <p className="text-[16px] lg:text-[20px] text-[#0a4b6e] leading-[28px]">
           We believe operations should not be managed in silos.
         </p>
-      </div>
+      </motion.div>
 
       {/* Mobile layout */}
-      <div className="lg:hidden w-full max-w-[1440px] mx-auto px-4 sm:px-6 mt-[24px] flex flex-col gap-[20px]">
-        <div
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportReveal}
+        className="lg:hidden w-full max-w-[1440px] mx-auto px-4 sm:px-6 mt-[24px] flex flex-col gap-[20px]"
+      >
+        <motion.div
+          variants={fadeUp}
           className="relative rounded-[30px] overflow-hidden min-h-[300px]"
           style={{ background: "linear-gradient(155deg, #0c1e40 0%, #0e2649 40%, #112d56 70%, #0c2044 100%)" }}
         >
@@ -82,8 +97,11 @@ export default function OurVision() {
               ))}
             </div>
           </div>
-        </div>
-        <div className="bg-white rounded-[24px] p-[20px] shadow-[0px_4px_24px_rgba(10,75,110,0.10)]">
+        </motion.div>
+        <motion.div
+          variants={fadeUp}
+          className="bg-white rounded-[24px] p-[20px] shadow-[0px_4px_24px_rgba(10,75,110,0.10)]"
+        >
           <p className="font-bold text-[16px] text-[#0a4b6e] mb-[8px]">
             Our goal is simple
           </p>
@@ -91,12 +109,16 @@ export default function OurVision() {
             To help organisations move from fragmented management to complete
             operational intelligence.
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Desktop layout — contained within max-width, dark card at container left-0 */}
-      <div
+      <motion.div
         ref={frameRef}
+        variants={fadeIn}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportReveal}
         className="hidden lg:block w-full max-w-[1440px] mx-auto mt-[30px] overflow-hidden"
         style={{ height: DESIGN_HEIGHT * scale }}
       >
@@ -146,12 +168,18 @@ export default function OurVision() {
           }}
         />
 
-        {/* Goal card — floating on right */}
+        {/* Goal card — floating on right. Figma node 1043:2290 layers three fills:
+            (1) light gradient #F5FBFF → #E2F6FF(0%) right→left, ON TOP;
+            (2) blue gradient #1B75BB → #2C3460 at 10% opacity, top→bottom, BEHIND;
+            (3) inner shadow — rgb(126,207,250) @ 31%, offset right + heavily blurred,
+                reading as a soft blue glow on the card's left side. */}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-[4.5%] w-[260px] rounded-[24px] p-[20px]"
           style={{
             background:
-              "linear-gradient(270deg, rgba(255,255,255,1) 14%, rgba(246,251,255,0) 100%)",
+              "linear-gradient(270deg, #F5FBFF 3%, rgba(226,246,255,0) 66%), " +
+              "linear-gradient(180deg, rgba(27,117,187,0.1) 0%, rgba(30,132,198,0.1) 12.07%, rgba(38,169,224,0.1) 33.45%, rgba(39,147,200,0.1) 43.34%, rgba(42,96,144,0.1) 68.95%, rgba(43,64,109,0.1) 88%, rgba(44,52,96,0.1) 98.23%)",
+            boxShadow: "inset 76px 0 140px 0 rgba(126,207,250,0.31)",
           }}
         >
           <p className="font-bold text-[18px] text-[#0a4b6e] leading-[24px] mb-[8px]">
@@ -167,7 +195,7 @@ export default function OurVision() {
         <div className="absolute left-0 top-1/2 -translate-y-1/2 h-[419px] w-[592px] rounded-tr-[46px] rounded-br-[46px] overflow-hidden">
           {/* Card background image — Figma Frame 2147231126 (592×419) */}
           <Image
-            src="/Frame 2147231126.png"
+            src="/Frame 2147231126.webp"
             alt=""
             fill
             priority
@@ -295,7 +323,7 @@ export default function OurVision() {
           />
         </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

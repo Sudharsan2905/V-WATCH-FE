@@ -1,4 +1,29 @@
+"use client";
+
 import Image from "next/image";
+import { motion, type Variants } from "motion/react";
+import { fadeUp, scaleIn, staggerContainer, viewportReveal, EASE } from "../anim";
+
+// Row-level orchestration: walks the children in DOM order
+// (Capture → arrow → Control → arrow → Prove) so the section reveals as a
+// left-to-right "step by step" flow. A wider stagger than the page default
+// makes each step distinctly perceptible.
+const flowStagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.18, delayChildren: 0.05 } },
+};
+
+// Directional reveal for the flow connectors: the arrow eases in from the left
+// while settling into place, so each step reads as movement into the next card.
+const arrowReveal: Variants = {
+  hidden: { opacity: 0, x: -14, scale: 0.6 },
+  show: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: { duration: 0.45, ease: EASE },
+  },
+};
 
 const CARDS = [
   {
@@ -6,33 +31,40 @@ const CARDS = [
     title: "Capture",
     description:
       "Collect real-time data across access, movement, and operations.",
-    icon: "/about/approach-icon-capture.png",
+    icon: "/about/approach-icon-capture.webp",
     bg: "/about/approach-card-bg-left.png",
     ghost: true,
+    flipBg: false,
   },
   {
     key: "control",
     title: "Control",
     description:
       "Manage permissions, workflows, and compliance from one platform.",
-    icon: "/about/approach-icon-control.png",
+    icon: "/about/approach-icon-control.webp",
     bg: null,
     ghost: false,
+    flipBg: false,
   },
   {
     key: "prove",
     title: "Prove",
     description:
       "Generate insights and reports that provide full operational visibility.",
-    icon: "/about/approach-icon-prove.png",
+    icon: "/about/approach-icon-prove.webp",
     bg: "/about/approach-card-bg-right.png",
     ghost: true,
+    // The right-card panel ships with the same geometry as the left one
+    // (recedes to the right). Mirror it so the Prove card leans toward the
+    // center, matching the Figma layout.
+    flipBg: true,
   },
 ];
 
 function ApproachCard({ card }: { card: (typeof CARDS)[0] }) {
   return (
-    <div
+    <motion.div
+      variants={scaleIn}
       className={[
         "relative flex flex-col items-center gap-[16px] pb-[50px] pt-[24px] px-[16px] rounded-[20px] w-full max-w-[340px] lg:flex-1 lg:min-w-0 flex-shrink-0 lg:flex-shrink",
         !card.ghost
@@ -40,14 +72,26 @@ function ApproachCard({ card }: { card: (typeof CARDS)[0] }) {
           : "min-h-[360px]",
       ].join(" ")}
     >
-      {/* Ghost card background (extends beyond bounds visually) */}
+      {/* Ghost card background (extends beyond bounds visually).
+          flipBg mirrors both the bleed inset and the panel itself so the
+          right card recedes toward the center (mirror of the left card). */}
       {card.bg && (
-        <div className="absolute inset-[-65%_-62%_-73%_-85%] pointer-events-none">
+        <div
+          className={[
+            "absolute pointer-events-none",
+            card.flipBg
+              ? "inset-[-65%_-85%_-73%_-62%]"
+              : "inset-[-65%_-62%_-73%_-85%]",
+          ].join(" ")}
+        >
           <Image
             src={card.bg}
             alt=""
             fill
-            className="object-contain object-center"
+            className={[
+              "object-contain object-center",
+              card.flipBg ? "-scale-x-100" : "",
+            ].join(" ")}
             sizes="600px"
           />
         </div>
@@ -104,33 +148,40 @@ function ApproachCard({ card }: { card: (typeof CARDS)[0] }) {
           {card.description}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function ArrowConnector() {
   return (
-    <div className="hidden lg:flex flex-col items-center gap-[6px] flex-shrink-0 relative z-20 -mx-[10px]">
-      {/* Gradient pill */}
+    <motion.div
+      variants={arrowReveal}
+      className="relative z-20 hidden h-[40px] w-[68px] flex-shrink-0 -mx-[10px] lg:block"
+    >
+      {/* Figma Group 1321317018: HORIZONTAL connector — a gradient pill (54.5×29)
+          carrying a right chevron, with a 40px white circle (arrow →) overlapping
+          the pill's right end. */}
+      {/* Gradient pill + right chevron — Figma 1043:2425 / 1043:2426 */}
       <div
-        className="w-[55px] h-[29px] rounded-full flex items-center justify-center relative overflow-hidden"
+        className="absolute left-0 top-1/2 flex h-[29px] w-[54.5px] -translate-y-1/2 items-center rounded-full"
         style={{
           background:
             "linear-gradient(180deg, #21b1f1 20.69%, #6badf6 43.97%, #e7a7ff 151.72%)",
         }}
       >
-        <div className="relative size-[20px]">
+        {/* Asset is a left chevron; flip it horizontally so it points right (>). */}
+        <div className="relative ml-[6px] size-[21px] -scale-x-100">
           <Image
-            src="/about/approach-arrow-pill.png"
+            src="/about/approach-arrow-pill.webp"
             alt=""
             fill
             className="object-contain"
-            sizes="20px"
+            sizes="21px"
           />
         </div>
       </div>
-      {/* Circle button with arrow */}
-      <div className="relative size-[40px]">
+      {/* White circle with → — Figma 1043:2428/2429, overlapping the pill's right end */}
+      <div className="absolute left-[28px] top-0 size-[40px]">
         <Image
           src="/about/approach-arrow-circle.png"
           alt=""
@@ -139,9 +190,9 @@ function ArrowConnector() {
           sizes="40px"
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-[15px] h-[11px]">
+          <div className="relative h-[11px] w-[15px]">
             <Image
-              src="/about/approach-arrow-icon.png"
+              src="/about/approach-arrow-icon.webp"
               alt=""
               fill
               className="object-contain"
@@ -150,33 +201,43 @@ function ArrowConnector() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function OurApproach() {
   return (
-    <section className="bg-[#F2F8FE] py-[40px] lg:py-[80px] overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+    <section className="bg-[#F2F8FE] py-[40px] lg:py-[80px] overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_520px]">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportReveal}
+        variants={staggerContainer}
+        className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]"
+      >
         {/* Section header */}
-        <div className="mb-[30px]">
+        <motion.div variants={fadeUp} className="mb-[30px]">
           <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
             Our Approach
           </h2>
           <p className="text-[16px] lg:text-[20px] text-[#0a4b6e] leading-[28px]">
             Simple system. Powerful impact.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Cards row */}
-        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-[20px] lg:gap-0">
+        {/* Cards row — its own stagger reveals children in DOM order so the
+            flow plays out step by step from left to right. */}
+        <motion.div
+          variants={flowStagger}
+          className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-[20px] lg:gap-0"
+        >
           <ApproachCard card={CARDS[0]} />
           <ArrowConnector />
           <ApproachCard card={CARDS[1]} />
           <ArrowConnector />
           <ApproachCard card={CARDS[2]} />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
