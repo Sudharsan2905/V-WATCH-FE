@@ -1,7 +1,34 @@
 ﻿// "A single intelligence layer powered by Power BI"
 // Left: the isometric Power BI "stack" artwork. Right: a 2x2 grid of cards.
 
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const CARDS_START = 0.35;
+const CARD_STAGGER = 0.12;
+
+// `custom` is the per-element delay in seconds.
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
+};
 
 type Feature = { icon: React.ReactNode; label: string };
 
@@ -139,6 +166,7 @@ const FEATURES: Feature[] = [
 
 export default function IntelligenceLayer() {
   return (
+    <MotionConfig reducedMotion="user">
     <section
       id="intelligence-layer"
       className="relative z-10 scroll-mt-24 px-6 pb-20 pt-16 lg:px-[60px]"
@@ -154,9 +182,14 @@ export default function IntelligenceLayer() {
         <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="currentColor" />
       </svg>
 
-      <div className="mx-auto w-full max-w-[1410px]">
+      <motion.div
+        className="mx-auto w-full max-w-[1410px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Header */}
-        <header className="flex max-w-[760px] flex-col gap-2.5">
+        <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
           <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
             A single intelligence layer powered by Power BI
           </h2>
@@ -165,7 +198,7 @@ export default function IntelligenceLayer() {
             ecosystem and feeds it into a centralized reporting layer powered by
             Microsoft Power BI.
           </p>
-        </header>
+        </motion.header>
 
         {/* Two-column layout */}
         <div className="relative mt-10 lg:h-[480px]">
@@ -190,7 +223,10 @@ export default function IntelligenceLayer() {
             </defs>
           </svg>
           {/* Power BI visual */}
-          <div className="flex items-center justify-center lg:absolute lg:left-0 lg:top-1/2 lg:w-[68%] lg:-translate-y-1/2 lg:justify-start">
+          <motion.div
+            variants={slideFromLeft}
+            className="flex items-center justify-center lg:absolute lg:left-0 lg:top-1/2 lg:w-[68%] lg:-translate-y-1/2 lg:justify-start"
+          >
             <Image
               src="/bi-dashboards/intelligence-layer.png"
               alt="Operational data consolidating into a Power BI intelligence layer"
@@ -198,13 +234,15 @@ export default function IntelligenceLayer() {
               height={270}
               className="h-auto w-full object-contain"
             />
-          </div>
+          </motion.div>
 
           {/* Feature cards */}
           <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-[54%] lg:-translate-y-1/2 lg:gap-x-10 lg:gap-y-8">
             {FEATURES.map((f, i) => (
-              <div
+              <motion.div
                 key={f.label}
+                variants={fadeUp}
+                custom={CARDS_START + i * CARD_STAGGER}
                 className="flex flex-col gap-4 rounded-[20px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(224,242,253,0.45))] p-6 shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA1A_inset,20px_0px_24px_0px_#7ECFFA1A_inset,8px_10px_34px_0px_#FFFFFF66_inset,-10px_-8px_34px_0px_#FFFFFF99_inset] backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA3D_inset,20px_0px_24px_0px_#7ECFFA3D_inset]"
               >
                 <span
@@ -216,11 +254,12 @@ export default function IntelligenceLayer() {
                 <p className="text-[17px] font-bold leading-[24px] text-[#0A4B6E]">
                   {f.label}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

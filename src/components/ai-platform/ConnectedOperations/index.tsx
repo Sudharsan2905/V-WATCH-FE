@@ -2,6 +2,36 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const ACC_START = 0.35;
+const ACC_STAGGER = 0.12;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
+};
+
+// `custom` is the per-element delay in seconds.
+const accItem: Variants = {
+  hidden: { opacity: 0, x: 32 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.55, ease: EASE, delay },
+  }),
+};
 
 type BulletItem = string;
 type Module = {
@@ -101,10 +131,16 @@ export default function ConnectedOperations() {
   const current = MODULES[active]!;
 
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative px-6 pb-20 pt-16 lg:px-[60px]">
-      <div className="mx-auto w-full max-w-[1410px]">
+      <motion.div
+        className="mx-auto w-full max-w-[1410px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Header */}
-        <header className="flex max-w-[807px] flex-col gap-2.5">
+        <motion.header variants={fadeUp} className="flex max-w-[807px] flex-col gap-2.5">
           <h2 className="text-[26px] font-black text-[#0A4B6E]">
             Everything your operations depend on connected
           </h2>
@@ -112,12 +148,15 @@ export default function ConnectedOperations() {
             A unified architecture designed to handle the complexity of modern
             enterprise environments without the clutter.
           </p>
-        </header>
+        </motion.header>
 
         {/* Two-column panel */}
         <div className="mt-10 flex flex-col gap-[30px] lg:flex-row lg:items-stretch">
           {/* Left: image + pagination dots */}
-          <div className="flex flex-col items-center gap-4 md:max-w-[600px] lg:w-[600px] lg:shrink-0">
+          <motion.div
+            variants={slideFromLeft}
+            className="flex flex-col items-center gap-4 md:max-w-[600px] lg:w-[600px] lg:shrink-0"
+          >
             <div className="relative h-[320px] w-full overflow-hidden rounded-[24px] border border-[#B8E6FF]/60 bg-[#EDF5FC] shadow-[6px_10px_23px_rgba(217,226,255,0.85)] lg:h-[380px]">
               <Image
                 key={current.key}
@@ -145,16 +184,18 @@ export default function ConnectedOperations() {
                 />
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: accordion */}
           <div className="flex flex-1 flex-col gap-3">
             {MODULES.map((mod, i) => {
               const isActive = i === active;
               return (
-                <button
+                <motion.button
                   key={mod.key}
                   type="button"
+                  variants={accItem}
+                  custom={ACC_START + i * ACC_STAGGER}
                   onClick={() => setActive(i)}
                   className={`group w-full rounded-[20px] border text-left transition-all duration-200 ${
                     isActive
@@ -205,12 +246,13 @@ export default function ConnectedOperations() {
                       </ul>
                     </div>
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }
