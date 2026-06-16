@@ -146,12 +146,8 @@ export default function IntegratorNetwork() {
         {/* Header */}
         <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
           <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
-            Our system integrator network
+            How V-Watch Ai Turns Operational Data Into Control
           </h2>
-          <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">
-            Transform real-time operational data into visibility, intelligence,
-            and action.
-          </p>
         </motion.header>
 
         <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
