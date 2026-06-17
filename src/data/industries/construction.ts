@@ -9,11 +9,11 @@ export const constructionContent = {
     badge: "Construction",
     heading: "Take Control of Complex Construction Sites",
     subtitle:
-      "V-Watch Ai gives construction teams real-time visibility into people, equipment, and safety across every site so you can reduce risk, stay compliant, and keep projects on schedule.",
+      "Manage workers, contractors, compliance, and site operations in real time — with complete visibility across every phase of your project.",
     bgImage: "/industries/construction/construction.png"
   },
   challenges: {
-    heading: "Construction sites are complex and difficult to control",
+    heading: "Construction sites are complex - and difficult to control",
     subheading: "Every construction project involves multiple moving parts",
     features: [
       {
@@ -35,7 +35,7 @@ export const constructionContent = {
     ],
     summary:
       "But most sites still rely on manual processes and disconnected systems.",
-    resultLabel: "The Result",
+    resultLabel: "This results in",
     results: [
       "Limited visibility of who is on-site",
       "Compliance risks and expired certifications going unnoticed",
@@ -43,7 +43,7 @@ export const constructionContent = {
       "Delays caused by poor coordination",
       "Difficulty tracking workforce productivity",
     ],
-    callout: "When visibility is incomplete, risks increase and control is lost.",
+    callout: "When visibility is incomplete, risks increase - and control is lost.",
     calloutIcon: "/industries/construction/sites/grow-light.svg",
     // Order: [top-left aerial, worker/hologram, lower-left, crane].
     images: [
@@ -80,6 +80,11 @@ export const constructionContent = {
         icon: "/industries/construction/sites/icons/worker.svg",
         title: "Real-Time Movement Tracking",
         desc: "Monitor movement across zones to improve safety and coordination.",
+      },
+      {
+        icon: "/industries/construction/sites/icons/tasks.svg",
+        title: "Operational Workflow Management",
+        desc: "Track tasks, maintenance, and site activities from request to completion.",
       },
       {
         icon: "/industries/construction/sites/icons/sheild.svg",
@@ -128,7 +133,8 @@ export const constructionContent = {
     subheading: "Most solutions address only one part of the problem.",
     cardTitle: "V-Watch AI connects everything.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage: "/industries/construction/v-watch-ai/AI.png",
+    cardImage: "/industries/construction/v-watch-ai/commerical.webp",
+    cardContent: "This is what allows construction teams to move from reactive management to full site control. ",
     items: [
       {
         icon: "/industries/construction/v-watch-ai/access.png",
@@ -151,38 +157,44 @@ export const constructionContent = {
     ],
   },
   environments: {
-    heading: "Designed for any environment.",
+    heading: "Designed for a wide range of construction environments",
     subtitle:
       "V-Watch Ai adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
     cards: [
       {
-        image: "/industries/construction/designed-environment/env-1.png",
-        title: "High-Rise & Commercial",
+        image: "/industries/construction/designed-environment/env-6.png",
+        originalImage: "/industries/construction/designed-environment/1.webp",
+        title: "High-Rise & Commercial Developments",
         desc: "Manage large workforces, multiple contractors, and high volumes of site activity across vertical environments.",
         active: true,
       },
       {
-        image: "/industries/construction/designed-environment/env-2.png",
-        title: "Infrastructure & Civil",
+        image: "/industries/construction/designed-environment/env-1.png",
+        originalImage: "/industries/construction/designed-environment/2.webp",
+        title: "Infrastructure & Civil Projects",
         desc: "Coordinate teams across large, distributed areas such as highways, bridges, and rail systems.",
       },
       {
-        image: "/industries/construction/designed-environment/env-3.png",
-        title: "Residential Developments",
-        desc: "Track workforce activity and ensure smooth coordination across multi-phase housing projects.",
-      },
-      {
         image: "/industries/construction/designed-environment/env-4.png",
-        title: "Energy & Utility Projects",
-        desc: "Maintain control across high-risk construction environments such as oil & gas facilities and power plants.",
-      },
-      {
-        image: "/industries/construction/designed-environment/env-5.png",
+        originalImage: "/industries/construction/designed-environment/5.webp",
         title: "Industrial Construction Sites",
         desc: "Handle complex builds involving strict safety requirements and multiple specialized contractors.",
       },
       {
-        image: "/industries/construction/designed-environment/env-6.png",
+        image: "/industries/construction/designed-environment/env-3.png",
+        originalImage: "/industries/construction/designed-environment/4.webp",
+        title: "Energy & Utility Projects",
+        desc: "Maintain control across high-risk construction environments such as oil & gas facilities and power plants.",
+      },
+      {
+        image: "/industries/construction/designed-environment/env-2.png",
+        originalImage: "/industries/construction/designed-environment/3.webp",
+        title: "Residential Developments",
+        desc: "Track workforce activity and ensure smooth coordination across multi-phase housing projects.",
+      },
+      {
+        image: "/industries/construction/designed-environment/env-5.png",
+        originalImage: "/industries/construction/designed-environment/6.webp",
         title: "Data Centre Construction",
         desc: "Manage strict access control, high-security requirements, and precise coordination in mission-critical builds.",
       },
@@ -219,30 +231,30 @@ export const constructionContent = {
     cards: [
       {
         image: "/industries/construction/critical-construction/facial_recognition.png",
-        title: "Facial Recognition",
+        title: "Facial Recognition Access Control",
         desc: "Deploy touchless entry points across high-traffic zones.",
       },
       {
         image: "/industries/construction/critical-construction/compilance_tracking.png",
-        title: "Compliance tracking",
+        title: "Contractor Compliance & Safety Pass Expiry",
         desc: "Ensure every third-party worker meets safety requirements.",
-      },
-      {
-        image: "/industries/construction/critical-construction/emergency_count.png",
-        title: "Emergency Muster & Headcount",
-        desc: "Track safety, missing, and onsite personnel during emergencies.",
       },
       {
         image: "/industries/construction/critical-construction/restricted zones.png",
         title: "Geofencing Restricted Zones",
         desc: "Detect unauthorized movement across restricted site zones.",
       },
+      {
+        image: "/industries/construction/critical-construction/emergency_count.png",
+        title: "Real-Time Headcount & Emergency Muster",
+        desc: "Track safety, missing, and onsite personnel during emergencies.",
+      },
     ],
   },
   footer: {
-    ctaTitle: "Find the right solution for your construction sites",
+    ctaTitle: "Take control of your construction site",
     ctaText:
-      "Explore how V-Watch Ai can help you improve visibility, strengthen compliance, and take full control of your construction operations.",
+      "See how V-Watch Ai can help you improve visibility, strengthen compliance, and manage your entire site more effectively.",
     linkColumns: [
       {
         heading: "Platform",

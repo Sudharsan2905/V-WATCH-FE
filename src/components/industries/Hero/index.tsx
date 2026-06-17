@@ -79,7 +79,7 @@ export default function IndustriesHero({
             fill
             priority
             sizes="100vw"
-            className="object-fill"
+            className="object-cover sm:object-fill"
           />
         </motion.div>
 
@@ -143,8 +143,8 @@ export default function IndustriesHero({
                   {badge}
                 </span>
               </motion.div>
-              <h1 className="w-[642px] max-w-full text-[32px] font-black leading-[40px] tracking-[1px] text-white sm:text-[40px] sm:leading-[52px] lg:text-[50px] lg:leading-[68px]">
-                <span className="block overflow-hidden">
+              <h1 className="max-w-[642px] text-[32px] font-black leading-[40px] tracking-[1px] text-white sm:text-[40px] sm:leading-[52px] lg:text-[50px] lg:leading-[68px]">
+                <span className="block overflow-hidden pb-[0.12em]">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     {heading}
                   </motion.span>
@@ -153,7 +153,7 @@ export default function IndustriesHero({
             </div>
 
             {/* Subtitle */}
-            <p className="w-[561px] max-w-full text-[16px] font-bold leading-7 text-white sm:text-[18px] lg:text-[20px] lg:leading-8">
+            <p className="max-w-[561px] text-[16px] font-bold leading-7 text-white sm:text-[18px] lg:text-[20px] lg:leading-8">
               <motion.span custom={0.65} variants={copyReveal} className="block">
                 {subtitle}
               </motion.span>
