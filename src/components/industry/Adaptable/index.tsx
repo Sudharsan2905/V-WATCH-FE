@@ -32,14 +32,20 @@ const slideFromRight: Variants = {
 
 // "Also used across a wide range of environments" — dark masonry of industry
 // image cards (alternating 488 / 608 widths). (Figma node 270:13152)
-type Card = { title: string; img: string; size: "sm" | "lg" };
+type Card = { title: string; img: string; icon: string; size: "sm" | "lg" };
 
 const ROWS: Card[][] = [
   [
-    { title: "Data Center", img: "/industry/adapt-datacenter.png", size: "sm" },
+    {
+      title: "Data Centers",
+      img: "/industry/adapt-datacenter.png",
+      icon: "/industries/industries-hub/datacenters.svg",
+      size: "sm",
+    },
     {
       title: "Manufacturing",
       img: "/industry/adapt-manufacturing.png",
+      icon: "/industries/industries-hub/manufacturing.svg",
       size: "lg",
     },
   ],
@@ -47,11 +53,13 @@ const ROWS: Card[][] = [
     {
       title: "Healthcare Facilities",
       img: "/industry/adapt-healthcare.png",
+      icon: "/industries/industries-hub/healthcare.svg",
       size: "lg",
     },
     {
       title: "Infrastructure & Utilities",
       img: "/industry/adapt-infrastructure.png",
+      icon: "/industries/industries-hub/infrastructure.svg",
       size: "sm",
     },
   ],
@@ -59,46 +67,29 @@ const ROWS: Card[][] = [
     {
       title: "Logistics & Warehousing",
       img: "/industry/adapt-logistics.png",
+      icon: "/industries/industries-hub/logistics.svg",
       size: "sm",
     },
     {
       title: "Transportation Hubs (airports, ports, rail)",
       img: "/industry/adapt-transport.png",
+      icon: "/industries/industries-hub/transport.svg",
       size: "lg",
     },
   ],
 ];
 
-function PinIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      className="shrink-0"
-    >
-      <path
-        d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"
-        stroke="#9CDCFF"
-        strokeWidth="1.7"
-      />
-      <circle cx="12" cy="10" r="2.4" stroke="#9CDCFF" strokeWidth="1.7" />
-    </svg>
-  );
-}
-
 function IndustryCard({
   title,
   img,
+  icon,
   size,
   side,
 }: Readonly<Card & { side: "left" | "right" }>) {
   return (
     <motion.div
       variants={side === "left" ? slideFromLeft : slideFromRight}
-      className={`relative h-[280px] w-full overflow-hidden rounded-[24px] sm:w-auto ${
+      className={`relative h-[280px] w-full overflow-hidden rounded-[24px] border-8 border-white/10 sm:w-auto ${
         // flex-basis:0 only on sm+ (row axis = width). On mobile the cards are a
         // column, where flex-basis:0 would zero their HEIGHT — so keep w-full.
         size === "lg" ? "sm:flex-[608_1_0]" : "sm:flex-[488_1_0]"
@@ -113,7 +104,16 @@ function IndustryCard({
       />
       <div className="absolute inset-x-0 bottom-0 h-[100px] bg-gradient-to-t from-black/85 to-transparent" />
       <div className="absolute bottom-5 left-5 flex items-center gap-2.5">
-        <PinIcon />
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 backdrop-blur-sm">
+          <Image
+            src={icon}
+            alt=""
+            width={20}
+            height={20}
+            aria-hidden
+            className="h-5 w-auto"
+          />
+        </span>
         <p className="text-[20px] font-bold text-white">{title}</p>
       </div>
     </motion.div>
@@ -211,7 +211,7 @@ export default function Adaptable() {
               alt="V-Watch AI"
               width={140}
               height={99}
-              className="block"
+              className="block h-auto w-[140px]"
             />
           </div>
 

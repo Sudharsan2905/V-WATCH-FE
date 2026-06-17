@@ -31,20 +31,20 @@ const CARDS: Card[] = [
   {
     title: "Construction",
     img: "/industry/exp-construction.png",
-    desc: "Manage large, multi-contractor environments with full visibility across workforce, compliance, and site operations ensuring safety at every stage.",
-    link: "Learn More",
+    desc: "Manage large workforces, multiple contractors, and strict compliance requirements with full visibility across your site.",
+    link: "View Construction Solutions",
   },
   {
     title: "Industrial & Energy",
     img: "/industry/exp-industrial.png",
-    desc: "Operate safely in high-risk environments with real-time tracking, restricted zone monitoring, and instant response capabilities reducing risk while maintaining strict compliance.",
-    link: "Learn More",
+    desc: "Maintain safety in high-risk environments with real-time tracking, restricted zone monitoring, and rapid emergency response.",
+    link: "View Industrial & Energy Solutions",
   },
   {
     title: "Commercial & Facilities",
     img: "/industry/exp-commercial.png",
-    desc: "Streamline building operations, enhance access control, and manage maintenance across offices, retail spaces, and multi-site facilities.",
-    link: "Learn More",
+    desc: "Streamline building operations, enhance security, and improve efficiency across tenants, staff, and service providers.",
+    link: "View Commercial & Facilities Solutions",
   },
 ];
 
@@ -93,7 +93,7 @@ export default function Explore() {
               custom={CARDS_START + i * CARD_STAGGER}
               className="group relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] border-[1.245px] border-[#0a8ec8] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
             >
-              <div className="relative h-full w-full overflow-hidden rounded-[16px]">
+              <div className="relative h-full w-full overflow-hidden rounded-[16px] border border-white/60">
                 <Image
                   src={c.img}
                   alt={c.title}
@@ -101,8 +101,16 @@ export default function Explore() {
                   className="object-cover"
                   sizes="367px"
                 />
-                {/* Dark glass panel — holds title (always) + desc/link (hover) */}
-                <div className="absolute inset-x-3 bottom-3 flex flex-col rounded-[14px] bg-black/55 p-5">
+                {/* Frosted glass panel — holds title (always) + desc/link (hover).
+                    Figma: rgba(24,23,23,0.40) + blur(5px) so the image reads
+                    softly through the panel. */}
+                <div
+                  className="absolute inset-x-3 bottom-3 flex flex-col rounded-[14px] p-5"
+                  style={{
+                    background: "rgba(24, 23, 23, 0.40)",
+                    backdropFilter: "blur(5px)",
+                  }}
+                >
                   <p className="text-[18px] font-bold leading-6 text-white">
                     {c.title}
                   </p>

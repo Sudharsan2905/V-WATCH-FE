@@ -7,13 +7,13 @@ import BookADemo from "@/components/common/BookADemo";
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Bottom bezier divider. The curve enters both edges at y=84; the control-point
-// depth sets how deep the belly dips. Default (>=425px) keeps the current deep
-// curve; below 425px a shallower control depth flattens it to a small angle so
-// it doesn't read as a steep scoop on narrow phones.
+// depth sets how deep the belly dips (closer to 84 = gentler/larger radius).
+// Laptop (lg, >=1024px) uses the deep scoop; below lg a shallower control depth
+// flattens it so it doesn't read as a steep scoop on phones/tablets.
 const CURVE_DEFAULT_FILL = "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
 const CURVE_DEFAULT_STROKE = "M0 84 C33.33 103 66.67 103 100 84";
-const CURVE_SMALL_FILL = "M0 84 C33.33 92 66.67 92 100 84 L100 100 L0 100 Z";
-const CURVE_SMALL_STROKE = "M0 84 C33.33 92 66.67 92 100 84";
+const CURVE_SMALL_FILL = "M0 84 C33.33 90 66.67 90 100 84 L100 100 L0 100 Z";
+const CURVE_SMALL_STROKE = "M0 84 C33.33 90 66.67 90 100 84";
 const CURVE_GLOWS = [
   { w: 6, o: 0.2 },
   { w: 3, o: 0.45 },
@@ -108,8 +108,8 @@ export default function ProductsHero() {
             </linearGradient>
           </defs>
 
-          {/* deep curve — 425px and up */}
-          <g className="max-[424px]:hidden">
+          {/* deep curve — laptop (lg) and up */}
+          <g className="max-lg:hidden">
             <path d={CURVE_DEFAULT_FILL} fill="#ffffff" />
             {CURVE_GLOWS.map(({ w, o }) => (
               <path
@@ -124,8 +124,8 @@ export default function ProductsHero() {
             ))}
           </g>
 
-          {/* shallow small-angle curve — below 425px */}
-          <g className="min-[426px]:hidden">
+          {/* shallow small-angle curve — below laptop (lg) */}
+          <g className="lg:hidden">
             <path d={CURVE_SMALL_FILL} fill="#ffffff" />
             {CURVE_GLOWS.map(({ w, o }) => (
               <path
@@ -156,10 +156,10 @@ export default function ProductsHero() {
                 className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]"
               >
                 <span className="size-[11px] rounded-full bg-[#86D58B]" />
-                <span className="text-[18px] font-bold leading-none text-white">What V-Watch Ai</span>
+                <span className="text-base font-bold leading-none text-white lg:text-[18px]">What V-Watch Ai</span>
               </motion.span>
 
-              <h1 className="w-[642px] max-w-full text-[50px] font-semibold leading-[68px] tracking-[0.5px] text-white">
+              <h1 className="w-[642px] max-w-full text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     One Platform
@@ -178,7 +178,7 @@ export default function ProductsHero() {
               </h1>
             </div>
 
-            <p className="max-w-[561px] text-[21px] leading-8 text-white">
+            <p className="max-w-[561px] text-base leading-7 text-white lg:text-[21px] lg:leading-8">
               <motion.span custom={0.8} variants={copyReveal} className="block">
                 V-Watch Ai brings together a suite of integrated capabilities
               </motion.span>
@@ -192,7 +192,7 @@ export default function ProductsHero() {
             <motion.p
               custom={1.45}
               variants={copyReveal}
-              className="max-w-[561px] text-[20px] font-semibold leading-8 text-white"
+              className="max-w-[561px] text-base font-semibold leading-7 text-white lg:text-[20px] lg:leading-8"
             >
               Start with what you need. Scale as you grow.
             </motion.p>

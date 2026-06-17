@@ -145,10 +145,10 @@ export default function IntegratorsHero() {
                 className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]"
               >
                 <span className="size-[11px] rounded-full bg-[#86D58B]" />
-                <span className="text-[18px] font-bold leading-none text-white">V-Watch Ai Integrators</span>
+                <span className="text-base font-bold leading-none text-white lg:text-[18px]">V-Watch Ai Integrators</span>
               </motion.span>
 
-              <h1 className="w-[642px] max-w-full text-[50px] font-black leading-[68px] tracking-[0.5px] text-white">
+              <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     Delivered Through Trusted
@@ -162,7 +162,7 @@ export default function IntegratorsHero() {
               </h1>
             </div>
 
-            <p className="max-w-[561px] text-[20px] font-bold leading-8 text-white">
+            <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
               <motion.span custom={0.65} variants={copyReveal} className="block">
                 V-Watch Ai works with certified system integrators across
               </motion.span>
