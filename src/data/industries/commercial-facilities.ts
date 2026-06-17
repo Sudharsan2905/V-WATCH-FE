@@ -82,10 +82,20 @@ export const commercialFacilitiesContent = {
       {
         icon: "/industries/construction/one-platform/workforce.svg",
         title: "Workforce Visibility & Accountability",
-        desc: "Monitor workforce activity and performance across your facility in real time.",
+        desc: "Understand who is working on what — and ensure tasks are completed on time.",
+      },
+      {
+        icon: "/industries/commercial/facility/management.svg",
+        title: "Real-Time Operational Overview",
+        desc: "Monitor activity across your facility to improve responsiveness and coordination.",
+      },
+      {
+        icon: "/industries/commercial/v-watch-ai/tracking.svg",
+        title: "Data-Driven Reporting",
+        desc: "Maintain accurate records for audits, reporting, and continuous improvement.",
       },
     ],
-    allowsLabel: "It allows you to",
+    allowsLabel: "You can",
     allows: [
       {
         badge: "/industries/construction/one-platform/one.svg",
@@ -109,10 +119,11 @@ export const commercialFacilitiesContent = {
   whyChoose: {
     heading: "Why facility managers choose V-Watch Ai",
     subheading:
-      "Most facility systems focus on one area access, maintenance, or workforce.",
+      "Most facility systems focus on one area — access, maintenance, or workforce.",
     cardTitle: "V-Watch AI connects them all.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage: "/industries/construction/v-watch-ai/AI.png",
+    cardImage: "/industries/construction/v-watch-ai/commerical.webp",
+    cardContent: "This allows you to move from fragmented management to fully connected operations. ",
     items: [
       {
         icon: "/industries/commercial/v-watch-ai/access.svg",
@@ -137,61 +148,67 @@ export const commercialFacilitiesContent = {
   environments: {
     heading: "Designed for a wide range of commercial environments",
     subtitle:
-      "V-Watch Ai adapts to different types of facilities wherever people, access, and operations must be managed efficiently.",
+      "V-Watch Ai adapts to different types of facilities — wherever people, access, and operations need to be managed efficiently.",
     cards: [
       {
-        image: "/industries/construction/designed-environment/env-1.png",
+        image: "/industries/construction/designed-environment/env-6.png",
         title: "Office Buildings & Corporate Towers",
-        desc: "Manage staff, tenants, and visitors across multiple floors and zones with full visibility and control.",
+        desc: "Manage employee access, visitors, and daily operations across multiple floors and tenants — with full visibility and control.",
         active: true,
+        originalImage: "/industries/construction/designed-environment/1.webp",
+      },
+      {
+        image: "/industries/construction/designed-environment/env-1.png",
+        title: "Shopping Malls & Retail Spaces",
+        desc: "Coordinate vendors, maintenance teams, and high volumes of visitors while ensuring smooth and secure operations.",
+        originalImage: "/industries/construction/designed-environment/2.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-2.png",
-        title: "Shopping Malls & Retail Spaces",
-        desc: "Coordinate vendors, maintenance teams, and high volumes of visitors with smart access control.",
+        title: "Healthcare Facilities & Clinics",
+        desc: "Control access to sensitive areas, manage staff workflows, and maintain accurate records for compliance and safety.",
+        originalImage: "/industries/construction/designed-environment/3.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-3.png",
-        title: "Healthcare Facilities & Clinics",
-        desc: "Control access across sensitive areas, storage, and high-security zones with precise coordination.",
+        title: "Hotels & Hospitality",
+        desc: "Track staff operations, manage service workflows, and ensure seamless coordination across departments.",
+        originalImage: "/industries/construction/designed-environment/4.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-4.png",
-        title: "Hotels & Hospitality",
-        desc: "Track staff, guests, and service providers across busy, around-the-clock venues.",
+        title: "Education Campuses",
+        desc: "Monitor access, manage facilities, and coordinate staff and service teams across large, active environments.",
+        originalImage: "/industries/construction/designed-environment/5.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-5.png",
-        title: "Education Campuses",
-        desc: "Monitor access, manage facilities, and coordinate staff and vendors across large, multi-building campuses.",
-      },
-      {
-        image: "/industries/construction/designed-environment/env-6.png",
         title: "Mixed-Use Developments",
-        desc: "Manage facilities, residents, retail, and access points across complex, multi-purpose sites.",
+        desc: "Handle multiple stakeholders — residential, commercial, and service providers — within one integrated system.",
+        originalImage: "/industries/construction/designed-environment/6.webp",
       },
     ],
     footerImage: "/industries/construction/designed-environment/env-footer.png",
   },
   connected: {
-    heading: "From access to operations fully connected",
+    heading: "From access to operations — fully connected",
     subtitle:
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     steps: [
       {
         icon: "capture",
         title: "Capture",
-        desc: "Collect real-time data from building access, movement, and operations.",
+        desc: "Collect data from access points, tasks, and workforce activity.",
       },
       {
         icon: "control",
         title: "Control",
-        desc: "Manage permissions, workflows, and compliance across all teams and vendors.",
+        desc: "Manage permissions, workflows, and operations from one system.",
       },
       {
         icon: "prove",
         title: "Prove",
-        desc: "Generate reports and insights that provide full visibility and audit-ready data.",
+        desc: "Generate reports and insights that provide full operational visibility.",
       },
     ],
   },
@@ -201,31 +218,36 @@ export const commercialFacilitiesContent = {
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     cards: [
       {
-        image: "/industries/commercial/use-case/ticketings.png",
-        title: "Maintenance Ticketing",
-        desc: "Track and manage maintenance requests from report through to resolution.",
-      },
-      {
-        image: "/industries/commercial/use-case/trackings.png",
-        title: "Compliance Tracking",
-        desc: "Document and store records to stay audit-ready and meet building requirements.",
-      },
-      {
         image: "/industries/commercial/use-case/emergencys.png",
-        title: "Emergency Muster & Headcount",
-        desc: "Track who is safe, missing, and onsite during emergencies.",
+        title: "Visitor Management System",
+        desc: "Register, track, and manage visitors across your building with secure check-in.",
       },
       {
         image: "/industries/commercial/use-case/restrictedzones.png",
-        title: "Geofencing Restricted Zones",
-        desc: "Detect unauthorized movement across restricted building areas.",
+        title: "Facial Recognition Access Control",
+        desc: "Deploy touchless entry points across high-traffic and secure zones.",
+      },
+      {
+        image: "/industries/commercial/use-case/ticketings.png",
+        title: "Maintenance Ticketing & Service Orders",
+        desc: "Manage maintenance requests and service orders from report to resolution.",
+      },
+      {
+        image: "/industries/commercial/use-case/trackings.png",
+        title: "Preventive Maintenance Scheduling",
+        desc: "Schedule recurring maintenance to prevent downtime and extend asset life.",
+      },
+      {
+        image: "/industries/commercial/use-case/ticketings.png",
+        title: "Payroll, Claims & Leave Automation",
+        desc: "Automate payroll, claims, and leave workflows from real workforce activity.",
       },
     ],
   },
   footer: {
-    ctaTitle: "Find the right solution for your facilities",
+    ctaTitle: "Take control of your facility operations",
     ctaText:
-      "Explore how V-Watch Ai can help you improve visibility, strengthen security, and take full control of your commercial and facility operations.",
+      "See how V-Watch Ai can help you improve efficiency, strengthen security, and manage your facility with confidence.",
     linkColumns: [
       {
         heading: "Platform",
