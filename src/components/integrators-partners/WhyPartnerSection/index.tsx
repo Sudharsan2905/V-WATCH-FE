@@ -7,6 +7,7 @@ import {
   WHY_PARTNER_EMBLEM,
   WHY_PARTNER_POINTS,
 } from "@/constants/integrators-partners";
+import { LayersIcon, ChartIcon, PlugIcon, SupportIcon } from "./icons";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -30,44 +31,6 @@ const emblemReveal: Variants = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE } },
 };
 
-// Inline icons for the four points, drawn with currentColor.
-function LayersIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-5" aria-hidden>
-      <rect x="3" y="3" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="1.7" />
-      <path d="M8 19.5h9.5A2.5 2.5 0 0 0 20 17V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ChartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-5" aria-hidden>
-      <path d="M4 20V10M10 20V4M16 20v-8M21 20H3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function PlugIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-5" aria-hidden>
-      <circle cx="6" cy="6" r="2.5" stroke="currentColor" strokeWidth="1.7" />
-      <circle cx="18" cy="6" r="2.5" stroke="currentColor" strokeWidth="1.7" />
-      <circle cx="12" cy="18" r="2.5" stroke="currentColor" strokeWidth="1.7" />
-      <path d="M7.5 8 11 15.5M16.5 8 13 15.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function SupportIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-5" aria-hidden>
-      <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.7" />
-      <path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 const ICONS = [LayersIcon, ChartIcon, PlugIcon, SupportIcon];
 
 type Point = (typeof WHY_PARTNER_POINTS)[number];
@@ -79,7 +42,7 @@ function PointCard({
   const col = index % 2;                          // 0 = left col, 1 = right col
   const row = Math.floor(index / 2);              // 0 = top row, 1 = bottom row
   const side: "left" | "right" = col === 0 ? "left" : "right";
-  const vert: "top" | "bottom"  = row === 0 ? "top" : "bottom";
+  const vert: "top" | "bottom" = row === 0 ? "top" : "bottom";
   const Icon = ICONS[index % ICONS.length];
 
   return (
@@ -91,17 +54,15 @@ function PointCard({
           outer corner as a thick rounded bracket. */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute z-0 h-[110px] w-[98px] bg-[linear-gradient(150deg,#52BBE8_0%,#1264BE_100%)] ${
-          side === "left" ? "-left-3.5" : "-right-3.5"
-        } ${vert === "top" ? "-top-3.5" : "-bottom-3.5"} ${
-          side === "left"
+        className={`pointer-events-none absolute z-0 h-[110px] w-[98px] bg-[linear-gradient(150deg,#52BBE8_0%,#1264BE_100%)] ${side === "left" ? "-left-3.5" : "-right-3.5"
+          } ${vert === "top" ? "-top-3.5" : "-bottom-3.5"} ${side === "left"
             ? vert === "top"
               ? "rounded-tl-[26px]"
               : "rounded-bl-[26px]"
             : vert === "top"
               ? "rounded-tr-[26px]"
               : "rounded-br-[26px]"
-        }`}
+          }`}
       />
 
       {/* Card surface */}
@@ -110,18 +71,16 @@ function PointCard({
             card's rounded bounds */}
         <span
           aria-hidden
-          className={`pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-sans text-[96px] font-black italic leading-none text-transparent [-webkit-text-stroke:2.5px_rgba(18,100,190,0.8)] ${
-            side === "left" ? "-left-5" : "-right-0"
-          }`}
+          className={`pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-sans text-[96px] font-black italic leading-none text-transparent [-webkit-text-stroke:2.5px_rgba(18,100,190,0.8)] ${side === "left" ? "-left-5" : "-right-0"
+            }`}
         >
           {point.num}
         </span>
 
         {/* Icon — circular badge at the inner top corner */}
         <span
-          className={`absolute top-3 flex size-10 items-center justify-center rounded-full bg-[#EAF6FE] text-[#2B9CD8] ${
-            side === "left" ? "right-3" : "left-3"
-          }`}
+          className={`absolute top-3 flex size-10 items-center justify-center rounded-full bg-[#EAF6FE] text-[#2B9CD8] ${side === "left" ? "right-3" : "left-3"
+            }`}
         >
           <Icon />
         </span>
