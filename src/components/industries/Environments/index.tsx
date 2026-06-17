@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -33,7 +35,14 @@ const wipeUp: Variants = {
 const CARDS_START  = 0.5;
 const CARD_STAGGER = 0.12;
 
-type EnvCardData = { image: string; title: string; desc: string; active?: boolean };
+type EnvCardData = {
+  image: string;
+  /** Shown at rest; on hover it crossfades to `image`. Falls back to `image`. */
+  originalImage?: string;
+  title: string;
+  desc: string;
+  active?: boolean;
+};
 
 type EnvironmentsContent = {
   heading?: string;
@@ -50,21 +59,90 @@ function EnvCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-col gap-4 rounded-[20px] border border-transparent p-3 transition-all duration-300 hover:border-[#3FA7EA] hover:bg-white/[0.03] hover:shadow-[0_0_44px_rgba(63,167,234,0.30)]"
+      className="group flex flex-col gap-4 rounded-[20px] border border-transparent p-3 transition-all duration-300 hover:border-white/10 hover:bg-white/10 hover:shadow-[0_24px_60px_rgba(0,0,0,0.4)]"
     >
-      <Image
-        src={card.image}
-        alt={card.title}
-        width={347}
-        height={312}
-        unoptimized
-        className="h-auto w-full rounded-[14px] object-cover"
-      />
+      {/* Image frame — fixed Figma ratio 328×290, 24px radius, 1px white border.
+          The border stays constant; only the image crossfades on hover. */}
+      <div className="relative aspect-[328/290] w-full overflow-hidden rounded-[24px] border border-white/10">
+        {/* Resting image */}
+        <Image
+          src={card.image}
+          alt={card.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
+          className="object-cover"
+        />
+        {/* Hover image — crossfades in on top when the card is hovered */}
+        {card.originalImage && (
+          <Image
+            src={card.originalImage}
+            alt=""
+            aria-hidden
+            fill
+            unoptimized
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
+            className="object-cover opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          />
+        )}
+      </div>
       <div className="flex flex-col gap-2 px-1 pb-1">
         <p className="text-[16px] font-bold leading-[21px] text-white">{card.title}</p>
         <p className="text-[13px] leading-[19px] text-[#8FA6BE]">{card.desc}</p>
       </div>
     </motion.div>
+  );
+}
+
+// Mobile-only (< sm): an Embla carousel — one card per view with a peek of the
+// next, swipeable right-to-left. Dots below page through. Tablet/desktop keep
+// the grid layout untouched.
+function MobileCarousel({
+  cards,
+}: Readonly<{ cards: EnvCardData[] }>) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    containScroll: "trimSnaps",
+  });
+  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect).on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect).off("reInit", onSelect);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="sm:hidden">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {cards.map((card, i) => (
+            <div key={card.title} className="min-w-0 flex-[0_0_88%] pr-4">
+              <EnvCard card={card} delay={CARDS_START + i * CARD_STAGGER} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dots */}
+      {cards.length > 1 && (
+        <div className="mt-5 flex items-center justify-center gap-2">
+          {cards.map((card, i) => (
+            <button
+              key={card.title}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={`rounded-full transition-all duration-200 ${
+                i === selected ? "h-[8px] w-[24px] bg-white" : "size-[8px] bg-white/30"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -113,8 +191,11 @@ export default function Environments({
             </motion.p>
           </header>
 
-          {/* Cards — one by one */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Mobile (< sm): swipeable carousel */}
+          <MobileCarousel cards={cards} />
+
+          {/* Tablet & up: grid — one by one */}
+          <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {cards.map((card, i) => (
               <EnvCard
                 key={card.title}

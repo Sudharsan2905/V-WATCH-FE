@@ -11,9 +11,9 @@
 export const industrialEnergyContent = {
   hero: {
     badge: "Industrial & Energy",
-    heading: "Take Control of High-Risk Industrial & Energy Sites",
+    heading: "Operate Safely in High-Risk Environments — With Full Visibility ",
     subtitle:
-      "V-Watch Ai gives industrial and energy teams real-time visibility into people, contractors, and safety across plants, refineries, and utility sites so you can reduce risk, stay compliant, and keep operations running safely.",
+      "Monitor people, movement, and operations in real time across industrial sites — reducing risk, improving response time, and always ensuring strict compliance.",
     bgImage: "/industries/industrial&energy/industrial.png",
   },
   challenges: {
@@ -39,7 +39,7 @@ export const industrialEnergyContent = {
       },
     ],
     summary: "But many sites still lack real-time visibility",
-    resultLabel: "This Leads To",
+    resultLabel: "This Leads to:",
     results: [
       "Workers entering restricted or dangerous zones unnoticed",
       "Delayed response during emergencies",
@@ -47,7 +47,7 @@ export const industrialEnergyContent = {
       "Limited control over contractor access and compliance",
       "Increased exposure to safety violations and operational risk",
     ],
-    callout: "When visibility is incomplete, safety and control are at risk.",
+    callout: "When visibility is delayed, risk becomes uncontrollable.",
     calloutIcon: "/industries/construction/sites/grow-light.svg",
     images: [
       "/industries/industrial&energy/visibility/visibility-1.png",
@@ -57,45 +57,60 @@ export const industrialEnergyContent = {
     ],
   },
   onePlatform: {
-    heading: "One platform to manage your entire facility",
+    heading: "Real-time awareness across your entire operation",
     subtitle:
-      "V-Watch Ai brings together access control, real-time tracking, operations management, and workforce intelligence into a single system designed specifically for high-risk industrial and energy environments.",
+      "V-Watch Ai provides continuous, real-time visibility of people, movement, and activity across your site — allowing you to prevent risks, respond instantly, and maintain control.",
     skylineImage: "/industries/industrial&energy/real-time/factory.png",
     features: [
       {
-        icon: "/industries/industrial&energy/real-time/monitoring.svg",
-        title: "Real-Time Monitoring",
-        desc: "Continuously monitor people, contractors, and operations across your entire facility in real time.",
-      },
-      {
         icon: "/industries/industrial&energy/real-time/tracking.svg",
-        title: "Workforce & Asset Tracking",
-        desc: "Track the live location of personnel and critical assets across every zone.",
+        title: "Real-Time Personnel Tracking",
+        desc: "Know where every worker is — especially in high-risk or hazardous areas.",
         active: true,
       },
       {
+        icon: "/industries/industrial&energy/real-time/monitoring.svg",
+        title: "Restricted Zone Monitoring",
+        desc: "Ensure only authorised personnel enter sensitive or dangerous zones.",
+      },
+      {
         icon: "/industries/industrial&energy/real-time/emergency.svg",
-        title: "Emergency Response & Mustering",
-        desc: "Account for everyone instantly and respond faster when incidents occur.",
+        title: "Emergency Response & Muster",
+        desc: "Instantly identify who is present, missing, or safe during emergencies.",
+      },
+      {
+        icon: "/industries/industrial&energy/real-time/monitoring.svg",
+        title: "Compliance & Access Control",
+        desc: "Verify identity and ensure all personnel meet safety and certification requirements.",
+      },
+      {
+        icon: "/industries/industrial&energy/real-time/tracking.svg",
+        title: "Asset & Equipment Visibility",
+        desc: "Track critical assets and equipment to improve utilization and prevent loss.",
+      },
+      {
+        icon: "/industries/industrial&energy/real-time/monitoring.svg",
+        title: "Operational Awareness",
+        desc: "Maintain a live view of site activity to support faster, more informed decisions.",
       },
     ],
-    allowsLabel: "It allows you to",
+    allowsLabel: "You can",
     allows: [
       {
         badge: "/industries/construction/one-platform/one.svg",
-        title: "See who is on-site and where they are",
+        title: "Track where personnel are at all times",
       },
       {
         badge: "/industries/construction/one-platform/two.svg",
-        title: "Control access and compliance in real time",
+        title: "Monitor restricted zones and enforce boundaries",
       },
       {
         badge: "/industries/construction/one-platform/three.svg",
-        title: "Manage operations and permits efficiently",
+        title: "Respond quickly to incidents and emergencies",
       },
       {
         badge: "/industries/construction/one-platform/four.svg",
-        title: "Track workforce performance using real data",
+        title: "Maintain compliance with accurate, real-time data",
       },
     ],
     platformImage: "/industries/industrial&energy/real-time/factory-image.png",
@@ -105,7 +120,8 @@ export const industrialEnergyContent = {
     subheading: "Most systems provide partial visibility.",
     cardTitle: "V-Watch AI provides complete awareness.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage: "/industries/industrial&energy/v-watch-ai/industrcial-ai.png",
+    cardImage: "/industries/industrial&energy/v-watch-ai/commerical.webp",
+    cardContent: "This allows you to move from reactive safety management to proactive risk control.",
     items: [
       {
         icon: "/industries/industrial&energy/v-watch-ai/tracking.svg",
@@ -130,95 +146,101 @@ export const industrialEnergyContent = {
   environments: {
     heading: "Designed for a wide range of industrial and energy environments",
     subtitle:
-      "V-Watch Ai adapts to different types of industrial and energy operations wherever workforce coordination, compliance, and site control are critical.",
+      "V-Watch Ai adapts to complex, high-risk environments where safety, compliance, and real-time control are critical.",
     cards: [
       {
-        image: "/industries/construction/designed-environment/env-1.png",
-        title: "Oil & Gas Facilities",
-        desc: "Maintain control across high-risk environments with strict permit-to-work and hazardous zone requirements.",
+        image: "/industries/construction/designed-environment/env-6.png",
+        title: "Oil & Gas Facilities (Onshore & Offshore)",
+        desc: "Monitor personnel in hazardous zones, enforce restricted access, and ensure rapid response during emergencies.",
         active: true,
+        originalImage: "/industries/construction/designed-environment/1.webp",
+      },
+      {
+        image: "/industries/construction/designed-environment/env-1.png",
+        title: "Power Plants & Energy Facilities",
+        desc: "Track workforce movement across critical infrastructure and maintain strict safety compliance at all times.",
+        originalImage: "/industries/construction/designed-environment/2.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-2.png",
-        title: "Power Plants & Energy Production",
-        desc: "Coordinate operators and contractors safely across complex, high-voltage process areas.",
+        title: "Manufacturing Plants",
+        desc: "Improve operational visibility, monitor workforce activity, and ensure safety across production environments.",
+        originalImage: "/industries/construction/designed-environment/3.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-3.png",
-        title: "Manufacturing Plants",
-        desc: "Handle complex operations with strict safety requirements and multiple specialized contractors.",
+        title: "Chemical & Processing Plants",
+        desc: "Control access to sensitive areas and track personnel in environments where safety risks are high.",
+        originalImage: "/industries/construction/designed-environment/4.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-4.png",
-        title: "Chemical & Processing Plants",
-        desc: "Enforce strict access control and precise coordination in mission-critical, high-hazard plants.",
+        title: "Infrastructure & Utilities Sites",
+        desc: "Manage distributed teams across large areas while maintaining visibility and coordination.",
+        originalImage: "/industries/construction/designed-environment/5.webp",
       },
       {
         image: "/industries/construction/designed-environment/env-5.png",
-        title: "Warehouses & Distribution",
-        desc: "Track distributed workforces and vendors across large storage and logistics sites.",
-      },
-      {
-        image: "/industries/construction/designed-environment/env-6.png",
-        title: "Logistics & Heavy Industry",
-        desc: "Manage field teams and contractors across substations, networks, and remote assets.",
+        title: "Logistics & Warehousing (High-Risk Operations)",
+        desc: "Track movement of personnel and assets in fast-moving environments where coordination and safety are essential.",
+        originalImage: "/industries/construction/designed-environment/6.webp",
       },
     ],
     footerImage: "/industries/construction/designed-environment/env-footer.png",
   },
   connected: {
-    heading: "From risk to response, in real time",
+    heading: "From risk detection to response — in real time",
     subtitle:
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     steps: [
       {
         icon: "capture",
         title: "Capture",
-        desc: "Collect real-time data from site access, movement, and operations.",
+        desc: "Collect real-time data from movement tracking, access points, and operational systems.",
       },
       {
         icon: "control",
         title: "Control",
-        desc: "Manage permits, workflows, and compliance across all operators and contractors.",
+        desc: "Set permissions, enforce boundaries, and manage workflows across your site.",
       },
       {
         icon: "prove",
         title: "Prove",
-        desc: "Generate reports and insights that provide full visibility and audit-ready data.",
+        desc: "Generate accurate reports and audit trails for compliance and safety.",
       },
     ],
   },
   useCases: {
-    heading: "Critical cases for industrial and energy environments",
+    heading: "Critical use cases for industrial and energy environments",
     subtitle:
       "Every environment faces similar operational challenges explore solutions based on your specific needs.",
     cards: [
       {
+        image: "/industries/industrial&energy/critical-usecase/preventions.png",
+        title: "Geofencing Restricted Zones",
+        desc: "Detect unauthorized movement across restricted and hazardous site zones.",
+      },
+      {
         image: "/industries/industrial&energy/critical-usecase/workforces.png",
-        title: "Workforce Operations",
-        desc: "Track and coordinate personnel across plants, zones, and shifts in real time.",
+        title: "Real-Time Headcount & Emergency Muster",
+        desc: "Instantly identify who is present, missing, or safe during emergencies.",
       },
       {
         image: "/industries/industrial&energy/critical-usecase/facialrecognitions.png",
-        title: "Facial Recognition",
-        desc: "Deploy touchless entry points across high-security and high-traffic zones.",
+        title: "Contractor Compliance Tracking",
+        desc: "Ensure every contractor meets safety and certification requirements.",
       },
       {
         image: "/industries/industrial&energy/critical-usecase/maintenances.png",
-        title: "Predictive Maintenance",
-        desc: "Anticipate equipment issues before they cause downtime or safety risk.",
-      },
-      {
-        image: "/industries/industrial&energy/critical-usecase/preventions.png",
-        title: "Hazard Detection & Prevention",
-        desc: "Detect unsafe conditions and unauthorized movement across high-risk areas.",
+        title: "Maintenance Ticketing & Service Orders",
+        desc: "Manage maintenance requests and service orders from report to resolution.",
       },
     ],
   },
   footer: {
-    ctaTitle: "Find the right solution for your industrial & energy sites",
+    ctaTitle: "Take control of safety across your operation",
     ctaText:
-      "Explore how V-Watch Ai can help you improve visibility, strengthen compliance, and take full control of your industrial and energy operations.",
+      "See how V-Watch Ai can help you reduce risk, improve response time, and maintain full visibility across your site.",
     linkColumns: [
       {
         heading: "Platform",

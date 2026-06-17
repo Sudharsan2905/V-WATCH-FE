@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, type ReactNode } from "react";
+import { Fragment, useEffect, useState, type ReactNode } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -98,17 +99,18 @@ function StepCard({
   delay = 0,
 }: Readonly<{ step: Step; tilt?: number; delay?: number }>) {
   return (
-    <div
+    <motion.div
+      variants={fadeUp}
+      custom={delay}
       className="relative flex w-full max-w-[380px] flex-col items-center justify-start gap-3 rounded-[26px] px-8 pb-6 pt-6 text-center lg:flex-1"
       style={{
         minHeight: 150,
         // Real 3D tilt: side cards rotate around the vertical axis so their
-        // near edge comes forward and the far edge tapers away.
-        transform: tilt
-          ? `perspective(1100px) rotateY(${tilt}deg)`
-          : undefined,
+        // near edge comes forward and the far edge tapers away. Driven through
+        // motion's transform values so it composes with the fadeUp reveal.
+        transformPerspective: tilt ? 1100 : undefined,
+        rotateY: tilt || undefined,
         transformOrigin: "center",
-      
         border: "1px solid rgba(255,255,255,0.9)",
         backdropFilter: "blur(14px)",
         WebkitBackdropFilter: "blur(14px)",
@@ -124,13 +126,15 @@ function StepCard({
         <p className="text-[19px] font-bold text-[#13476B]">{step.title}</p>
         <p className="mx-auto max-w-[220px] text-[13.5px] leading-[20px] text-[#5E7C95]">{step.desc}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-function Connector() {
+function Connector({ delay = 0 }: Readonly<{ delay?: number }>) {
   return (
-    <div
+    <motion.div
+      variants={fadeUp}
+      custom={delay}
       className="relative z-20 -mx-3 hidden shrink-0 items-center justify-center rounded-full lg:flex"
       style={{
         background: "rgba(255,255,255,0.9)",
@@ -154,6 +158,62 @@ function Connector() {
       <svg viewBox="0 0 16 14" fill="none" aria-hidden className="ml-1 mr-0.5 w-[15px]">
         <path d="M2 7h11m0 0-3.5-3.5M13 7l-3.5 3.5" stroke="#3DA9F5" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
+    </motion.div>
+  );
+}
+
+// Mobile layout: an Embla carousel — one card per view (with a peek of the
+// next), no 3D tilt or connectors. Dots below let users page through.
+function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    containScroll: "trimSnaps",
+  });
+  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect).on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect).off("reInit", onSelect);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="lg:hidden">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {steps.map((step, i) => (
+            <div
+              key={step.title}
+              className="flex min-w-0 flex-[0_0_85%] justify-center px-2"
+            >
+              {/* tilt={0} — no rotation on mobile */}
+              <StepCard step={step} tilt={0} delay={CARDS_START + i * CARD_STAGGER} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dots */}
+      {steps.length > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {steps.map((step, i) => (
+            <button
+              key={step.title}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={`rounded-full transition-all duration-200 ${
+                i === selected
+                  ? "h-[8px] w-[24px] bg-[#3D8FD6]"
+                  : "size-[8px] bg-[#C6E3F8]"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -207,14 +267,17 @@ export default function Connected({
             </motion.p>
           </header>
 
-          {/* Step cards — one by one */}
+          {/* Mobile: Embla carousel (no tilt) */}
+          <MobileCarousel steps={steps} />
+
+          {/* Desktop: tilted row with connectors */}
           <div
-            className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-10"
+            className="hidden items-center justify-center gap-10 lg:flex"
             style={{ perspective: 1400 }}
           >
             {steps.map((step, i) => (
               <Fragment key={step.title}>
-                {i > 0 && <Connector />}
+                {i > 0 && <Connector delay={CARDS_START + (i - 0.5) * CARD_STAGGER} />}
                 <StepCard
                   step={step}
                   tilt={tiltFor(i, steps.length)}

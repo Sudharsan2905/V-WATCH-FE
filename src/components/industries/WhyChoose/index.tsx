@@ -40,20 +40,27 @@ type WhyChooseContent = {
   cardLogo?: string;
   cardImage?: string;
   items?: WhyChooseItem[];
+  cardContent?: string;
 };
 
 function ConnectCard({
   title,
   logo,
   image,
-}: Readonly<{ title: string; logo: string; image: string }>) {
+  content,
+  delay = 0,
+}: Readonly<{ title: string; logo: string; image: string; content?: string; delay?: number }>) {
   // Bold the product name ("V-Watch AI") above a lighter tail
   // ("connects everything." / "provides complete awareness.").
   const split = title.match(/^(.*?\bAI\b)\s*(.*)$/i);
   const lead = split ? split[1] : title;
   const tail = split ? split[2] : "";
   return (
-    <div className="relative flex w-full flex-col gap-4 rounded-[24px] border border-[#E6EAF0] bg-white p-4 shadow-[0px_30px_60px_-30px_rgba(20,46,92,0.35),0px_2px_10px_rgba(20,46,92,0.05)] lg:w-[380px]">
+    <motion.div
+      variants={fromLeft}
+      custom={delay}
+      className="relative flex w-full flex-col gap-4 rounded-[24px] border border-[#E6EAF0] bg-white p-4 shadow-[0px_30px_60px_-30px_rgba(20,46,92,0.35),0px_2px_10px_rgba(20,46,92,0.05)] lg:w-[380px]"
+    >
       {/* Logo badge — floats OUT past the card's top-left corner. The card has
           no overflow-hidden, so its rounded corners stay intact while the badge
           is NOT clipped. A white ring sits behind the metallic V-WATCH badge. */}
@@ -95,23 +102,39 @@ function ConnectCard({
         <span className=" size-2.5 rounded-full bg-[#3D8FD6] " />
       </span>
 
-      {/* AI visual — the glassmorphism caption overlay is baked into the asset */}
-      <Image
-        src={image}
-        alt=""
-        width={370}
-        height={305}
-        unoptimized
-        className="h-auto w-full rounded-[16px] object-cover"
-      />
-    </div>
+      {/* AI visual — on hover, a glassmorphism caption fades up from the bottom
+          revealing the cardContent copy. */}
+      <div className="group relative overflow-hidden rounded-[16px]">
+        <Image
+          src={image}
+          alt=""
+          width={370}
+          height={305}
+          unoptimized
+          className="h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        />
+        {content && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="rounded-[12px] border border-white/25 bg-white/15 p-3 shadow-[0_8px_30px_rgba(10,75,110,0.25)] backdrop-blur-md">
+              <p className="text-[14px] font-medium leading-[19px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]">
+                {content}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
-function Connectors() {
+function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
   const base = "/industries/construction/v-watch-ai";
   return (
-    <div className="relative hidden self-stretch lg:block lg:w-[170px]">
+    <motion.div
+      variants={fadeUp}
+      custom={delay}
+      className="relative hidden self-stretch lg:block lg:w-[170px]"
+    >
       {/* Upper link → row 1 (top half, meeting the center line on the left).
           The lines extend ~56px past the right edge so their dashed ends tuck
           under the value cards — a clean connection independent of width. */}
@@ -141,7 +164,7 @@ function Connectors() {
         unoptimized
         className="absolute left-0 top-1/2 h-auto w-[calc(100%+10px)] -translate-y-1/2"
       />
-    </div>
+    </motion.div>
   );
 }
 
@@ -150,7 +173,11 @@ function ValueRow({
   delay = 0,
 }: Readonly<{ item: WhyChooseItem; delay?: number }>) {
   return (
-    <div className="flex items-center gap-4 rounded-[18px] border border-white  px-5 py-4 shadow-[0px_20px_44px_-26px_rgba(20,46,92,0.30),0px_1px_6px_rgba(20,46,92,0.04)]">
+    <motion.div
+      variants={fadeUp}
+      custom={delay}
+      className="flex items-center gap-4 rounded-[18px] border border-white  px-5 py-4 shadow-[0px_20px_44px_-26px_rgba(20,46,92,0.30),0px_1px_6px_rgba(20,46,92,0.04)]"
+    >
       <div className="border border-white rounded-[10px] p-2">
       <Image
         src={item.icon}
@@ -166,7 +193,7 @@ function ValueRow({
         <p className="text-[14px] leading-[19px] text-[#5B7385]">{item.desc}</p>
       </div>
       <Image src={item.number} alt="" width={56} height={40} unoptimized className="h-9 w-auto shrink-0 object-contain" />
-    </div>
+    </motion.div>
   );
 }
 
@@ -178,15 +205,22 @@ export default function WhyChoose({
     subheading = "Most solutions address only one part of the problem.",
     cardTitle  = "V-Watch AI connects everything.",
     cardLogo   = "/industries/construction/v-watch-ai/vwatch.png",
-    cardImage  = "/industries/construction/v-watch-ai/AI.png",
+    cardImage  = "/industries/construction/v-watch-ai/commerical.webp",
     items      = [],
+    cardContent = ""
   } = whyChoose;
 
   return (
+    <MotionConfig reducedMotion="user">
       <section className="relative z-10 overflow-hidden bg-white px-6 py-16 lg:px-[60px]">
         <Image src="/industries/construction/v-watch-ai/ai-bg.png" alt="" fill sizes="100vw" className="pointer-events-none select-none object-fill" />
 
-        <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10">
+        <motion.div
+          className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+        >
           {/* Header — wipeTop */}
           <header className="flex flex-col gap-2">
             <motion.h2
@@ -208,22 +242,23 @@ export default function WhyChoose({
           {/* Connect card → connectors → value rows */}
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-0">
             {/* Left card slides in from the left */}
-            <ConnectCard title={cardTitle} logo={cardLogo} image={cardImage} />
+            <ConnectCard title={cardTitle} logo={cardLogo} image={cardImage} content={cardContent} delay={0.3} />
 
           {/* Connectors stretch to exactly the value-rows column height so the
               top branch meets row 1, the centre line meets row 2, and the
               bottom branch meets row 3 — regardless of row content height. */}
           <div className="flex w-full flex-col gap-8 lg:w-auto lg:flex-1 lg:flex-row lg:items-stretch lg:gap-0">
-            <Connectors />
+            <Connectors delay={0.5} />
 
             <div className="flex w-full flex-col justify-between gap-6 lg:flex-1">
-              {items.map((item) => (
-                <ValueRow key={item.title} item={item} />
+              {items.map((item, i) => (
+                <ValueRow key={item.title} item={item} delay={0.55 + i * 0.15} />
               ))}
             </div>
           </div>
         </div>
-      </div>
-    </section>
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
