@@ -53,7 +53,7 @@ export default function Hero() {
                 }}
               />
               <span className="relative h-[11px] w-[11px] rounded-full bg-[#86D58B]" />
-              <span className="relative text-[18px] font-bold leading-none text-white">In Real Time</span>
+              <span className="relative text-base font-bold leading-none text-white lg:text-[18px]">In Real Time</span>
             </span>
 
             <h1 className="text-[34px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
@@ -69,7 +69,7 @@ export default function Hero() {
 
           {/* Split into its visible lines so each wipes in left -> right, one after
               another, continuing the cascade started by the headline. */}
-          <p className="max-w-[615px] text-[18px] font-bold leading-[28px] text-white lg:text-[20px] lg:leading-[32px]">
+          <p className="max-w-[615px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-[32px]">
             <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
               V-Watch Ai is an AI-driven platform that automates, secures, and
             </span>

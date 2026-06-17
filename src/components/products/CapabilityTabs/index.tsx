@@ -78,7 +78,7 @@ const TABS: Tab[] = [
   },
   {
     key: "Movement & Logistics",
-    tab: "Logistics",
+    tab: "Movement & Logistics",
     num: "03",
     subtitle: "Tracking movement of people, vehicles, and goods across operations",
     img: "/products/logistics.png",
@@ -99,7 +99,7 @@ const TABS: Tab[] = [
   },
   {
     key: "Assets & Quality",
-    tab: "Assets",
+    tab: "Assets & Quality",
     num: "04",
     subtitle: "Managing physical resources and ensuring operational standards",
     img: "/products/assets.png",
@@ -116,7 +116,7 @@ const TABS: Tab[] = [
   },
   {
     key: "Safety & Compliance",
-    tab: "Safety",
+    tab: "Safety & Compliance",
     num: "05",
     subtitle: "Ensuring safe operations and regulatory compliance",
     img: "/products/safety.png",
@@ -141,7 +141,7 @@ const TABS: Tab[] = [
   },
   {
     key: "Intelligence & Productivity",
-    tab: "AI Intelligence",
+    tab: "Intelligence & AI",
     num: "06",
     subtitle: "Turning operational data into measurable performance",
     img: "/products/ai.png",
@@ -189,6 +189,21 @@ export default function CapabilityTabs() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "0px 0px -20% 0px" });
 
+  // Horizontally-scrollable tab bar (mobile): keep the active tab centred so the
+  // selection is always fully visible — including the last tab, which otherwise
+  // sits cut off at the right edge. No-op on desktop where the bar doesn't scroll.
+  const tabScrollerRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  useEffect(() => {
+    const container = tabScrollerRef.current;
+    const el = tabRefs.current[tab];
+    if (!container || !el) return;
+    const containerRect = container.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const delta = elRect.left - containerRect.left - (containerRect.width - elRect.width) / 2;
+    container.scrollTo({ left: container.scrollLeft + delta, behavior: "smooth" });
+  }, [tab]);
+
   const [hasEntered, setHasEntered] = useState(false);
   useEffect(() => {
     if (!inView || hasEntered) return;
@@ -235,6 +250,7 @@ export default function CapabilityTabs() {
       >
         <LayoutGroup>
           <motion.div
+            ref={tabScrollerRef}
             className="flex h-14 w-full items-center gap-2.5 overflow-x-auto rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             variants={tabBarVariant}
             initial="hidden"
@@ -243,6 +259,9 @@ export default function CapabilityTabs() {
             {TABS.map((t, i) => (
               <motion.button
                 key={t.key}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
                 type="button"
                 onClick={() => selectTab(i)}
                 variants={tabItemVariant}

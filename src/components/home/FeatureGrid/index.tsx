@@ -79,7 +79,7 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
       </div>
 
       {/* Card — full-width on mobile; offset 46.5 × 43.5 on desktop */}
-      <div className="relative h-[144px] w-full lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:h-[144px] lg:w-[469px]">
+      <div className="relative min-h-[144px] w-full lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:h-[144px] lg:w-[469px]">
         {/* Card glass border/background */}
         <div
           className="absolute inset-0 rounded-[20px] border-2 border-white shadow-[6px_10px_23px_0px_rgba(217,226,255,0.85),0px_13px_100px_0px_rgba(199,199,199,0.25)] lg:inset-auto lg:-left-[3.5px] lg:-top-[0.5px] lg:h-[144px] lg:w-[473px]"
@@ -118,7 +118,7 @@ export default function FeatureGrid() {
           width), never cropped, so the arcs join perfectly. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 select-none"
+        className="pointer-events-none absolute inset-x-0 hidden select-none lg:block"
         style={{ top: "-50.78125vw", height: "111.5625vw" }}
       >
         <Image src="/home/one-system.svg" alt="" fill priority={false} sizes="100vw" className="object-cover" />

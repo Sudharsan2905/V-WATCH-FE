@@ -47,7 +47,7 @@ const ROW_1: Industry[] = [
   {
     name: "Construction",
     img: "/home/ind-construction.webp",
-    desc: "Track workforce, equipment, and site activity in real time keeping projects safe, compliant, and on schedule from groundbreaking to handover.",
+    desc: "Manage large, multi-contractor environments with full visibility across workforce, compliance, and site operations ensuring safety, coordination, and accountability at every stage of the project.",
   },
   {
     name: "Industrial & Energy",
@@ -57,7 +57,7 @@ const ROW_1: Industry[] = [
   {
     name: "Commercial & Facilities",
     img: "/home/ind-commercial.webp",
-    desc: "Manage access, monitor occupancy, and coordinate teams across buildings ensuring security and efficiency in every facility.",
+    desc: "Streamline building operations, enhance access control, and manage maintenance and workforce activities efficiently across offices, retail spaces, and multi-site facilities.",
   },
 ];
 
@@ -66,13 +66,13 @@ const ROW_2: Industry[] = [
     name: "Data Centers",
     img: "/home/ind-datacenter.webp",
     wide: true,
-    desc: "Secure critical infrastructure with controlled access, asset tracking, and continuous monitoring to protect uptime and compliance.",
+    desc: "Maintain strict security and operational control in mission-critical environments — ensuring only authorized access while monitoring workforce activity and operational workflows with precision.",
   },
   {
     name: "Logistics & Warehousing",
     img: "/home/ind-logistics.webp",
     wide: true,
-    desc: "Gain end-to-end visibility over goods, vehicles, and people from on-site movement to cross-border delivery.",
+    desc: "Track movement of personnel and assets, optimize workflows, and improve coordination in fast-paced environments where efficiency and accuracy are essential.",
   },
 ];
 

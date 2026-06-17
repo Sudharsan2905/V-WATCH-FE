@@ -40,11 +40,11 @@ export const INTEGRATORS: Integrator[] = [
     logo: "/products/eco/si-2.png",
     map: "/integrators-partners/singapore.svg",
     description:
-      "A technology solutions provider delivering smart building, communication, and enterprise system deployments.",
+      "A technology-focused integrator supporting advanced system implementations across commercial and industrial environments.",
     capabilities: [
-      "Smart building technologies",
-      "Enterprise communication systems",
-      "Deployment and maintenance support",
+      "Enterprise system integration",
+      "Infrastructure and technology deployment",
+      "Regional support and implementation",
     ],
   },
   {
@@ -53,11 +53,11 @@ export const INTEGRATORS: Integrator[] = [
     logo: "/products/eco/si-3.png",
     map: "/integrators-partners/india.svg",
     description:
-      "An innovation-driven integrator delivering workforce management, automation, and large-scale enterprise rollouts.",
+      "An integrator supporting large-scale deployments across industrial and operational environments.",
     capabilities: [
-      "Workforce management solutions",
-      "Automation and IoT integration",
-      "Large-scale enterprise rollouts",
+      "Industrial system integration",
+      "Operational technology deployment",
+      "Local implementation and support",
     ],
   },
 ];
@@ -96,12 +96,12 @@ export const WHY_PARTNER_POINTS = [
   {
     num: "3",
     title: "Flexible Integration Capabilities",
-    description: "Role clarity, ownership tracking, responsibility mapping.",
+    description: "Easily integrate with existing infrastructure, systems, and technologies.",
   },
   {
     num: "4",
     title: "Ongoing Support & Collaboration",
-    description: "Role clarity, ownership tracking, responsibility mapping.",
+    description: "Work alongside our team for implementation, customization, and growth.",
   },
 ];
 
@@ -154,9 +154,9 @@ export const COMPANY_TYPE_ICON = "/integrators-partners/form/industry.svg";
 
 export const COMPANY_TYPES = [
   "System Integrator",
-  "Distributor",
-  "Technology Partner",
-  "Consultant",
+  "Technology Provider",
+  "Security / Surveillance Provider",
+  "Infrastructure Provider",
   "Other",
 ];
 

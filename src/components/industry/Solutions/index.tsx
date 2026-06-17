@@ -2,7 +2,11 @@
 
 import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+
+// Show this many cards per view; the carousel only adds arrows past this.
+const VISIBLE = 4;
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -36,36 +40,100 @@ type Card = {
 
 const CARDS: Card[] = [
   {
-    title: "Workforce Operations",
+    title: "Workforce automation",
     desc: "Manage payroll, leave, and workforce activity centrally.",
     img: "/industry/sol-1.png",
     descColor: "#EFF9FF",
     descWeight: 500,
   },
   {
-    title: "Emergency Muster & Headcount",
-    desc: "Track safety, missing, and onsite personnel during emergencies.",
-    img: "/industry/sol-2.png",
-    descColor: "#D4F0FF",
-    descWeight: 400,
-  },
-  {
-    title: "Compliance tracking",
+    title: "Emergency headcount and muster",
     desc: "Ensure every third-party worker meets safety requirements.",
     img: "/industry/sol-3.png",
     descColor: "#D4F0FF",
     descWeight: 500,
   },
   {
-    title: "Facial Recognition",
+    title: "Compliance tracking",
+    desc: "Track safety, missing, and onsite personnel during emergencies.",
+    img: "/industry/sol-2.png",
+    descColor: "#D4F0FF",
+    descWeight: 400,
+  },
+  {
+    title: "Facial recognition access control",
     desc: "Deploy touchless entry points across high-traffic zones.",
     img: "/industry/sol-4.png",
     descColor: "#D4F0FF",
     descWeight: 500,
   },
+  {
+    title: "Maintenance and task management",
+    desc: "Streamline task assignment, tracking, and completion across teams.",
+    img: "/industries/industrial&energy/critical-usecase/maintenances.png",
+    descColor: "#D4F0FF",
+    descWeight: 500,
+  },
 ];
 
+function NavButton({
+  dir,
+  disabled,
+  onClick,
+}: Readonly<{ dir: "prev" | "next"; disabled: boolean; onClick: () => void }>) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled || undefined}
+      aria-label={dir === "prev" ? "Previous" : "Next"}
+      className="flex size-11 shrink-0 items-center justify-center rounded-full border border-[#CFE9F7] bg-white text-[#1273A6] shadow-[0_6px_16px_rgba(126,207,250,0.28)] transition hover:bg-[#EFF9FF] disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path
+          d={dir === "prev" ? "m15 6-6 6 6 6" : "m9 6 6 6-6 6"}
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
 export default function Solutions() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+  // Gates the client-only carousel arrows: false during SSR and the first
+  // client render (so the markup matches), flipped true after mount.
+  const [mounted, setMounted] = useState(false);
+  const hasNav = CARDS.length > VISIBLE;
+
+  const updateEdges = useCallback(() => {
+    setMounted(true);
+    const el = scrollerRef.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 1);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(updateEdges);
+    window.addEventListener("resize", updateEdges);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", updateEdges);
+    };
+  }, [updateEdges]);
+
+  const page = (dir: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" });
+  };
+
   return (
     <MotionConfig reducedMotion="user">
     <section className="relative z-10 -mt-10 overflow-hidden rounded-t-[40px] bg-white px-6 pt-10 pb-20 lg:px-[60px]">
@@ -120,21 +188,37 @@ export default function Solutions() {
               solutions based on your specific needs.
             </p>
           </div>
-          <ViewAllUseCases className="shrink-0" />
+          <div className="flex shrink-0 items-center gap-3">
+            {hasNav && mounted && (
+              <div className="hidden items-center gap-2.5 lg:flex">
+                <NavButton dir="prev" disabled={atStart} onClick={() => page(-1)} />
+                <NavButton dir="next" disabled={atEnd} onClick={() => page(1)} />
+              </div>
+            )}
+            <ViewAllUseCases className="shrink-0" />
+          </div>
         </motion.div>
 
-        {/* Cards */}
-        <div className="flex flex-wrap gap-5">
+        {/* Cards — below lg they simply stack/wrap one by one (no carousel);
+            at lg+ this becomes a horizontal carousel showing VISIBLE cards per
+            view, with arrows paging through the rest. The lg-only negative
+            margin + padding gives the cards' -10px bleed room so the
+            overflow-x scroller doesn't clip it. */}
+        <div
+          ref={scrollerRef}
+          onScroll={updateEdges}
+          className="flex flex-wrap gap-5 lg:-m-2.5 lg:flex-nowrap lg:snap-x lg:snap-mandatory lg:overflow-x-auto lg:scroll-smooth lg:p-2.5 lg:[-ms-overflow-style:none] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        >
           {CARDS.map((c, i) => (
             <motion.div
               key={c.title}
               variants={paintIn}
               custom={CARDS_START + i * CARD_STAGGER}
-              className="group relative h-[302px] min-w-[240px] flex-1 rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px]"
+              className="group relative h-[302px] min-w-[240px] flex-1 rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] lg:min-w-0 lg:flex-[0_0_calc((100%-60px)/4)] lg:snap-start"
               style={{ outline: "2px solid white", outlineOffset: -2 }}
             >
               {/* Inner flex — justify-end pushes text to bottom */}
-              <div className="relative flex h-full flex-col items-start justify-end gap-3.5">
+              <div className="relative flex h-full flex-col items-start justify-end">
                 {/* Image: inset -10px so it sits 10px from each card edge.
                     Its own borderRadius(20px) + position(10px) stays within card(30px) radius — no overflow:hidden needed. */}
                 <div
@@ -150,49 +234,60 @@ export default function Solutions() {
                   />
                 </div>
 
-                {/* Frosted glass overlay — matches Figma: rgba(24,23,23,0.40) + blur(5px), pinned to bottom */}
-                <div
-                  className="absolute rounded-b-[20px]"
-                  style={{
-                    left: -10,
-                    right: -10,
-                    bottom: -10,
-                    height: 134,
-                    background: "rgba(24, 23, 23, 0.40)",
-                    backdropFilter: "blur(5px)",
-                  }}
-                />
-
-                {/* Title + description */}
-                <div className="relative z-10 flex flex-col gap-2.5 self-stretch">
-                  <p className="text-[18px] font-bold leading-6 text-white">
-                    {c.title}
-                  </p>
-                  <p
-                    className="text-[16px] leading-5"
-                    style={{ color: c.descColor, fontWeight: c.descWeight }}
-                  >
-                    {c.desc}
-                  </p>
-                </div>
-
-                {/* Learn More — always in layout (no shift on hover), invisible until hover */}
-                <div className="relative z-10 flex h-6 items-center gap-2.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <span className="text-[16px] font-medium text-white">
-                    Learn More
-                  </span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
+                {/* Text block — the frosted glass is a bleeding background that
+                    GROWS with the content, so on hover the panel expands with
+                    the text instead of the title spilling above a fixed panel.
+                    Figma: rgba(24,23,23,0.40) + blur(5px), bled to card edges. */}
+                <div className="relative z-10 self-stretch pt-4">
+                  <div
                     aria-hidden
-                  >
-                    <path
-                      d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"
-                      fill="white"
-                    />
-                  </svg>
+                    className="absolute rounded-b-[20px]"
+                    style={{
+                      left: -10,
+                      right: -10,
+                      bottom: -10,
+                      top: 0,
+                      background: "rgba(24, 23, 23, 0.40)",
+                      backdropFilter: "blur(5px)",
+                    }}
+                  />
+
+                  {/* Title + description */}
+                  <div className="relative flex flex-col gap-2.5">
+                    <p className="text-[18px] font-bold leading-6 text-white">
+                      {c.title}
+                    </p>
+                    <p
+                      className="text-[16px] leading-5"
+                      style={{ color: c.descColor, fontWeight: c.descWeight }}
+                    >
+                      {c.desc}
+                    </p>
+                  </div>
+
+                  {/* Learn More — collapsed to zero height at rest (no reserved
+                      space); expands and fades in on hover. */}
+                  <div className="relative grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr]">
+                    <div className="overflow-hidden">
+                      <div className="flex items-center gap-2.5 pt-3.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                        <span className="text-[16px] font-medium text-white">
+                          Learn More
+                        </span>
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          aria-hidden
+                        >
+                          <path
+                            d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

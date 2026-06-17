@@ -87,7 +87,7 @@ export default function UnifiedSystem() {
           half of the circle shows; FeatureGrid mirrors this with top:-half. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 select-none"
+        className="pointer-events-none absolute inset-x-0 hidden select-none lg:block"
         style={{ bottom: "-60.78125vw", height: "111.5625vw" }}
       >
         <Image src="/home/one-system.svg" alt="" fill priority={false} sizes="100vw" className="object-cover" />
@@ -162,7 +162,7 @@ export default function UnifiedSystem() {
           <motion.div
             variants={loadIn}
             custom={0.25}
-            className="relative h-[302px] w-full overflow-hidden rounded-[16px] lg:w-[590px] lg:shrink-0"
+            className="relative aspect-[590/302] w-full overflow-hidden rounded-[16px] lg:w-[590px] lg:shrink-0"
           >
             <Image
               src="/home/unified-visual.png"
