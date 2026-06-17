@@ -99,7 +99,7 @@ export default function IndustriesHero({
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[2px] bg-[#f5fbff]" />
 
         {/* Glow circles — desktop only */}
-        <motion.div
+        {/* <motion.div
           className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -123,7 +123,7 @@ export default function IndustriesHero({
           >
             <Image src="/industry/hero-circle-center.svg" alt="" fill unoptimized />
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">

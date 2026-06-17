@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, MotionConfig, type Variants } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  type Variants,
+} from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -36,8 +41,15 @@ const slideFromRight: Variants = {
 type Step = {
   num: string;
   label: string;
+  /** White-filled icon shown in the step badge when the step is active. */
+  icon: string;
   title: string;
   body: string[];
+  /** Optional "you can instantly see" checklist shown beneath the body. */
+  bulletsTitle?: string;
+  bullets?: string[];
+  /** Optional role → responsibilities mapping (role, arrow, items). */
+  roles?: { role: string; items: string }[];
   caption: string;
 };
 
@@ -45,6 +57,7 @@ const STEPS: Step[] = [
   {
     num: "01",
     label: "Unified operational data",
+    icon: "/bi-dashboards/bi-report-icons/unified-operational.svg",
     title: "Everything happening across your operations captured in one system",
     body: [
       "V-Watch Ai collects real-time data from across your entire operational environment including workforce activity, access events, tasks, vehicle movement, asset usage, and safety systems.",
@@ -55,49 +68,113 @@ const STEPS: Step[] = [
   {
     num: "02",
     label: "Live operational visibility",
-    title: "See what's happening the moment it happens",
+    icon: "/bi-dashboards/bi-report-icons/live-operational-icon.svg",
+    title: "Know what's happening as it happens",
     body: [
-      "Live streams from access points, cameras, sensors, and field activity flow continuously into a single operational view.",
-      "Teams act on what's happening now rather than reacting to yesterday's reports.",
+      "Monitor your operations in real time, with live updates across workforce, movement, and workflows.",
     ],
-    caption: "Always live. Always current.",
+    bulletsTitle: "You can instantly see",
+    bullets: [
+      "Who is on-site and working",
+      "What tasks are in progress",
+      "Where vehicles and assets are",
+      "Whether operations are running as planned",
+    ],
+    caption: "No delays. No outdated reports.",
   },
   {
     num: "03",
     label: "Role-based dashboards",
-    title: "The right view for every role",
+    icon: "/bi-dashboards/bi-report-icons/role-based-icon.svg",
+    title: "The right information for the right people",
     body: [
-      "Executives, site managers, and operators each get dashboards tuned to the decisions they own.",
-      "Permissions and layouts adapt automatically, so everyone sees what matters without the noise.",
+      "Different roles require different insights.",
+      "V-Watch Ai allows you to configure dashboards based on operational responsibilities:",
     ],
-    caption: "Relevant to everyone. Cluttered for no one.",
+    roles: [
+      { role: "Management", items: "Performance, Trends, Reporting" },
+      { role: "Operations", items: "Tasks, Workflows, Coordination" },
+      { role: "Safety teams", items: "Compliance, Alerts, Risk monitoring" },
+    ],
+    caption: "Everyone sees what matters without noise.",
   },
   {
     num: "04",
     label: "Cross-site performance tracking",
-    title: "Compare performance across every location",
+    icon: "/bi-dashboards/bi-report-icons/cross-site-icons.svg",
+    title: "Measure performance across sites, teams, and operations",
     body: [
-      "Standardized metrics let you benchmark sites, regions, and teams against one consistent scorecard.",
-      "Spot underperformance and replicate what's working across the whole network.",
+      "Track and compare operational performance across multiple locations and projects.",
     ],
-    caption: "One standard. Every site.",
+    bulletsTitle: "You can",
+    bullets: [
+      "Monitor manhours and workforce productivity",
+      "Identify delays or inefficiencies",
+      "Compare site performance",
+      "Ensure consistency across operations",
+    ],
+    caption: "From single-site visibility to organization-wide control.",
   },
   {
     num: "05",
     label: "Actionable intelligence",
-    title: "From insight to action, instantly",
+    icon: "/bi-dashboards/bi-report-icons/actionable-intelligence-icon.svg",
+    title: "Data that tells you what to fix and where to act",
     body: [
-      "Power BI surfaces trends, anomalies, and risks, then routes them to the people who can act.",
-      "Decisions are grounded in complete, accurate, real-time operational data.",
+      "V-Watch Ai transforms operational data into insights you can act on immediately.",
     ],
-    caption: "Less guessing. More doing.",
+    bullets: [
+      "Detect inefficiencies in workflows",
+      "Identify underutilized resources",
+      "Monitor compliance risks",
+      "Highlight operational bottlenecks",
+    ],
+    caption: "Not just data decisions you can execute",
   },
 ];
 
-function SparkIcon() {
+function CheckIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8.7 18.1428C9.04833 18.6012 9.25 19.1696 9.25 19.7931C9.25 21.315 8.02167 22.5435 6.5 22.5435C4.97833 22.5435 3.75 21.315 3.75 19.7931C3.75 18.2711 4.97833 17.0426 6.5 17.0426C6.90333 17.0426 7.27917 17.1251 7.6275 17.281L8.92 15.6582C8.07667 14.7138 7.7375 13.467 7.92083 12.2751L6.06 11.6516C5.565 12.4126 4.72167 12.9169 3.75 12.9169C2.22833 12.9169 1 11.6883 1 10.1664C1 8.64446 2.22833 7.41591 3.75 7.41591C5.27167 7.41591 6.5 8.64446 6.5 10.1664C6.5 10.2306 6.5 10.2947 6.49083 10.3589L8.35167 10.9824C8.93833 9.87301 10.02 9.0662 11.3033 8.85533V6.87499C10.13 6.56326 9.25 5.49058 9.25 4.20702C9.25 2.68509 10.4783 1.45654 12 1.45654C13.5217 1.45654 14.75 2.68509 14.75 4.20702C14.75 5.49058 13.87 6.56326 12.6875 6.87499V8.85533C13.9708 9.0662 15.0525 9.87301 15.6392 10.9824L17.5 10.3589V10.1664C17.5 8.64446 18.7283 7.41591 20.25 7.41591C21.7717 7.41591 23 8.64446 23 10.1664C23 11.6883 21.7717 12.9169 20.25 12.9169C19.2783 12.9169 18.435 12.4126 17.94 11.6608L16.0792 12.2843C16.2625 13.467 15.9325 14.7138 15.08 15.6673L16.3725 17.2901C16.7208 17.1251 17.0967 17.0426 17.5 17.0426C19.0217 17.0426 20.25 18.2711 20.25 19.7931C20.25 21.315 19.0217 22.5435 17.5 22.5435C15.9783 22.5435 14.75 21.315 14.75 19.7931C14.75 19.1696 14.9517 18.6012 15.3 18.1428L14.0075 16.52C12.77 17.2076 11.2483 17.2168 10.0017 16.52L8.7 18.1428Z" fill="white" />
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0"
+    >
+      <circle cx="9" cy="9" r="9" fill="#D6F2E4" />
+      <path
+        d="M5 9.25L7.6 11.85L13 6.45"
+        stroke="#1F9D6B"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// Arrow-with-dot mark from /public/ai-platform/bi-dashboards.svg, inlined so it
+// matches the other icons and inherits crisp rendering at small sizes.
+function ArrowIcon() {
+  return (
+    <svg
+      width="15"
+      height="18"
+      viewBox="0 0 16 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0"
+    >
+      <path
+        d="M4.92384 18.5929C4.99719 18.6385 5.25559 18.7672 5.51499 18.5452L15.8138 9.75204C15.9342 9.64901 16.0032 9.49731 16.0032 9.3356C16.0032 9.1739 15.9342 9.02219 15.8138 8.91917L5.51499 0.126031C5.40296 0.0303407 5.29127 0 5.19458 0C5.06721 0 4.96552 0.0526794 4.92384 0.0783523C4.82434 0.138114 4.74714 0.228808 4.70403 0.336577C4.66092 0.444346 4.65428 0.563265 4.68512 0.675164L6.73061 9.04453C6.77729 9.23491 6.77729 9.43629 6.73061 9.62667L4.68512 17.996C4.65428 18.1079 4.66092 18.2269 4.70403 18.3346C4.74714 18.4424 4.82434 18.5331 4.92384 18.5929Z"
+        fill="#0A4B6E"
+      />
+      <path
+        d="M2.00049 11.3369C3.10532 11.3369 4.00097 10.4413 4.00097 9.33642C4.00097 8.23159 3.10532 7.33594 2.00049 7.33594C0.895648 7.33594 0 8.23159 0 9.33642C0 10.4413 0.895648 11.3369 2.00049 11.3369Z"
+        fill="#0A4B6E"
+      />
     </svg>
   );
 }
@@ -119,6 +196,87 @@ function OpsVisual({ caption }: Readonly<{ caption: string }>) {
       {/* glass caption card — overflows the image bottom */}
       <div className="absolute w-full bottom-0 rounded-[16px] border border-white/25 bg-[rgba(249,251,255,0.11)] px-4 py-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_20px_44px_-16px_rgba(0,0,0,0.7)] backdrop-blur-md">
         <p className="text-[15px] font-bold leading-[20px] text-white">{caption}</p>
+      </div>
+    </div>
+  );
+}
+
+// Shared chrome for the detail panel — fades to transparent at the bottom.
+const PANEL_CLASS =
+  "flex flex-1 rounded-[24px] bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_42%,rgba(255,255,255,0)_100%)] p-6 sm:p-8";
+
+// Detail content (number, title, body copy, operations visual) for the active
+// step. Reused by the desktop right column and the inline mobile panel.
+function DetailContent({ current }: Readonly<{ current: Step }>) {
+  return (
+    <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
+      {/* Copy */}
+      <div className="flex flex-1 flex-col gap-4">
+        <span className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-[16px] font-extrabold text-white">
+          {current.num}
+        </span>
+        <h3 className="text-[20px] font-bold leading-[27px] text-[#0A4B6E]">
+          {current.title}
+        </h3>
+
+        <div className="flex flex-col gap-3">
+          {current.body.map((para) => (
+            <p
+              key={para}
+              className="text-[16px] font-normal leading-[24px] text-[#3E4B77]"
+            >
+              {para}
+            </p>
+          ))}
+        </div>
+
+        {current.bullets && current.bullets.length > 0 && (
+          <div className="flex flex-col gap-3">
+            {current.bulletsTitle && (
+              <p className="text-[13px] font-bold uppercase tracking-[0.06em] text-[#1F9D6B]">
+                {current.bulletsTitle}
+              </p>
+            )}
+            <ul className="flex flex-col gap-2.5">
+              {current.bullets.map((point) => (
+                <li key={point} className="flex items-start gap-2.5">
+                  <span className="mt-[3px]">
+                    <CheckIcon />
+                  </span>
+                  <span className="text-[16px] font-normal leading-[22px] text-[#3E4B77]">
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {current.roles && current.roles.length > 0 && (
+          <ul className="flex flex-col gap-3">
+            {current.roles.map((r) => (
+              <li
+                key={r.role}
+                className="grid grid-cols-[auto_auto_1fr] items-start gap-x-3"
+              >
+                <span className="text-[15px] font-bold leading-[22px] text-[#0A4B6E]">
+                  {r.role}
+                </span>
+                <span className="mt-[3px]">
+                  <ArrowIcon />
+                </span>
+                <span className="text-[15px] font-normal leading-[22px] text-[#3E4B77]">
+                  {r.items}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Operations visual */}
+      <div className="w-full lg:w-[300px] lg:shrink-0">
+        <OpsVisual caption={current.caption} />
       </div>
     </div>
   );
@@ -146,7 +304,7 @@ export default function IntegratorNetwork() {
         {/* Header */}
         <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
           <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
-            Our system integrator network
+            How V-Watch Ai Turns Operational Data Into Control
           </h2>
           <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">
             Transform real-time operational data into visibility, intelligence,
@@ -177,7 +335,17 @@ export default function IntegratorNetwork() {
                             : "bg-[#EEF6FC] text-[#9DB6CC]"
                           }`}
                       >
-                        {isActive ? <SparkIcon /> : step.num}
+                        {isActive ? (
+                          <Image
+                            src={step.icon}
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="size-6 object-contain"
+                          />
+                        ) : (
+                          step.num
+                        )}
                       </span>
                       <span
                         className={`text-[17px] font-bold ${isActive ? "text-[#0A8EC8]" : "text-[#556394]"
@@ -186,6 +354,25 @@ export default function IntegratorNetwork() {
                         {step.label}
                       </span>
                     </button>
+
+                    {/* Mobile: detail panel renders inline directly beneath the
+                        selected step. Hidden on desktop in favor of the right
+                        column. */}
+                    <AnimatePresence initial={false}>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.35, ease: EASE }}
+                          className="overflow-hidden lg:hidden"
+                        >
+                          <div className={`${PANEL_CLASS} mt-2`}>
+                            <DetailContent current={current} />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </li>
                 );
               })}
@@ -201,35 +388,13 @@ export default function IntegratorNetwork() {
             </div>
           </motion.div>
 
-          {/* Right: detail panel — fades to transparent at the bottom */}
-          <motion.div variants={slideFromRight} className="flex flex-1 rounded-[24px] bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_42%,rgba(255,255,255,0)_100%)] p-6 sm:p-8">
-            <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
-              {/* Copy */}
-              <div className="flex flex-1 flex-col gap-4">
-                  <span className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-[16px] font-extrabold text-white">
-                    {current.num}
-                  </span>
-                  <h3 className="text-[20px] font-bold leading-[27px] text-[#0A4B6E]">
-                    {current.title}
-                  </h3>
-
-                <div className="flex flex-col gap-3">
-                  {current.body.map((para) => (
-                    <p
-                      key={para}
-                      className="text-[16px] font-normal leading-[24px] text-[#3E4B77]"
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              {/* Operations visual */}
-              <div className="w-full lg:w-[300px] lg:shrink-0">
-                <OpsVisual caption={current.caption} />
-              </div>
-            </div>
+          {/* Right: detail panel — desktop only; on mobile it renders inline
+              beneath the selected step (see the list above). */}
+          <motion.div
+            variants={slideFromRight}
+            className={`${PANEL_CLASS} hidden lg:flex`}
+          >
+            <DetailContent current={current} />
           </motion.div>
         </div>
       </motion.div>

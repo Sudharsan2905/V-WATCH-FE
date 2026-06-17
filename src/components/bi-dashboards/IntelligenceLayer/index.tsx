@@ -228,11 +228,11 @@ export default function IntelligenceLayer() {
             className="flex items-center justify-center lg:absolute lg:left-0 lg:top-1/2 lg:w-[68%] lg:-translate-y-1/2 lg:justify-start"
           >
             <Image
-              src="/bi-dashboards/intelligence-layer.png"
+              src="/bi-dashboards/intelligence-layer.svg"
               alt="Operational data consolidating into a Power BI intelligence layer"
-              width={532}
-              height={270}
-              className="h-auto w-full object-contain"
+              width={487}
+              height={362}
+              className="mx-auto h-auto w-full object-contain lg:h-[445px] lg:w-auto"
             />
           </motion.div>
 

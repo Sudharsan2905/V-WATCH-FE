@@ -123,7 +123,7 @@ export default function BecomeIntegratorSection() {
             <motion.div variants={formReveal} className="relative">
               <form
               onSubmit={(e) => e.preventDefault()}
-              className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8"
+              className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
             >
               <h3 className="text-center text-[20px] font-bold text-[#0A4B6E]">
                 {PARTNERSHIP_FORM_TITLE}

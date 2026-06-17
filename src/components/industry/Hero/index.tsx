@@ -82,14 +82,14 @@ export default function IndustryHero() {
 
         {/* Glow circles — desktop only, clipped to hero bounds.
             Positions derived from Figma container+inset values converted to direct px coords. */}
-        <motion.div
+        {/* <motion.div
           className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5, ease: HERO_EASE }}
-        >
+        > */}
           {/* Right circle: 608×608 box@(714,48) inset -32.89% → 1008×1008 at (514,-152) */}
-          <div
+          {/* <div
             className="absolute mix-blend-overlay"
             style={{
               left: "514px",
@@ -104,10 +104,10 @@ export default function IndustryHero() {
               fill
               unoptimized
             />
-          </div>
+          </div> */}
 
           {/* Left circle: 729×729 box@(-27,28) inset -24.42% → 1085×1085 at (-205,-150) */}
-          <div
+          {/* <div
             className="absolute mix-blend-overlay"
             style={{
               left: "-205px",
@@ -117,10 +117,10 @@ export default function IndustryHero() {
             }}
           >
             <Image src="/industry/hero-circle-left.svg" alt="" fill unoptimized />
-          </div>
+          </div> */}
 
           {/* Center circle: 275×275 box@(265,305) inset -78.18% → 705×705 at (50,90) */}
-          <div
+          {/* <div
             className="absolute"
             style={{ left: "50px", top: "90px", width: "705px", height: "705px" }}
           >
@@ -131,7 +131,7 @@ export default function IndustryHero() {
               unoptimized
             />
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Curved bottom — white dip carved into the hero so it flows into the
             (white) Challenges section below. Same technique as PlatformVisibility:
