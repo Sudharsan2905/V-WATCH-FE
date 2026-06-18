@@ -65,7 +65,7 @@ const DROPDOWNS: Record<string, DropdownData> = {
         icon: "/nav/icons/solutions-pre.svg",
         title: "Pre Construction",
         desc: "Smarter planning and risk reduction.",
-        href: "#",
+        href: "/pre-construction",
       },
       {
         icon: "/nav/icons/solutions-post.svg",

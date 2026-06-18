@@ -1,0 +1,205 @@
+"use client";
+
+import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+// Shared ease — matches the rest of the site (≈ easeOutQuint).
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Header clip-wipe from the top — the site's signature heading reveal.
+const wipeDown: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  show: (delay = 0) => ({
+    clipPath: "inset(0 0 0% 0)",
+    opacity: 1,
+    transition: { delay, duration: 0.6, ease: EASE },
+  }),
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+type EnvCard = {
+  title: string;
+  description: string;
+  // Card background photo. Left empty on purpose — supply the URL per card.
+  image: string;
+};
+
+// Top row: three equal cards. Bottom row: two wide cards.
+const TOP_CARDS: EnvCard[] = [
+  {
+    title: "Construction & Infrastructure",
+    description:
+      "Manage large-scale developments, civil works, and infrastructure projects with full visibility and coordination.",
+    image: "/pre-construction/complex-environments/Construction_Infrastructure_image.png",
+  },
+  {
+    title: "Data Centre Construction",
+    description:
+      "Ensure high-security access control, precise coordination, and strict compliance for mission-critical builds.",
+    image: "/pre-construction/complex-environments/Data_Centre_Construction_image.png",
+  },
+  {
+    title: "Industrial & Energy Projects",
+    description:
+      "Handle complex construction environments with high safety requirements and operational risk.",
+    image: "/pre-construction/complex-environments/Industrial_EnergyProjects_image.png",
+  },
+];
+
+const BOTTOM_CARDS: EnvCard[] = [
+  {
+    title: "Commercial Developments",
+    description:
+      "Coordinate multi-stakeholder projects across office, retail, and mixed-use developments.",
+    image: "/pre-construction/complex-environments/Commercial_Developments_image.jpg",
+  },
+  {
+    title: "Residential Projects",
+    description:
+      "Manage multi-phase developments with better workforce tracking and operational efficiency.",
+    // No dedicated residential photo in /public yet — reusing the construction
+    // shot as the closest stand-in. Swap for a residential image when available.
+    image: "/pre-construction/complex-environments/Residential_Projects_image.jpg",
+  },
+];
+
+function EnvironmentCard({
+  card,
+  index,
+  sizeClassName = "h-[230px] sm:h-[260px]",
+}: Readonly<{ card: EnvCard; index: number; sizeClassName?: string }>) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      custom={index * 0.08}
+      className={`group relative overflow-hidden rounded-[20px] ${sizeClassName}`}
+    >
+      {/* Card photo — supply `image` per card. While empty it falls back to a
+          neutral slate fill so the layout never breaks. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[#1c2742] bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.04]"
+        style={
+          card.image ? { backgroundImage: `url(${card.image})` } : undefined
+        }
+      />
+
+      {/* Bottom-up black gradient behind the copy so the title/description stay
+          legible over any photo (Figma: 154px band, black 10% → 60% → 80% → 100%). */}
+      <div className="absolute inset-x-0 bottom-0 h-38.5 bg-[linear-gradient(180deg,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.6)_45%,rgba(0,0,0,0.8)_75%,rgba(0,0,0,1)_100%)]" />
+
+      {/* Copy, anchored bottom-left. */}
+      <div className="absolute inset-x-0 bottom-0 p-5 lg:p-6">
+        <h3 className="font-lato text-[18px] font-bold leading-tight text-white lg:text-[20px]">
+          {card.title}
+        </h3>
+        <p className="font-lato mt-2 max-w-77 text-[16px] font-normal leading-5.5 tracking-normal text-[#F2F2F2]">
+          {card.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+type ComplexEnvironmentsContent = {
+  heading?: string;
+  // Radial-glow PNG that frames the top of the section. Default points at the
+  // asset already in /public; pass "" to render the gradient alone.
+  framingImage?: string;
+};
+
+export default function ComplexEnvironments({
+  content = {},
+}: Readonly<{ content?: ComplexEnvironmentsContent }> = {}) {
+  const {
+    heading = "Built for complex construction environments",
+    framingImage = "/pre-construction/complex-environments/rader_image.png",
+  } = content;
+
+  return (
+    <MotionConfig reducedMotion="user">
+      {/* Light page band — the dark card floats on the page background. */}
+      <section className="mt-5 w-full bg-[#f5fbff]">
+        {/* The section frame itself: fixed-width rounded card (Figma: width
+            1281.98px, radius 36px), dark gradient fill, clipped corners. */}
+        <div
+          className="relative mx-auto w-full max-w-[1282px] overflow-hidden rounded-[36px] border border-white/10 px-6 py-14 sm:px-10 lg:px-[60px] lg:py-16"
+          style={{
+            // Base background: dark navy → deep indigo linear gradient.
+            background:
+              "linear-gradient(180deg,#070a1c 0%,#0c1130 45%,#0a0e26 100%)",
+          }}
+        >
+          {/* Radial-glow framing — only the BOTTOM HALF of rader_image (1840 × 1693),
+            attached to the top edge. The image renders at full width (full height =
+            width × 1693/1840) and is anchored to the wrapper's bottom; the wrapper
+            is clipped to half that height (aspect 1840 × 847), so the top half
+            overflows above and is cropped off. A soft fade at the cut blends it
+            into the base. */}
+          {framingImage ? (
+            <div className="pointer-events-none absolute inset-x-0 top-0 -z-0 aspect-1840/847 w-full overflow-hidden">
+              <Image
+                src={framingImage}
+                alt=""
+                width={1840}
+                height={1693}
+                priority
+                unoptimized
+                className="absolute inset-x-0 bottom-0 h-auto w-full select-none"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_82%,#0a0e26_100%)]" />
+            </div>
+          ) : null}
+
+          <motion.div
+            className="relative z-10 w-full"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {/* Heading */}
+            <motion.h2
+              variants={wipeDown}
+              custom={0.05}
+              className="font-lato text-[24px] font-bold leading-tight text-white lg:text-[30px]"
+            >
+              {heading}
+            </motion.h2>
+
+            {/* Top row — three equal cards (Figma: 356 × 318). */}
+            <div className="mt-10 flex flex-wrap justify-center gap-7.5 lg:mt-12">
+              {TOP_CARDS.map((card, i) => (
+                <EnvironmentCard
+                  key={card.title}
+                  card={card}
+                  index={i}
+                  sizeClassName="h-[318px] w-full sm:w-[356px]"
+                />
+              ))}
+            </div>
+
+            {/* Bottom row — two wide cards (Figma: 551.53 × 318). */}
+            <div className="mt-7.5 flex flex-wrap justify-center gap-7.5">
+              {BOTTOM_CARDS.map((card, i) => (
+                <EnvironmentCard
+                  key={card.title}
+                  card={card}
+                  index={i + TOP_CARDS.length}
+                  sizeClassName="h-[318px] w-full lg:w-[551px]"
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </MotionConfig>
+  );
+}
