@@ -1,5 +1,37 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
 import BookADemo from "@/components/common/BookADemo";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const cardLeft: Variants = {
+  hidden: { opacity: 0, x: -24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
+
+const cardRight: Variants = {
+  hidden: { opacity: 0, x: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
 
 type CardProps = {
   iconSrc: string;
@@ -11,6 +43,8 @@ type CardProps = {
   cta?: React.ReactNode;
   className?: string;
   textMaxWidth?: string;
+  variants?: Variants;
+  delay?: number;
 };
 
 const CARD_SHADOW =
@@ -46,9 +80,13 @@ function HelpCard({
   cta,
   className = "",
   textMaxWidth,
+  variants = fadeUp,
+  delay = 0,
 }: Readonly<CardProps>) {
   return (
-    <div
+    <motion.div
+      variants={variants}
+      custom={delay}
       className={`relative overflow-hidden rounded-[27.08px] border-[0.85px] border-white bg-white ${CARD_SHADOW} ${className}`}
     >
       {/* Pattern background (per-card decorative SVG) */}
@@ -94,34 +132,40 @@ function HelpCard({
           className="flex flex-col gap-[8.46px]"
           style={textMaxWidth ? { maxWidth: textMaxWidth } : undefined}
         >
-          <h3 className="text-[18px] font-bold leading-[22px] text-[#0F172A]">
+          <h3 className="text-[16px] font-bold leading-[20px] text-[#0F172A] sm:text-[18px] sm:leading-[22px]">
             {title}
           </h3>
-          <p className="text-[16px] font-normal leading-[22px] text-[#314158]">
+          <p className="text-[14px] font-normal leading-[20px] text-[#314158] sm:text-[16px] sm:leading-[22px]">
             {desc}
           </p>
         </div>
 
         {cta && <div className="mt-[20.31px]">{cta}</div>}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function HelpCards() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative -mt-10 overflow-hidden rounded-t-[40px] bg-[#F2F8FE] px-6 py-10 lg:-mt-16 lg:rounded-t-[60px] lg:px-[60px]">
-      <div className="relative mx-auto flex w-full max-w-[1280px] flex-col items-center gap-[30px]">
+      <motion.div
+        className="relative mx-auto flex w-full max-w-[1280px] flex-col items-center gap-[30px]"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         {/* Heading */}
-        <header className="flex w-full max-w-[1160px] flex-col gap-2.5">
-          <h2 className="text-[22px] font-bold leading-[28px] text-[#0A4B6E] sm:text-[26px] sm:leading-[31px]">
+        <motion.header variants={fadeUp} className="flex w-full max-w-[1160px] flex-col gap-2.5">
+          <h2 className="text-[19px] font-bold leading-[25px] text-[#0A4B6E] sm:text-[26px] sm:leading-[31px]">
             How Can We Help You?
           </h2>
-          <p className="max-w-[735px] text-[16px] font-normal leading-[24px] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]">
+          <p className="max-w-[735px] text-[14px] font-normal leading-[21px] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]">
             Connect with our team to explore solutions, get answers, and receive
             the support you need every step of the way.
           </p>
-        </header>
+        </motion.header>
 
         {/* Card grid with decorative background */}
         <div className="relative w-full max-w-[1160px]">
@@ -186,6 +230,8 @@ export default function HelpCards() {
               bgSrc="/contact/cards/bgpattern.svg"
               cta={<BookADemo noBorder />}
               className="min-h-[320px] lg:h-[440px]"
+              variants={cardLeft}
+              delay={0.1}
             />
 
             {/* Right stacked cards */}
@@ -230,6 +276,8 @@ export default function HelpCards() {
                 bgPosition="left center"
                 className="min-h-[200px] lg:h-[203.08px]"
                 textMaxWidth="235.23px"
+                variants={cardRight}
+                delay={0.2}
               />
               <HelpCard
                 iconSrc="/contact/icons/support.svg"
@@ -271,11 +319,14 @@ export default function HelpCards() {
                 bgPosition="left center"
                 className="min-h-[200px] lg:h-[203.08px]"
                 textMaxWidth="235.23px"
+                variants={cardRight}
+                delay={0.32}
               />
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

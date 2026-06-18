@@ -4,16 +4,16 @@ const FEATURES = [
     text: "A walkthrough tailored to your industry and use case",
   },
   {
+    icon: "/book-a-demo/icons/platform-visibility-icon.svg",
+    text: "A clear view of how the platform works end-to-end",
+  },
+  {
     icon: "/book-a-demo/icons/operational-recommendations-icon.svg",
     text: "Recommendations based on your operational needs",
   },
   {
     icon: "/book-a-demo/icons/feature-exploration-icon.svg",
     text: "A chance to explore features with your team",
-  },
-  {
-    icon: "/book-a-demo/icons/platform-visibility-icon.svg",
-    text: "A clear view of how the platform works end-to-end",
   },
 ];
 
@@ -34,7 +34,7 @@ function FeatureCard({ icon, text }: { icon: string; text: string }) {
           />
         </div>
 
-        <p className="text-[16px] font-lato font-[400] leading-relaxed text-[#0A4B6E] sm:text-[16px] lg:text-[18px]">
+        <p className="text-[14px] font-lato font-[400] leading-relaxed text-[#0A4B6E] sm:text-[16px] lg:text-[18px]">
           {text}
         </p>
       </div>
@@ -45,7 +45,7 @@ function FeatureCard({ icon, text }: { icon: string; text: string }) {
 export default function ExpectSection() {
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="font-lato text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]">
+      <h2 className="font-lato text-[20px] font-bold leading-[130%] tracking-[0] text-[#0A4B6E] sm:text-[26px] sm:leading-[100%]">
         What to expect from your demo
       </h2>
 
@@ -56,10 +56,10 @@ export default function ExpectSection() {
       </div>
 
       <div className="mt-1">
-        <p className="font-lato font-[700] text-[20px] font-bold text-[#0A8EC8]">
+        <p className="font-lato font-[700] text-[17px] font-bold text-[#0A8EC8] sm:text-[20px]">
           No commitment
         </p>
-        <p className="font-lato font-[400] text-[18px] font-regular text-[#21293A]">
+        <p className="font-lato font-[400] text-[15px] font-regular text-[#21293A] sm:text-[18px]">
           Just a clear understanding of what&apos;s possible.
         </p>
       </div>

@@ -104,7 +104,7 @@ function FeatureCard({ card }: { card: FeatureCardData }) {
 
 export default function WhatMakesUsDifferent() {
   return (
-    <section className="relative z-10 bg-white py-[40px] lg:py-[60px] [content-visibility:auto] [contain-intrinsic-size:auto_640px]">
+    <section className="relative z-10 bg-white py-[40px] lg:py-[60px]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         {/* Row 1: large dark card + first feature card */}
         <motion.div

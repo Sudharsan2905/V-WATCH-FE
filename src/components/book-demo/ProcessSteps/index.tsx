@@ -1,4 +1,18 @@
+"use client";
+
 import { Fragment } from "react";
+import { motion, MotionConfig, type Variants } from "motion/react";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE, delay },
+  }),
+};
 
 const STEPS = [
   {
@@ -100,9 +114,10 @@ function StepCard({
   icon,
   title,
   description,
-}: (typeof STEPS)[number]) {
+  delay = 0,
+}: (typeof STEPS)[number] & { delay?: number }) {
   return (
-    <div className="flex flex-1 items-center">
+    <motion.div variants={fadeUp} custom={delay} className="flex flex-1 items-center">
       {/* Icon circle straddling the card's left edge */}
       <div
         className="relative z-20 flex shrink-0 items-center justify-center rounded-full bg-white"
@@ -191,7 +206,7 @@ function StepCard({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -199,6 +214,7 @@ function StepCard({
 
 export default function ProcessSteps() {
   return (
+    <MotionConfig reducedMotion="user">
     <section
       className="sm:py-6"
       style={{
@@ -206,28 +222,34 @@ export default function ProcessSteps() {
           "linear-gradient(180deg, #EBF5FF 0%, #F2F8FE 55%, #FFFFFF 100%)",
       }}
     >
-      <div className="mx-auto max-w-[1280px] px-6">
+      <motion.div
+        className="mx-auto max-w-[1280px] px-6"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Heading */}
-        <div className="mb-14 sm:mb-10">
-          <h2 className="mb-3 text-[28px] font-black text-[#0D1F35] sm:text-[32px] lg:text-[34px]">
+        <motion.div variants={fadeUp} className="mb-14 sm:mb-10">
+          <h2 className="mb-3 text-[22px] font-black text-[#0D1F35] sm:text-[32px] lg:text-[34px]">
             What happens next
           </h2>
-          <p className="text-[15px] font-normal text-[#0A4B6E] sm:text-[16px]">
+          <p className="text-[14px] font-normal text-[#0A4B6E] sm:text-[16px]">
             Once you submit your requirements, we take care of the rest.
           </p>
-        </div>
+        </motion.div>
 
         {/* Steps row */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-0 my-10">
           {STEPS.map((step, i) => (
             <Fragment key={step.number}>
-              <StepCard {...step} />
+              <StepCard {...step} delay={0.1 + i * 0.15} />
               <DesktopConnector isLast={i === STEPS.length - 1} />
               <MobileConnector isLast={i === STEPS.length - 1} />
             </Fragment>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
+    </MotionConfig>
   );
 }

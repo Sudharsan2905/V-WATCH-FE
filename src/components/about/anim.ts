@@ -13,21 +13,23 @@ export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // Softer/longer ease for large focal elements (hero/orb zoom).
 export const EASE_SOFT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// Re-reveal each time the element scrolls into view, and reset to `hidden`
-// (fade/clip back out) when it scrolls away — so only the section(s) currently in
-// the viewport are shown. ~20% of the element must be visible to trigger.
-export const viewportReveal = { once: false, amount: 0.2 } as const;
+// Reveal once, the first time the element scrolls into view, then keep it
+// painted — the entrance never replays on later passes, even after the section
+// has scrolled out and back. ~20% of the element must be visible to trigger.
+export const viewportReveal = { once: true, amount: 0.2 } as const;
 
 const t = (duration: number, ease = EASE): Transition => ({ duration, ease });
 
-// Wipe-in from the top — the home page's signature heading/text reveal: content
-// is unveiled downward behind a moving top edge. Use for section headers.
+// Heading/text reveal — a compositor-friendly fade + short downward settle that
+// reads as a "wipe from top" without animating `clip-path` (which forces a paint
+// every frame). Only `opacity` + `transform` are animated, so reveals stay on the
+// GPU and don't jank while scrolling. Use for section headers.
 export const wipeTop: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  hidden: { opacity: 0, y: -12 },
   show: (delay = 0) => ({
-    clipPath: "inset(0 0 0 0)",
     opacity: 1,
-    transition: { ...t(0.6), delay },
+    y: 0,
+    transition: { ...t(0.55), delay },
   }),
 };
 

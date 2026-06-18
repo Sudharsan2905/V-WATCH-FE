@@ -13,7 +13,7 @@ const LIST_ITEMS = [
 
 export default function WhyWeBuilt() {
   return (
-    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px] [content-visibility:auto] [contain-intrinsic-size:auto_720px]">
+    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         {/* Section header */}
         <motion.div

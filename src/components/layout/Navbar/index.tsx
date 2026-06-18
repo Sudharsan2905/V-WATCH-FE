@@ -23,7 +23,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Solutions", href: "#", hasDropdown: true },
   { label: "Industries", href: "#", hasDropdown: true },
   { label: "Products", href: "/products" },
-  { label: "About Us", href: "#" },
+  { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact-us" },
   { label: "Resources", href: "#", hasDropdown: true },
 ];
@@ -160,7 +160,7 @@ function Logo() {
     <Link
       href="/"
       aria-label="V-WATCH home"
-      className="flex h-10 shrink-0 items-center px-3.5"
+      className="flex h-10 shrink-0 items-center px-2 sm:px-3.5"
     >
       <Image
         src="/vwatch-logo.png"
@@ -168,7 +168,7 @@ function Logo() {
         width={135}
         height={32}
         priority
-        className="self-start"
+        className="h-auto w-[112px] self-start sm:w-[135px]"
       />
     </Link>
   );
@@ -332,7 +332,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       {/* ── Desktop bar ─────────────────────────────────────────────────── */}
-      <nav className="flex h-[60px] items-center gap-2 bg-[rgba(3,5,21,0.80)] px-5 shadow-[inset_0px_-5px_27px_rgba(255,255,255,0.10)]">
+      <nav className="flex h-[60px] items-center gap-2 bg-[rgba(3,5,21,0.80)] px-3 shadow-[inset_0px_-5px_27px_rgba(255,255,255,0.10)] sm:px-5">
         <Logo />
 
         <ul className="hidden flex-1 items-center justify-center lg:flex">
@@ -399,7 +399,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle navigation menu"
           aria-expanded={mobileOpen}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
         >
           <svg
             width="22"

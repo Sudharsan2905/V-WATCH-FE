@@ -172,7 +172,7 @@ function ModuleCard({ mod }: { mod: Module }) {
 export default function VWatchAIPlatform() {
   return (
     <section
-      className="relative z-10 -mt-[46px] bg-[#19213d] py-[60px] lg:py-[80px] overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_900px]"
+      className="relative z-10 -mt-[46px] bg-[#19213d] py-[60px] lg:py-[80px] overflow-hidden"
       // Convex curved top edge (the light section above shows through at the corners).
       style={{ borderRadius: "50% 50% 0 0 / 52px 52px 0 0" }}
     >
