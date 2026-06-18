@@ -44,9 +44,6 @@ export default function OurVision() {
         <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
           Our Vision
         </h2>
-        <p className="text-[16px] lg:text-[20px] text-[#0a4b6e] leading-[28px]">
-          We believe operations should not be managed in silos.
-        </p>
       </motion.div>
 
       {/* Mobile layout */}
@@ -198,7 +195,7 @@ export default function OurVision() {
             src="/Frame 2147231126.webp"
             alt=""
             fill
-            priority
+            loading="lazy"
             className="object-cover"
             sizes="592px"
           />

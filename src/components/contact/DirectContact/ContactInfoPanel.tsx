@@ -35,9 +35,6 @@ const TILES: Tile[] = [
   },
 ];
 
-const PANEL_BG =
-  "linear-gradient(0deg, #004870, #004870), radial-gradient(38.35% 93.72% at 18.31% 6.28%, rgba(139,214,255,0.8) 0%, rgba(33,154,221,0.8) 100%), linear-gradient(100.5deg, rgba(14,178,250,0.4) 29.55%, rgba(135,218,254,0.4) 93.8%)";
-
 type TileProps = Tile & { isTall?: boolean };
 
 function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
@@ -61,8 +58,8 @@ function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
         />
       </span>
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <p className="text-[16px] font-bold leading-[20px] text-white">{label}</p>
-        <p className="text-[16px] font-normal leading-[20px] text-white/90">
+        <p className="text-[15px] font-bold leading-[19px] text-white sm:text-[16px] sm:leading-[20px]">{label}</p>
+        <p className="text-[14px] font-normal leading-[19px] text-white/90 sm:text-[16px] sm:leading-[20px]">
           {value}
         </p>
       </div>
@@ -82,20 +79,14 @@ function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
 
 export default function ContactInfoPanel() {
   return (
-    <div
-      className="relative overflow-hidden rounded-[32px] px-6 py-10 sm:px-10 lg:h-[350px] lg:px-10 lg:pb-20 lg:pt-10"
-      style={{ background: PANEL_BG }}
-    >
-      {/* Decorative wave-line pattern (SVG includes its own panel gradient + waves) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: "url('/contact/direct/wave-pattern.svg')",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
+    <div className="relative overflow-hidden rounded-[32px] px-6 py-10 sm:px-10 lg:h-[350px] lg:px-10 lg:pb-20 lg:pt-10">
+      {/* Banner background — replaces the previous layered gradient + wave SVG. */}
+      <Image
+        src="/book-a-demo/BackBanner.webp"
+        alt=""
+        fill
+        sizes="(max-width: 1024px) 100vw, 720px"
+        className="pointer-events-none select-none object-cover"
       />
 
       {/* Tiles — stacked vertically; left side of panel so form sits beside them on lg */}

@@ -16,7 +16,6 @@ export default function ContactUsPage() {
       <Navbar active="Contact Us" />
       <PageHero
         bgImage="/contact/Subtract.png"
-        badge="Connect & Contact Us"
         heading="Get in Touch With Our Team"
         description="Whether you're exploring solutions, have questions, or need support we're here to help."
       />

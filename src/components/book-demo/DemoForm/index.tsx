@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { AnimatePresence, motion } from "motion/react";
+
+const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // ─── Icon primitives ────────────────────────────────────────────────────────
 
@@ -88,12 +91,12 @@ const SERVICES = [
 const OP_SIZES = ["<50 people", "50-200", "200-1,000", "1,000-5,000", "5,000+"];
 
 const ROLES = [
+  "Project Director / Manager",
   "Operations Manager",
-  "IT Manager",
-  "HR Manager",
+  "Safety / HSE Manager",
   "Facility Manager",
-  "C-Level Executive",
-  "Consultant",
+  "HR / Admin",
+  "IT / Systems",
   "Other",
 ];
 
@@ -101,8 +104,10 @@ const INDUSTRIES = [
   "Construction",
   "Industrial & Energy",
   "Commercial & Facilities",
+  "Data Centres",
+  "Logistics & Warehousing",
+  "Manufacturing",
   "Healthcare",
-  "Logistics & Transport",
   "Other",
 ];
 
@@ -174,6 +179,9 @@ function InputField({
   );
 }
 
+// Custom dropdown — a native <select>'s option list can't be styled, so this
+// renders a branded trigger + an animated popover. Value stays controlled by the
+// parent form state, so it serializes exactly like the old <select>.
 function SelectField({
   id,
   label,
@@ -191,30 +199,111 @@ function SelectField({
   placeholder: string;
   icon: React.ReactNode;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointer(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
     <FieldWrapper label={label} id={id}>
-      <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8DA5BE]">
+      <div ref={ref} className="relative">
+        <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-[#8DA5BE]">
           {icon}
         </span>
-        <select
+        <button
           id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`${INPUT_BASE} appearance-none pr-9 !text-[#0A4B6E]`}
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          className={`relative flex h-11 w-full items-center rounded-[10px] border bg-[#F5FBFF] pl-10 pr-9 text-left text-[16px] leading-[22px] transition-all ${
+            open
+              ? "border-[#0a8ec8] ring-2 ring-[#0a8ec8]/15"
+              : "border-[#E9F8FF] hover:border-[#bfe6f5]"
+          }`}
         >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#8DA5BE]">
+          <span
+            className={`truncate ${value ? "text-[#19213D]" : "text-[#0A4B6E]/60"}`}
+          >
+            {value || placeholder}
+          </span>
+        </button>
+        <span
+          className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#2C8FC2] transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
           <ChevronDownIcon />
         </span>
+
+        <AnimatePresence>
+          {open && (
+            <motion.ul
+              role="listbox"
+              initial={{ opacity: 0, y: -6, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.98 }}
+              transition={{ duration: 0.16, ease: SELECT_EASE }}
+              className="absolute left-0 right-0 top-full z-30 mt-2 max-h-[224px] origin-top overflow-auto rounded-[12px] border border-[#E9F8FF] bg-white p-1.5 shadow-[0_18px_50px_rgba(10,75,110,0.18)]"
+            >
+              {options.map((opt) => {
+                const selected = opt === value;
+                return (
+                  <li key={opt}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={selected}
+                      onClick={() => {
+                        onChange(opt);
+                        setOpen(false);
+                      }}
+                      className={`flex w-full items-center justify-between gap-2 rounded-[8px] px-3 py-2.5 text-left text-[15px] leading-tight transition-colors ${
+                        selected
+                          ? "bg-[#EFF8FE] font-semibold text-[#0a4b6e]"
+                          : "text-[#19213D] hover:bg-[#F5FBFF]"
+                      }`}
+                    >
+                      <span className="truncate">{opt}</span>
+                      {selected && (
+                        <svg
+                          aria-hidden
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          className="shrink-0 text-[#0a8ec8]"
+                        >
+                          <path
+                            d="m3.5 8.5 3 3 6-6.5"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
     </FieldWrapper>
   );
@@ -304,7 +393,7 @@ export default function DemoForm() {
 
   return (
     <div className="rounded-[20px] bg-white p-6 shadow-[0_8px_60px_rgba(0,0,0,0.13)] sm:p-8">
-      <h2 className="mb-6 text-center text-[26px] font-bold font-[700] text-[#0A4B6E] sm:text-[21px] lg:text-[26px]">
+      <h2 className="mb-6 text-center text-[20px] font-bold font-[700] text-[#0A4B6E] sm:text-[21px] lg:text-[26px]">
         Tell us about your requirements
       </h2>
 
@@ -443,7 +532,7 @@ export default function DemoForm() {
               return (
                 <label
                   key={service}
-                  className={`flex items-center justify-between cursor-pointer items-center gap-2.5 rounded-[8px] border px-3 py-2.5 font-[400] font-normal text-[16px] transition-colors ${
+                  className={`flex items-center justify-between cursor-pointer items-center gap-2.5 rounded-[8px] border px-3 py-2.5 font-[400] font-normal text-[14px] transition-colors sm:text-[16px] ${
                     checked
                       ? "border-[#E9F8FF] bg-[#E9F8FF] text-[#0a4b6e]"
                       : "border-white bg-[#ffffff] text-[#0a4b6e]"
@@ -481,7 +570,7 @@ export default function DemoForm() {
               return (
                 <label
                   key={size}
-                  className={`flex-1 min-w-max cursor-pointer rounded-[12px] border px-4 py-4 text-center text-[16px] font-normal font-[400] transition-colors ${
+                  className={`flex-1 min-w-max cursor-pointer rounded-[12px] border px-4 py-4 text-center text-[14px] font-normal font-[400] transition-colors sm:text-[16px] ${
                     active
                       ? "border-[#E9F8FF] bg-[#E9F8FF] text-[#0A4B6E]"
                       : "border-white bg-[#ffffff] text-[#0A4B6E]"
@@ -537,7 +626,7 @@ export default function DemoForm() {
             Request a Demo
           </button>
 
-          <p className="max-w-[680px] text-center text-[16px] text-[#3890C0] font-[400] leading-relaxed">
+          <p className="max-w-[680px] text-center text-[13px] text-[#3890C0] font-[400] leading-relaxed sm:text-[16px]">
             Your information will be kept confidential and used only to tailor
             your demo experience.
           </p>

@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 type Field = {
   name: string;
@@ -35,7 +36,6 @@ const PAIRED_FIELDS: Field[][] = [
     {
       name: "companyName",
       label: "Company Name",
-      required: true,
       type: "text",
       placeholder: "Enter Company Name",
       icon: "/contact/direct/icons/form-building.svg",
@@ -43,7 +43,6 @@ const PAIRED_FIELDS: Field[][] = [
     {
       name: "phoneNumber",
       label: "Phone Number",
-      required: true,
       type: "tel",
       placeholder: "Phone Number",
       icon: "/contact/direct/icons/form-phone.svg",
@@ -51,7 +50,13 @@ const PAIRED_FIELDS: Field[][] = [
   ],
 ];
 
-const COMPANY_TYPES = ["Construction", "Industrial", "Commercial", "Other"];
+const ENQUIRY_TYPES = [
+  "Sales / Product Enquiry",
+  "General Question",
+  "Support Request",
+  "Partnership / Collaboration",
+  "Other",
+];
 
 const CARD_SHADOW =
   "shadow-[0px_-1px_34px_rgba(29,108,151,0.01),-3px_20px_170px_rgba(255,255,255,0.5),0px_15px_14px_rgba(10,142,200,0.1)]";
@@ -92,8 +97,152 @@ function InputShell({
 const INPUT_CLASSES =
   "h-full w-full bg-transparent pl-1.5 text-[16px] leading-[22px] text-[#0A4B6E] placeholder:text-[#0A4B6E] placeholder:opacity-60 focus:outline-none";
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Custom dropdown — a native <select>'s option list can't be styled, so this
+// renders a branded trigger + animated popover. The chosen value is mirrored
+// into a hidden input by the parent so it submits with the rest of the form.
+function EnquirySelect({
+  value,
+  onChange,
+  options,
+  icon,
+}: Readonly<{
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+  icon: string;
+}>) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointer(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className={`relative flex h-11 w-full items-center gap-1.5 rounded-[12px] border bg-[#F5FBFF] px-2.5 text-left transition-all ${
+          open
+            ? "border-[#0a8ec8] ring-2 ring-[#0a8ec8]/15"
+            : "border-[#E9F8FF] hover:border-[#bfe6f5]"
+        }`}
+      >
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center">
+          <Image
+            src={icon}
+            alt=""
+            width={24}
+            height={24}
+            unoptimized
+            className="h-6 w-6 object-contain"
+          />
+        </span>
+        <span
+          className={`flex-1 truncate pl-1.5 text-[16px] leading-[22px] ${
+            value ? "text-[#0A4B6E]" : "text-[#0A4B6E]/60"
+          }`}
+        >
+          {value || "Select Option"}
+        </span>
+        <svg
+          aria-hidden
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          className={`shrink-0 text-[#2C8FC2] transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
+          <path
+            d="M3.5 5.25 7 8.75l3.5-3.5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            role="listbox"
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: EASE }}
+            className="absolute left-0 right-0 top-full z-30 mt-2 max-h-[224px] origin-top overflow-auto rounded-[14px] border border-[#E9F8FF] bg-white p-1.5 shadow-[0_18px_50px_rgba(10,75,110,0.18)]"
+          >
+            {options.map((opt) => {
+              const selected = opt === value;
+              return (
+                <li key={opt}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    onClick={() => {
+                      onChange(opt);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center justify-between gap-2 rounded-[10px] px-3 py-2.5 text-left text-[15px] leading-tight transition-colors ${
+                      selected
+                        ? "bg-[#E9F8FF] font-semibold text-[#0a4b6e]"
+                        : "text-[#0A4B6E] hover:bg-[#F5FBFF]"
+                    }`}
+                  >
+                    <span className="truncate">{opt}</span>
+                    {selected && (
+                      <svg
+                        aria-hidden
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className="shrink-0 text-[#0a8ec8]"
+                      >
+                        <path
+                          d="m3.5 8.5 3 3 6-6.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [enquiry, setEnquiry] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -101,6 +250,7 @@ export default function ContactForm() {
     console.log("Contact form submission:", data);
     setSubmitted(true);
     e.currentTarget.reset();
+    setEnquiry("");
   }
 
   return (
@@ -108,7 +258,7 @@ export default function ContactForm() {
       onSubmit={handleSubmit}
       className={`relative flex w-full flex-col items-center gap-5 rounded-[36px] bg-white p-5 ${CARD_SHADOW} lg:h-[563px] lg:w-[548px]`}
     >
-      <h3 className="text-center text-[24px] font-bold leading-[29px] text-[#0A4B6E]">
+      <h3 className="text-center text-[20px] font-bold leading-[25px] text-[#0A4B6E] sm:text-[24px] sm:leading-[29px]">
         Send us a message
       </h3>
 
@@ -133,39 +283,14 @@ export default function ContactForm() {
         ))}
 
         <div className="flex flex-col gap-1.5">
-          <FieldLabel>Company Type</FieldLabel>
-          <InputShell icon="/contact/direct/icons/form-select.svg">
-            <select
-              name="companyType"
-              defaultValue=""
-              className={`${INPUT_CLASSES} appearance-none pr-7`}
-            >
-              <option value="" disabled>
-                Select Option
-              </option>
-              {COMPANY_TYPES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-            <svg
-              aria-hidden
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              className="pointer-events-none absolute right-2.5 text-[#2C8FC2]"
-            >
-              <path
-                d="M3.5 5.25 7 8.75l3.5-3.5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </InputShell>
+          <FieldLabel>Enquiry Type</FieldLabel>
+          <EnquirySelect
+            value={enquiry}
+            onChange={setEnquiry}
+            options={ENQUIRY_TYPES}
+            icon="/contact/direct/icons/form-select.svg"
+          />
+          <input type="hidden" name="enquiryType" value={enquiry} />
         </div>
 
         <div className="flex flex-col gap-1.5">

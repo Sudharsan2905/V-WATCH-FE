@@ -5,7 +5,6 @@ import { motion } from "motion/react";
 import {
   fadeUp,
   wipeTop,
-  popIn,
   staggerFast,
   staggerContainer,
   viewportReveal,
@@ -38,7 +37,7 @@ export default function HeroSection() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-right sm:object-center"
         />
       </motion.div>
 
@@ -95,15 +94,6 @@ export default function HeroSection() {
           {/* Badge + Heading sub-group — gap-[14px] per Figma 1043:1905.
               Sub-stagger: the badge pops first, then the heading wipes in. */}
           <motion.div className="flex flex-col gap-[14px]" variants={staggerFast}>
-            <motion.div
-              variants={popIn}
-              className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13.3px] py-[9.5px]"
-            >
-              <span className="size-[11.4px] rounded-full bg-[#86d58b] flex-shrink-0" />
-              <span className="text-[18px] font-bold leading-none text-white">
-                About Us
-              </span>
-            </motion.div>
             <motion.h1
               variants={wipeTop}
               className="text-[28px] sm:text-[38px] lg:text-[50px] font-black leading-[1.3] lg:leading-[68px] tracking-[1px] text-white"

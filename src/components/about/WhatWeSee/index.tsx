@@ -1,8 +1,32 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { fadeUp, wipeTop, zoomIn, staggerContainer, viewportReveal } from "../anim";
+
+// The center illustration is composed at a fixed 407×455 design size with
+// absolutely-positioned px children, so it can't reflow. To show it on every
+// breakpoint (it stacks between the columns below lg) we measure the available
+// width and scale the whole composition down to fit narrow screens — never up
+// past 1:1. Mirrors the OurVision scaling approach.
+const CENTER_W = 407;
+const CENTER_H = 455;
+
+function useFitScale(designWidth: number) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => setScale(Math.min(1, el.clientWidth / designWidth));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [designWidth]);
+  return [ref, scale] as const;
+}
 
 const LEFT_ROWS = [
   {
@@ -10,16 +34,16 @@ const LEFT_ROWS = [
     text: "Access control is separate from workforce management",
   },
   {
-    icon: "/about/what-we-see-icon-incident.webp",
-    text: "Faster response to incidents and emergencies",
+    icon: "/about/what-we-see-icon-safety.webp",
+    text: "Safety and compliance are tracked manually",
   },
   {
-    icon: "/about/what-we-see-icon-safety.webp",
-    text: "Reduced safety risks and unauthorized movement",
+    icon: "/about/what-we-see-icon-incident.webp",
+    text: "Operational workflows are managed across multiple tools",
   },
   {
     icon: "/about/what-we-see-icon-assets.webp",
-    text: "Better utilization of assets and resources",
+    text: "Data exists — but it is fragmented and difficult to trust",
   },
 ];
 
@@ -30,8 +54,9 @@ const RIGHT_ITEMS = [
 ];
 
 export default function WhatWeSee() {
+  const [centerRef, centerScale] = useFitScale(CENTER_W);
   return (
-    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px] [content-visibility:auto] [contain-intrinsic-size:auto_720px]">
+    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         {/* Header */}
         <motion.div
@@ -88,8 +113,13 @@ export default function WhatWeSee() {
             </div>
           </motion.div>
 
-          {/* CENTER ILLUSTRATION (hidden on mobile/tablet, visible lg+) */}
-          <div className="hidden lg:flex justify-center items-center">
+          {/* CENTER ILLUSTRATION — sits in the 407px center grid track on lg, and
+              stacks between the columns on smaller screens. The fixed 407×455
+              composition is uniformly scaled to fit the available width; the
+              sized box reserves the scaled footprint so layout stays exact. */}
+          <div ref={centerRef} className="flex w-full justify-center items-center">
+            <div style={{ width: CENTER_W * centerScale, height: CENTER_H * centerScale }}>
+            <div className="origin-top-left" style={{ transform: `scale(${centerScale})` }}>
             <motion.div
               className="relative w-[407px] h-[455px] overflow-hidden"
               initial="hidden"
@@ -131,10 +161,12 @@ export default function WhatWeSee() {
               {/* Top-right floating card (Subtract 234×226) — Figma SVG with embedded image fill */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/Subtract.svg"
+                src="/Subtract.webp"
                 alt=""
                 width={234}
                 height={226}
+                loading="lazy"
+                decoding="async"
                 className="absolute"
                 style={{ left: "171px", top: "0px" }}
               />
@@ -233,6 +265,8 @@ export default function WhatWeSee() {
                 </div>
               </div>
             </motion.div>
+            </div>
+            </div>
           </div>
 
           {/* RIGHT COLUMN */}

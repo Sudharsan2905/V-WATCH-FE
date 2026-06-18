@@ -207,7 +207,7 @@ function ArrowConnector() {
 
 export default function OurApproach() {
   return (
-    <section className="bg-[#F2F8FE] py-[40px] lg:py-[80px] overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_520px]">
+    <section className="bg-[#F2F8FE] py-[40px] lg:py-[80px] overflow-hidden">
       <motion.div
         initial="hidden"
         whileInView="show"
