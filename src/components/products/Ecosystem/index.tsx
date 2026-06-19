@@ -98,16 +98,19 @@ export default function Ecosystem() {
           }}
         />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]">
           {/* System integrators + world map */}
           <motion.div
-            className="flex flex-col items-start gap-[30px] lg:flex-row"
+            className="flex flex-col items-start gap-[30px] lg:flex-row lg:max-h-[389px] lg:h-[389px]"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <div className="flex w-full flex-col gap-[30px] lg:w-[482px]">
-              <motion.div variants={fadeUp} className="flex items-center gap-3.5">
+            <div className="flex w-full flex-col gap-[30px] lg:w-[482px] lg:h-[372px]">
+              <motion.div
+                variants={fadeUp}
+                className="flex items-center gap-3.5"
+              >
                 <IconBox src="/products/eco/icon-integrators.svg" />
                 <p className="flex-1 text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
                   System Integrators
@@ -116,7 +119,10 @@ export default function Ecosystem() {
                 </p>
               </motion.div>
 
-              <motion.div variants={cardsStagger} className="flex flex-col gap-6">
+              <motion.div
+                variants={cardsStagger}
+                className="flex flex-col gap-6"
+              >
                 {COMPANIES.map((c) => (
                   <motion.div
                     key={c.name}
@@ -148,15 +154,15 @@ export default function Ecosystem() {
             <div className="relative flex flex-1 items-start self-stretch">
               <motion.div
                 variants={mapReveal}
-                className="relative h-[380px] w-full lg:-mr-[60px] lg:-mt-2"
+                className="relative w-full lg:max-h-[389px] lg:h-[389px] lg:-mr-[60px] lg:-mt-2"
               >
                 <Image
                   src="/products/World_map.webp"
                   alt="Global delivery map"
-                  height={380}
-                  width={700}
+                  height={389}
+                  width={648}
                   className="object-contain [filter:drop-shadow(0_18px_34px_rgba(79,194,255,0.28))]"
-                  sizes="900px"
+                  sizes="389px"
                 />
               </motion.div>
               <motion.div

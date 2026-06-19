@@ -213,7 +213,7 @@ function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
   return (
     <Link
       href={href}
-      className="group flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition-colors hover:bg-[rgba(10,78,110,0.06)]"
+      className="group flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition duration-400 hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
     >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center">
         <Image
@@ -249,9 +249,10 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
     >
       {/* Left info panel */}
       <div className="relative flex w-[230px] shrink-0 flex-col justify-end gap-2.5 overflow-hidden rounded-[16px] border border-white p-2.5">
-        {/* Decorative blobs matching Figma ellipses */}
-        <div className="pointer-events-none absolute -left-7 -top-1 h-[50px] w-[110px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(156,220,255,0.7)_0%,transparent_70%)] blur-[6px]" />
-        <div className="pointer-events-none absolute -right-4 bottom-0 h-[61px] w-[143px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(156,220,255,0.5)_0%,transparent_70%)] blur-[6px]" />
+        {/* Decorative blurred ellipses matching Figma: blue glow top-left,
+            green glow bottom — solid fill @ 50% opacity with a large layer blur. */}
+        <div className="pointer-events-none absolute -left-3 -top-2 h-[50px] w-[110px] rounded-[50%] bg-[#0A8EC8] opacity-50 blur-[40px]" />
+        <div className="pointer-events-none absolute -bottom-3 -right-3 h-[61px] w-[143px] rounded-[50%] bg-[#B1DA63] opacity-50 blur-[40px]" />
         {/* Illustration — top-right, 50% opacity */}
         <div className="pointer-events-none absolute right-1 top-1 opacity-50">
           <Image
