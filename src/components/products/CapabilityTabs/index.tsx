@@ -243,182 +243,169 @@ export default function CapabilityTabs() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-[60px]">
-        <div
-          ref={sectionRef}
-          className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-10"
-        >
-          <LayoutGroup>
-            <motion.div
-              ref={tabScrollerRef}
-              className="flex h-14 w-full items-center gap-2.5 overflow-x-auto rounded-[800px] border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              variants={tabBarVariant}
-              initial="hidden"
-              animate={inView ? "show" : "hidden"}
-            >
-              {TABS.map((t, i) => (
-                <motion.button
-                  key={t.key}
-                  ref={(el) => {
-                    tabRefs.current[i] = el;
-                  }}
-                  type="button"
-                  onClick={() => selectTab(i)}
-                  variants={tabItemVariant}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  transition={hoverSpring}
-                  className={`font-lato relative flex h-full md:h-11 flex-1 items-center justify-center whitespace-nowrap rounded-full px-4 py-1.25 text-[20px] font-medium leading-none tracking-normal transition-colors duration-300 ${
+    <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-[60px]">
+      <div
+        ref={sectionRef}
+        className="relative z-10 mx-auto flex items-center w-full max-w-[1410px] flex-col gap-10"
+      >
+        <LayoutGroup>
+          <motion.div
+            ref={tabScrollerRef}
+            className="flex h-14 w-full items-center gap-2.5 overflow-x-auto rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            variants={tabBarVariant}
+            initial="hidden"
+            animate={inView ? "show" : "hidden"}
+          >
+            {TABS.map((t, i) => (
+              <motion.button
+                key={t.key}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                type="button"
+                onClick={() => selectTab(i)}
+                variants={tabItemVariant}
+                whileHover={{ scale: 1.02, y: -2 }}
+                transition={hoverSpring}
+                className={`relative flex h-full flex-1 items-center justify-center whitespace-nowrap rounded-full px-3 text-[15px] font-medium transition-colors duration-300 sm:px-4 sm:text-[17px] lg:text-[20px] ${
                   i === tab ? "text-white" : "text-[#202020] hover:text-[#0A4B6E]"
                 }`}
-                >
-                  {i === tab && (
-                    <motion.span
-                      layoutId="active-tab"
-                      aria-hidden
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 32,
-                      }}
-                      className="pointer-events-none absolute inset-0 rounded-full border border-transparent [background:linear-gradient(180deg,#21B1F1,#9CDCFF)_padding-box,linear-gradient(180deg,rgba(255,255,255,0.83),rgba(255,255,255,0.2))_border-box] shadow-[0_6px_42px_0_rgba(212,240,255,0.4),2px_5px_14px_0_rgba(255,255,255,0.6),inset_0_-2px_27px_rgba(126,207,250,0.6)]"
-                    />
-                  )}
-                  <span className="relative z-10 h-6 leading-[100%]">
-                    {t.tab}
-                  </span>
-                </motion.button>
-              ))}
-            </motion.div>
-          </LayoutGroup>
+              >
+                {i === tab && (
+                  <motion.span
+                    layoutId="active-tab"
+                    aria-hidden
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="pointer-events-none absolute inset-0 rounded-full border border-transparent [background:linear-gradient(180deg,#21B1F1,#9CDCFF)_padding-box,linear-gradient(180deg,rgba(255,255,255,0.83),rgba(255,255,255,0.2))_border-box] shadow-[0_6px_42px_0_rgba(212,240,255,0.4),2px_5px_14px_0_rgba(255,255,255,0.6),inset_0_-2px_27px_rgba(126,207,250,0.6)]"
+                  />
+                )}
+                <span className="relative z-10">{t.tab}</span>
+              </motion.button>
+            ))}
+          </motion.div>
+        </LayoutGroup>
 
-          <div className="flex flex-col items-stretch gap-[30px] lg:flex-row lg:items-stretch">
+        <div className="flex w-full max-w-[1160px] flex-col items-stretch gap-[30px] lg:flex-row lg:items-stretch">
+          <motion.div
+            className="relative h-[300px] overflow-hidden rounded-[32px] border border-white p-[14px] [background:linear-gradient(180deg,rgba(43,127,255,0.05),rgba(97,95,255,0.05))] shadow-[0_0_14px_0_rgba(79,194,255,0.1),0_0_26px_2px_rgba(92,183,232,0.16),inset_0_0_18px_6px_rgba(255,255,255,0.9)] sm:h-[380px] lg:h-[444px] lg:w-[614px] lg:shrink-0"
+            variants={panelImageReveal}
+            initial="hidden"
+            animate={inView ? "show" : "hidden"}
+          >
+            <div
+              className="relative h-full w-full overflow-hidden rounded-[24px]"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
+                WebkitMaskComposite: "source-in",
+                maskImage:
+                  "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
+                maskComposite: "intersect",
+              }}
+            >
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={tab}
+                  className="absolute inset-0"
+                  variants={imageSwap}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                >
+                  <Image
+                    src={active.img}
+                    alt={`${active.key} illustration`}
+                    fill
+                    className="object-cover"
+                    sizes="585px"
+                    placeholder="blur"
+                    blurDataURL={IMAGE_BLUR}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+
+          <div className="flex flex-1 flex-col gap-5 max-w-[508px] lg:w-[508px]">
             <motion.div
-              className="relative h-[300px] overflow-hidden rounded-[32px] border border-white p-[15px] [background:linear-gradient(180deg,rgba(43,127,255,0.05),rgba(97,95,255,0.05))] shadow-[0_0_14px_0_rgba(79,194,255,0.1),0_0_26px_2px_rgba(92,183,232,0.16),inset_0_0_18px_6px_rgba(255,255,255,0.9)] sm:h-[380px] lg:h-[474px] lg:w-[614px] lg:shrink-0"
-              variants={panelImageReveal}
+              variants={panelHeadingReveal}
               initial="hidden"
               animate={inView ? "show" : "hidden"}
             >
-              <div
-                className="relative h-full w-full overflow-hidden rounded-[24px]"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
-                  WebkitMaskComposite: "source-in",
-                  maskImage:
-                    "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent)",
-                  maskComposite: "intersect",
-                }}
-              >
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={tab}
-                    className="absolute inset-0"
-                    variants={imageSwap}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                  >
-                    <Image
-                      src={active.img}
-                      alt={`${active.key} illustration`}
-                      fill
-                      className="object-cover"
-                      sizes="585px"
-                      placeholder="blur"
-                      blurDataURL={IMAGE_BLUR}
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={tab}
+                  className="flex items-start gap-4"
+                  variants={contentSwap}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                >
+                <div className="flex flex-1 flex-col gap-1.5 text-[#0A4B6E]">
+                  <p className="text-[26px] font-bold">{active.key}</p>
+                  <p className="text-[20px] font-normal">{active.subtitle}</p>
+                </div>
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
-
-            <div className="flex flex-1 flex-col gap-5 lg:w-[508px]">
-              <motion.div
-                variants={panelHeadingReveal}
-                initial="hidden"
-                animate={inView ? "show" : "hidden"}
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={tab}
-                    className="flex items-start gap-4"
-                    variants={contentSwap}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
+            <motion.div
+              className="flex flex-1 flex-col justify-start gap-7 pt-2.5"
+              variants={hasEntered ? undefined : panelItemsReveal}
+              initial={hasEntered ? false : "hidden"}
+              animate={hasEntered ? false : itemsAnimate}
+            >
+              {active.items.map((it, i) => {
+                const isOpen = i === item;
+                return (
+                  <motion.button
+                    key={it.title}
+                    type="button"
+                    onClick={() => selectItem(i)}
+                    variants={hasEntered ? undefined : panelItemReveal}
+                    className="flex w-full flex-col gap-2.5 text-left"
                   >
-                    <div className="flex flex-1 flex-col gap-1.5 text-[#0A4B6E]">
-                      <p className="text-[26px] font-bold">{active.key}</p>
-                      <p className="text-[20px] font-normal">
-                        {active.subtitle}
-                      </p>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </motion.div>
-              <motion.div
-                className="flex flex-1 flex-col justify-start gap-7 pt-2.5"
-                variants={hasEntered ? undefined : panelItemsReveal}
-                initial={hasEntered ? false : "hidden"}
-                animate={hasEntered ? false : itemsAnimate}
-              >
-                {active.items.map((it, i) => {
-                  const isOpen = i === item;
-                  return (
-                    <motion.button
-                      key={it.title}
-                      type="button"
-                      onClick={() => selectItem(i)}
-                      variants={hasEntered ? undefined : panelItemReveal}
-                      className="flex w-full flex-col gap-2.5 text-left"
+                    <motion.p
+                      animate={{ color: isOpen ? "#5CB7E8" : "#0A4B6E", x: isOpen ? 8 : 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="text-[20px] font-bold"
                     >
-                      <motion.p
-                        animate={{
-                          color: isOpen ? "#5CB7E8" : "#0A4B6E",
-                          x: isOpen ? 8 : 0,
-                        }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="text-[20px] font-bold"
-                      >
-                        {it.title}
-                      </motion.p>
-                      <AnimatePresence initial={false}>
-                        {it.desc && isOpen && (
-                          <motion.span
-                            key="desc"
-                            aria-hidden={!isOpen}
-                            initial={{ opacity: 0, height: 0, y: 10 }}
-                            animate={{ opacity: 1, height: "auto", y: 0 }}
-                            exit={{ opacity: 0, height: 0, y: 0 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                            className="block overflow-hidden"
-                          >
-                            <span className="block text-[18px] font-normal leading-[26px] text-[#5CB7E8]">
-                              {it.desc}
-                            </span>
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                      <span className="relative h-1.5 w-full overflow-hidden rounded-full bg-[#EAF3FB] shadow-[0_-2px_4px_rgba(156,220,255,0.10)]">
-                        {isOpen && inView && (
-                          <span
-                            key={`${tab}-${item}-${cycle}`}
-                            onAnimationEnd={advance}
-                            className="absolute inset-0 w-full rounded-full bg-[linear-gradient(90deg,#4AC8FF,#7ECFFA)] shadow-[0_0_10px_1px_rgba(122,223,255,0.85)] [will-change:transform]"
-                            style={{
-                              animation: `progressGrow ${ITEM_DURATION}ms linear forwards`,
-                            }}
-                          />
-                        )}
-                      </span>
-                    </motion.button>
-                  );
-                })}
-              </motion.div>
-            </div>
+                      {it.title}
+                    </motion.p>
+                    <AnimatePresence initial={false}>
+                      {it.desc && isOpen && (
+                        <motion.span
+                          key="desc"
+                          aria-hidden={!isOpen}
+                          initial={{ opacity: 0, height: 0, y: 10 }}
+                          animate={{ opacity: 1, height: "auto", y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: 0 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                          className="block overflow-hidden"
+                        >
+                          <span className="block text-[18px] font-normal leading-[26px] text-[#5CB7E8]">
+                            {it.desc}
+                          </span>
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                    <span className="relative h-1.5 w-full overflow-hidden rounded-full bg-[#EAF3FB] shadow-[0_-2px_4px_rgba(156,220,255,0.10)]">
+                      {isOpen && inView && (
+                        <span
+                          key={`${tab}-${item}-${cycle}`}
+                          onAnimationEnd={advance}
+                          className="absolute inset-0 w-full rounded-full bg-[linear-gradient(90deg,#4AC8FF,#7ECFFA)] shadow-[0_0_10px_1px_rgba(122,223,255,0.85)] [will-change:transform]"
+                          style={{ animation: `progressGrow ${ITEM_DURATION}ms linear forwards` }}
+                        />
+                      )}
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
     </MotionConfig>
   );
 }
