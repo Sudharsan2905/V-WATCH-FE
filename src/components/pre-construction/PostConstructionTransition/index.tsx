@@ -203,9 +203,9 @@ export default function PostConstructionTransition({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-14 lg:px-15 lg:py-16">
+      <section className="mx-auto max-w-[1280px] relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-14 lg:px-15 lg:py-16">
         <motion.div
-          className="mx-auto w-full max-w-[1320px]"
+          className="mx-auto w-full max-w-full"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}

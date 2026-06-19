@@ -66,6 +66,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-lato);
+  /* Register the `font-lato` utility (used across the UI to mark Figma's
+     primary typeface). Without this it silently resolves to nothing and only
+     worked by inheriting --font-sans. */
+  --font-lato: var(--font-lato);
   --font-mono: var(--font-geist-mono);
 }
 
