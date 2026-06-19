@@ -46,7 +46,7 @@ export default function BookADemo({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-full font-bold text-white ${BUTTON_CLASSES} ${className}`}
+      className={`inline-flex items-center justify-center rounded-full font-bold text-white transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110 ${BUTTON_CLASSES} ${className}`}
       style={noBorder ? BUTTON_STYLE_NO_BORDER : BUTTON_STYLE}
     >
       <ArrowBadge />

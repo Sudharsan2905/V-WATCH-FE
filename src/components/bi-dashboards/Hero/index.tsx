@@ -79,13 +79,13 @@ export default function BiDashboardsHero() {
             animate="show"
           >
             {/* Badge */}
-            <motion.span
+            {/* <motion.span
               variants={badgeReveal}
               className="inline-flex w-fit items-center gap-[8px] rounded-full border border-white/15 bg-linear-to-b from-white/20 to-white/5 px-[14px] py-[9px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_8px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-md"
             >
               <span className="size-[10px] rounded-full bg-[#86D58B] shadow-[0_0_8px_2px_rgba(134,213,139,0.6)]" />
               <span className="text-base leading-none text-white">V-Watch Interface</span>
-            </motion.span>
+            </motion.span> */}
 
             {/* Heading */}
             <h1 className="text-[34px] font-semibold leading-[1.18] tracking-[0.5px] text-white sm:text-[44px] lg:text-[52px] lg:leading-[1.2]">

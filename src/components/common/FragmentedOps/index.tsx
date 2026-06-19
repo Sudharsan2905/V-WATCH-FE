@@ -110,7 +110,7 @@ function ResultsCard() {
     <motion.div
       variants={wipeBottom}
       custom={RESULTS_START}
-      className="relative w-full self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
+      className="relative max-w-[380px] h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
     >
       <motion.h3 variants={wipeTop} custom={RESULTS_START + 0.1} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
       <ul className="mt-[14px] flex flex-col gap-4">
@@ -150,7 +150,7 @@ function ResultsCard() {
 // ── Section ────────────────────────────────────────────────────────────────
 export default function FragmentedOps() {
   return (
-    <section className="relative z-10 -mt-[40px] rounded-t-[40px] bg-white px-6 pb-20 pt-10 lg:-mt-[62px] lg:px-[60px]">
+    <section className="relative z-10 -mt-[40px] rounded-t-[40px] bg-[#F4FBFF] px-6 pb-20 pt-10 lg:-mt-[62px] lg:px-[60px]">
       <motion.div
         className="mx-auto w-full max-w-[1410px]"
         initial="hidden"
@@ -185,9 +185,9 @@ export default function FragmentedOps() {
           {/* Middle: connected-core render — compact, fixed-size supporting square */}
           <motion.div
             variants={loadIn}
-            className="relative mx-auto aspect-square w-full max-w-[300px] shrink-0 overflow-hidden rounded-[20px] lg:mx-0 lg:w-[300px] lg:max-w-none"
+            className="relative mx-auto aspect-square w-full max-w-[340px] shrink-0 overflow-hidden rounded-[20px] max-h-[338px] lg:mx-0 lg:w-[340px] lg:max-w-none"
           >
-            <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="300px" className="object-cover" />
+            <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="340px" className="object-cover" />
           </motion.div>
 
           {/* Right: results */}

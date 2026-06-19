@@ -23,38 +23,7 @@ export default function Hero() {
             {/* "In Real Time" pill — glassmorphism with a directional gradient
                 border: bright at the top corners, fading down the sides, dim at
                 the bottom (light source from above). */}
-            <span className="relative inline-flex items-center gap-2 rounded-full bg-white/[0.08] px-[14px] py-[9px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),inset_0_-1px_0_0_rgba(255,255,255,0.16),0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md">
-              {/* gradient border ring — dominant top highlight + corner glow (masked to 1px) */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-full"
-                style={{
-                  padding: "1px",
-                  background:
-                    "radial-gradient(135% 135% at 50% -35%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.45) 26%, rgba(255,255,255,0.08) 58%, rgba(255,255,255,0) 100%)",
-                  WebkitMask:
-                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                  WebkitMaskComposite: "xor",
-                  maskComposite: "exclude",
-                }}
-              />
-              {/* secondary faint reflected highlight along the bottom curve (masked to 1px) */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-full"
-                style={{
-                  padding: "1px",
-                  background:
-                    "radial-gradient(120% 120% at 50% 138%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0) 60%)",
-                  WebkitMask:
-                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                  WebkitMaskComposite: "xor",
-                  maskComposite: "exclude",
-                }}
-              />
-              <span className="relative h-[11px] w-[11px] rounded-full bg-[#86D58B]" />
-              <span className="relative text-base font-bold leading-none text-white lg:text-[18px]">In Real Time</span>
-            </span>
+            
 
             <h1 className="text-[34px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
               {/* Line 1 reveals left -> right; line 2 reveals top -> bottom, staggered after it. */}
@@ -85,9 +54,9 @@ export default function Hero() {
             <BookADemo />
             <a
               href="#"
-              className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold"
+              className="group inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold transition-colors duration-200 ease-out hover:bg-white/20"
             >
-              <span className="bg-gradient-to-b from-[#21B1F1] to-[#A6C936] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-b from-[#21B1F1] to-[#A6C936] bg-clip-text text-transparent transition-colors group-hover:from-white group-hover:to-white">
                 See How It Works
               </span>
             </a>

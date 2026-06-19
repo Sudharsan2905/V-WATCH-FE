@@ -159,7 +159,7 @@ export default function ProductsHero() {
                 <span className="text-base font-bold leading-none text-white lg:text-[18px]">What V-Watch Ai</span>
               </motion.span>
 
-              <h1 className="w-[642px] max-w-full text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+              <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     One Platform
@@ -178,7 +178,7 @@ export default function ProductsHero() {
               </h1>
             </div>
 
-            <p className="max-w-[561px] text-base leading-7 text-white lg:text-[21px] lg:leading-8">
+            <p className="max-w-[561px] text-base leading-7 text-white lg:text-[20px] lg:leading-8">
               <motion.span custom={0.8} variants={copyReveal} className="block">
                 V-Watch Ai brings together a suite of integrated capabilities
               </motion.span>
