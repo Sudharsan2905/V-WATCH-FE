@@ -67,22 +67,24 @@ const CARD_START = 0.3;
 
 function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: number }>) {
   return (
-    // Outer shell: natural on mobile, fixed 554×211.5 cell on desktop
+    // Outer shell: full-width on mobile; 50%-gap half on lg+
     <motion.div
       variants={wipeTop}
       custom={CARD_START + index * CARD_STAGGER}
-      className="relative w-full shrink-0 lg:h-[211.5px] lg:w-[554px]"
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      className="relative w-full shrink-0 lg:h-[211.5px] lg:w-[calc(50%-15px)]"
     >
-      {/* Blob background — desktop only, inset to match SVG natural dims */}
+      {/* Blob background — lg+ only */}
       <div className="pointer-events-none absolute bottom-0 left-[5px] right-[3px] top-[4px] hidden lg:block">
-        <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" sizes="554px" priority />
+        <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" sizes="50vw" priority />
       </div>
 
-      {/* Card — full-width on mobile; offset 46.5 × 43.5 on desktop */}
-      <div className="relative min-h-[144px] w-full lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:h-[144px] lg:w-[469px]">
+      {/* Card — full-width on mobile; offset 46.5 × 43.5 on lg+, right-aligned */}
+      <div className="group relative min-h-[144px] w-full lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:right-[38.5px] lg:h-[144px] lg:w-auto">
         {/* Card glass border/background */}
         <div
-          className="absolute inset-0 rounded-[20px] border-2 border-white shadow-[6px_10px_23px_0px_rgba(217,226,255,0.85),0px_13px_100px_0px_rgba(199,199,199,0.25)] lg:inset-auto lg:-left-[3.5px] lg:-top-[0.5px] lg:h-[144px] lg:w-[473px]"
+          className="absolute inset-0 rounded-[20px] border-2 border-white shadow-[6px_10px_23px_0px_rgba(217,226,255,0.85),0px_13px_100px_0px_rgba(199,199,199,0.25)] transition-colors duration-300 group-hover:bg-[rgba(186,224,245,0.18)]"
           style={{ backgroundImage: CARD_GRADIENT }}
         />
 
@@ -149,7 +151,7 @@ export default function FeatureGrid() {
             {rows.map((row, r) => (
               <div
                 key={row[0].title}
-                className="flex flex-col gap-[30px] lg:flex-row lg:items-center lg:justify-between"
+                className="flex flex-col gap-[30px] lg:flex-row lg:items-center"
               >
                 {row.map((f, c) => (
                   <FeatureCard key={f.title} {...f} index={r * 2 + c} />

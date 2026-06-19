@@ -174,50 +174,42 @@ function ChallengeConnectors({ className }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <g opacity="0.6">
         <motion.path
           variants={railDraw}
           d="M1 0V22.5C1 31.3366 8.16344 38.5 17 38.5H343C351.837 38.5 359 31.3366 359 22.5V3.5"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
         <motion.path
           variants={railDraw}
           d="M359 0V22.5C359 31.3366 366.163 38.5 375 38.5H701C709.837 38.5 717 31.3366 717 22.5V3.5"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
         <motion.path
           variants={railDraw}
           d="M1 220V242.5C1 251.337 8.16344 258.5 17 258.5H343C351.837 258.5 359 251.337 359 242.5V223.5"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
         <motion.path
           variants={railDraw}
           d="M179 39V53C179 61.8366 186.163 69 195 69H593L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854.5"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
         <motion.path
           variants={railDraw}
           d="M533 38V53C533 61.8366 540.163 69 549 69L772 69C776.971 69 781 73.0294 781 78C781 82.9706 785.029 87 790 87H854"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
         <motion.path
           variants={railDraw}
           d="M180 259.5V264C180 272.837 187.163 280 196 280H560C568.837 280 576 272.837 576 264V119.5C576 110.663 583.163 103.5 592 103.5H772.75C777.306 103.5 781 99.8063 781 95.25C781 90.6937 784.694 87 789.25 87H834.5"
-          stroke="#E08665"
-          strokeOpacity="0.6"
+          stroke="rgba(224,134,101,0.6)"
           strokeWidth="2"
         />
-      </g>
     </svg>
   );
 }

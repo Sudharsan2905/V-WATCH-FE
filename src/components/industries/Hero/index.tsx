@@ -65,7 +65,7 @@ export default function IndustriesHero({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      <section className="relative min-h-[650px] overflow-hidden bg-[#030515] lg:min-h-[96vh]">
         {/* Background image */}
         <motion.div
           className="pointer-events-none absolute inset-x-0 top-0 h-[828px]"

@@ -18,20 +18,33 @@ const BUTTON_STYLE_NO_BORDER: React.CSSProperties = {
 const BUTTON_CLASSES =
   "h-11 gap-[10px] rounded-full px-4 text-base shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)]";
 
+function Arrow({ className = "" }: Readonly<{ className?: string }>) {
+  return (
+    <svg
+      width="10"
+      height="11"
+      viewBox="0 0 10 11"
+      fill="none"
+      aria-hidden
+      className={`col-start-1 row-start-1 ${className}`}
+    >
+      <path
+        d="M9.54396 8.23273L9.35582 0.792485L1.91558 0.621445L1.93268 2.24633L6.89284 2.21212L0.153867 8.95109L1.21431 10.0115L7.93619 3.28967L7.90198 8.21562L9.54396 8.23273Z"
+        fill="#52BAAC"
+      />
+    </svg>
+  );
+}
+
+// On hover the resting arrow slides forward along the direction it points
+// (up-right) and out of the badge, while a second copy revolves up from the
+// bottom-left into its place. Both copies share one grid cell so the swap reads
+// as a single continuous loop; the badge clips them with overflow-hidden.
 function ArrowBadge() {
   return (
-    <span className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white">
-      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clipPath="url(#clip0_386_936)">
-          <path d="M9.54396 8.23273L9.35582 0.792485L1.91558 0.621445L1.93268 2.24633L6.89284 2.21212L0.153867 8.95109L1.21431 10.0115L7.93619 3.28967L7.90198 8.21562L9.54396 8.23273Z" fill="#52BAAC" />
-        </g>
-        <defs>
-          <clipPath id="clip0_386_936">
-            <rect width="10" height="10.69" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-
+    <span className="relative grid h-[25px] w-[25px] place-items-center overflow-hidden rounded-full bg-white">
+      <Arrow className="transition-transform duration-300 ease-out group-hover:translate-x-[160%] group-hover:-translate-y-[160%] motion-reduce:transition-none" />
+      <Arrow className="-translate-x-[160%] translate-y-[160%] transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:transition-none" />
     </span>
   );
 }
@@ -39,14 +52,14 @@ function ArrowBadge() {
 type Props = { href?: string; className?: string; noBorder?: boolean };
 
 export default function BookADemo({
-  href = "#",
+  href = "/book-demo",
   className = "",
   noBorder = false,
 }: Readonly<Props>) {
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-full font-bold text-white transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110 ${BUTTON_CLASSES} ${className}`}
+      className={`group inline-flex items-center justify-center rounded-full font-bold text-white transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110 ${BUTTON_CLASSES} ${className}`}
       style={noBorder ? BUTTON_STYLE_NO_BORDER : BUTTON_STYLE}
     >
       <ArrowBadge />
