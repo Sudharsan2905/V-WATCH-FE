@@ -23,9 +23,10 @@ jobs:
 
             cd /var/www/V-WATCH-FE
 
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
 
-            npm install
+            npm ci
 
             npm run build
 
