@@ -13,7 +13,7 @@ export const constructionContent = {
     bgImage: "/industries/construction/construction.png"
   },
   challenges: {
-    heading: "Construction sites are complex - and difficult to control",
+    heading: "Construction sites are complex and difficult to control",
     subheading: "Every construction project involves multiple moving parts",
     features: [
       {
@@ -43,7 +43,7 @@ export const constructionContent = {
       "Delays caused by poor coordination",
       "Difficulty tracking workforce productivity",
     ],
-    callout: "When visibility is incomplete, risks increase - and control is lost.",
+    callout: "When visibility is incomplete, risks increase and control is lost.",
     calloutIcon: "/industries/construction/sites/grow-light.svg",
     // Order: [top-left aerial, worker/hologram, lower-left, crane].
     images: [

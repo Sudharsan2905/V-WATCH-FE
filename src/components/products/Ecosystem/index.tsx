@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import TechnologyPartners from "@/components/products/TechnologyPartners";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -40,26 +41,6 @@ const calloutReveal: Variants = {
   },
 };
 
-const headerStagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
-
-const logoStagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.06, delayChildren: 0.15 } },
-};
-
-const logoItem: Variants = {
-  hidden: { opacity: 0, y: 16, scale: 0.95 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.45, ease: EASE },
-  },
-};
-
 const COMPANIES: { name: string; country: string; logo: string }[] = [
   {
     name: "SS Surveillance and Communication Sdn Bhd",
@@ -78,39 +59,11 @@ const COMPANIES: { name: string; country: string; logo: string }[] = [
   },
 ];
 
-const ROW_1 = ["p-1", "p-2", "p-3", "p-4", "p-5", "p-6"];
-const ROW_2 = ["p-7", "p-8", "p-9", "p-10", "p-11", "p-12"];
-
 function IconBox({ src }: Readonly<{ src: string }>) {
   return (
     <span className="flex size-[54px] shrink-0 items-center justify-center rounded-[14px] border-2 border-white bg-[rgba(244,251,255,0.2)] shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
       <Image src={src} alt="" width={36} height={36} className="size-9" />
     </span>
-  );
-}
-
-function LogoRow({ items }: Readonly<{ items: string[] }>) {
-  return (
-    <motion.div
-      variants={logoStagger}
-      className="flex flex-wrap items-center justify-center gap-x-[18px] gap-y-4"
-    >
-      {items.map((p) => (
-        <motion.div
-          key={p}
-          variants={logoItem}
-          className="relative h-[80px] w-[174px] shrink-0"
-        >
-          <Image
-            src={`/products/eco/${p}.png`}
-            alt="Technology partner"
-            fill
-            className="object-contain"
-            sizes="174px"
-          />
-        </motion.div>
-      ))}
-    </motion.div>
   );
 }
 
@@ -227,44 +180,7 @@ export default function Ecosystem() {
             </div>
           </motion.div>
 
-          {/* Technology partners */}
-          <motion.div
-            className="flex flex-col gap-[30px]"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <motion.div
-              variants={headerStagger}
-              className="flex flex-col items-center gap-3.5"
-            >
-              <motion.div variants={fadeUp} className="flex w-full items-center gap-3.5">
-                <IconBox src="/products/eco/icon-partners.svg" />
-                <p className="flex-1 text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
-                  Technology Partners
-                  <br />
-                  Integrated with leading systems
-                </p>
-              </motion.div>
-              <motion.div variants={fadeUp} className="w-full pl-[70px]">
-                <p className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
-                  V-Watch Ai integrates with industry-leading technologies to
-                  extend functionality and work within your existing ecosystem.
-                </p>
-              </motion.div>
-            </motion.div>
-
-            <div className="flex flex-col items-center gap-2.5">
-              <LogoRow items={ROW_1} />
-              <LogoRow items={ROW_2} />
-              <motion.p
-                variants={fadeUp}
-                className="text-[20px] font-bold leading-[26px] text-[#1d6c97]"
-              >
-                Designed to integrate not replace your existing systems.
-              </motion.p>
-            </div>
-          </motion.div>
+          <TechnologyPartners />
         </div>
       </section>
     </MotionConfig>

@@ -81,7 +81,8 @@ function IndustryTile({
   img,
   desc,
   index,
-}: Readonly<Industry & { index: number }>) {
+  showLearnMore = false,
+}: Readonly<Industry & { index: number; showLearnMore?: boolean }>) {
   return (
     // Motion wrapper carries the scroll reveal; the inner div keeps the CSS
     // hover scale so it doesn't fight Motion's inline transform.
@@ -90,7 +91,7 @@ function IndustryTile({
       custom={CARDS_START + index * CARD_STAGGER}
       className="w-full"
     >
-      <div className="group relative h-[240px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
+      <div className="group relative h-[300px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
         <Image
           src={img}
           alt={name}
@@ -108,23 +109,19 @@ function IndustryTile({
       {/* Hover state: frosted glass card anchored near the bottom; wipes in
           from bottom → top on hover (clip-path inset reveal). */}
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center p-4">
-        <div className="pointer-events-auto w-[90%] max-w-[700px] max-h-[200px] rounded-[14px] border border-white/30 bg-black/40 p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
+        <div className="pointer-events-auto w-[90%] max-w-[700px] rounded-[14px] border border-white/30 bg-black/40 p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
           <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
-          <p className="mt-1.5 text-[16px] font-normal leading-[17px] text-white/90">{desc}</p>
-          <a href="#" className="mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white">
-            Learn More
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                <path
-                  d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </a>
+          <p className="mt-1.5 line-clamp-3 text-[16px] font-normal leading-[17px] text-white/90 sm:line-clamp-4">{desc}</p>
+          {showLearnMore && (
+            <button className="mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white">
+              Learn More
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </button>
+          )}
         </div>
       </div>
       </div>
@@ -177,7 +174,7 @@ export default function Industries() {
               </div>
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
                 {ROW_2.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} />
+                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} showLearnMore />
                 ))}
               </div>
             </div>

@@ -71,7 +71,7 @@ export default function Stats() {
           custom={HEADER_DELAY}
           className="relative z-10 mx-auto flex max-w-[900px] flex-col items-center gap-3.5 text-center"
         >
-          <h2 className="text-balance text-[20px] font-semibold leading-tight text-[#EBF7FE] sm:text-[26px] lg:text-[32px]">
+          <h2 className="max-w-[584px] text-[26px] font-bold leading-[31px] text-[#EBF7FE]">
             Built for high-scale, high-complexity environments
           </h2>
           <p className="text-balance text-[14px] leading-relaxed text-[#EBF7FE] sm:text-[17px] lg:text-[20px]">

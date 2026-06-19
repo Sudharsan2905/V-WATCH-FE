@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, type Variants } from "motion/react";
+import { useRef, useState } from "react";
+import { motion, useScroll, useMotionValueEvent, type Variants } from "motion/react";
 
 // Wipe-in-from-top: content reveals downward behind a moving top edge.
 // `custom` is the per-element delay in seconds.
@@ -70,7 +71,7 @@ function NumberBadge({ n, active }: Readonly<{ n: number; active?: boolean }>) {
 
 export default function UnifiedSystem() {
   return (
-    <section className="relative z-20 -mt-10 overflow-hidden rounded-t-[40px] bg-[#EDF1F8] px-6 pb-20 pt-[100px] lg:px-[60px]">
+    <section className="relative z-20 -mt-10 overflow-hidden rounded-t-[40px] bg-[#EDF1F8] px-6 pb-20 pt-[80px] lg:px-[60px]">
       {/* ── Layered organic background — soft translucent flowing curves ──── */}
       {/* light blue-gray base, fading to white at the bottom so it blends into
           the white section below */}

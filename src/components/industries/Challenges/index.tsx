@@ -146,18 +146,24 @@ function DotGrid({ className }: Readonly<{ className?: string }>) {
 
 function CalloutPill({ text, icon }: Readonly<{ text: string; icon: string }>) {
   return (
-    <div className="flex items-center gap-3 rounded-[10px] border border-white/60 bg-white/40 px-4 py-3 shadow-[0px_16px_44px_rgba(120,170,205,0.30)] backdrop-blur-xl">
-      <Image
-        src={icon}
-        alt=""
-        width={34}
-        height={58}
-        unoptimized
-        className="shrink-0 drop-shadow-[0_8px_18px_rgba(120,170,205,0.35)]"
-      />
-      <p className="text-[14px] font-bold leading-[20px] text-[#1B3A57]">
-        {text}
-      </p>
+    <div className="relative flex items-end">
+      {/* Icon card — solid white, sits on top */}
+      <div className="relative z-10 flex shrink-0 items-center justify-center rounded-[20px] border border-white/80 bg-white px-2 py-2 shadow-[0px_8px_24px_rgba(120,170,205,0.20)]">
+        <Image
+          src={icon}
+          alt=""
+          width={50}
+          height={80}
+          unoptimized
+          className="drop-shadow-[0_8px_18px_rgba(120,170,205,0.35)]"
+        />
+      </div>
+      {/* Text card — frosted glass, overlaps icon card on the left */}
+      <div className="-ml-4 rounded-[14px] border border-white/80 bg-white/40 py-2 pl-8 pr-6 backdrop-blur-xl shadow-[0px_16px_44px_rgba(120,170,205,0.30)]">
+        <p className="text-[18px] font-bold leading-[26px] text-[#1B3A57]">
+          {text}
+        </p>
+      </div>
     </div>
   );
 }
@@ -183,7 +189,7 @@ export default function Challenges({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-16 lg:px-[60px]">
+      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 pb-16 lg:px-[60px]">
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-8"
           initial="hidden"
@@ -329,7 +335,7 @@ export default function Challenges({
                 <motion.div
                   variants={fadeUp}
                   custom={IMGS_START + IMG_STAGGER * 4}
-                  className="mt-5 lg:absolute lg:bottom-[50px] lg:mt-0 lg:max-w-[340px]"
+                  className="mt-5 lg:absolute lg:bottom-[50px] lg:left-[-40px] xl:left-[-80px] lg:mt-0 lg:max-w-[450px]"
                 >
                   <CalloutPill text={callout} icon={calloutIcon} />
                 </motion.div>

@@ -71,7 +71,7 @@ export default function GlobalTechnologiesSection() {
               </p>
             </motion.header>
 
-            <motion.div variants={gridStagger} className="flex flex-col gap-5">
+            <motion.div variants={gridStagger} className="flex flex-col gap-5 pb-3">
               {rows.map((row) => (
                 <div key={row[0]} className="flex justify-center gap-12">
                   {row.map((src) => (
