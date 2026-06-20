@@ -35,7 +35,23 @@ function IconBox({ src }: Readonly<{ src: string }>) {
   );
 }
 
-export default function TechnologyPartners() {
+type TechnologyPartnersContent = {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  note?: string;
+};
+
+export default function TechnologyPartners({
+  content = {},
+}: Readonly<{ content?: TechnologyPartnersContent }> = {}) {
+  const {
+    title = "Technology Partners",
+    subtitle = "Integrated with leading systems",
+    description = "V-Watch Ai integrates with industry-leading technologies to extend functionality and work within your existing ecosystem.",
+    note = "Designed to integrate not replace your existing systems.",
+  } = content;
+
   const mid = Math.ceil(TECH_PARTNER_LOGOS.length / 2);
   const rows = [TECH_PARTNER_LOGOS.slice(0, mid), TECH_PARTNER_LOGOS.slice(mid)];
 
@@ -55,15 +71,14 @@ export default function TechnologyPartners() {
             <motion.div variants={fadeUp} className="flex w-full items-center gap-3.5">
               <IconBox src="/products/eco/icon-partners.svg" />
               <p className="flex-1 text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
-                Technology Partners
+                {title}
                 <br />
-                Integrated with leading systems
+                {subtitle}
               </p>
             </motion.div>
             <motion.div variants={fadeUp} className="w-full pl-[70px]">
               <p className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
-                V-Watch Ai integrates with industry-leading technologies to
-                extend functionality and work within your existing ecosystem.
+                {description}
               </p>
             </motion.div>
           </motion.div>
@@ -71,7 +86,7 @@ export default function TechnologyPartners() {
           <div className="flex flex-col items-center gap-2.5">
             <motion.div variants={gridStagger} className="flex flex-col gap-5">
               {rows.map((row) => (
-                <div key={row[0]} className="flex justify-center gap-4 sm:gap-8 lg:gap-12">
+                <div key={row[0]} className="flex flex-wrap justify-center gap-4 sm:gap-8 lg:gap-12">
                   {row.map((src) => (
                     <motion.div
                       key={src}
@@ -96,7 +111,7 @@ export default function TechnologyPartners() {
               variants={fadeUp}
               className="text-[20px] font-bold leading-[26px] text-[#1d6c97]"
             >
-              Designed to integrate not replace your existing systems.
+              {note}
             </motion.p>
           </div>
         </motion.div>
