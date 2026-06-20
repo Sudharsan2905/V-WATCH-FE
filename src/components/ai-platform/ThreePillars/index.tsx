@@ -125,7 +125,7 @@ function PillarCard({ icon, title, desc, bullets, image, index }: Readonly<Pilla
     <motion.div
       variants={cardItem}
       custom={CARDS_START + index * CARD_STAGGER}
-      className="flex relative h-[650px] w-full max-w-114 mx-auto lg:max-w-none lg:mx-0 lg:flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]"
+      className="flex relative h-[650px] min-w-[350px] max-w-[456px] flex-1 flex-col overflow-hidden rounded-[38px] border border-white/10 bg-transparent shadow-[0_0_30px_rgba(10,142,200,0.08)]"
     >
         <div className="flex z-1 absolute top-10 left-[30%] items-center gap-3">
           <p className="text-[20px] font-bold leading-[24px] text-white">{title}</p>
@@ -206,85 +206,97 @@ function FlowIcon({ type }: Readonly<{ type: "link" | "gear" | "sparkle" }>) {
 export default function ThreePillars() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="bg-[#F4FAFF] px-6 py-20 lg:px-[60px]">
-      <motion.div
-        className="mx-auto w-full max-w-[1410px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
-      >
-        {/* Header */}
-        <motion.header variants={fadeUp} className="flex max-w-[720px] flex-col gap-4">
-          <h2 className="text-[26px] font-black text-[#0A4B6E] lg:text-[28px]">
-            Connected. Intelligent. Built for real-world operations.
-          </h2>
-          <p className="text-[17px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[18px]">
-            V-Watch Ai is designed to integrate seamlessly into your existing ecosystem, while
-            adding a layer of intelligence that helps you understand and control your operations
-            in real time.
-          </p>
-          <p className="text-[17px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[18px]">
-            It connects with your infrastructure, processes live data across your environment,
-            and delivers actionable insights all within a single platform.
-          </p>
-        </motion.header>
-
-        {/* Pillars divider */}
-        <motion.div variants={fadeUp} custom={0.15} className="my-10 flex items-center">
-          <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,rgba(10,75,110,0)_16.35%,#0A4B6E_100%)]" />
-          <span className="flex items-center gap-4 font-semibold text-[#0A4B6E]">
-            <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
-            <span className="text-[24px]">Our Three Pillars </span>
-            <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
-          </span>
-          <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,#0A4B6E_0%,rgba(10,75,110,0)_83.65%)]" />
-        </motion.div>
-
-        {/* Three cards */}
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch">
-          {PILLARS.map((p, i) => (
-            <PillarCard key={p.title} {...p} index={i} />
-          ))}
-        </div>
-
-        {/* Bottom flow banner — stays stacked until lg; the row layout needs the
-            full desktop width or the text gets crushed between icons and logo. */}
+      <section className="bg-[#F4FAFF] px-6 py-20 lg:px-[60px]">
         <motion.div
-          variants={fadeUp}
-          custom={CARDS_START + PILLARS.length * CARD_STAGGER}
-          className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center"
+          className="mx-auto w-full max-w-[1410px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
         >
-          {/* Flow icons */}
-          <div className="flex w-full shrink-0 items-center justify-between gap-2 sm:gap-4 lg:w-auto lg:justify-start">
-            <FlowIcon type="link" />
-            <ConnectsArrow />
-            <FlowIcon type="gear" />
-            <ConnectsArrow />
-            <FlowIcon type="sparkle" />
+          {/* Header */}
+          <motion.header
+            variants={fadeUp}
+            className="flex max-w-[720px] flex-col gap-4"
+          >
+            <h2 className="text-[26px] font-black text-[#0A4B6E] lg:text-[28px]">
+              Connected. Intelligent. Built for real-world operations.
+            </h2>
+            <p className="text-[17px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[18px]">
+              V-Watch Ai is designed to integrate seamlessly into your existing
+              ecosystem, while adding a layer of intelligence that helps you
+              understand and control your operations in real time.
+            </p>
+            <p className="text-[17px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[18px]">
+              It connects with your infrastructure, processes live data across
+              your environment, and delivers actionable insights all within a
+              single platform.
+            </p>
+          </motion.header>
+
+          {/* Pillars divider */}
+          <motion.div
+            variants={fadeUp}
+            custom={0.15}
+            className="my-10 flex items-center"
+          >
+            <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,rgba(10,75,110,0)_16.35%,#0A4B6E_100%)]" />
+            <span className="flex items-center gap-4 font-semibold text-[#0A4B6E]">
+              <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
+              <span className="text-[24px]">Our Three Pillars </span>
+              <span className="size-[10px] rounded-full bg-[#0A4B6E]" />
+            </span>
+            <div className="h-[2px] flex-1 bg-[linear-gradient(90deg,#0A4B6E_0%,rgba(10,75,110,0)_83.65%)]" />
+          </motion.div>
+
+          {/* Three cards */}
+          <div className="flex flex-wrap gap-5 items-stretch justify-center">
+            {PILLARS.map((p, i) => (
+              <PillarCard key={p.title} {...p} index={i} />
+            ))}
           </div>
 
-          {/* Text */}
-          <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0] lg:text-left">
-            One platform that{" "}
-            <span className="font-bold text-[#21B1F1]">Connects</span> your systems,{" "}
-            <span className="font-bold text-[#88A724]">Understands</span> your operations,
-            and{" "}
-            <span className="font-bold text-[#B026D3]">Works</span> wherever you do.
-          </p>
+          {/* Bottom flow banner — stays stacked until lg; the row layout needs the
+            full desktop width or the text gets crushed between icons and logo. */}
+          <motion.div
+            variants={fadeUp}
+            custom={CARDS_START + PILLARS.length * CARD_STAGGER}
+            className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center"
+          >
+            {/* Flow icons */}
+            <div className="flex w-full shrink-0 items-center justify-center gap-2 sm:gap-4 lg:w-auto lg:justify-start">
+              <FlowIcon type="link" />
+              <ConnectsArrow />
+              <FlowIcon type="gear" />
+              <ConnectsArrow />
+              <FlowIcon type="sparkle" />
+            </div>
 
-          {/* V-Watch mark */}
-          <div className="shrink-0 lg:ml-auto">
-            <Image
-              src="/ai-platform/logo-rounded.png"
-              alt="V-Watch"
-              width={100}
-              height={100}
-              className="object-fill scale-150"
-            />
-          </div>
+            <div className="flex w-full items-center justify-evenly">
+              {/* Text */}
+              <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0] lg:text-left">
+                One platform that{" "}
+                <span className="font-bold text-[#21B1F1]">Connects</span> your
+                systems,{" "}
+                <span className="font-bold text-[#88A724]">Understands</span>{" "}
+                your operations, and{" "}
+                <span className="font-bold text-[#B026D3]">Works</span> wherever
+                you do.
+              </p>
+
+              {/* V-Watch mark */}
+              <div className="shrink-0 lg:ml-auto">
+                <Image
+                  src="/ai-platform/logo-rounded.png"
+                  alt="V-Watch"
+                  width={100}
+                  height={100}
+                  className="object-fill scale-150"
+                />
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </section>
+      </section>
     </MotionConfig>
   );
 }

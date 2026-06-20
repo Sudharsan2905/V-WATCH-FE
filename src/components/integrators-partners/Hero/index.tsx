@@ -139,14 +139,6 @@ export default function IntegratorsHero() {
         >
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
-              {/* badge */}
-              <motion.span
-                variants={badgeReveal}
-                className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]"
-              >
-                <span className="size-[11px] rounded-full bg-[#86D58B]" />
-                <span className="text-base font-bold leading-none text-white lg:text-[18px]">V-Watch Ai Integrators</span>
-              </motion.span>
 
               <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden">
