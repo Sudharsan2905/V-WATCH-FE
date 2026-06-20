@@ -114,6 +114,9 @@ type ComplexEnvironmentsContent = {
   // Radial-glow PNG that frames the top of the section. Default points at the
   // asset already in /public; pass "" to render the gradient alone.
   framingImage?: string;
+  // Top row = three equal cards, bottom row = two wide cards.
+  topCards?: EnvCard[];
+  bottomCards?: EnvCard[];
 };
 
 export default function ComplexEnvironments({
@@ -122,6 +125,8 @@ export default function ComplexEnvironments({
   const {
     heading = "Built for complex construction environments",
     framingImage = "/pre-construction/complex-environments/rader_image.png",
+    topCards = TOP_CARDS,
+    bottomCards = BOTTOM_CARDS,
   } = content;
 
   return (
@@ -176,7 +181,7 @@ export default function ComplexEnvironments({
 
             {/* Top row — three equal cards (Figma: 356 × 318). */}
             <div className="mt-10 flex flex-wrap justify-center gap-7.5 lg:mt-12">
-              {TOP_CARDS.map((card, i) => (
+              {topCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
                   card={card}
@@ -188,11 +193,11 @@ export default function ComplexEnvironments({
 
             {/* Bottom row — two wide cards (Figma: 551.53 × 318). */}
             <div className="mt-7.5 flex flex-wrap justify-center gap-7.5">
-              {BOTTOM_CARDS.map((card, i) => (
+              {bottomCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
                   card={card}
-                  index={i + TOP_CARDS.length}
+                  index={i + topCards.length}
                   sizeClassName="h-[318px] w-full lg:w-[551px]"
                 />
               ))}
