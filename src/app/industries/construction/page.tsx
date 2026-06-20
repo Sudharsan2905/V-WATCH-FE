@@ -29,8 +29,8 @@ export default function ConstructionPage() {
       <OnePlatform onePlatform={onePlatform} />
       <Environments environments={environments} />
       <Connected connected={connected} />
-      <UseCases useCases={useCases} />
       <WhyChoose whyChoose={whyChoose} />
+      <UseCases useCases={useCases} />
       <Footer
         ctaTitle={footer.ctaTitle}
         ctaText={footer.ctaText}

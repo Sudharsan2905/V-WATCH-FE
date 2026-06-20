@@ -249,6 +249,16 @@ export const constructionContent = {
         title: "Real-Time Headcount & Emergency Muster",
         desc: "Track safety, missing, and onsite personnel during emergencies.",
       },
+      {
+        image: "/industries/construction/critical-construction/visitor_management.png",
+        title: "Visitor Management",
+        desc: "Manage visitor access and  security with full visibility.",
+      },
+      {
+        image: "/industries/construction/critical-construction/maintenance_ ticketing.png",
+        title: "Maintenance Ticketing",
+        desc: "Track and manage maintenance requests from start to resolution.",
+      },
     ],
   },
   footer: {

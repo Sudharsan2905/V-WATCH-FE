@@ -52,6 +52,8 @@ const FEATURES_STAGGER = 0.15;
 
 // Auto-highlight cycles every N ms (longer for items with bullets)
 const CYCLE_MS = 3500;
+// After a manual scroll, wait this long before auto-cycling resumes
+const RESUME_MS = 4000;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -82,30 +84,45 @@ function FeatureRow({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className={`flex items-start gap-4 rounded-[16px] border px-4 py-4 transition-all duration-500 ${
-        isActive ? "border-white" : "border-transparent"
-      }`}
-      style={
-        isActive
-          ? {
-              background:
-                "linear-gradient(180deg, rgba(233,244,255,0.8) 0%, rgba(255,255,255,0.7) 100%)",
-              boxShadow: "0px 16px 36px -16px rgba(20,46,92,0.18)",
-            }
-          : undefined
-      }
+      className="flex items-center gap-6 px-2 py-3"
     >
-      <Image
-        src={icon}
-        alt=""
-        width={37}
-        height={36}
-        unoptimized
-        className={`mt-0.5 size-9 shrink-0 object-contain transition-opacity duration-500 ${
-          isActive ? "opacity-100" : "opacity-45"
-        }`}
-      />
-      <div className="flex flex-col gap-1.5">
+      {/* Icon — centered glass box, sits outside the gradient */}
+      <div className="relative flex size-14 shrink-0 items-center justify-center rounded-2xl p-2.5">
+        {/* Active glass treatment as a single fading overlay (bg + outline + shadow) */}
+        <div
+          className={`pointer-events-none absolute inset-0 rounded-2xl bg-sky-50/20 outline outline-2 -outline-offset-2 outline-white transition-opacity duration-500 ${
+            isActive ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            backgroundColor: "rgba(255,255,255,0.7)",
+            boxShadow:
+              "0px 13px 100px 0px rgba(199,199,199,0.25), 6px 10px 23px 0px rgba(217,226,255,0.85), 9px 7px 60px 0px rgba(255,255,255,0.40)",
+          }}
+        />
+        <Image
+          src={icon}
+          alt=""
+          width={37}
+          height={36}
+          unoptimized
+          className={`relative z-10 size-9 object-contain transition-opacity duration-500 ${
+            isActive ? "opacity-100" : "opacity-45"
+          }`}
+        />
+      </div>
+
+      {/* Text content — sky gradient sits behind only this block when active */}
+      <div
+        className="relative flex flex-1 flex-col gap-1.5 rounded-2xl px-4 py-3 transition-all duration-500"
+        style={
+          isActive
+            ? {
+                background:
+                  "linear-gradient(90deg, rgba(125,211,252,0.20) 0%, rgba(240,249,255,0) 100%)",
+              }
+            : undefined
+        }
+      >
         <p
           className={`text-[16px] font-bold leading-tight transition-colors duration-500 ${
             isActive ? "text-[#0A4B6E]" : "text-[#9AA7B8]"
@@ -194,21 +211,31 @@ export default function OnePlatform({
 
   // ── Auto-cycling active highlight ──────────────────────────────────────────
   const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused]           = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const rowRefs   = useRef<(HTMLDivElement | null)[]>([]);
+  // True only while the USER is actively scrolling (wheel/touch)
+  const userDriving  = useRef(false);
+  // Skip the "scroll into view" effect once when the user set the active row
+  const skipAutoScroll = useRef(false);
+  const resumeTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Advance active item on interval
+  // Advance active item on interval (paused while the user is scrolling)
   useEffect(() => {
-    if (features.length <= 1) return;
+    if (features.length <= 1 || paused) return;
     const id = setInterval(
       () => setActiveIndex(i => (i + 1) % features.length),
       CYCLE_MS,
     );
     return () => clearInterval(id);
-  }, [features.length]);
+  }, [features.length, paused]);
 
-  // Scroll the container so the active row stays visible
+  // Auto-cycle: scroll the active row into view when it changes
   useEffect(() => {
+    if (skipAutoScroll.current) {
+      skipAutoScroll.current = false; // change came from the user; don't yank
+      return;
+    }
     const container = scrollRef.current;
     const row       = rowRefs.current[activeIndex];
     if (!container || !row) return;
@@ -216,6 +243,40 @@ export default function OnePlatform({
     const top = row.offsetTop - container.clientHeight / 3;
     container.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   }, [activeIndex]);
+
+  // The user touched the wheel/trackpad/touchscreen → take manual control
+  const onUserScrollIntent = () => {
+    userDriving.current = true;
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      userDriving.current = false;
+      setPaused(false); // resume auto-cycle from the current row
+    }, RESUME_MS);
+  };
+
+  // On every scroll, if the user is driving, activate the row nearest the centre
+  const onScroll = () => {
+    if (!userDriving.current) return; // ignore our own programmatic scrolls
+    const container = scrollRef.current;
+    if (!container) return;
+
+    // Map scroll progress (0 → 1) evenly across every row, so each index gets an
+    // equal slice and no rows get skipped (incl. the first and last).
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    const fraction  = maxScroll > 0 ? container.scrollTop / maxScroll : 0;
+    const nearest   = Math.round(fraction * (features.length - 1));
+
+    setActiveIndex(prev => {
+      if (prev !== nearest) skipAutoScroll.current = true;
+      return nearest;
+    });
+  };
+
+  // Clean up the resume timer on unmount
+  useEffect(() => () => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+  }, []);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -277,6 +338,9 @@ export default function OnePlatform({
 
                 <div
                   ref={scrollRef}
+                  onWheel={onUserScrollIntent}
+                  onTouchMove={onUserScrollIntent}
+                  onScroll={onScroll}
                   className="flex flex-col gap-2 overflow-y-auto outline-none [&::-webkit-scrollbar]:hidden"
                   style={{ maxHeight: 420, scrollbarWidth: "none" }}
                 >
