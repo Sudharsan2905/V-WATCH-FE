@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
@@ -285,6 +285,33 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
 export default function IntegratorNetwork() {
   const [active, setActive] = useState(0);
   const current = STEPS[active]!;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+
+  const yToStep = useCallback((clientY: number) => {
+    if (!trackRef.current) return;
+    const { top, height } = trackRef.current.getBoundingClientRect();
+    const rel = Math.max(0, Math.min(1, (clientY - top) / height));
+    setActive(Math.min(STEPS.length - 1, Math.floor(rel * STEPS.length)));
+  }, []);
+
+  const onThumbPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+    isDragging.current = true;
+  }, []);
+
+  const onThumbPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (isDragging.current) yToStep(e.clientY);
+  }, [yToStep]);
+
+  const onThumbPointerUp = useCallback(() => {
+    isDragging.current = false;
+  }, []);
+
+  const onTrackClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    yToStep(e.clientY);
+  }, [yToStep]);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -374,11 +401,20 @@ export default function IntegratorNetwork() {
               })}
             </ul>
 
-            {/* Vertical divider with active "section pointer" (desktop) */}
-            <div aria-hidden className="absolute -right-6 top-3 bottom-3 hidden lg:block">
-              <div className="absolute inset-y-0 left-1/2 w-[6px] -translate-x-1/2 bg-white" />
+            {/* Vertical divider with draggable section pointer (desktop) */}
+            <div
+              ref={trackRef}
+              aria-hidden
+              onClick={onTrackClick}
+              className="absolute -right-6 top-3 bottom-3 hidden w-6 cursor-pointer lg:block"
+            >
+              <div className="absolute inset-y-0 left-1/2 w-[6px] -translate-x-1/2 rounded-full bg-white" />
               <div
-                className="absolute left-1/2 w-[5px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] shadow-[0_0_10px_rgba(33,177,241,0.65)] transition-all duration-300"
+                onPointerDown={onThumbPointerDown}
+                onPointerMove={onThumbPointerMove}
+                onPointerUp={onThumbPointerUp}
+                onPointerCancel={onThumbPointerUp}
+                className="absolute left-1/2 w-2 -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] shadow-[0_0_10px_rgba(33,177,241,0.65)] cursor-grab active:cursor-grabbing select-none transition-[top,height] duration-300"
                 style={{ top: `calc(${active * 20}% + 10px)`, height: "calc(20% - 20px)" }}
               />
             </div>

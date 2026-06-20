@@ -237,7 +237,7 @@ export default function RealTimeImplementationSection() {
 
               <motion.ul
                 variants={listStagger}
-                className="relative flex flex-col lg:pl-[52px]"
+                className="relative flex flex-col lg:pl-[48px]"
                 style={{ gap: `${CARD_GAP}px` }}
               >
                 {/* curved connector chain (lg only) */}
@@ -248,9 +248,9 @@ export default function RealTimeImplementationSection() {
                     key={num}
                     variants={cardItem}
                     style={{ minHeight: `${CARD_H}px` }}
-                    className="relative flex items-center gap-3.5 rounded-[14px] border-2 border-transparent pl-4 pr-5 [background:linear-gradient(180deg,#ffffff,#f4fbff)_padding-box,linear-gradient(180deg,#ffffff,#eff9ff)_border-box] shadow-[0_13px_100px_0_rgba(199,199,199,0.2),7px_6px_20px_0_rgba(196,204,228,0.4),inset_0_1px_0_rgba(255,255,255,0.9)]"
+                    className="relative flex items-center gap-3.5 rounded-[14px] rounded-tl-[44px] rounded-bl-[44px] border-2 border-transparent pl-1 pr-5 [background:linear-gradient(180deg,#ffffff,#f4fbff)_padding-box,linear-gradient(180deg,#ffffff,#eff9ff)_border-box] shadow-[0px_13px_100px_0px_#C7C7C733,7px_6px_20px_0px_#C4CCE466,6px_6px_10px_0px_#FFFFFF66,6px_6px_24px_0px_#FFFFFF_inset,-6px_-6px_84px_0px_#FFFFFF_inset]"
                   >
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#dbeefb] bg-white text-[#21B1F1] shadow-[0_6px_16px_rgba(33,177,241,0.18)]">
+                    <span className="flex size-12.5 shrink-0 items-center justify-center rounded-full border border-[#dbeefb] bg-white text-[#21B1F1] shadow-[0_6px_16px_rgba(33,177,241,0.18)]">
                       <Icon />
                     </span>
                     <span className="bg-[linear-gradient(135deg,#5CB7E8,#A6C936)] bg-clip-text text-[18px] font-black leading-6 text-transparent">
@@ -269,7 +269,7 @@ export default function RealTimeImplementationSection() {
           {/* Closing line */}
           <motion.p
             variants={fadeUp}
-            className="mx-auto max-w-[760px] text-center text-[18px] font-medium leading-[26px] text-[#1d6c97]"
+            className="mx-auto max-w-[892px] text-center text-[18px] font-medium leading-[26px] text-[#1d6c97]"
           >
             V-Watch Ai partners with experienced system integrators who understand local
             environments, infrastructure, and operational requirements ensuring smooth

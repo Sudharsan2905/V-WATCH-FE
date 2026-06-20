@@ -41,7 +41,7 @@ export default function TechnologyPartners() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="px-6 lg:px-[60px]">
+      <div>
         <motion.div
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]"
           initial="hidden"

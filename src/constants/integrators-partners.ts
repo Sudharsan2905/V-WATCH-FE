@@ -6,8 +6,8 @@ export const IMPLEMENTATION_HEADER = {
 
 export const NETWORK_HEADER = {
   title: "Our system integrator network",
-  subtitle:
-    "Most organizations rely on multiple systems to manage different parts of their operations access control, workforce, tracking, safety, maintenance, and reporting.",
+  // subtitle:
+  //   "Most organizations rely on multiple systems to manage different parts of their operations access control, workforce, tracking, safety, maintenance, and reporting.",
 };
 
 export type Integrator = {
