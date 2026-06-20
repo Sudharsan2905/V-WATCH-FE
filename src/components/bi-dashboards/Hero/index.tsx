@@ -119,12 +119,12 @@ export default function BiDashboardsHero() {
               className="flex flex-wrap items-center gap-4"
             >
               <BookADemo />
-              <Link
+              {/* <Link
                 href="#intelligence-layer"
                 className="inline-flex h-11 items-center justify-center rounded-full border border-white/40 bg-white px-5 text-base font-bold text-[#516413] backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
               >
                 Explore Platform
-              </Link>
+              </Link> */}
             </motion.div>
           </motion.div>
         </div>
