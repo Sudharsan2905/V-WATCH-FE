@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
@@ -45,17 +46,41 @@ function Card({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="rounded-[20px] bg-white p-1.5 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)]"
+      className="snap-start rounded-[20px] bg-white p-1.5 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)]"
     >
       <div className="relative aspect-[256/282] overflow-hidden rounded-[15px]">
         <Image src={image} alt="" fill sizes="(max-width:1024px) 50vw, 23vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,20,35,0.9)] via-[rgba(8,20,35,0.28)] to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1.5 p-4 backdrop-blur-[4px]">
+        <div className="absolute rounded-[20px] inset-x-0 bottom-0 flex flex-col gap-1.5 p-4 backdrop-blur-[4px]">
           <p className="text-[17px] font-bold leading-[21px] text-white">{title}</p>
           <p className="text-[13px] leading-[18px] text-white/85">{desc}</p>
         </div>
       </div>
     </motion.div>
+  );
+}
+
+function ScrollArrow({
+  direction,
+  onClick,
+}: Readonly<{ direction: "left" | "right"; onClick: () => void }>) {
+  return (
+    <button
+      type="button"
+      aria-label={direction === "left" ? "Previous use cases" : "Next use cases"}
+      onClick={onClick}
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#0A4B6E] shadow-[0_6px_20px_-6px_rgba(20,46,92,0.4)] transition hover:bg-[#0A4B6E] hover:text-white"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path
+          d={direction === "left" ? "M15 6 9 12l6 6" : "M9 6l6 6-6 6"}
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
   );
 }
 
@@ -68,6 +93,17 @@ export default function UseCases({
     ctaHref = "#",
     cards = [],
   } = useCases;
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCards = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // Advance by one card: first card's width + the row gap (20px).
+    const first = el.firstElementChild as HTMLElement | null;
+    const step = (first?.offsetWidth ?? el.clientWidth / 4) + 20;
+    el.scrollBy({ left: step * (direction === "left" ? -1 : 1), behavior: "smooth" });
+  };
 
   return (
     <MotionConfig reducedMotion="user">
@@ -98,22 +134,39 @@ export default function UseCases({
               >
                 {subtitle}
               </motion.p>
-            </div>
+               </div>
+             <div className="flex gap-3">
+                <ScrollArrow
+                  direction="left"
+                  onClick={() => scrollByCards("left")}
+                />
+                <ScrollArrow
+                  direction="right"
+                  onClick={() => scrollByCards("right")}
+                />
+              </div>
+              
             <motion.div variants={fadeUp} custom={0.3} className="shrink-0">
               <ViewAllUseCases href={ctaHref} />
             </motion.div>
           </header>
 
-          {/* Cards — load one by one */}
+          {/* Cards — single horizontal scroll row, same card size as a 4-up grid */}
           {cards.length > 0 && (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {cards.map((c, i) => (
-                <Card
-                  key={c.title}
-                  {...c}
-                  delay={CARDS_START + i * CARD_STAGGER}
-                />
-              ))}
+            <div className="flex flex-col gap-4">
+
+              <div
+                ref={scrollRef}
+                className="grid snap-x snap-mandatory grid-flow-col auto-cols-[100%] gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-60px)/4)]"
+              >
+                {cards.map((c, i) => (
+                  <Card
+                    key={c.title}
+                    {...c}
+                    delay={CARDS_START + i * CARD_STAGGER}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </motion.div>
