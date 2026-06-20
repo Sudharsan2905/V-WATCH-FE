@@ -56,6 +56,11 @@ type SinglePlatformContent = {
   features?: Feature[];
   pill?: string;
   mapImage?: string;
+  // "cards" → glass feature cards + connector (pre-construction). "checklist" →
+  // vertical icon + full-sentence list (post-construction).
+  variant?: "cards" | "checklist";
+  // Whether the shield badge overlaps the pill's left edge. Off for post.
+  pillBadge?: boolean;
 };
 
 const DEFAULT_FEATURES: Feature[] = [
@@ -173,6 +178,9 @@ function FeatureCard({
 // its four dots on the four card centres (which span the inner ~10%…90%).
 const SP_CONNECTOR_SRC =
   "/pre-construction/single-platform/icons/curve_image.png";
+// Secure-badge that overlaps the pill's left edge (shield + glowing rings).
+const SP_PILL_BADGE_SRC =
+  "/pre-construction/single-platform/icons/secure-badge.svg";
 // Dots are baked into the raster, so to blur ONLY the dots we overlay a blurred
 // copy of the same image, masked to four circles over the dot positions.
 const SP_DOT_MASK =
@@ -223,6 +231,8 @@ export default function SinglePlatform({
     features = DEFAULT_FEATURES,
     pill = "Everything on your site mapped, tracked, and managed.",
     mapImage = "/pre-construction/single-platform/map.png",
+    variant = "cards",
+    pillBadge = true,
   } = content;
 
   return (
@@ -254,7 +264,7 @@ export default function SinglePlatform({
         >
           {/* CONTENT — stacked above the map on mobile; from lg up it overlays the
               left while the map bleeds beneath it (glass cards sit over the map) */}
-          <div className="relative z-10 w-full max-w-[503px] lg:absolute lg:left-0 lg:top-0">
+          <div className="relative z-10 flex w-full max-w-[503px] flex-col lg:absolute lg:inset-y-0 lg:left-0">
             <motion.p
               variants={fadeUp}
               custom={0.32}
@@ -263,22 +273,52 @@ export default function SinglePlatform({
               {detail}
             </motion.p>
 
-            {/* Feature cards — 2×2 on mobile, single row from sm up.
-                z-20 keeps the cards above the connector so its dots tuck under. */}
-            <div className="relative z-20 mt-10 grid max-w-full grid-cols-2 gap-3 sm:grid-cols-4">
-              {features.map((f, i) => (
-                <FeatureCard key={f.label} {...f} delay={0.45 + i * 0.1} />
-              ))}
-            </div>
+            {variant === "checklist" ? (
+              /* Checklist — vertical icon + full-sentence list (post-construction). */
+              <ul className="relative z-20 mt-8 flex flex-col gap-3.5">
+                {features.map((f, i) => (
+                  <motion.li
+                    key={f.label}
+                    variants={cardIn}
+                    custom={0.45 + i * 0.1}
+                    className="flex items-center gap-3 rounded-[14px] bg-white px-4 py-2.5 shadow-[0_12px_30px_-14px_rgba(20,46,92,0.20)]"
+                  >
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.15)]">
+                      <Image
+                        src={f.icon}
+                        alt=""
+                        width={20}
+                        height={20}
+                        unoptimized
+                        className="size-5 object-contain"
+                      />
+                    </span>
+                    <span className="text-[16px] font-semibold leading-snug text-[#0A4B6E]">
+                      {f.label}
+                    </span>
+                  </motion.li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                {/* Feature cards — 2×2 on mobile, single row from sm up.
+                    z-20 keeps the cards above the connector so its dots tuck under. */}
+                <div className="relative z-20 mt-10 grid max-w-full grid-cols-2 gap-3 sm:grid-cols-4">
+                  {features.map((f, i) => (
+                    <FeatureCard key={f.label} {...f} delay={0.45 + i * 0.1} />
+                  ))}
+                </div>
 
-            {/* Connector — only on the single-row layout (z-10 < cards' z-20) */}
-            <motion.div
-              variants={fadeUp}
-              custom={0.9}
-              className="relative z-10 hidden w-full sm:block -mt-2"
-            >
-              <Connector />
-            </motion.div>
+                {/* Connector — only on the single-row layout (z-10 < cards' z-20) */}
+                <motion.div
+                  variants={fadeUp}
+                  custom={0.9}
+                  className="relative z-10 hidden w-full sm:block -mt-2"
+                >
+                  <Connector />
+                </motion.div>
+              </>
+            )}
 
             {/* Pill — Figma spec: 505×54, 14px radius, 2px #FFFFFF→#EFF9FF
                 gradient border over a semi-transparent #F4FBFF (20%) fill so the
@@ -287,29 +327,57 @@ export default function SinglePlatform({
             <motion.div
               variants={fadeUp}
               custom={1}
-              className="relative mt-12 flex w-[505px] max-w-full items-center justify-center rounded-[14px] px-5 py-3 sm:h-[54px] sm:py-0"
-              style={{
-                background: "rgba(244,251,255,0.20)",
-                boxShadow: "0px 13px 30px -12px rgba(20,46,92,0.22)",
-              }}
+              className={`relative flex w-[505px] max-w-full items-center justify-center rounded-[14px] px-5 lg:mt-auto ${
+                variant === "checklist"
+                  ? "mt-8 py-3.5"
+                  : "mt-12 py-3 sm:h-[54px] sm:py-0"
+              }`}
+              style={
+                variant === "checklist"
+                  ? undefined
+                  : {
+                      background: "rgba(244,251,255,0.20)",
+                      boxShadow: "0px 13px 30px -12px rgba(20,46,92,0.22)",
+                    }
+              }
             >
               {/* 2px gradient border ring — masked so the chip fill stays
-                  transparent (a solid border would hide the see-through fill). */}
+                  transparent (a solid border would hide the see-through fill).
+                  Only for the pill (cards) variant; the checklist shows plain text. */}
+              {variant !== "checklist" && (
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-[14px]"
+                  style={{
+                    padding: 2,
+                    background:
+                      "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%)",
+                    WebkitMask:
+                      "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                    WebkitMaskComposite: "xor",
+                    mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                    maskComposite: "exclude",
+                  }}
+                />
+              )}
+              {/* Secure badge — overlaps the pill's left edge; its rings bleed
+                  above/below the 54px chip and to the left of it. */}
+              {pillBadge && (
+                <Image
+                  src={SP_PILL_BADGE_SRC}
+                  alt=""
+                  aria-hidden
+                  width={254}
+                  height={254}
+                  unoptimized
+                  className="pointer-events-none absolute z-20 h-[200px] w-auto -translate-x-[35%] -translate-y-1/2 left-[5px] top-[60px] sm:left-0 sm:top-[35px]"
+                />
+              )}
               <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-[14px]"
-                style={{
-                  padding: 2,
-                  background:
-                    "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%)",
-                  WebkitMask:
-                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                  WebkitMaskComposite: "xor",
-                  mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                  maskComposite: "exclude",
-                }}
-              />
-              <span className="relative text-[16px] font-bold leading-[26px] text-[#006F9F] sm:whitespace-nowrap">
+                className={`relative z-10 text-[16px] font-bold leading-[26px] text-[#006F9F] ${
+                  variant === "checklist" ? "text-center" : "sm:whitespace-nowrap"
+                } ${pillBadge ? "pl-20 sm:pl-24" : ""}`}
+              >
                 {pill}
               </span>
             </motion.div>

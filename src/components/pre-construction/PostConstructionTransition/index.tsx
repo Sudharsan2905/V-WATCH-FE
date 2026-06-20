@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 // Shared ease — matches the rest of the site (≈ easeOutQuint).
@@ -125,7 +127,7 @@ function FeatureCard({
       custom={delay}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25 }}
-      className="pointer-events-auto relative w-65 max-w-full"
+      className="relative w-65 max-w-full lg:pointer-events-auto"
       // Soft outer shadow — on the wrapper so drop-shadow traces the chamfer.
       style={{ filter: "drop-shadow(0 22px 38px rgba(135,160,190,0.16))" }}
     >
@@ -196,10 +198,23 @@ export default function PostConstructionTransition({
     pill = "TRANSITION TO POST-CONSTRUCTION",
     features = DEFAULT_FEATURES,
     panelTitle = "With V-Watch Ai, everything transitions seamlessly into post-construction operations",
-    ctaLabel = "Explore Post-Construction (Aegis)",
-    ctaHref = "#",
+    ctaLabel,
+    ctaHref,
     panelImage = "/pre-construction/post-construction/transition-tower.png",
   } = content;
+
+  // Toggle target + label: from the post-construction page link back to
+  // pre-construction, otherwise (e.g. the pre-construction page) link forward to
+  // post-construction. Explicit `ctaHref` / `ctaLabel` from content always win.
+  const pathname = usePathname();
+  const onPostConstruction = pathname?.startsWith("/post-construction") ?? false;
+  const ctaTarget =
+    ctaHref ?? (onPostConstruction ? "/pre-construction" : "/post-construction");
+  const resolvedLabel =
+    ctaLabel ??
+    (onPostConstruction
+      ? "Explore Pre-Construction (Atlas)"
+      : "Explore Post-Construction (Aegis)");
 
   return (
     <MotionConfig reducedMotion="user">
@@ -264,14 +279,16 @@ export default function PostConstructionTransition({
                 uniform 30px gap. Row 1 stops at two so the panel occupies the open
                 top-right, and the third card in row 2 nests into the panel's
                 chamfered bottom-left corner. */}
-            <div className="pointer-events-none relative z-10 flex flex-col gap-7.5">
+            {/* lg: let clicks in the empty card area fall through to the panel
+                CTA behind it (the cards re-enable their own pointer events). */}
+            <div className="relative z-10 flex flex-col gap-7.5 lg:pointer-events-none">
               {/* Row 1 — two cards */}
-              <div className="flex flex-wrap gap-7.5">
+              <div className="flex flex-wrap justify-center gap-7.5 lg:justify-start">
                 <FeatureCard {...features[0]} delay={0.45} />
                 <FeatureCard {...features[1]} delay={0.55} />
               </div>
               {/* Row 2 — three cards */}
-              <div className="flex flex-wrap gap-7.5">
+              <div className="flex flex-wrap justify-center gap-7.5 lg:justify-start">
                 <FeatureCard {...features[2]} delay={0.65} />
                 <FeatureCard {...features[3]} delay={0.75} />
                 <FeatureCard {...features[4]} delay={0.85} />
@@ -318,9 +335,9 @@ export default function PostConstructionTransition({
                   <p className="font-lato text-[20px] font-bold leading-8 tracking-normal text-[#0A4B6E]">
                     {panelTitle}
                   </p>
-                  <a
-                    href={ctaHref}
-                    className="group mt-5 inline-flex cursor-pointer items-center rounded-full bg-white px-5 py-2.5 shadow-[0px_14px_34px_-16px_rgba(20,46,92,0.45)] ring-1 ring-transparent transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#f4faff] hover:shadow-[0px_18px_40px_-14px_rgba(33,177,241,0.55)] hover:ring-[#21B1F1]/30"
+                  <Link
+                    href={ctaTarget}
+                    className="mt-5 inline-flex items-center rounded-full bg-white px-5 py-2.5 shadow-[0px_14px_34px_-16px_rgba(20,46,92,0.45)] transition-transform hover:-translate-y-0.5"
                   >
                     {/* Gradient text fill — blue→green (Figma). The gradient sits
                         on the span, not the pill, so the white background stays. */}
@@ -331,9 +348,9 @@ export default function PostConstructionTransition({
                           "linear-gradient(90deg, #21B1F1 0%, #A6C936 100%)",
                       }}
                     >
-                      {ctaLabel}
+                      {resolvedLabel}
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>
