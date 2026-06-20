@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
 import {
@@ -72,6 +73,87 @@ function RequiredMark() {
     >
       {" "}
       *
+    </span>
+  );
+}
+
+function CompanyTypeSelect() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  return (
+    <span ref={wrapperRef} className="relative block">
+      <input type="hidden" name="companyType" value={value} />
+
+      {/* Left icon */}
+      <Image
+        src={COMPANY_TYPE_ICON}
+        alt=""
+        width={18}
+        height={18}
+        className="pointer-events-none absolute left-3.5 top-[22px] z-10 h-[18px] w-auto -translate-y-1/2"
+      />
+
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={`h-11 w-full bg-[#EFF8FE] text-[14px] text-left pl-10 pr-9 flex items-center outline-none transition-colors ${
+          open
+            ? "rounded-t-[10px] border border-[#9ED3F2] border-b-0"
+            : "rounded-[10px] border border-transparent focus:border-[#9ED3F2]"
+        } ${value ? "text-[#1D293D]" : "text-[#8AB6D6]"}`}
+      >
+        {value || "Select Option"}
+      </button>
+
+      {/* Chevron */}
+      <span
+        className={`pointer-events-none absolute right-3.5 top-[22px] z-10 -translate-y-1/2 text-[#2B9CD8] transition-transform duration-200 ${
+          open ? "rotate-180" : ""
+        }`}
+      >
+        <ChevronIcon />
+      </span>
+
+      {/* Options panel — shares border with trigger for seamless appearance */}
+      {open && (
+        <div className="absolute left-0 right-0 top-full z-50 overflow-hidden rounded-b-[10px] border border-t-0 border-[#9ED3F2] bg-[#EFF8FE]">
+          <div className="mx-3.5 h-px bg-[#9ED3F2]/40" />
+          {COMPANY_TYPES.map((type) => (
+            <button
+              key={type}
+              type="button"
+              onClick={() => {
+                setValue(type);
+                setOpen(false);
+              }}
+              className="w-full px-10 py-2.5 text-left text-[14px] text-[#1D293D] transition-colors hover:bg-[#D6EEFA] last:rounded-b-[10px]"
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      )}
     </span>
   );
 }
@@ -157,36 +239,10 @@ export default function BecomeIntegratorSection() {
                 ))}
               </div>
 
-              {/* Company type — full-width select */}
+              {/* Company type — full-width custom select */}
               <label className="flex flex-col gap-1.5">
                 <span className={labelClass}>Company Type</span>
-                <span className="relative">
-                  <Image
-                    src={COMPANY_TYPE_ICON}
-                    alt=""
-                    width={18}
-                    height={18}
-                    className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-auto -translate-y-1/2"
-                  />
-                  <select
-                    name="companyType"
-                    required
-                    defaultValue=""
-                    className={`${fieldClass} appearance-none pl-10 pr-9 invalid:text-[#8AB6D6]`}
-                  >
-                    <option value="" disabled hidden>
-                      Select Option
-                    </option>
-                    {COMPANY_TYPES.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#2B9CD8]">
-                    <ChevronIcon />
-                  </span>
-                </span>
+                <CompanyTypeSelect />
               </label>
 
               {/* Focus areas — two-column checkbox pills */}
