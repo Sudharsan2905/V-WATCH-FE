@@ -90,7 +90,7 @@ export const commercialFacilitiesContent = {
         desc: "Monitor activity across your facility to improve responsiveness and coordination.",
       },
       {
-        icon: "/industries/commercial/v-watch-ai/tracking.svg",
+        icon: "/industries/commercial/v-watch-ai/data_driven.svg",
         title: "Data-Driven Reporting",
         desc: "Maintain accurate records for audits, reporting, and continuous improvement.",
       },

@@ -7,15 +7,6 @@ import BookADemo from "@/components/common/BookADemo";
 
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
-
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
   show: (delay: number) => ({
@@ -74,15 +65,6 @@ export default function AIPlatformHero() {
             initial="hidden"
             animate="show"
           >
-            {/* Badge */}
-            <motion.span
-              variants={badgeReveal}
-              className="inline-flex w-fit items-center gap-[6px] rounded-full border border-white/15 bg-linear-to-b from-white/20 to-white/5 px-[13px] py-[9px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_8px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-md"
-            >
-              <span className="size-[11px] rounded-full bg-[#86D58B] shadow-[0_0_8px_2px_rgba(134,213,139,0.6)]" />
-              <span className="text-base leading-none text-white">What V-Watch Ai</span>
-            </motion.span>
-
             {/* Heading */}
             <h1 className="text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
               <span className="block overflow-hidden">

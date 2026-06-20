@@ -295,7 +295,7 @@ export default function Challenges({
               {images.length >= 4 && (
                 <div className="mx-auto flex max-w-[500px] gap-3 sm:gap-4 lg:mx-0 lg:max-w-none">
                   {/* Left sub-column */}
-                  <div className="flex w-[44%] flex-col items-start gap-3 pt-8 sm:gap-4 sm:pt-12">
+                  <div className="flex w-[44%] flex-col items-start gap-3 pt-8 sm:gap-4 sm:pt-18">
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START}
@@ -335,7 +335,7 @@ export default function Challenges({
                 <motion.div
                   variants={fadeUp}
                   custom={IMGS_START + IMG_STAGGER * 4}
-                  className="mt-5 lg:absolute lg:bottom-[50px] lg:left-[-40px] xl:left-[-80px] lg:mt-0 lg:max-w-[450px]"
+                  className="mt-5 lg:absolute lg:bottom-[10px] lg:left-[-40px] xl:left-[-80px] lg:mt-0 lg:max-w-[450px]"
                 >
                   <CalloutPill text={callout} icon={calloutIcon} />
                 </motion.div>

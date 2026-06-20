@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="flex flex-wrap items-center gap-5 motion-safe:animate-[heroFadeUp_0.6s_cubic-bezier(0.16,1,0.3,1)_2.8s_both]">
             <BookADemo />
             <a
-              href="#"
+              href="#how-it-works"
               className="group inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold transition-colors duration-200 ease-out hover:bg-white/20"
             >
               <span className="bg-gradient-to-b from-[#21B1F1] to-[#A6C936] bg-clip-text text-transparent transition-colors group-hover:from-white group-hover:to-white">
