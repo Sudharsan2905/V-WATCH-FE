@@ -79,7 +79,7 @@ export default function Footer({
             <h2 className="text-[28px] font-bold text-white sm:text-[32px]">
               {ctaTitle}
             </h2>
-            <p className="max-w-[672px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
+            <p className="max-w-[814px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
               {ctaText}
             </p>
           </div>

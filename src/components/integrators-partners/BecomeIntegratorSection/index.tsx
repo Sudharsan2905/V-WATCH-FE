@@ -62,8 +62,6 @@ function CheckIcon() {
 // Figma: label Lato 400 / 16px / 100% line-height; asterisk Lato 900 / 16px.
 const labelClass =
   "text-[16px] font-normal leading-none text-[#1D293D]";
-const fieldClass =
-  "h-11 w-full rounded-[10px] bg-[#EFF8FE] text-[14px] text-[#1D293D] outline-none ring-1 ring-transparent transition placeholder:text-[#8AB6D6] focus:ring-[#9ED3F2]";
 
 function RequiredMark() {
   return (
@@ -161,7 +159,19 @@ function CompanyTypeSelect() {
 // "Become a V-Watch Ai System Integrator" — three pieces: the section header,
 // one full-width navy world-map container that runs behind the form, and the
 // white partnership-enquiry form card on top of it.
+const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-.]+$/;
+
 export default function BecomeIntegratorSection() {
+  const [nameError, setNameError] = useState("");
+
+  function validateName(value: string) {
+    if (value && !NAME_REGEX.test(value)) {
+      setNameError("Only letters, spaces, hyphens, and apostrophes are allowed.");
+    } else {
+      setNameError("");
+    }
+  }
+
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden bg-[linear-gradient(180deg,#F6FBFF_0%,#E9F2FA_60%,#F4FAFF_100%)] px-6 py-16 lg:px-[60px]">
@@ -176,7 +186,7 @@ export default function BecomeIntegratorSection() {
               that. */}
           <motion.div
             variants={mapReveal}
-            className="absolute inset-x-0 top-1/2 hidden aspect-[1160/401] w-full -translate-y-1/2 overflow-hidden rounded-[32px] border border-white/40 bg-[linear-gradient(160deg,#0E4FA8_0%,#072B66_100%)] shadow-[0_24px_60px_rgba(7,43,102,0.35)] lg:block"
+            className="absolute inset-x-0 top-1/2 hidden aspect-[1160/401] w-full -translate-y-1/2 overflow-hidden rounded-[42px] shadow-[0_24px_60px_rgba(7,43,102,0.35)] lg:block"
           >
             <Image
               src={BECOME_INTEGRATOR_MAP}
@@ -204,7 +214,15 @@ export default function BecomeIntegratorSection() {
                 container */}
             <motion.div variants={formReveal} className="relative">
               <form
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const data = new FormData(e.currentTarget);
+                const nameValue = (data.get("fullName") as string) ?? "";
+                if (nameValue && !NAME_REGEX.test(nameValue)) {
+                  setNameError("Only letters, spaces, hyphens, and apostrophes are allowed.");
+                  return;
+                }
+              }}
               className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
             >
               <h3 className="text-center text-[20px] font-bold text-[#0A4B6E]">
@@ -232,9 +250,20 @@ export default function BecomeIntegratorSection() {
                         type={field.type}
                         required
                         placeholder={field.placeholder}
-                        className={`${fieldClass} pl-10 pr-3`}
+                        onChange={field.name === "fullName" ? (e) => validateName(e.target.value) : undefined}
+                        onBlur={field.name === "fullName" ? (e) => validateName(e.target.value) : undefined}
+                        className={`pl-10 pr-3 h-11 w-full rounded-[10px] bg-[#EFF8FE] text-[14px] text-[#1D293D] outline-none ring-1 transition placeholder:text-[#8AB6D6] ${
+                          field.name === "fullName" && nameError
+                            ? "ring-[#E11D48]"
+                            : "ring-transparent focus:ring-[#9ED3F2]"
+                        }`}
                       />
                     </span>
+                    {field.name === "fullName" && nameError && (
+                      <span role="alert" className="text-[12px] leading-none text-[#E11D48]">
+                        {nameError}
+                      </span>
+                    )}
                   </label>
                 ))}
               </div>
