@@ -177,7 +177,7 @@ function Logo() {
 function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
   return (
     <Link
-      href="#"
+      href="/book-demo"
       className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] ${className}`}
       style={{
         backgroundImage:
