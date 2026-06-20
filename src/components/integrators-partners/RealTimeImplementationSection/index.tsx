@@ -214,7 +214,7 @@ export default function RealTimeImplementationSection() {
           <div className="relative flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-[40px]">
             <motion.div variants={imageReveal} className="relative w-full lg:flex-1">
               <Image
-                src="/integrators-partners/leftSidePick.webp"
+                src="/integrators-partners/leftSidePick.png"
                 alt="Connected puzzle pieces representing integrated deployment"
                 width={744}
                 height={376}

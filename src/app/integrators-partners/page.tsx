@@ -30,7 +30,7 @@ const PRODUCTS_COLUMNS = [
 export default function ProductsPage() {
   return (
     <div className="relative bg-[#030515]">
-      <Navbar active="integrators-partners" />
+      <Navbar active="Platform" />
       <ProductsHero />
       <SectionHeader {...IMPLEMENTATION_HEADER} />
 
