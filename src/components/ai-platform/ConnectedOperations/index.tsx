@@ -181,7 +181,7 @@ export default function ConnectedOperations() {
             {/* Left: image carousel + pagination dots */}
             <motion.div
               variants={slideFromLeft}
-              className="flex flex-col items-center gap-4 md:max-w-[600px] lg:w-[600px] lg:shrink-0"
+              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] lg:mx-0 lg:w-[600px] lg:shrink-0"
             >
               <div className="relative h-[320px] w-full overflow-hidden rounded-[24px] border border-[#B8E6FF]/60 bg-[#EDF5FC] shadow-[6px_10px_23px_rgba(217,226,255,0.85)] lg:h-[480px]">
                 <AnimatePresence mode="wait">

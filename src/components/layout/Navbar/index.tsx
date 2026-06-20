@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -156,10 +157,19 @@ function ChevronDown({
 }
 
 function Logo() {
+  const pathname = usePathname();
   return (
     <Link
       href="/"
       aria-label="V-WATCH home"
+      onClick={(e) => {
+        // Already on the home page: scroll back to the top instead of a no-op
+        // same-route navigation.
+        if (pathname === "/") {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
       className="flex h-10 shrink-0 items-center px-2 sm:px-3.5"
     >
       <Image
@@ -210,9 +220,18 @@ function ChevronRightButton() {
 }
 
 function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
+  const pathname = usePathname();
   return (
     <Link
       href={href}
+      onClick={(e) => {
+        // Already on the target page: scroll to the top instead of a no-op
+        // same-route navigation.
+        if (href === pathname) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
       className="group flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition duration-400 hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
     >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center">
@@ -288,6 +307,7 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
 // ─── Navbar ────────────────────────────────────────────────────────────────
 
 export default function Navbar({ active }: Readonly<{ active?: string }>) {
+  const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState<string | null>(null);
@@ -353,6 +373,14 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
               <Link
                 href={item.href}
                 aria-current={item.label === active ? "page" : undefined}
+                onClick={(e) => {
+                  // Already on the target page: scroll to the top instead of a
+                  // no-op same-route navigation.
+                  if (item.href === pathname) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
                 className={`mt-0.5 flex h-8 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-white transition-colors hover:bg-white/[0.14] ${
                   item.label === active
                     ? "border-b border-white bg-white/[0.14]"
@@ -454,7 +482,13 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                             <li key={sub.title}>
                               <Link
                                 href={sub.href}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  // Already on the target page: scroll to top
+                                  // instead of a no-op same-route navigation.
+                                  if (sub.href === pathname) {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                  }
                                   setMobileOpen(false);
                                   setMobileSub(null);
                                 }}
@@ -477,7 +511,15 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                   ) : (
                     <Link
                       href={item.href}
-                      onClick={() => setMobileOpen(false)}
+                      onClick={(e) => {
+                        // Already on the target page: scroll to top instead of a
+                        // no-op same-route navigation.
+                        if (item.href === pathname) {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
+                        setMobileOpen(false);
+                      }}
                       className="flex items-center justify-between py-3 text-sm font-bold text-white"
                     >
                       {item.label}

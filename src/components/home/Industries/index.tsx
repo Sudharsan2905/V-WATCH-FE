@@ -174,7 +174,7 @@ export default function Industries() {
               </div>
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
                 {ROW_2.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} showLearnMore />
+                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} />
                 ))}
               </div>
             </div>
