@@ -174,7 +174,7 @@ export default function IntelligenceLayer() {
       {/* Curved top — carves the dark hero into a downward dip above this section */}
       <svg
         aria-hidden
-        className="pointer-events-none absolute bottom-full left-0 h-12 w-full text-[#F2F8FE] lg:h-[90px]"
+        className="pointer-events-none absolute bottom-full left-0 h-12 w-full translate-y-[2px] text-[#F2F8FE] lg:h-[90px]"
         viewBox="0 0 1440 100"
         preserveAspectRatio="none"
         fill="none"
@@ -232,7 +232,7 @@ export default function IntelligenceLayer() {
               alt="Operational data consolidating into a Power BI intelligence layer"
               width={487}
               height={362}
-              className="mx-auto h-auto w-full object-contain lg:h-[445px] lg:w-auto"
+              className="h-auto w-full object-contain lg:h-[445px] lg:w-auto"
             />
           </motion.div>
 

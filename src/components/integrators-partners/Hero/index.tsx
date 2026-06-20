@@ -84,7 +84,7 @@ export default function IntegratorsHero() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
 
         <svg
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full my-1"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           aria-hidden

@@ -49,7 +49,7 @@ const buttonReveal: Variants = {
 export default function AIPlatformHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[755px]">
         {/* Background: dark city night scene */}
         <motion.div
           className="pointer-events-none absolute inset-0"
