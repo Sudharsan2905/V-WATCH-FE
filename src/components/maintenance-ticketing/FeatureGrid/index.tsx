@@ -123,8 +123,8 @@ export default function FeatureGrid() {
             viewport={viewportReveal}
             className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2"
           >
-            {FEATURES.map((f) => (
-              <FeatureCard key={f.title} {...f} />
+            {FEATURES.map((feature) => (
+              <FeatureCard key={feature.title} {...feature} />
             ))}
           </motion.div>
         </div>
