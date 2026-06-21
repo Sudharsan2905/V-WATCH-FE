@@ -36,8 +36,7 @@ function IconBox({ src }: Readonly<{ src: string }>) {
 }
 
 interface Props {
-  /** When provided, the component uses the standalone layout with a plain text
-   *  header (title + subtitle). Omit for the embedded Products-page usage. */
+  /** When provided, uses the standalone layout (title + subtitle); omit for the embedded Products-page usage. */
   title?: string;
   subtitle?: string;
 }
