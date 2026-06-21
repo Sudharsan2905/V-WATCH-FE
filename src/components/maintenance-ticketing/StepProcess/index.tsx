@@ -53,8 +53,7 @@ const STEPS = [
 const ARC_CX = -30;
 const ARC_CY = 150;
 const ARC_R = 146; // on the bright part of the crescent band so dots sit on the line
-const NODE_CENTER_ANGLE = 0; // degrees: active node at the card's vertical centre, so
-// step 1 (dots below) and step 4 (dots above) are exact vertical mirrors.
+const NODE_CENTER_ANGLE = 0; // active node at the card's vertical centre (step 1 dots below, step 4 above — exact mirrors)
 const NODE_ANGLE_STEP = 25; // degrees between consecutive nodes along the arc
 // Radius (viewBox units ≈ 24/20/16/12px) by distance from the active node.
 const NODE_RADII = [10.4, 8.7, 7, 5.2];
@@ -82,8 +81,7 @@ function NodeCircle({ angleDeg, radius }: Readonly<{ angleDeg: number; radius: n
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 
-// True below the lg breakpoint (1024px) on the client. Defaults to false so SSR and
-// first paint match the desktop layout, then corrects after mount.
+// True below the lg breakpoint (1024px); defaults to false so SSR matches desktop, then corrects after mount.
 function useBelowLg() {
   const [below, setBelow] = useState(false);
   useEffect(() => {
@@ -101,8 +99,7 @@ function progressToStep(progress: number) {
   return STEP_THRESHOLDS.filter((threshold) => clamped >= threshold).length;
 }
 
-// Below lg: the card pins while the user scrolls through the steps, then releases so
-// the next section follows right below (scroll-jacking, mobile/tablet only).
+// Below lg: the card pins while the user scrolls through the steps, then releases (scroll-jacking, mobile/tablet only).
 function PinnedSteps({
   active,
   setActive,
@@ -158,8 +155,7 @@ export default function StepProcess() {
   );
 }
 
-// The visual card, shared by both layouts. `active` drives the arc + copy; the
-// mobile dots call `setActive`.
+// The visual card shared by both layouts; `active` drives the arc + copy, the mobile dots call `setActive`.
 function StepCard({
   active,
   setActive,
@@ -197,54 +193,25 @@ function StepCard({
         <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,#081124_0%,#081124_28%,rgba(8,17,36,0.85)_45%,rgba(8,17,36,0)_70%)] lg:block" />
       </div>
 
-      <svg
-        viewBox="0 0 135 300"
-        fill="none"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden h-full w-[155px] lg:block"
-        aria-hidden
-      >
-        <defs>
-          <filter
-            id="arcInner"
-            x="-101.002"
-            y="-1"
-            width="221.096"
-            height="301"
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-          >
-            <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-            <feOffset dx="-1" dy="-1" />
-            <feGaussianBlur stdDeviation="4" />
-            <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix type="matrix" values="0 0 0 0 0.359514 0 0 0 0 0.75708 0 0 0 0 0.971154 0 0 0 0.6 0" />
-            <feBlend mode="normal" in2="shape" result="effect1_innerShadow" />
-          </filter>
-          <linearGradient id="arcFill" x1="113.592" y1="150.5" x2="-60.4082" y2="170.5" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#0E8CD0" />
-            <stop offset="1" stopColor="#003C5C" stopOpacity="0.1" />
-          </linearGradient>
-        </defs>
-
-        {/* The Figma half-circle */}
-        <g filter="url(#arcInner)">
-          <path
-            d="M-29.9062 0C52.9365 0 120.094 67.1573 120.094 150C120.094 232.843 52.9365 300 -29.9062 300C-55.227 300 -79.0816 293.725 -100.002 282.646C-80.5374 292.474 -58.6025 298 -35.3984 298C44.959 298 110.102 231.738 110.102 150C110.102 68.2619 44.959 2 -35.3984 2C-58.6023 2 -80.5374 7.52528 -100.002 17.3525C-79.0817 6.27459 -55.2268 0 -29.9062 0Z"
-            fill="url(#arcFill)"
-          />
-        </g>
-
-        {STEPS.map((stepItem, index) => (
-          <NodeCircle
-            key={stepItem.num}
-            angleDeg={NODE_CENTER_ANGLE + (index - active) * NODE_ANGLE_STEP}
-            radius={NODE_RADII[Math.min(NODE_RADII.length - 1, Math.abs(index - active))]}
-          />
-        ))}
-      </svg>
+      {/* Half-circle arc (saved SVG, stretched) + animated progress dots overlay */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden h-full w-[155px] lg:block">
+        <Image src="/maintenance/step-arc.svg" alt="" fill aria-hidden="true" className="object-fill" />
+        <svg
+          viewBox="0 0 135 300"
+          fill="none"
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full"
+          aria-hidden
+        >
+          {STEPS.map((stepItem, index) => (
+            <NodeCircle
+              key={stepItem.num}
+              angleDeg={NODE_CENTER_ANGLE + (index - active) * NODE_ANGLE_STEP}
+              radius={NODE_RADII[Math.min(NODE_RADII.length - 1, Math.abs(index - active))]}
+            />
+          ))}
+        </svg>
+      </div>
 
       {/* Content */}
       <div className="relative z-10 px-6 pb-8 pt-7 lg:max-w-[66%] lg:py-[56px] lg:pl-[175px] lg:pr-[40px]">
