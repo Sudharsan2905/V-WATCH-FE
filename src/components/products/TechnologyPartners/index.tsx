@@ -35,9 +35,65 @@ function IconBox({ src }: Readonly<{ src: string }>) {
   );
 }
 
-export default function TechnologyPartners() {
+interface Props {
+  /** When provided, the component uses the standalone layout with a plain text
+   *  header (title + subtitle). Omit for the embedded Products-page usage. */
+  title?: string;
+  subtitle?: string;
+}
+
+export default function TechnologyPartners({ title, subtitle }: Props = {}) {
   const mid = Math.ceil(TECH_PARTNER_LOGOS.length / 2);
   const rows = [TECH_PARTNER_LOGOS.slice(0, mid), TECH_PARTNER_LOGOS.slice(mid)];
+
+  if (title) {
+    return (
+      <MotionConfig reducedMotion="user">
+        <div className="px-6 py-[80px] lg:px-[60px]">
+          <motion.div
+            className="mx-auto flex w-full max-w-[1410px] flex-col items-start gap-[80px]"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.header variants={fadeUp} className="flex flex-col gap-3">
+              <h2 className="max-w-[889px] font-lato text-[26px] font-bold leading-normal text-[#0A4B6E]">
+                {title}
+              </h2>
+              {subtitle && (
+                <p className="max-w-[964px] font-lato text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
+                  {subtitle}
+                </p>
+              )}
+            </motion.header>
+
+            <motion.div
+              variants={gridStagger}
+              className="flex w-full flex-wrap justify-center gap-4 sm:gap-5"
+            >
+              {TECH_PARTNER_LOGOS.map((src) => (
+                <motion.div
+                  key={src}
+                  variants={logoItem}
+                  className="flex h-[56px] w-[120px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-3 py-2.5 shadow-[0_4px_14px_rgba(255,255,255,0.04)] sm:h-[72px] sm:w-[160px] sm:px-5 sm:py-4"
+                >
+                  <span className="relative block size-full">
+                    <Image
+                      src={src}
+                      alt="Technology partner"
+                      fill
+                      className="object-contain [filter:grayscale(1)]"
+                      sizes="160px"
+                    />
+                  </span>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </MotionConfig>
+    );
+  }
 
   return (
     <MotionConfig reducedMotion="user">
