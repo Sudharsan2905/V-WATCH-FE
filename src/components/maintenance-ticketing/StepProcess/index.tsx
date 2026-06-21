@@ -115,7 +115,7 @@ function PinnedSteps({
   return (
     <div ref={trackRef} className="relative h-[200vh]">
       <div className="sticky top-[76px] px-6 pb-10">
-        <StepCard active={active} setActive={setActive} />
+        <StepCard active={active} />
       </div>
     </div>
   );
@@ -136,7 +136,7 @@ function FlowSteps({
   });
   return (
     <section ref={sectionRef} className="px-6 pb-16 pt-2 lg:px-[60px]">
-      <StepCard active={active} setActive={setActive} />
+      <StepCard active={active} />
     </section>
   );
 }
@@ -155,11 +155,8 @@ export default function StepProcess() {
   );
 }
 
-// The visual card shared by both layouts; `active` drives the arc + copy, the mobile dots call `setActive`.
-function StepCard({
-  active,
-  setActive,
-}: Readonly<{ active: number; setActive: (index: number) => void }>) {
+// The visual card shared by both layouts; `active` drives the arc, copy and progress dots.
+function StepCard({ active }: Readonly<{ active: number }>) {
   const step = STEPS[active];
   return (
     <motion.div
@@ -247,14 +244,10 @@ function StepCard({
           </AnimatePresence>
         </div>
 
-        {/* Horizontal dots (mobile) */}
-        <div className="mt-8 flex items-center gap-2 lg:hidden">
+        <div className="mt-8 flex items-center gap-2 lg:hidden" aria-hidden>
           {STEPS.map((stepItem, index) => (
-            <button
+            <span
               key={stepItem.num}
-              type="button"
-              aria-label={`Go to step ${index + 1}`}
-              onClick={() => setActive(index)}
               className={`h-[8px] rounded-full transition-all duration-300 ${
                 index === active ? "w-[24px] bg-white" : "w-[8px] bg-white/30"
               }`}
