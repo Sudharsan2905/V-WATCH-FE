@@ -188,7 +188,11 @@ export const commercialFacilitiesContent = {
         originalImage: "/industries/construction/designed-environment/6.webp",
       },
     ],
-    footerImage: "/industries/construction/designed-environment/env-footer.png",
+    footerPanels: [
+      { image: "/industries/commercial-facilities/single-building.png", label: "Single Facility" },
+      { image: "/industries/commercial-facilities/city-buildings.png", label: "Large Scale Facilities" },
+    ],
+    footerKeywords: ["Visibility", "Control", "Efficiency"],
   },
   connected: {
     heading: "From access to operations — fully connected",

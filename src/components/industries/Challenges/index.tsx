@@ -189,7 +189,7 @@ export default function Challenges({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 pb-16 lg:px-[60px]">
+      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 lg:px-[60px]">
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-8"
           initial="hidden"
@@ -293,37 +293,37 @@ export default function Challenges({
               <DotGrid className="absolute left-2 top-0 z-10 hidden lg:block" />
 
               {images.length >= 4 && (
-                <div className="mx-auto flex max-w-[500px] gap-3 sm:gap-4 lg:mx-0 lg:max-w-none">
-                  {/* Left sub-column */}
-                  <div className="flex w-[44%] flex-col items-start gap-3 pt-8 sm:gap-4 sm:pt-18">
+                <div className="mx-auto flex max-w-[500px] flex-col gap-3 overflow-hidden sm:gap-4 lg:mx-0 lg:max-w-none">
+                  {/* Top row — aerial offset down, worker starts at top */}
+                  <div className="flex items-start gap-3 sm:gap-4">
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START}
-                      className="w-full"
+                      className="w-[44%] overflow-hidden pt-6 sm:pt-10 lg:pt-14"
                     >
                       <CollageImg src={aerial} w={210} h={297} className="w-full" />
                     </motion.div>
                     <motion.div
                       variants={wipeUp}
-                      custom={IMGS_START + IMG_STAGGER * 2}
-                      className="ml-11 w-[83%]"
-                    >
-                      <CollageImg src={lower} w={175} h={224} className="w-full" />
-                    </motion.div>
-                  </div>
-                  {/* Right sub-column */}
-                  <div className="flex w-[56%] flex-col items-end gap-3 sm:gap-4">
-                    <motion.div
-                      variants={wipeUp}
                       custom={IMGS_START + IMG_STAGGER}
-                      className="mr-1 w-full"
+                      className="flex-1 overflow-hidden"
                     >
                       <CollageImg src={worker} w={270} h={366} className="w-full" />
+                    </motion.div>
+                  </div>
+                  {/* Bottom row — entire row shifted right to match Figma stagger */}
+                  <div className="flex items-start gap-3 ml-[18%] mr-[12%] sm:ml-[20%] sm:mr-[10%] sm:gap-4">
+                    <motion.div
+                      variants={wipeUp}
+                      custom={IMGS_START + IMG_STAGGER * 2}
+                      className="flex-1 overflow-hidden"
+                    >
+                      <CollageImg src={lower} w={175} h={224} className="w-full" />
                     </motion.div>
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START + IMG_STAGGER * 3}
-                      className="mr-12 w-[78%]"
+                      className="flex-1 overflow-hidden"
                     >
                       <CollageImg src={crane} w={210} h={278} className="w-full" />
                     </motion.div>

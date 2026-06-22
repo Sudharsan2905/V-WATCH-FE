@@ -187,7 +187,7 @@ function AllowCard({
         unoptimized
         className="size-[33px] object-contain"
       />
-      <p className="text-[15px] font-bold leading-[20px] text-[#314158]">
+      <p className="text-[18px] font-regular font-[400] leading-[20px] text-[#002D45]">
         {title}
       </p>
     </motion.div>
@@ -369,7 +369,7 @@ export default function OnePlatform({
                 <motion.p
                   variants={fadeUp}
                   custom={ALLOWS_LABEL}
-                  className="text-[14px] font-bold text-[#64748B]"
+                  className="text-[18px] font-bold font-[700] text-[#183B56]"
                 >
                   {allowsLabel}
                 </motion.p>

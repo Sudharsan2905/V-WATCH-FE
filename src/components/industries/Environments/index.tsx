@@ -44,26 +44,39 @@ type EnvCardData = {
   active?: boolean;
 };
 
+type EnvFooterPanel = { image: string; label: string };
+
 type EnvironmentsContent = {
   heading?: string;
   subtitle?: string;
   cards?: EnvCardData[];
-  footerImage?: string;
+  footerPanels?: [EnvFooterPanel, EnvFooterPanel];
+  footerKeywords?: [string, string, string];
 };
 
 function EnvCard({
   card,
   delay = 0,
 }: Readonly<{ card: EnvCardData; delay?: number }>) {
+  const isActive = card.active;
+
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="group flex flex-col gap-4 rounded-[20px] border border-transparent p-3 transition-all duration-300 hover:border-white/10 hover:bg-white/10 hover:shadow-[0_24px_60px_rgba(0,0,0,0.4)]"
+      className={`group flex flex-col gap-4 transition-all duration-300 ${
+        isActive
+          ? "rounded-[30px] px-[10px] pt-[10px] pb-[20px]"
+          : "rounded-[20px] border border-transparent p-3 hover:border-white/10 hover:bg-gradient-to-br hover:from-[#21B1F1] hover:via-[#5CB7E8] hover:to-[#EFF9FF] hover:shadow-[0_24px_60px_rgba(0,0,0,0.4)]"
+      }`}
+      style={
+        isActive
+          ? { background: "linear-gradient(135deg, #21B1F1 0%, #5CB7E8 55%, #EFF9FF 100%)" }
+          : {}
+      }
     >
-      {/* Image frame — fixed Figma ratio 328×290, 24px radius, 1px white border.
-          The border stays constant; only the image crossfades on hover. */}
-      <div className="relative aspect-[328/290] w-full overflow-hidden rounded-[24px] border border-white/10">
+      {/* Image frame — fixed Figma ratio 328×290, 24px radius */}
+      <div className={`relative aspect-[328/290] w-full overflow-hidden rounded-[24px] border ${isActive ? "border-white/40" : "border-white/10"}`}>
         {/* Resting image */}
         <Image
           src={card.image}
@@ -86,8 +99,12 @@ function EnvCard({
         )}
       </div>
       <div className="flex flex-col gap-2 px-1 pb-1">
-        <p className="text-[16px] font-bold leading-[21px] text-white">{card.title}</p>
-        <p className="text-[13px] leading-[19px] text-[#8FA6BE]">{card.desc}</p>
+        <p className={`text-[18px] font-bold leading-[21px] ${isActive ? "text-[#0A2540]" : "text-white group-hover:text-[#0A2540]"}`}>
+          {card.title}
+        </p>
+        <p className={`text-[14px] font-normal leading-[22px] ${isActive ? "text-[#0A4B6E]" : "text-white group-hover:text-[#0A2540]"} sm:text-[16px] sm:leading-[24px] lg:text-[18px]`}>
+          {card.desc}
+        </p>
       </div>
     </motion.div>
   );
@@ -153,7 +170,11 @@ export default function Environments({
     heading = "Designed for any environment.",
     subtitle = "V-Watch Ai adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
     cards = [],
-    footerImage = "/industries/construction/designed-environment/env-footer.png",
+    footerPanels = [
+      { image: "/industries/industrial&energy/confined-industry.png", label: "Confined Industrial" },
+      { image: "/industries/industrial&energy/large-scale-operations.png", label: "Large Scale Operations" },
+    ],
+    footerKeywords = ["Real-time visibility", "Safety", "Control"] as [string, string, string],
   } = environments;
 
   return (
@@ -205,19 +226,85 @@ export default function Environments({
             ))}
           </div>
 
-          {/* Footer banner — wipebottom */}
-          {footerImage && (
-            <motion.div variants={wipeUp} custom={CARDS_START + cards.length * CARD_STAGGER}>
-              <Image
-                src={footerImage}
-                alt=""
-                width={1168}
-                height={180}
-                unoptimized
-                className="h-[132px] w-full rounded-[20px]"
-              />
-            </motion.div>
-          )}
+          {/* Footer banner */}
+          <motion.div
+            variants={wipeUp}
+            custom={CARDS_START + cards.length * CARD_STAGGER}
+            className="overflow-hidden rounded-[20px]"
+            style={{
+              background:
+                "linear-gradient(120deg,#cce6f6 0%,#dff0fb 35%,#eef7fd 70%,#f5fbff 100%)",
+            }}
+          >
+            <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:gap-4 sm:px-7 sm:py-4 lg:gap-6 lg:px-10 lg:py-5">
+
+              {/* Images + arrow — centered on all breakpoints */}
+              <div className="flex shrink-0 items-end justify-center gap-2 sm:gap-3 lg:gap-5">
+                <div className="flex flex-col items-start gap-1.5">
+                  <span className="px-2 py-0.5 text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] lg:px-3 lg:py-1 lg:text-[14px]">
+                    {footerPanels[0].label}
+                  </span>
+                  <Image
+                    src={footerPanels[0].image}
+                    alt={footerPanels[0].label}
+                    width={110}
+                    height={80}
+                    unoptimized
+                    className="h-auto w-auto object-contain sm:h-[70px] lg:h-[96px]"
+                  />
+                </div>
+
+                <Image
+                  src="/industries/industrial&energy/right-arrow.svg"
+                  alt=""
+                  aria-hidden
+                  width={36}
+                  height={16}
+                  className="mb-3 h-3.5 w-auto shrink-0 sm:mb-4 sm:h-4 lg:mb-5 lg:h-5"
+                />
+
+                <div className="flex flex-col items-start gap-1.5">
+                  <span className="px-2 py-0.5 text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] lg:px-3 lg:py-1 lg:text-[14px]">
+                    {footerPanels[1].label}
+                  </span>
+                  <Image
+                    src={footerPanels[1].image}
+                    alt={footerPanels[1].label}
+                    width={140}
+                    height={100}
+                    unoptimized
+                    className="h-auto w-auto object-contain sm:h-[90px] lg:h-[120px]"
+                  />
+                </div>
+              </div>
+
+              {/* Text + Logo — fills remaining row space, no overflow */}
+              <div className="flex min-w-0 flex-1 items-center justify-center gap-4 sm:justify-start lg:gap-6">
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:text-left sm:px-2 lg:px-6">
+                  <p className="text-[14px] font-bold leading-snug text-[#0B1F3A] sm:text-[17px] lg:text-[20px]">
+                    The need remains the same
+                  </p>
+                  <p className="text-[14px] leading-[18px] sm:text-[17px] lg:text-[20px]">
+                    <span className="font-semibold text-[#21B1F1]">{footerKeywords[0]}</span>
+                    <span className="text-[#1A2B3C]">, </span>
+                    <span className="font-semibold text-[#88A724]">{footerKeywords[1]}</span>
+                    <span className="text-[#1A2B3C]">, and </span>
+                    <span className="font-semibold text-[#9E21CB]">{footerKeywords[2]}</span>
+                    <span className="text-[#1A2B3C]">.</span>
+                  </p>
+                </div>
+
+                <Image
+                  src="/industries/industrial&energy/vwatch-circle.png"
+                  alt="V-Watch"
+                  width={72}
+                  height={72}
+                  unoptimized
+                  className="h-auto w-auto shrink-0 self-center"
+                />
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </section>
     </MotionConfig>
