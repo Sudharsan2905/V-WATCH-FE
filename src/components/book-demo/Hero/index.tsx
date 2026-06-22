@@ -28,12 +28,24 @@ const copyReveal: Variants = {
 export default function BookDemoHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-0 overflow-hidden bg-[#030515] pt-[60px] pb-20 lg:pb-[330px]">
-        {/* Globe illustration — full width, same pattern as common Hero */}
+      <section className="relative z-0 overflow-hidden bg-[#030515] pt-[60px] pb-20 lg:h-[754px] lg:pb-0">
+        {/* Left panel — dotted-wave navy backdrop on the left of the globe */}
+        <div className="pointer-events-none absolute inset-0">
+          <Image
+            src="/book-a-demo/left_hero_image.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-left-top"
+          />
+        </div>
+
+        {/* Globe illustration — large & vertically centered on the right (lg+) */}
         <motion.div
-          className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1.04 }}
+          className="pointer-events-none absolute inset-0 lg:left-[12%] lg:-right-[40px] xl:right-[80px] xl:top-[100px] lg:inset-y-0"
+          initial={{ opacity: 0, scale: 1.12 }}
+          animate={{ opacity: 1, scale: 1.08 }}
           transition={{ duration: 0.9, ease: EASE }}
         >
           <Image
@@ -42,7 +54,7 @@ export default function BookDemoHero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-right-top"
+            className="object-cover object-right-top lg:object-right"
           />
         </motion.div>
 
@@ -52,7 +64,7 @@ export default function BookDemoHero() {
         <div className="pointer-events-none absolute left-0 top-1/3 h-80 w-72 -translate-x-1/2 rounded-full bg-[#0a8ec8] opacity-20 blur-[150px]" />
 
         {/* Content */}
-        <div className="relative mx-auto max-w-[1280px] px-6 pt-16 sm:pt-20 lg:pt-24">
+        <div className="relative mx-auto max-w-[1280px] px-6 pt-16 sm:pt-20 lg:px-[60px] lg:pt-24">
           <motion.div className="max-w-[650px]" initial="hidden" animate="show">
             {/* Live demo badge */}
 

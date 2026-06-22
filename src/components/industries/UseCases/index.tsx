@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
@@ -63,13 +63,21 @@ function Card({
 function ScrollArrow({
   direction,
   onClick,
-}: Readonly<{ direction: "left" | "right"; onClick: () => void }>) {
+  disabled = false,
+  className = "",
+}: Readonly<{
+  direction: "left" | "right";
+  onClick: () => void;
+  disabled?: boolean;
+  className?: string;
+}>) {
   return (
     <button
       type="button"
       aria-label={direction === "left" ? "Previous use cases" : "Next use cases"}
       onClick={onClick}
-      className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#0A4B6E] shadow-[0_6px_20px_-6px_rgba(20,46,92,0.4)] transition hover:bg-[#0A4B6E] hover:text-white"
+      disabled={disabled}
+      className={`flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#0A4B6E] shadow-[0_6px_20px_-6px_rgba(20,46,92,0.4)] transition hover:bg-[#0A4B6E] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:bg-white disabled:hover:text-[#0A4B6E] ${className}`}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
         <path
@@ -95,6 +103,29 @@ export default function UseCases({
   } = useCases;
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const updateArrows = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setAtStart(scrollLeft <= 1);
+    // -1 tolerance for sub-pixel rounding; also true when content fits (no overflow).
+    setAtEnd(scrollLeft >= scrollWidth - clientWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    updateArrows();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
+    return () => {
+      el.removeEventListener("scroll", updateArrows);
+      window.removeEventListener("resize", updateArrows);
+    };
+  }, [updateArrows, cards.length]);
 
   const scrollByCards = (direction: "left" | "right") => {
     const el = scrollRef.current;
@@ -134,30 +165,27 @@ export default function UseCases({
               >
                 {subtitle}
               </motion.p>
-               </div>
-             <div className="flex gap-3">
-                <ScrollArrow
-                  direction="left"
-                  onClick={() => scrollByCards("left")}
-                />
-                <ScrollArrow
-                  direction="right"
-                  onClick={() => scrollByCards("right")}
-                />
-              </div>
-              
+            </div>
+
             <motion.div variants={fadeUp} custom={0.3} className="shrink-0">
               <ViewAllUseCases href={ctaHref} />
             </motion.div>
           </header>
 
-          {/* Cards — single horizontal scroll row, same card size as a 4-up grid */}
+          {/* Cards — scroll row with arrows placed before & after, not over the images */}
           {cards.length > 0 && (
-            <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3 lg:gap-4">
+              {/* Front (previous) arrow */}
+              <ScrollArrow
+                direction="left"
+                onClick={() => scrollByCards("left")}
+                disabled={atStart}
+                className="hidden shrink-0 sm:flex"
+              />
 
               <div
                 ref={scrollRef}
-                className="grid snap-x snap-mandatory grid-flow-col auto-cols-[100%] gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-60px)/4)]"
+                className="grid min-w-0 flex-1 snap-x snap-mandatory grid-flow-col auto-cols-[100%] gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-60px)/4)]"
               >
                 {cards.map((c, i) => (
                   <Card
@@ -167,6 +195,14 @@ export default function UseCases({
                   />
                 ))}
               </div>
+
+              {/* Rear (next) arrow */}
+              <ScrollArrow
+                direction="right"
+                onClick={() => scrollByCards("right")}
+                disabled={atEnd}
+                className="hidden shrink-0 sm:flex"
+              />
             </div>
           )}
         </motion.div>
