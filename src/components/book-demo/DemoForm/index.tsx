@@ -49,7 +49,7 @@ function CheckMark() {
 // Arrow badge identical to BookADemo component
 function ArrowBadge() {
   return (
-    <span className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white">
+    <span className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
       <svg
         width="10"
         height="11"
@@ -147,6 +147,7 @@ function InputField({
   icon,
   required,
   autoComplete,
+  error,
 }: {
   id: string;
   label: string;
@@ -157,6 +158,7 @@ function InputField({
   icon: React.ReactNode;
   required?: boolean;
   autoComplete?: string;
+  error?: string;
 }) {
   return (
     <FieldWrapper label={label} id={id}>
@@ -172,9 +174,20 @@ function InputField({
           onChange={(e) => onChange(e.target.value)}
           required={required}
           autoComplete={autoComplete}
-          className={INPUT_BASE}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className={`${INPUT_BASE} ${
+            error
+              ? "border-[#E5484D] focus:border-[#E5484D] focus:ring-[#E5484D]/15"
+              : ""
+          }`}
         />
       </div>
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-[12px] text-[#E5484D]">
+          {error}
+        </p>
+      )}
     </FieldWrapper>
   );
 }
@@ -190,6 +203,7 @@ function SelectField({
   options,
   placeholder,
   icon,
+  error,
 }: {
   id: string;
   label: string;
@@ -198,6 +212,7 @@ function SelectField({
   options: string[];
   placeholder: string;
   icon: React.ReactNode;
+  error?: string;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -230,10 +245,14 @@ function SelectField({
           onClick={() => setOpen((v) => !v)}
           aria-haspopup="listbox"
           aria-expanded={open}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
           className={`relative flex h-11 w-full items-center rounded-[10px] border bg-[#F5FBFF] pl-10 pr-9 text-left text-[16px] leading-[22px] transition-all ${
             open
               ? "border-[#0a8ec8] ring-2 ring-[#0a8ec8]/15"
-              : "border-[#E9F8FF] hover:border-[#bfe6f5]"
+              : error
+                ? "border-[#E5484D] hover:border-[#E5484D]"
+                : "border-[#E9F8FF] hover:border-[#bfe6f5]"
           }`}
         >
           <span
@@ -305,6 +324,11 @@ function SelectField({
           )}
         </AnimatePresence>
       </div>
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-[12px] text-[#E5484D]">
+          {error}
+        </p>
+      )}
     </FieldWrapper>
   );
 }
@@ -335,11 +359,64 @@ const INITIAL: FormState = {
   additionalDetails: "",
 };
 
+type FieldErrors = Partial<Record<keyof FormState, string>>;
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Accepts +, spaces, dashes, parentheses; requires 7-15 digits.
+const PHONE_RE = /^[+]?[\d\s()-]{7,20}$/;
+
+function validate(form: FormState): FieldErrors {
+  const errors: FieldErrors = {};
+
+  if (!form.fullName.trim()) {
+    errors.fullName = "Full name is required.";
+  } else if (form.fullName.trim().length < 2) {
+    errors.fullName = "Please enter your full name.";
+  }
+
+  if (!form.workEmail.trim()) {
+    errors.workEmail = "Work email is required.";
+  } else if (!EMAIL_RE.test(form.workEmail.trim())) {
+    errors.workEmail = "Enter a valid email address.";
+  }
+
+  if (!form.companyName.trim()) {
+    errors.companyName = "Company name is required.";
+  }
+
+  if (!form.phoneNumber.trim()) {
+    errors.phoneNumber = "Phone number is required.";
+  } else if (!PHONE_RE.test(form.phoneNumber.trim())) {
+    errors.phoneNumber = "Enter a valid phone number.";
+  }
+
+  if (!form.role) errors.role = "Please select your role.";
+  if (!form.industry) errors.industry = "Please select an industry.";
+
+  if (form.services.size === 0) {
+    errors.services = "Select at least one option.";
+  }
+
+  return errors;
+}
+
 export default function DemoForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  // Clear a field's error as soon as the user edits it.
+  function clearError(field: keyof FormState) {
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
 
   function toggleService(service: string) {
+    clearError("services");
     setForm((prev) => {
       const next = new Set(prev.services);
       next.has(service) ? next.delete(service) : next.add(service);
@@ -349,6 +426,17 @@ export default function DemoForm() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    const nextErrors = validate(form);
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      // Focus the first field with an error.
+      const firstField = Object.keys(nextErrors)[0];
+      if (typeof document !== "undefined") {
+        document.getElementById(firstField)?.focus();
+      }
+      return;
+    }
+    setErrors({});
     // Submission handler — wire up to API as needed
     console.log("Demo request:", { ...form, services: [...form.services] });
     setSubmitted(true);
@@ -405,7 +493,11 @@ export default function DemoForm() {
             label="Full Name"
             placeholder="Enter Full Name"
             value={form.fullName}
-            onChange={(v) => setForm((p) => ({ ...p, fullName: v }))}
+            onChange={(v) => {
+              clearError("fullName");
+              setForm((p) => ({ ...p, fullName: v }));
+            }}
+            error={errors.fullName}
             icon={
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -425,7 +517,11 @@ export default function DemoForm() {
             type="email"
             placeholder="Enter Work Email"
             value={form.workEmail}
-            onChange={(v) => setForm((p) => ({ ...p, workEmail: v }))}
+            onChange={(v) => {
+              clearError("workEmail");
+              setForm((p) => ({ ...p, workEmail: v }));
+            }}
+            error={errors.workEmail}
             icon={
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -448,7 +544,11 @@ export default function DemoForm() {
             label="Company Name"
             placeholder="Enter Company Name"
             value={form.companyName}
-            onChange={(v) => setForm((p) => ({ ...p, companyName: v }))}
+            onChange={(v) => {
+              clearError("companyName");
+              setForm((p) => ({ ...p, companyName: v }));
+            }}
+            error={errors.companyName}
             icon={
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -465,10 +565,15 @@ export default function DemoForm() {
           <InputField
             id="phoneNumber"
             label="Phone Number"
-            type="tel"
+            type="number"
             placeholder="Enter Phone Number"
             value={form.phoneNumber}
-            onChange={(v) => setForm((p) => ({ ...p, phoneNumber: v }))}
+            onChange={(v) => {
+              clearError("phoneNumber");
+              setForm((p) => ({ ...p, phoneNumber: v }));
+            }}
+            error={errors.phoneNumber}
+            required
             icon={
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -489,7 +594,11 @@ export default function DemoForm() {
             id="role"
             label="Your Role"
             value={form.role}
-            onChange={(v) => setForm((p) => ({ ...p, role: v }))}
+            onChange={(v) => {
+              clearError("role");
+              setForm((p) => ({ ...p, role: v }));
+            }}
+            error={errors.role}
             options={ROLES}
             placeholder="Select Option"
             icon={
@@ -507,7 +616,11 @@ export default function DemoForm() {
             id="industry"
             label="Industry / Environment"
             value={form.industry}
-            onChange={(v) => setForm((p) => ({ ...p, industry: v }))}
+            onChange={(v) => {
+              clearError("industry");
+              setForm((p) => ({ ...p, industry: v }));
+            }}
+            error={errors.industry}
             options={INDUSTRIES}
             placeholder="Select Option"
             icon={
@@ -526,6 +639,9 @@ export default function DemoForm() {
         {/* Services */}
         <fieldset>
           <legend className={FIELD_LABEL}>What are you looking for?</legend>
+          {errors.services && (
+            <p className="mb-1 text-[12px] text-[#E5484D]">{errors.services}</p>
+          )}
           <div className="mt-1.5 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {SERVICES.map((service) => {
               const checked = form.services.has(service);
@@ -612,7 +728,7 @@ export default function DemoForm() {
         <div className="flex flex-col items-center gap-3 pt-1">
           <button
             type="submit"
-            className="inline-flex h-11 items-center justify-center gap-2.5 rounded-full px-6 font-bold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)]"
+            className="group inline-flex h-11 items-center justify-center gap-2.5 rounded-full px-6 font-bold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_10px_48px_rgba(38,124,153,0.55)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#21B1F1]/40 active:translate-y-0 active:scale-100"
             style={{
               background: `
                 linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)) padding-box,

@@ -125,7 +125,7 @@ function FeatureCard({
       custom={delay}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25 }}
-      className="relative w-65 max-w-full"
+      className="pointer-events-auto relative w-65 max-w-full"
       // Soft outer shadow — on the wrapper so drop-shadow traces the chamfer.
       style={{ filter: "drop-shadow(0 22px 38px rgba(135,160,190,0.16))" }}
     >
@@ -264,7 +264,7 @@ export default function PostConstructionTransition({
                 uniform 30px gap. Row 1 stops at two so the panel occupies the open
                 top-right, and the third card in row 2 nests into the panel's
                 chamfered bottom-left corner. */}
-            <div className="relative z-10 flex flex-col gap-7.5">
+            <div className="pointer-events-none relative z-10 flex flex-col gap-7.5">
               {/* Row 1 — two cards */}
               <div className="flex flex-wrap gap-7.5">
                 <FeatureCard {...features[0]} delay={0.45} />
@@ -320,12 +320,12 @@ export default function PostConstructionTransition({
                   </p>
                   <a
                     href={ctaHref}
-                    className="mt-5 inline-flex items-center rounded-full bg-white px-5 py-2.5 shadow-[0px_14px_34px_-16px_rgba(20,46,92,0.45)] transition-transform hover:-translate-y-0.5"
+                    className="group mt-5 inline-flex cursor-pointer items-center rounded-full bg-white px-5 py-2.5 shadow-[0px_14px_34px_-16px_rgba(20,46,92,0.45)] ring-1 ring-transparent transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#f4faff] hover:shadow-[0px_18px_40px_-14px_rgba(33,177,241,0.55)] hover:ring-[#21B1F1]/30"
                   >
                     {/* Gradient text fill — blue→green (Figma). The gradient sits
                         on the span, not the pill, so the white background stays. */}
                     <span
-                      className="bg-clip-text text-[18px] font-bold leading-none tracking-normal text-transparent"
+                      className="bg-clip-text text-[18px] font-bold leading-none tracking-normal text-transparent transition-transform duration-200 group-hover:translate-x-0.5"
                       style={{
                         backgroundImage:
                           "linear-gradient(90deg, #21B1F1 0%, #A6C936 100%)",

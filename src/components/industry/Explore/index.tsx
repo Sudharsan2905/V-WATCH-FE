@@ -50,8 +50,8 @@ const CARDS: Card[] = [
 
 function Arrow() {
   return (
-    <span className="flex size-6 items-center justify-center rounded-[12.5px] bg-white/10">
-      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
+    <span className="flex size-6 items-center justify-center rounded-[12.5px] bg-white/10 transition-colors duration-200 group-hover/link:bg-white/25">
+      <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden>
         <path
           d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9"
           stroke="white"
@@ -67,84 +67,126 @@ function Arrow() {
 export default function Explore() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative z-[2] px-6 pb-20 pt-[30px] lg:px-[60px]">
-      <motion.div
-        className="mx-auto flex w-full max-w-[1410px] flex-col gap-10"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <motion.header variants={fadeUp} className="flex max-w-[1160px] flex-col gap-2.5">
-          <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
-            Explore how V-Watch Ai works across different environments
-          </h2>
-          <p className="max-w-[804px] text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
-            While every industry is unique, the need for visibility, safety, and
-            control remains the same. These are some of the environments where
-            V-Watch Ai delivers the most impact.
-          </p>
-        </motion.header>
+      <section className="relative z-[2] px-6 pb-20 pt-[30px] lg:px-[60px]">
+        <motion.div
+          className="mx-auto flex w-full max-w-[1410px] flex-col gap-10"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.header
+            variants={fadeUp}
+            className="flex max-w-[1160px] flex-col gap-2.5"
+          >
+            <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
+              Explore how V-Watch Ai works across different environments
+            </h2>
+            <p className="max-w-[804px] text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
+              While every industry is unique, the need for visibility, safety,
+              and control remains the same. These are some of the environments
+              where V-Watch Ai delivers the most impact.
+            </p>
+          </motion.header>
 
-        <div className="flex flex-wrap justify-center gap-[30px]">
-          {CARDS.map((c, i) => (
-            <motion.div
-              key={c.title}
-              variants={slideUp}
-              custom={CARDS_START + i * CARD_STAGGER}
-              className="group relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] border-[1.245px] border-[#0a8ec8] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
-            >
-              <div className="relative h-full w-full overflow-hidden rounded-[16px] border border-white/60">
-                <Image
-                  src={c.img}
-                  alt={c.title}
-                  fill
-                  className="object-cover"
-                  sizes="367px"
-                />
-                {/* Frosted glass panel — holds title (always) + desc/link (hover).
-                    Figma: rgba(24,23,23,0.40) + blur(5px) so the image reads
-                    softly through the panel. */}
-                <div
-                  className="absolute inset-x-3 bottom-3 flex flex-col rounded-[14px] p-5"
-                  style={{
-                    background: "rgba(24, 23, 23, 0.40)",
-                    backdropFilter: "blur(5px)",
-                  }}
-                >
-                  <p className="text-[18px] font-bold leading-6 text-white">
-                    {c.title}
-                  </p>
-                  {/* Hidden at rest; expands and fades in smoothly on hover
-                      (grid-rows 0fr → 1fr animates the height). */}
-                  {(c.desc || c.link) && (
-                    <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out group-hover:grid-rows-[1fr]">
-                      <div className="flex translate-y-3 flex-col gap-2.5 overflow-hidden opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                        {/* zero-height spacer — its flex gap recreates the
-                            title→description spacing inside the collapsing row */}
-                        <div aria-hidden className="h-0" />
-                        {c.desc && (
-                          <p className="text-[16px] font-normal leading-5 text-white">
-                            {c.desc}
-                          </p>
-                        )}
-                        {c.link && (
-                          <div className="flex items-center gap-2.5">
-                            <p className="text-[16px] font-bold text-white">
-                              {c.link}
-                            </p>
-                            <Arrow />
-                          </div>
-                        )}
-                      </div>
+          <div className="flex flex-wrap justify-center gap-[30px]">
+            {CARDS.map((c, i) => (
+              <motion.div
+                key={c.title}
+                variants={slideUp}
+                custom={CARDS_START + i * CARD_STAGGER}
+                className="group relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
+                style={{
+                  // Custom border logic for the first (top) card:
+                  // - Top border is half thickness (0.625px)
+                  // - Right border is removed (0px)
+                  // - Left and Bottom remain full (1.25px)
+                  borderTop:
+                    i === 0
+                      ? "0.625px solid transparent"
+                      : "1.25px solid transparent",
+                  borderLeft: "1.25px solid transparent",
+                  borderBottom: "1.25px solid transparent",
+                  borderRight: i === 0 ? "0px" : "1.25px solid transparent",
+                  background:
+                    // Gap fill (the 4px frame): vertical gradient — Figma gray
+                    // (#D9D9D9) at the top, white at the bottom.
+                    "linear-gradient(180deg, #daeced 0%, #FFFFFF 100%) padding-box, " +
+                    // Gradient border, visible on specified sides: deep blue → light
+                    // blue (#0A8EC8 → #9DD2E9).
+                    "linear-gradient(135deg, #0A8EC8 0%, #9DD2E9 100%) border-box",
+                }}
+              >
+                <div className="relative h-full w-full overflow-hidden rounded-[14px]">
+                  {/* Dark blurred backdrop for the whole card — base photo +
+          frosted overlay. The inset photo sits on top, so this reads as a
+          frosted ring around the photo and a dark area below it. */}
+                  <Image
+                    src={c.img}
+                    alt=""
+                    aria-hidden
+                    fill
+                    className="object-cover"
+                    sizes="367px"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: "rgba(24, 23, 23, 0.40)",
+                      backdropFilter: "blur(2px)",
+                    }}
+                  />
+
+                  {/* Content column over the backdrop: photo on top, text below. */}
+                  <div className="relative flex h-full flex-col p-3.5">
+                    {/* Sharp photo — fills the space above the text; the 14px
+            padding lets the frosted ring show on top/left/right. */}
+                    <div className="relative min-h-0 flex-1 overflow-hidden rounded-[10px]">
+                      <Image
+                        src={c.img}
+                        alt={c.title}
+                        fill
+                        className="object-cover"
+                        sizes="367px"
+                      />
                     </div>
-                  )}
+
+                    {/* Text below the photo, on the dark frosted area. */}
+                    <div className="flex flex-col px-1 pt-3">
+                      <p className="text-[18px] font-bold leading-6 text-white">
+                        {c.title}
+                      </p>
+                      {/* Hidden at rest; expands and fades in on hover
+              (grid-rows 0fr → 1fr animates the height). */}
+                      {(c.desc || c.link) && (
+                        <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out group-hover:grid-rows-[1fr]">
+                          <div className="flex translate-y-3 flex-col gap-2.5 overflow-hidden opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                            {/* zero-height spacer — its flex gap recreates the
+                    title→description spacing inside the collapsing row */}
+                            <div aria-hidden className="h-0" />
+                            {c.desc && (
+                              <p className="text-[16px] font-normal leading-5 text-white">
+                                {c.desc}
+                              </p>
+                            )}
+                            {c.link && (
+                              <div className="group/link flex w-fit cursor-pointer items-center gap-2.5">
+                                <p className="text-[16px] font-bold text-white">
+                                  {c.link}
+                                </p>
+                                <Arrow />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </section>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
     </MotionConfig>
   );
 }

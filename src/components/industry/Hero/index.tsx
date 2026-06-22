@@ -157,7 +157,7 @@ export default function IndustryHero() {
           >
             {/* Badge + heading */}
             <div className="flex flex-col gap-[14px]">
-              <motion.div
+              {/* <motion.div
                 variants={badgeReveal}
                 className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13px] py-[9.5px]"
               >
@@ -165,7 +165,7 @@ export default function IndustryHero() {
                 <span className="whitespace-nowrap text-base font-semibold leading-none text-white lg:text-[18px]">
                   What V-Watch Ai
                 </span>
-              </motion.div>
+              </motion.div> */}
               <h1 className="max-w-[642px] text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px] lg:tracking-[1px]">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">

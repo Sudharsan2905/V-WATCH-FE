@@ -32,8 +32,8 @@ export default function BookDemoHero() {
         {/* Globe illustration — full width, same pattern as common Hero */}
         <motion.div
           className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1.04 }}
           transition={{ duration: 0.9, ease: EASE }}
         >
           <Image
@@ -46,8 +46,6 @@ export default function BookDemoHero() {
           />
         </motion.div>
 
-        {/* Left gradient scrim for legibility */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#030515] via-[#030515]/80 to-transparent" />
         {/* Bottom fade so content section blends in */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#030515] to-transparent" />
         {/* Blue ambient glow */}

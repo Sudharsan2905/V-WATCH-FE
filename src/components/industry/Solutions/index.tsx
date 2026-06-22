@@ -195,7 +195,7 @@ export default function Solutions() {
                 <NavButton dir="next" disabled={atEnd} onClick={() => page(1)} />
               </div>
             )}
-            <ViewAllUseCases className="shrink-0" />
+            {/* <ViewAllUseCases className="shrink-0" /> */}
           </div>
         </motion.div>
 
@@ -230,7 +230,7 @@ export default function Solutions() {
                     alt={c.title}
                     fill
                     className="object-cover"
-                    sizes="300px"
+                    sizes="(max-width: 1023px) 100vw, 25vw"
                   />
                 </div>
 
@@ -269,7 +269,7 @@ export default function Solutions() {
                       space); expands and fades in on hover. */}
                   <div className="relative grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr]">
                     <div className="overflow-hidden">
-                      <div className="flex items-center gap-2.5 pt-3.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <div className="group/learn flex w-fit cursor-pointer items-center gap-2.5 pt-3.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         <span className="text-[16px] font-medium text-white">
                           Learn More
                         </span>
@@ -279,10 +279,11 @@ export default function Solutions() {
                           viewBox="0 0 14 14"
                           fill="none"
                           aria-hidden
+                          className="text-white transition-[color,transform] duration-200 group-hover/learn:-translate-y-0.5 group-hover/learn:text-[#A6C936]"
                         >
                           <path
                             d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"
-                            fill="white"
+                            fill="currentColor"
                           />
                         </svg>
                       </div>

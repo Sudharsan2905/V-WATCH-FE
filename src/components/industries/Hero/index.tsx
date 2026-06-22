@@ -134,7 +134,7 @@ export default function IndustriesHero({
           >
             {/* Badge + heading */}
             <div className="flex flex-col gap-[14px]">
-              <motion.div
+              {/* <motion.div
                 variants={badgeReveal}
                 className="inline-flex w-fit items-center gap-[3.8px] rounded-full bg-white/10 px-[13px] py-[9.5px]"
               >
@@ -142,7 +142,7 @@ export default function IndustriesHero({
                 <span className="whitespace-nowrap text-[16px] font-semibold leading-none text-white sm:text-[18px]">
                   {badge}
                 </span>
-              </motion.div>
+              </motion.div> */}
               <h1 className="max-w-[642px] text-[32px] font-black leading-[40px] tracking-[1px] text-white sm:text-[40px] sm:leading-[52px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden pb-[0.12em]">
                   <motion.span custom={0.3} variants={lineReveal} className="block">

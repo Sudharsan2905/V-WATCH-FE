@@ -233,9 +233,6 @@ export default function ProcessSteps() {
           <h2 className="mb-3 text-[22px] font-black text-[#0D1F35] sm:text-[32px] lg:text-[34px]">
             What happens next
           </h2>
-          <p className="text-[14px] font-normal text-[#0A4B6E] sm:text-[16px]">
-            Once you submit your requirements, we take care of the rest.
-          </p>
         </motion.div>
 
         {/* Steps row */}
