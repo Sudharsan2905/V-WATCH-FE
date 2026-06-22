@@ -67,17 +67,24 @@ const MODULES: Module[] = [
   },
 ];
 
-function ModuleCard({ mod }: { mod: Module }) {
+function ModuleCard({ mod, minimal = false }: { mod: Module; minimal?: boolean }) {
   const flip = mod.flip;
   // Counter-flip class: keeps content (text, icon glyph, illustration) readable/correct
   // when the whole card is mirrored.
   const cf = flip ? "-scale-x-100" : "";
+  // Non-flipped cards always sit in the right column (their illustration is on the right),
+  // so their content/text is right-aligned to match — in every layout.
+  const textRight = !flip;
 
   return (
     <motion.div
       variants={scaleIn}
       className={[
-        "relative w-full min-h-[180px] sm:min-h-[210px] xl:min-h-0 xl:aspect-[303/246]",
+        "relative w-full",
+        // Minimal variant (≤1024px orbital layout) is a clean square — no badge/pill.
+        minimal
+          ? "aspect-square"
+          : "min-h-[180px] sm:min-h-[210px] xl:min-h-0 xl:aspect-[303/246]",
         flip ? "-scale-x-100" : "",
       ].join(" ")}
     >
@@ -86,6 +93,9 @@ function ModuleCard({ mod }: { mod: Module }) {
           asset) lands top-right on the flipped/left cards, holding the label pill. */}
       <div
         className="absolute pointer-events-none"
+        // These calibrated negative insets align the glass card-shape with the box edges
+        // (the asset bakes in a glow border). The minimal cards just render smaller, so the
+        // glow scales down with the box.
         style={{ inset: "-35.37% -32.79% -45.93% -32.79%" }}
       >
         <Image
@@ -122,25 +132,34 @@ function ModuleCard({ mod }: { mod: Module }) {
       {/* Content — icon badge + title pinned to the bottom. On flipped cards the icon moves
           to the right while the title stays left-aligned and readable. */}
       <div className="absolute inset-0 z-10 flex flex-col items-start justify-end gap-[14px] sm:gap-[16px] xl:gap-[20px] p-[14px] sm:p-[18px] xl:p-[24px]">
-        {/* Icon badge — Figma 60×60, white, rounded-16, soft shadow + top inner highlight */}
-        <div className="relative flex items-center justify-center shrink-0 size-[44px] sm:size-[52px] xl:size-[60px] rounded-[12px] xl:rounded-[16px] bg-white shadow-[6.25px_3.75px_17.5px_0px_rgba(255,255,255,0.33),2.626px_7.878px_29.177px_0px_rgba(29,108,151,0.2)]">
-          <div
-            aria-hidden
-            className="absolute inset-0 rounded-[inherit] pointer-events-none shadow-[inset_0px_2px_10px_0px_rgba(255,255,255,0.8)]"
-          />
-          <div className={["relative size-[26px] sm:size-[32px] xl:size-[40px]", cf].join(" ")}>
-            <Image
-              src={mod.icon}
-              alt={mod.label}
-              fill
-              className="object-contain"
-              sizes="40px"
+        {/* Icon badge — Figma 60×60, white, rounded-16, soft shadow + top inner highlight.
+            Hidden in the minimal (≤1024px orbital) layout. */}
+        {!minimal && (
+          <div className="relative flex items-center justify-center shrink-0 size-[44px] sm:size-[52px] xl:size-[60px] rounded-[12px] xl:rounded-[16px] bg-white shadow-[6.25px_3.75px_17.5px_0px_rgba(255,255,255,0.33),2.626px_7.878px_29.177px_0px_rgba(29,108,151,0.2)]">
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-[inherit] pointer-events-none shadow-[inset_0px_2px_10px_0px_rgba(255,255,255,0.8)]"
             />
+            <div className={["relative size-[26px] sm:size-[32px] xl:size-[40px]", cf].join(" ")}>
+              <Image
+                src={mod.icon}
+                alt={mod.label}
+                fill
+                className="object-contain"
+                sizes="40px"
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Title + subtitle */}
-        <div className={["flex flex-col gap-[3px] xl:gap-[6px] w-full", cf].join(" ")}>
+        <div
+          className={[
+            "flex flex-col gap-[3px] xl:gap-[6px] w-full",
+            textRight ? "text-right" : "",
+            cf,
+          ].join(" ")}
+        >
           <p className="text-[14px] sm:text-[16px] xl:text-[20px] font-bold text-white leading-[normal]">
             {mod.title}
           </p>
@@ -151,21 +170,73 @@ function ModuleCard({ mod }: { mod: Module }) {
       </div>
 
       {/* Label pill — sits in the top-left notch (mirrors to the top-right notch on flipped
-          cards). Figma: h-44, px-20, white border, translucent fill. */}
-      <div
-        className="absolute top-[5%] left-[4.5%] inline-flex items-center justify-center h-[28px] sm:h-[34px] xl:h-[44px] px-[12px] sm:px-[16px] xl:px-[20px] rounded-[80px] border border-white shadow-[4px_7px_26px_0px_rgba(217,226,255,0.1),0px_13px_100px_0px_rgba(199,199,199,0.1)]"
-        style={{ background: "rgba(255,255,255,0.14)" }}
-      >
-        <span
-          className={[
-            "text-[12px] sm:text-[14px] xl:text-[20px] font-bold text-white leading-none whitespace-nowrap",
-            cf,
-          ].join(" ")}
+          cards). Figma: h-44, px-20, white border, translucent fill. Hidden in the minimal
+          (≤1024px orbital) layout. */}
+      {!minimal && (
+        <div
+          className="absolute top-[5%] left-[4.5%] inline-flex items-center justify-center h-[28px] sm:h-[34px] xl:h-[44px] px-[12px] sm:px-[16px] xl:px-[20px] rounded-[80px] border border-white shadow-[4px_7px_26px_0px_rgba(217,226,255,0.1),0px_13px_100px_0px_rgba(199,199,199,0.1)]"
+          style={{ background: "rgba(255,255,255,0.14)" }}
         >
-          {mod.label}
-        </span>
-      </div>
+          <span
+            className={[
+              "text-[12px] sm:text-[14px] xl:text-[20px] font-bold text-white leading-none whitespace-nowrap",
+              cf,
+            ].join(" ")}
+          >
+            {mod.label}
+          </span>
+        </div>
+      )}
     </motion.div>
+  );
+}
+
+/**
+ * Concentric-ring orbital with the V-Watch wordmark badge at its centre (Figma node
+ * 1043:2586). Ring/badge offsets are expressed as percentages of the square footprint so
+ * the whole thing scales to any size — native design is 467px (mid ring at 63px → 13.5%,
+ * inner ring at 114px → 24.4%, centre badge 110px → 23.5%, logo 96px → 87% of the badge).
+ */
+function Orbital({ className = "" }: { className?: string }) {
+  return (
+    <div className={["relative aspect-square", className].join(" ")}>
+      {/* Outer ring */}
+      <div
+        className="absolute inset-0 rounded-full border border-[rgba(126,207,250,0.24)]"
+        style={{ background: "rgba(255,255,255,0.10)", opacity: 0.44 }}
+      />
+      {/* Mid ring */}
+      <div
+        className="absolute inset-[13.5%] rounded-full border border-[rgba(126,207,250,0.20)] backdrop-blur-[3px]"
+        style={{ background: "rgba(255,255,255,0.30)", opacity: 0.77 }}
+      />
+      {/* Inner ring */}
+      <div
+        className="absolute inset-[24.4%] rounded-full border border-[rgba(126,207,250,0.20)] backdrop-blur-[3px]"
+        style={{ background: "rgba(255,255,255,0.70)", opacity: 0.77 }}
+      />
+      {/* Center badge — navy gradient fill + white V-WATCH wordmark (Figma 1043:2590) */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[23.5%] aspect-square flex items-center justify-center rounded-full border-[1.4px] border-white overflow-hidden shadow-[0px_0px_114px_24px_#feffff,0px_14px_24px_0px_rgba(255,255,255,0.7),0px_0px_62px_0px_rgba(29,108,151,0.16)]"
+      >
+        <div
+          className="flex items-center justify-center w-full h-full"
+          style={{
+            background: "linear-gradient(135deg, #0a4b6e 14.6%, #002d45 85.4%)",
+          }}
+        >
+          <div className="relative w-[87%] aspect-[96/56]">
+            <Image
+              src="/about/platform-orb-logo.svg"
+              alt="V-Watch"
+              fill
+              className="object-contain"
+              sizes="96px"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -253,13 +324,35 @@ export default function VWatchAIPlatform() {
           </p>
         </motion.div>
 
-        {/* Mobile/tablet grid — 1 col at 320px, 2 col at 375px+ */}
+        {/* ≤1024px: 2×2 square cards (no pill, no icon badge) with the V-Watch orbital
+            overlaid in the centre where the four cards meet. */}
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={viewportReveal}
           variants={staggerContainer}
-          className="grid grid-cols-1 min-[375px]:grid-cols-2 gap-[14px] sm:gap-[16px] xl:hidden"
+          className="relative grid grid-cols-2 gap-[12px] sm:gap-[16px] max-w-[460px] sm:max-w-[520px] mx-auto min-[1025px]:hidden"
+        >
+          {MODULES.map((mod) => (
+            <ModuleCard key={mod.key} mod={mod} minimal />
+          ))}
+          {/* Center orbital — scales with the breakpoint, sized so it sits within the grid
+              gap without swallowing the cards' illustrations or titles. */}
+          <motion.div
+            variants={zoomIn}
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] min-[480px]:w-[150px] sm:w-[190px]"
+          >
+            <Orbital className="w-full" />
+          </motion.div>
+        </motion.div>
+
+        {/* 1025–1279px: original 2-col card grid with pills + icon badges. */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportReveal}
+          variants={staggerContainer}
+          className="hidden min-[1025px]:grid xl:hidden grid-cols-2 gap-[16px]"
         >
           {MODULES.map((mod) => (
             <ModuleCard key={mod.key} mod={mod} />
@@ -290,65 +383,10 @@ export default function VWatchAIPlatform() {
             whileInView="show"
             viewport={viewportReveal}
             variants={zoomIn}
-            className="relative flex-shrink-0"
+            className="flex-shrink-0"
             style={{ width: "467px", height: "467px" }}
           >
-            {/* Outer ring */}
-            <div
-              className="absolute inset-0 rounded-full border border-[rgba(126,207,250,0.24)]"
-              style={{ background: "rgba(255,255,255,0.10)", opacity: 0.44 }}
-            />
-            {/* Mid ring */}
-            <div
-              className="absolute rounded-full border border-[rgba(126,207,250,0.20)] backdrop-blur-[3px]"
-              style={{
-                top: 63, right: 63, bottom: 63, left: 63,
-                background: "rgba(255,255,255,0.30)",
-                opacity: 0.77,
-              }}
-            />
-            {/* Inner ring */}
-            <div
-              className="absolute rounded-full border border-[rgba(126,207,250,0.20)] backdrop-blur-[3px]"
-              style={{
-                top: 114, right: 114, bottom: 114, left: 114,
-                background: "rgba(255,255,255,0.70)",
-                opacity: 0.77,
-              }}
-            />
-            {/* Center badge — navy gradient fill + white V-WATCH wordmark (Figma 1043:2590) */}
-            <div
-              className="absolute flex items-center justify-center rounded-full border-[1.4px] border-white overflow-hidden shadow-[0px_0px_114px_24px_#feffff,0px_14px_24px_0px_rgba(255,255,255,0.7),0px_0px_62px_0px_rgba(29,108,151,0.16)]"
-              style={{
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 110,
-                height: 110,
-              }}
-            >
-              {/* Navy inner frame — slightly wider than the circle so it fills it after the
-                  rounded clip (Figma 1043:2591). */}
-              <div
-                className="flex items-center justify-center"
-                style={{
-                  width: 118,
-                  height: "100%",
-                  background:
-                    "linear-gradient(135deg, #0a4b6e 14.6%, #002d45 85.4%)",
-                }}
-              >
-                <div className="relative w-[96px] h-[56px]">
-                  <Image
-                    src="/about/platform-orb-logo.svg"
-                    alt="V-Watch"
-                    fill
-                    className="object-contain"
-                    sizes="96px"
-                  />
-                </div>
-              </div>
-            </div>
+            <Orbital className="w-full" />
           </motion.div>
 
           {/* Right column: RTLS + HRMS (aligned toward the orb) */}

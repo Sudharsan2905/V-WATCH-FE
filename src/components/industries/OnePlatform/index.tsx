@@ -255,17 +255,28 @@ export default function OnePlatform({
     }, RESUME_MS);
   };
 
-  // On every scroll, if the user is driving, activate the row nearest the centre
+  // On every scroll, if the user is driving, activate the row whose centre is
+  // nearest the focal line — the same ⅓-from-top point the auto-scroll targets.
+  // Measuring real row positions (rather than mapping the overall scroll
+  // fraction) keeps the highlight locked to what the user is actually reading,
+  // so it switches the instant a row crosses the threshold with no lag.
   const onScroll = () => {
     if (!userDriving.current) return; // ignore our own programmatic scrolls
     const container = scrollRef.current;
     if (!container) return;
 
-    // Map scroll progress (0 → 1) evenly across every row, so each index gets an
-    // equal slice and no rows get skipped (incl. the first and last).
-    const maxScroll = container.scrollHeight - container.clientHeight;
-    const fraction  = maxScroll > 0 ? container.scrollTop / maxScroll : 0;
-    const nearest   = Math.round(fraction * (features.length - 1));
+    const focal = container.scrollTop + container.clientHeight / 3;
+    let nearest = 0;
+    let best = Infinity;
+    rowRefs.current.forEach((row, i) => {
+      if (!row) return;
+      const center = row.offsetTop + row.offsetHeight / 2;
+      const dist = Math.abs(center - focal);
+      if (dist < best) {
+        best = dist;
+        nearest = i;
+      }
+    });
 
     setActiveIndex(prev => {
       if (prev !== nearest) skipAutoScroll.current = true;

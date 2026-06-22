@@ -104,8 +104,29 @@ function FeatureCard({ card }: { card: FeatureCardData }) {
 
 export default function WhatMakesUsDifferent() {
   return (
-    <section className="relative z-10 bg-white py-[40px] lg:py-[60px]">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+    <section className="relative z-10 bg-white py-[60px] lg:py-[60px]">
+      {/* Split background: blue (left half) → green (right half), shown in the
+          gap behind/between the cards. Soft tints so the white cards stay legible. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          // Two soft glows centered behind the cards — blue on the left,
+          // green on the right — plus a half/half blue-green band along the
+          // bottom that fades up into white. Surroundings stay white.
+          background:
+            // bottom-left corner: light blue, fading toward the center & up
+            "radial-gradient(75% 85% at 0% 100%, #CAE5EB 0%, rgba(202,229,235,0) 68%), " +
+            // bottom-right corner: lighter green, fading toward the center & up
+            // (the two collapse softly into white where they meet in the middle)
+            "radial-gradient(75% 85% at 100% 100%, #EAF4DE 0%, rgba(234,244,222,0) 68%), " +
+            // centered glows behind the cards
+            "radial-gradient(60% 55% at 33% 45%, #CAE5EB 0%, rgba(202,229,235,0) 70%), " +
+            "radial-gradient(60% 55% at 67% 45%, #E3F1D6 0%, rgba(227,241,214,0) 70%), " +
+            "#FFFFFF",
+        }}
+      />
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         {/* Row 1: large dark card + first feature card */}
         <motion.div
           initial="hidden"

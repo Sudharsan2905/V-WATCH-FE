@@ -156,48 +156,50 @@ function ArrowConnector() {
   return (
     <motion.div
       variants={arrowReveal}
-      className="relative z-20 hidden h-[40px] w-[68px] flex-shrink-0 -mx-[10px] lg:block"
+      className="relative z-20 my-[4px] flex-shrink-0 lg:-mx-[10px] lg:my-0"
     >
-      {/* Figma Group 1321317018: HORIZONTAL connector — a gradient pill (54.5×29)
-          carrying a right chevron, with a 40px white circle (arrow →) overlapping
-          the pill's right end. */}
-      {/* Gradient pill + right chevron — Figma 1043:2425 / 1043:2426 */}
-      <div
-        className="absolute left-0 top-1/2 flex h-[29px] w-[54.5px] -translate-y-1/2 items-center rounded-full"
-        style={{
-          background:
-            "linear-gradient(180deg, #21b1f1 20.69%, #6badf6 43.97%, #e7a7ff 151.72%)",
-        }}
-      >
-        {/* Asset is a left chevron; flip it horizontally so it points right (>). */}
-        <div className="relative ml-[6px] size-[21px] -scale-x-100">
-          <Image
-            src="/about/approach-arrow-pill.webp"
-            alt=""
-            fill
-            className="object-contain"
-            sizes="21px"
-          />
-        </div>
-      </div>
-      {/* White circle with → — Figma 1043:2428/2429, overlapping the pill's right end */}
-      <div className="absolute left-[28px] top-0 size-[40px]">
-        <Image
-          src="/about/approach-arrow-circle.png"
-          alt=""
-          fill
-          className="object-contain"
-          sizes="40px"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative h-[11px] w-[15px]">
+      {/* Stacked (mobile/tablet): just the white circle with a DOWN arrow.
+          lg+ row: the full horizontal pill + circle (Figma Group 1321317018). */}
+      <div className="relative flex h-[40px] w-[40px] items-center justify-center lg:w-[68px]">
+        {/* Gradient pill + right chevron — Figma 1043:2425 / 1043:2426 (lg only) */}
+        <div
+          className="absolute left-0 top-1/2 hidden h-[29px] w-[54.5px] -translate-y-1/2 items-center rounded-full lg:flex"
+          style={{
+            background:
+              "linear-gradient(180deg, #21b1f1 20.69%, #6badf6 43.97%, #e7a7ff 151.72%)",
+          }}
+        >
+          {/* Asset is a left chevron; flip it horizontally so it points right (>). */}
+          <div className="relative ml-[6px] size-[21px] -scale-x-100">
             <Image
-              src="/about/approach-arrow-icon.webp"
+              src="/about/approach-arrow-pill.webp"
               alt=""
               fill
               className="object-contain"
-              sizes="15px"
+              sizes="21px"
             />
+          </div>
+        </div>
+        {/* White circle — centered when alone (mobile), at pill's end on lg */}
+        <div className="absolute left-1/2 top-0 size-[40px] -translate-x-1/2 lg:left-[28px] lg:translate-x-0">
+          <Image
+            src="/about/approach-arrow-circle.png"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="40px"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Arrow glyph: points DOWN on stacked layouts, right on lg+ */}
+            <div className="relative h-[11px] w-[15px] rotate-90 lg:rotate-0">
+              <Image
+                src="/about/approach-arrow-icon.webp"
+                alt=""
+                fill
+                className="object-contain"
+                sizes="15px"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -207,7 +209,7 @@ function ArrowConnector() {
 
 export default function OurApproach() {
   return (
-    <section className="bg-[#F2F8FE] py-[40px] lg:py-[80px] overflow-hidden">
+    <section className="bg-[#F2F8FE] py-[60px] lg:py-[80px] overflow-hidden">
       <motion.div
         initial="hidden"
         whileInView="show"

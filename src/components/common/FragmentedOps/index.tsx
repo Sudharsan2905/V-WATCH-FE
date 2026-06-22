@@ -110,7 +110,7 @@ function ResultsCard() {
     <motion.div
       variants={wipeBottom}
       custom={RESULTS_START}
-      className="relative max-w-[380px] h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
+      className="relative max-w-[380px] min-h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
     >
       <motion.h3 variants={wipeTop} custom={RESULTS_START + 0.1} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
       <ul className="mt-[14px] flex flex-col gap-4">

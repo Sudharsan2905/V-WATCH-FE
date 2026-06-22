@@ -74,7 +74,9 @@ export default function TechnologyPartners({ title, subtitle }: Props = {}) {
                 <motion.div
                   key={src}
                   variants={logoItem}
-                  className="flex h-[56px] w-[120px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-3 py-2.5 shadow-[0_4px_14px_rgba(255,255,255,0.04)] sm:h-[72px] sm:w-[160px] sm:px-5 sm:py-4"
+                  whileHover={{ y: -4, scale: 1.04 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="flex h-[56px] w-[120px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-3 py-2.5 shadow-[0_4px_14px_rgba(255,255,255,0.04)] transition-shadow duration-300 ease-out hover:shadow-[0_12px_30px_rgba(29,108,151,0.18)] sm:h-[72px] sm:w-[160px] sm:px-5 sm:py-4"
                 >
                   <span className="relative block size-full">
                     <Image
@@ -131,7 +133,9 @@ export default function TechnologyPartners({ title, subtitle }: Props = {}) {
                     <motion.div
                       key={src}
                       variants={logoItem}
-                      className="flex h-[56px] w-[120px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-3 py-2.5 shadow-[0_4px_14px_rgba(255,255,255,0.04)] sm:h-[72px] sm:w-[160px] sm:px-5 sm:py-4"
+                      whileHover={{ y: -4, scale: 1.04 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="flex h-[56px] w-[120px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-3 py-2.5 shadow-[0_4px_14px_rgba(255,255,255,0.04)] transition-shadow duration-300 ease-out hover:shadow-[0_12px_30px_rgba(29,108,151,0.18)] sm:h-[72px] sm:w-[160px] sm:px-5 sm:py-4"
                     >
                       <span className="relative block size-full">
                         <Image
