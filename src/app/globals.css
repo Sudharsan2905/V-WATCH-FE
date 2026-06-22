@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+/* Smooth in-page navigation (e.g. Hero "See How It Works" -> FeatureGrid). */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Auto-advancing accordion progress bar (products CapabilityTabs).
    Animate transform (GPU-composited, no per-frame layout) instead of width
    so the fill is smooth on the very first run. */

@@ -112,7 +112,7 @@ export default function FeatureGrid() {
   const rows = [FEATURES.slice(0, 2), FEATURES.slice(2, 4), FEATURES.slice(4, 6)];
 
   return (
-    <section className="relative overflow-hidden bg-white px-6 pb-20 lg:px-[60px]">
+    <section id="how-it-works" className="relative scroll-mt-24 overflow-hidden bg-white px-6 pb-20 lg:px-[60px]">
       {/* Bottom half of one-system.svg. UnifiedSystem above pins the same image's
           centre to the seam and shows the top half; this mirrors it (top:-half)
           so the bottom half lines up, making the ring read as one continuous

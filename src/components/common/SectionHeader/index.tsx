@@ -45,11 +45,11 @@ export default function SectionHeader({
           <h2 className={`text-[26px] font-bold leading-none ${titleClassName}`}>
             {title}
           </h2>
-          {subtitle && (
-            <p className={`text-[20px] font-normal leading-7 ${subtitleClassName}`}>
+          {/* {subtitle && (
+            <p className={`text-[20px] font-normal leading-7 w-[775px] ${subtitleClassName}`}>
               {subtitle}
             </p>
-          )}
+          )} */}
         </motion.header>
       </div>
     </MotionConfig>

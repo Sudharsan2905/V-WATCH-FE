@@ -214,7 +214,7 @@ export default function Environments({
                 width={1168}
                 height={180}
                 unoptimized
-                className="h-auto w-full rounded-[20px]"
+                className="h-[132px] w-full rounded-[20px]"
               />
             </motion.div>
           )}

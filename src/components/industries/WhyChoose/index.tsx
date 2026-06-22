@@ -59,7 +59,7 @@ function ConnectCard({
     <motion.div
       variants={fromLeft}
       custom={delay}
-      className="relative flex w-full flex-col gap-4 rounded-[24px] border border-[#E6EAF0] bg-white p-4 shadow-[0px_30px_60px_-30px_rgba(20,46,92,0.35),0px_2px_10px_rgba(20,46,92,0.05)] lg:w-[380px]"
+      className="relative flex w-full h-[400px] flex-col gap-4 rounded-[24px] border border-[#E6EAF0] bg-white p-4 shadow-[0px_30px_60px_-30px_rgba(20,46,92,0.35),0px_2px_10px_rgba(20,46,92,0.05)] lg:w-[380px]"
     >
       {/* Logo badge — floats OUT past the card's top-left corner. The card has
           no overflow-hidden, so its rounded corners stay intact while the badge
@@ -78,7 +78,7 @@ function ConnectCard({
             src="/industries/construction/v-watch-ai/logo.png"
             alt="V-Watch"
             width={44}
-            height={14}
+            height={14  }
             unoptimized
             className="relative z-10 w-full object-contain"
           />
@@ -111,10 +111,10 @@ function ConnectCard({
           width={370}
           height={305}
           unoptimized
-          className="h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          className="h-[304px] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
         {content && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3  opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
             <div className="rounded-[12px] border border-white/25 bg-white/15 p-3 shadow-[0_8px_30px_rgba(10,75,110,0.25)] backdrop-blur-md">
               <p className="text-[14px] font-medium leading-[19px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]">
                 {content}
@@ -144,7 +144,7 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
         width={493}
         height={181}
         unoptimized
-        className="absolute left-0 top-0 h-1/2 w-[calc(100%+10px)] object-fill"
+        className="absolute left-0 top-2 h-1/2 w-[calc(100%+10px)] object-fill"
       />
       {/* Lower link → row 3 (bottom half) */}
       <Image
@@ -153,7 +153,7 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
         width={486}
         height={184}
         unoptimized
-        className="absolute bottom-0 left-0 h-1/2 w-[calc(100%+10px)] object-fill"
+        className="absolute bottom-3 left-0 h-1/2 w-[calc(100%+10px)] object-fill"
       />
       {/* Straight link → row 2 */}
       <Image
@@ -162,7 +162,7 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
         width={483}
         height={23}
         unoptimized
-        className="absolute left-0 top-1/2 h-auto w-[calc(100%+10px)] -translate-y-1/2"
+        className="absolute left-0  top-1/2 h-auto w-[calc(100%+10px)] -translate-y-1/2"
       />
     </motion.div>
   );
