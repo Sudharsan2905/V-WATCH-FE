@@ -71,9 +71,6 @@ export default function PreConstructionHero({
             sizes="100vw"
             className="object-cover object-right sm:object-fill"
           />
-          {/* Left-to-right fade so the heading/subtitle keep contrast over the
-              brighter parts of the artwork on every breakpoint. */}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#030515_0%,rgba(3,5,21,0.78)_28%,rgba(3,5,21,0.25)_55%,transparent_80%)]" />
         </motion.div>
 
         {/* White wave curve — section-level so it is never inside the fading bg
@@ -95,7 +92,7 @@ export default function PreConstructionHero({
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
           <motion.div
-            className="flex min-h-[560px] flex-col items-start justify-center py-10 sm:py-14 lg:min-h-[754px] lg:pt-16"
+            className="flex min-h-[560px] flex-col items-start justify-center py-10 sm:py-14 lg:max-h-[754px] lg:justify-start lg:py-[140px]"
             initial="hidden"
             animate="show"
           >

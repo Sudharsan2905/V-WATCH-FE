@@ -243,7 +243,7 @@ export default function CapabilityTabs() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-[60px]">
+    <section className="relative overflow-hidden bg-white px-6 py-6 lg:py-20 lg:px-[60px]">
       <div
         ref={sectionRef}
         className="relative z-10 mx-auto flex items-center w-full max-w-[1410px] flex-col gap-10"
@@ -326,7 +326,7 @@ export default function CapabilityTabs() {
             </div>
           </motion.div>
 
-          <div className="flex flex-1 flex-col gap-5 max-w-[508px] lg:w-[508px]">
+          <div className="flex flex-1 flex-col gap-5 w-full lg:max-w-[508px]">
             <motion.div
               variants={panelHeadingReveal}
               initial="hidden"
@@ -365,7 +365,7 @@ export default function CapabilityTabs() {
                     className="flex w-full flex-col gap-2.5 text-left"
                   >
                     <motion.p
-                      animate={{ color: isOpen ? "#5CB7E8" : "#0A4B6E", x: isOpen ? 8 : 0 }}
+                      animate={{ color: isOpen ? "#5CB7E8" : "#0A4B6E"}}
                       transition={{ duration: 0.4, ease: "easeOut" }}
                       className="text-[20px] font-bold"
                     >

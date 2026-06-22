@@ -74,11 +74,13 @@ export default function WhatWeSee() {
           </p>
         </motion.div>
 
-        {/* 3-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_407px_1fr] gap-[20px] lg:gap-[30px] items-center">
+        {/* 3-column layout. On tablet (md) the fixed-width illustration can't sit
+            between two text columns, so it spans full width on top and the two
+            text columns drop below it side-by-side, spread across the width. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_407px_1fr] gap-x-[20px] gap-y-[30px] lg:gap-[30px] items-start md:items-start lg:items-center">
           {/* LEFT COLUMN */}
           <motion.div
-            className="w-full max-w-[360px]"
+            className="w-full max-w-[360px] md:order-2 md:justify-self-start lg:order-none lg:justify-self-stretch"
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}
@@ -117,7 +119,7 @@ export default function WhatWeSee() {
               stacks between the columns on smaller screens. The fixed 407×455
               composition is uniformly scaled to fit the available width; the
               sized box reserves the scaled footprint so layout stays exact. */}
-          <div ref={centerRef} className="flex w-full justify-center items-center">
+          <div ref={centerRef} className="flex w-full justify-center items-center md:order-1 md:col-span-2 lg:order-none lg:col-span-1">
             <div style={{ width: CENTER_W * centerScale, height: CENTER_H * centerScale }}>
             <div className="origin-top-left" style={{ transform: `scale(${centerScale})` }}>
             <motion.div
@@ -271,7 +273,7 @@ export default function WhatWeSee() {
 
           {/* RIGHT COLUMN */}
           <motion.div
-            className="w-full max-w-[360px]"
+            className="w-full max-w-[360px] md:order-3 md:justify-self-end lg:order-none lg:justify-self-stretch"
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}

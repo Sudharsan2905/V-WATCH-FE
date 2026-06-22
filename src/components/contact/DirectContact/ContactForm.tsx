@@ -8,7 +8,7 @@ type Field = {
   name: string;
   label: string;
   required?: boolean;
-  type?: "text" | "email" | "tel";
+  type?: "text" | "email" | "number";
   placeholder: string;
   icon: string;
 };
@@ -36,6 +36,7 @@ const PAIRED_FIELDS: Field[][] = [
     {
       name: "companyName",
       label: "Company Name",
+      required: true,
       type: "text",
       placeholder: "Enter Company Name",
       icon: "/contact/direct/icons/form-building.svg",
@@ -43,7 +44,8 @@ const PAIRED_FIELDS: Field[][] = [
     {
       name: "phoneNumber",
       label: "Phone Number",
-      type: "tel",
+      required: true,
+      type: "number",
       placeholder: "Phone Number",
       icon: "/contact/direct/icons/form-phone.svg",
     },
@@ -68,7 +70,7 @@ function FieldLabel({
   return (
     <label className="text-[16px] font-normal leading-[19px] text-[#21293A]">
       {children}
-      {required && <span className="ml-0.5 text-[#FF3838]">*</span>}
+      {required && <span className="ml-0.5 text-[#0A8EC8] h-5 w-5">*</span>}
     </label>
   );
 }

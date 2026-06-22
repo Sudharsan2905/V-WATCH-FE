@@ -65,7 +65,12 @@ const CARD_GRADIENT =
 const CARD_STAGGER = 0.12;
 const CARD_START = 0.3;
 
-function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: number }>) {
+function FeatureCard({
+  icon,
+  title,
+  desc,
+  index,
+}: Readonly<Feature & { index: number }>) {
   return (
     // Outer shell: full-width on mobile; 50%-gap half on lg+
     <motion.div
@@ -73,15 +78,22 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
       custom={CARD_START + index * CARD_STAGGER}
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full shrink-0 lg:h-[211.5px] lg:w-[calc(50%-15px)]"
+      className="relative max-w-[554px] shrink-0 lg:h-[211.5px] lg:w-[calc(50%-15px)]"
     >
       {/* Blob background — lg+ only */}
       <div className="pointer-events-none absolute bottom-0 left-[5px] right-[3px] top-[4px] hidden lg:block">
-        <Image src="/home/feature-card-bg.svg" alt="" fill className="object-fill" sizes="50vw" priority />
+        <Image
+          src="/home/feature-card-bg.svg"
+          alt=""
+          fill
+          className="object-fill"
+          sizes="50vw"
+          priority
+        />
       </div>
 
       {/* Card — full-width on mobile; offset 46.5 × 43.5 on lg+, right-aligned */}
-      <div className="group relative min-h-[144px] w-full lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:right-[38.5px] lg:h-[144px] lg:w-auto">
+      <div className="group relative max-h-[144px] max-w-[470px] lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:right-[38.5px] lg:h-[144px] lg:w-[470px]">
         {/* Card glass border/background */}
         <div
           className="absolute inset-0 rounded-[20px] border-2 border-white shadow-[6px_10px_23px_0px_rgba(217,226,255,0.85),0px_13px_100px_0px_rgba(199,199,199,0.25)] transition-colors duration-300 group-hover:bg-[rgba(186,224,245,0.18)]"
@@ -90,12 +102,23 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
 
         {/* Icon shield — behind the icon tile */}
         <div className="absolute left-[12.5px] top-[0.5px] h-[94px] w-[60px]">
-          <Image src="/home/feature-icon-bg.svg" alt="" fill className="object-fill" />
+          <Image
+            src="/home/feature-icon-bg.svg"
+            alt=""
+            fill
+            className="object-fill"
+          />
         </div>
 
         {/* Icon tile */}
         <div className="absolute left-[17.5px] top-[19.5px] flex h-[50px] w-[50px] items-center justify-center rounded-[11.4px] border-[1.2px] border-white bg-[rgba(244,251,255,0.4)] p-[9px] shadow-[4.889px_8.148px_18.741px_0px_rgba(217,226,255,0.4)]">
-          <Image src={icon} alt="" width={32} height={32} className="shrink-0 brightness-0 invert" />
+          <Image
+            src={icon}
+            alt=""
+            width={32}
+            height={32}
+            className="shrink-0 brightness-0 invert"
+          />
         </div>
 
         {/* Text content */}
@@ -109,10 +132,17 @@ function FeatureCard({ icon, title, desc, index }: Readonly<Feature & { index: n
 }
 
 export default function FeatureGrid() {
-  const rows = [FEATURES.slice(0, 2), FEATURES.slice(2, 4), FEATURES.slice(4, 6)];
+  const rows = [
+    FEATURES.slice(0, 2),
+    FEATURES.slice(2, 4),
+    FEATURES.slice(4, 6),
+  ];
 
   return (
-    <section id="how-it-works" className="relative scroll-mt-24 overflow-hidden bg-white px-6 pb-20 lg:px-[60px]">
+    <section
+      id="how-it-works"
+      className="relative scroll-mt-24 overflow-hidden bg-white px-6 pb-20 lg:px-[60px]"
+    >
       {/* Bottom half of one-system.svg. UnifiedSystem above pins the same image's
           centre to the seam and shows the top half; this mirrors it (top:-half)
           so the bottom half lines up, making the ring read as one continuous
@@ -123,7 +153,14 @@ export default function FeatureGrid() {
         className="pointer-events-none absolute inset-x-0 hidden select-none lg:block"
         style={{ top: "-50.78125vw", height: "111.5625vw" }}
       >
-        <Image src="/home/one-system.svg" alt="" fill priority={false} sizes="100vw" className="object-cover" />
+        <Image
+          src="/home/one-system.svg"
+          alt=""
+          fill
+          priority={false}
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
 
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
@@ -133,11 +170,20 @@ export default function FeatureGrid() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <motion.h2 variants={wipeTop} custom={0} className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]">
+          <motion.h2
+            variants={wipeTop}
+            custom={0}
+            className="max-w-[642px] text-[26px] font-bold text-[#0A4B6E]"
+          >
             Everything your operation depends on in one place
           </motion.h2>
-          <motion.p variants={wipeTop} custom={0.15} className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
-            V-Watch <span className="uppercase">Ai</span> is built around how your business actually runs.
+          <motion.p
+            variants={wipeTop}
+            custom={0.15}
+            className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]"
+          >
+            V-Watch <span className="uppercase">Ai</span> is built around how
+            your business actually runs.
           </motion.p>
         </motion.header>
 

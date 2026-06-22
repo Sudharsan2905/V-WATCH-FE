@@ -32,6 +32,9 @@ const TILES: Tile[] = [
         Ekoperniagaan, Johor Bahru, Malaysia - 81100
       </>
     ),
+    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      "Surveillance & Communication Sdn Bhd, No 17, Jalan Ekoperniagaan, 2/6 Taman Ekoperniagaan, Johor Bahru, Malaysia - 81100",
+    )}`,
   },
 ];
 
@@ -93,8 +96,16 @@ export default function ContactInfoPanel() {
       <div className="relative z-10 flex max-w-full flex-col gap-5 lg:max-w-[490px]">
         {TILES.map((t) => {
           const isTall = t.label === "Office";
+          const isExternal = t.href?.startsWith("http");
           return t.href ? (
-            <a key={t.label} href={t.href} className="block">
+            <a
+              key={t.label}
+              href={t.href}
+              className="block"
+              {...(isExternal
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
               <TileContent {...t} isTall={isTall} />
             </a>
           ) : (
