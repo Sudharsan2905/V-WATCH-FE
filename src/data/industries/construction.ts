@@ -199,7 +199,11 @@ export const constructionContent = {
         desc: "Manage strict access control, high-security requirements, and precise coordination in mission-critical builds.",
       },
     ],
-    footerImage: "/industries/construction/designed-environment/env-footer.png",
+    footerPanels: [
+      { image: "/industries/industrial&energy/small-projects.png", label: "Small Projects" },
+      { image: "/industries/industrial&energy/large-scale-developments.png", label: "Large Scale Developments" },
+    ],
+    footerKeywords: ["Visibility", "Control", "Coordination"],
   },
   connected: {
     heading: "From site entry to project execution fully connected",

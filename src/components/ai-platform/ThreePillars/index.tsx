@@ -206,7 +206,7 @@ function FlowIcon({ type }: Readonly<{ type: "link" | "gear" | "sparkle" }>) {
 export default function ThreePillars() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="bg-[#F4FAFF] px-6 py-20 lg:px-[60px]">
+      <section className="bg-[#F4FAFF] px-6 pt-6 pb-15 lg:px-[60px]">
         <motion.div
           className="mx-auto w-full max-w-[1410px]"
           initial="hidden"
