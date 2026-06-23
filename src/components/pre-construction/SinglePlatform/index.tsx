@@ -327,9 +327,9 @@ export default function SinglePlatform({
             <motion.div
               variants={fadeUp}
               custom={1}
-              className={`relative flex w-[505px] max-w-full items-center justify-center rounded-[14px] px-5 lg:mt-auto ${
+              className={`relative flex w-[505px] max-w-full items-center justify-center rounded-[14px] px-5 ${
                 variant === "checklist"
-                  ? "mt-8 py-3.5"
+                  ? "mt-8 py-3.5 lg:mt-[80px]"
                   : "mt-12 py-3 sm:h-[54px] sm:py-0"
               }`}
               style={

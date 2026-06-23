@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -41,22 +42,25 @@ const cardItem: Variants = {
 
 // "Built for complex operational environments" — a full-bleed dark card with a
 // 3 + 2 grid of industry photo tiles. (Figma node 219:1532)
-type Industry = { name: string; img: string; desc: string; wide?: boolean };
+type Industry = { name: string; img: string; desc: string; wide?: boolean; href?: string };
 
 const ROW_1: Industry[] = [
   {
     name: "Construction",
     img: "/home/ind-construction.webp",
+    href: "/industries/construction",
     desc: "Manage large, multi-contractor environments with full visibility across workforce, compliance, and site operations ensuring safety, coordination, and accountability at every stage of the project.",
   },
   {
     name: "Industrial & Energy",
     img: "/home/ind-industrial.webp",
+    href: "/industries/industrial-energy",
     desc: "Operate safely in high-risk environments with real-time tracking, restricted zone monitoring, and instant response capabilities reducing risk while maintaining strict compliance.",
   },
   {
     name: "Commercial & Facilities",
     img: "/home/ind-commercial.webp",
+    href: "/industries/commercial-facilities",
     desc: "Streamline building operations, enhance access control, and manage maintenance and workforce activities efficiently across offices, retail spaces, and multi-site facilities.",
   },
 ];
@@ -80,25 +84,19 @@ function IndustryTile({
   name,
   img,
   desc,
+  href,
   index,
   showLearnMore = false,
 }: Readonly<Industry & { index: number; showLearnMore?: boolean }>) {
-  return (
-    // Motion wrapper carries the scroll reveal; the inner div keeps the CSS
-    // hover scale so it doesn't fight Motion's inline transform.
-    <motion.div
-      variants={cardItem}
-      custom={CARDS_START + index * CARD_STAGGER}
-      className="w-full"
-    >
-      <div className="group relative h-[300px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
-        <Image
-          src={img}
-          alt={name}
-          fill
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-          sizes="(min-width: 1024px) 555px, 100vw"
-        />
+  const tileContent = (
+    <div className="group relative h-[300px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
+      <Image
+        src={img}
+        alt={name}
+        fill
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        sizes="(min-width: 1024px) 555px, 100vw"
+      />
 
       {/* Resting state: bottom scrim + name — fade out on hover */}
       <div className="absolute inset-x-0 bottom-0 h-[135px] bg-gradient-to-b from-transparent to-black/80 transition-opacity duration-300 group-hover:opacity-0" />
@@ -124,7 +122,24 @@ function IndustryTile({
           )}
         </div>
       </div>
-      </div>
+    </div>
+  );
+
+  return (
+    // Motion wrapper carries the scroll reveal; the inner element keeps the CSS
+    // hover scale so it doesn't fight Motion's inline transform.
+    <motion.div
+      variants={cardItem}
+      custom={CARDS_START + index * CARD_STAGGER}
+      className="w-full"
+    >
+      {href ? (
+        <Link href={href} className="block w-full">
+          {tileContent}
+        </Link>
+      ) : (
+        tileContent
+      )}
     </motion.div>
   );
 }

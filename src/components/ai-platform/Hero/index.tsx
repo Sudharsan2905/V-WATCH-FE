@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, MotionConfig, type Variants } from "motion/react";
 import BookADemo from "@/components/common/BookADemo";
 
@@ -93,12 +92,6 @@ export default function AIPlatformHero() {
               className="flex flex-wrap items-center gap-4"
             >
               <BookADemo />
-              <Link
-                href="#use-cases"
-                className="inline-flex h-11 items-center justify-center rounded-full border border-white/40 bg-white px-5 text-base font-bold text-[#516413] hover:text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-              >
-                Explore Use Cases
-              </Link>
             </motion.div>
           </motion.div>
         </div>
