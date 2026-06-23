@@ -2,6 +2,8 @@ import Navbar from "@/components/layout/Navbar";
 import WorkforceHero from "@/components/workforce-management/Hero";
 import Overview from "@/components/workforce-management/Overview";
 import OperationalData from "@/components/workforce-management/OperationalData";
+import ConnectedTo from "@/components/workforce-management/ConnectedTo";
+import FeatureHighlight from "@/components/workforce-management/FeatureHighlight";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
@@ -29,6 +31,9 @@ export default function WorkforceManagementPage() {
       <div className="relative -mt-9 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
         <Overview />
         <OperationalData />
+        <ConnectedTo />
+        <FeatureHighlight />
+
         <div className="relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             title="Built for teams managing large and dynamic workforces"
