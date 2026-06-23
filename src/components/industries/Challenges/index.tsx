@@ -86,7 +86,7 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative flex min-h-[180px] flex-col gap-6 rounded-[30px] px-10 py-8"
+      className="relative flex h-[140px] w-full flex-col gap-3 rounded-[24px] p-5"
       style={{
         background: "linear-gradient(180deg, #FFFFFF 0%, #FCFAFB 100%)",
         boxShadow: `
@@ -100,12 +100,12 @@ function FeatureCard({
       <Image
         src={icon}
         alt=""
-        width={42}
-        height={42}
+        width={36}
+        height={36}
         unoptimized
-        className="size-[42px] object-contain"
+        className="size-[36px] object-contain"
       />
-      <p className="text-[18px] font-bold leading-[24px] text-[#1E293B]">
+      <p className="text-[18px] font-regular font-[400] leading-[23px] text-[#1E293B]">
         {title}
       </p>
     </motion.div>
@@ -279,11 +279,11 @@ export default function Challenges({
           {/* Two columns */}
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
             {/* Left column — feature cards + results (loadIn) */}
-            <div className="flex w-full flex-col gap-7 lg:flex-1">
+            <div className="flex w-full min-w-0 flex-col gap-7 lg:flex-1">
               {features.length > 0 && (
-                <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="relative grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                   {/* Cross dividers */}
-                  <div className="pointer-events-none absolute inset-0 z-10 hidden sm:block">
+                  <div className="pointer-events-none absolute inset-0 z-10 hidden sm:block lg:hidden xl:block">
                     <div
                       className="absolute left-1/2 top-1 h-[calc(50%-12px)] w-px -translate-x-1/2"
                       style={{ background: "rgba(255, 147, 132, 0.4" }}
@@ -352,7 +352,7 @@ export default function Challenges({
 
             {/* Right column — photo collage (wipebottom) */}
             <div className="relative w-full shrink-0 lg:w-[540px]">
-              <DotGrid className="absolute left-2 top-0 z-10 hidden lg:block" />
+              <DotGrid className="absolute top-4 z-10 hidden lg:block lg:left-[calc(22%_-_56px)]" />
 
               {images.length >= 4 && (
                 <div className="mx-auto flex max-w-[500px] flex-col gap-3 overflow-hidden sm:gap-4 lg:mx-0 lg:max-w-none">
