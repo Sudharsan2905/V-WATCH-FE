@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "prebuild": "rm -rf .next",
+    "prebuild": "sudo rm -rf .next 2>/dev/null || rm -rf .next",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
