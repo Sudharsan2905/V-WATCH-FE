@@ -28,7 +28,7 @@ const formRight: Variants = {
 export default function DirectContact() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-10 pb-20 lg:px-[60px] lg:pb-[120px]">
+    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-8 pb-12 lg:px-[60px] lg:pt-10 lg:pb-[120px]">
       <motion.div
         className="mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]"
         initial="hidden"

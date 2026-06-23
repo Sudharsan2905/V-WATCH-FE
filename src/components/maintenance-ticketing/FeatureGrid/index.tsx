@@ -79,7 +79,7 @@ function FeatureCard({
 
 export default function FeatureGrid() {
   return (
-    <section className="px-6 pb-20 lg:px-[60px]">
+    <section className="px-6 pb-12 lg:pb-20 lg:px-[60px]">
       <div className="mx-auto flex w-full max-w-[1410px] flex-col items-center gap-[30px]">
         {/* Header */}
         <motion.header

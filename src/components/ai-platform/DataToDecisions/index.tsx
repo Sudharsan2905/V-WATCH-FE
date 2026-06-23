@@ -176,7 +176,7 @@ function StepContent({ step, flip = false }: Readonly<{ step: DecisionStep; flip
 export default function DataToDecisions() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-16 py-16 lg:px-[60px]">
+    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-10 py-10 lg:px-[60px] lg:pt-16 lg:py-16">
       {/* Faint grid background */}
       <div
         aria-hidden

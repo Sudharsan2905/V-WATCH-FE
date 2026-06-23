@@ -82,7 +82,7 @@ function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
 
 export default function ContactInfoPanel() {
   return (
-    <div className="relative overflow-hidden rounded-[32px] px-6 py-10 sm:px-10 lg:h-[350px] lg:px-10 lg:pb-20 lg:pt-10">
+    <div className="relative overflow-hidden rounded-[32px] px-6 py-8 sm:px-10 lg:h-[350px] lg:px-10 lg:pb-20 lg:pt-10">
       {/* Banner background — replaces the previous layered gradient + wave SVG. */}
       <Image
         src="/book-a-demo/BackBanner.webp"
