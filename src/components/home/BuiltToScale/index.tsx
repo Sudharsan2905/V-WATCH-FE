@@ -232,10 +232,23 @@ export default function BuiltToScale() {
             ))}
           </motion.div>
 
-          {/* ── below md : stacked layout ── */}
-          <div className="mt-10 flex flex-col items-center gap-9 md:hidden">
+          {/* ── below md (tablet + mobile) : square command-centre image on
+              top, then the rocket cluster on the left with the three point
+              cards stacked to its right. Must be a motion container so the
+              RocketCluster's variants (which propagate from a whileInView
+              parent) actually fire — otherwise the rocket stays at opacity 0. */}
+          <motion.div
+            className="mt-10 flex flex-col gap-9 md:hidden"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
             {/* Command-centre image */}
-            <div className="relative aspect-[516/271] w-full max-w-[480px]">
+            <motion.div
+              variants={loadIn}
+              custom={0}
+              className="relative mx-auto aspect-[516/271] w-full max-w-[480px]"
+            >
               <Image
                 src="/home/bullet.png"
                 alt="When operations scale, V-Watch Ai scales with you, without loss of visibility or control."
@@ -243,15 +256,47 @@ export default function BuiltToScale() {
                 className="object-contain"
                 sizes="(max-width: 480px) 100vw, 480px"
               />
-            </div>
+            </motion.div>
 
-            {/* Capability cards — simple vertical list */}
-            <div className="flex w-full max-w-[480px] flex-col gap-5 pl-3">
-              {CARDS.map((c) => (
-                <CardBody key={c.text} icon={c.icon} text={c.text} highlight={c.highlight} />
-              ))}
+            {/* Rocket cluster (left) + the three point cards (right) */}
+            <div className="flex items-center gap-1">
+              {/* Rocket + glow + the accent colour dots (same as desktop) */}
+              <div className="relative aspect-[563/459] w-[34%] shrink-0">
+                <RocketCluster />
+                <motion.div
+                  variants={loadIn}
+                  custom={DOTS_DELAY}
+                  className="absolute"
+                  style={{ left: "-2%", top: "50%", width: "40%", aspectRatio: "239 / 313", transform: "translateY(-50%)" }}
+                >
+                  <Image src="/home/dots.png" alt="" fill className="object-contain" sizes="120px" />
+                </motion.div>
+              </div>
+
+              {/* Cards with the bow arc behind their left edge (like desktop) */}
+              <div className="relative flex-1">
+                <motion.div
+                  variants={loadIn}
+                  custom={BOW_DELAY}
+                  className="pointer-events-none absolute left-0 top-1/2 h-[88%] -translate-x-1/2 -translate-y-1/2"
+                  style={{ aspectRatio: "291 / 459" }}
+                >
+                  <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="140px" />
+                </motion.div>
+                <div className="relative z-10 flex flex-col gap-4 pl-3">
+                  {CARDS.map((c, i) => (
+                    <motion.div
+                      key={c.text}
+                      variants={riseUp}
+                      custom={CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER}
+                    >
+                      <CardBody icon={c.icon} text={c.text} highlight={c.highlight} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

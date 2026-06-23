@@ -70,7 +70,7 @@ const CARDS: Card[] = [
   {
     title: "Maintenance and task management",
     desc: "Streamline task assignment, tracking, and completion across teams.",
-    img: "/industries/industrial&energy/critical-usecase/maintenances.png",
+    img: "/industries/industrial&energy/critical-usecase/maintenance.svg",
     descColor: "#D4F0FF",
     descWeight: 500,
   },

@@ -78,9 +78,8 @@ export default function WhatWeSee() {
             between two text columns, so it spans full width on top and the two
             text columns drop below it side-by-side, spread across the width. */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_407px_1fr] gap-x-[20px] gap-y-[30px] lg:gap-[30px] items-start md:items-start lg:items-center">
-          {/* LEFT COLUMN */}
           <motion.div
-            className="w-full max-w-[360px] md:order-2 md:justify-self-start lg:order-none lg:justify-self-stretch"
+            className="w-full max-w-[360px] justify-self-center md:order-2 md:justify-self-center lg:order-none lg:justify-self-stretch"
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}
@@ -273,7 +272,7 @@ export default function WhatWeSee() {
 
           {/* RIGHT COLUMN */}
           <motion.div
-            className="w-full max-w-[360px] md:order-3 md:justify-self-end lg:order-none lg:justify-self-stretch"
+            className="w-full max-w-[360px] justify-self-center md:order-3 md:justify-self-center lg:order-none lg:justify-self-stretch"
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}

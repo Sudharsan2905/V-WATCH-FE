@@ -76,6 +76,20 @@ function ModuleCard({ mod, minimal = false }: { mod: Module; minimal?: boolean }
   // so their content/text is right-aligned to match — in every layout.
   const textRight = !flip;
 
+  // The illus %s are calibrated for the wide desktop card (303×246). The minimal
+  // variant is aspect-square (taller), so those heights push the illustration down
+  // into the bottom-pinned title. Shrink it and keep it anchored to the top edge
+  // (right edge stays put) so the image and text never overlap.
+  const MIN_SCALE = 0.66;
+  const illus = minimal
+    ? {
+        left: mod.illus.left + mod.illus.w * (1 - MIN_SCALE),
+        top: mod.illus.top * MIN_SCALE,
+        w: mod.illus.w * MIN_SCALE,
+        h: mod.illus.h * MIN_SCALE,
+      }
+    : mod.illus;
+
   return (
     <motion.div
       variants={scaleIn}
@@ -113,10 +127,10 @@ function ModuleCard({ mod, minimal = false }: { mod: Module; minimal?: boolean }
         <div
           className="absolute"
           style={{
-            left: `${mod.illus.left}%`,
-            top: `${mod.illus.top}%`,
-            width: `${mod.illus.w}%`,
-            height: `${mod.illus.h}%`,
+            left: `${illus.left}%`,
+            top: `${illus.top}%`,
+            width: `${illus.w}%`,
+            height: `${illus.h}%`,
           }}
         >
           <Image
