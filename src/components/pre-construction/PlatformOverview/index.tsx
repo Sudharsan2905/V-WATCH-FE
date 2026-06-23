@@ -109,7 +109,9 @@ const CAPABILITIES: Capability[] = [
 // Full-width pill that closes the capabilities list: centred tagline flanked by
 // thin connector lines ending in dots. Figma: 1140×60, radius 30, 1px gradient
 // border, soft translucent-purple fill, text Lato 700/18 tracking -0.6 #006F9F.
-function ConnectedBanner() {
+function ConnectedBanner({
+  text = "Every part of your project connected in one system.",
+}: Readonly<{ text?: string }>) {
   return (
     <motion.div
       variants={fadeUp}
@@ -139,7 +141,7 @@ function ConnectedBanner() {
       </span>
 
       <span className="font-lato shrink-0 px-10 text-center text-[18px] font-bold leading-[26px] tracking-[-0.6px] text-[#006F9F]">
-        Every part of your project connected in one system.
+        {text}
       </span>
 
       {/* Right line mirrors the left: solid at the dot, fading out to the edge. */}
@@ -185,7 +187,7 @@ function CapabilityRow({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      className={`flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-16 ${
+      className={`flex flex-col gap-6 rounded-3xl bg-white p-5 shadow-[0_20px_50px_-25px_rgba(20,46,92,0.25)] lg:flex-row lg:items-center lg:gap-16 lg:rounded-none lg:bg-transparent lg:p-0 lg:shadow-none ${
         reverse ? "lg:flex-row-reverse" : ""
       } ${index > 0 ? "lg:-mt-2" : ""}`}
     >
@@ -194,10 +196,10 @@ function CapabilityRow({
           for content-right). The inner, non-rounded side fades the white out to
           transparent so it melts into the page background instead of a hard edge. */}
       <div
-        className={`flex-1 p-7 lg:p-8 ${
+        className={`flex-1 px-2 py-4 lg:p-8 ${
           reverse
-            ? "rounded-r-4xl bg-[linear-gradient(to_left,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
-            : "rounded-l-4xl bg-[linear-gradient(to_right,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
+            ? "lg:rounded-r-4xl lg:bg-[linear-gradient(to_left,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
+            : "lg:rounded-l-4xl lg:bg-[linear-gradient(to_right,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
         }`}
       >
         <span className="block font-lato text-[36px] font-bold leading-none text-[#0A8EC880]">
@@ -260,12 +262,18 @@ function CapabilityRow({
 
 type PlatformOverviewContent = {
   heading?: string;
+  capabilities?: Capability[];
+  bannerText?: string;
 };
 
 export default function PlatformOverview({
   content = {},
 }: Readonly<{ content?: PlatformOverviewContent }> = {}) {
-  const { heading = "A single platform to run your entire project" } = content;
+  const {
+    heading = "A single platform to run your entire project",
+    capabilities = CAPABILITIES,
+    bannerText,
+  } = content;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -294,13 +302,13 @@ export default function PlatformOverview({
           </motion.h2>
 
           {/* Blocks — 996px wide, centred. */}
-          <div className="mx-auto mt-14 flex max-w-[996px] flex-col gap-16 lg:mt-16 lg:gap-0">
-            {CAPABILITIES.map((cap, i) => (
+          <div className="mx-auto mt-14 flex max-w-[996px] flex-col gap-8 lg:mt-16 lg:gap-0">
+            {capabilities.map((cap, i) => (
               <CapabilityRow key={cap.number} cap={cap} index={i} />
             ))}
           </div>
 
-          <ConnectedBanner />
+          <ConnectedBanner text={bannerText} />
         </div>
       </section>
     </MotionConfig>
