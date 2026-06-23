@@ -111,9 +111,12 @@ function IndustryTile({
           <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
           <p className="mt-1.5 line-clamp-3 text-[16px] font-normal leading-[17px] text-white/90 sm:line-clamp-4">{desc}</p>
           {showLearnMore && (
-            <button className="mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white">
+            <button
+              type="button"
+              className="group/btn mt-2.5 inline-flex items-center gap-2 text-[13px] font-bold text-white transition-all duration-300 hover:gap-3"
+            >
               Learn More
-              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover/btn:border-white group-hover/btn:bg-white group-hover/btn:text-[#0A1A2F]">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                   <path d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -184,12 +187,12 @@ export default function Industries() {
             <div className="flex flex-col gap-[30px]">
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3">
                 {ROW_1.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={i} />
+                  <IndustryTile key={ind.name} {...ind} index={i} showLearnMore />
                 ))}
               </div>
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
                 {ROW_2.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} />
+                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} showLearnMore />
                 ))}
               </div>
             </div>

@@ -116,7 +116,7 @@ export const industrialEnergyContent = {
     platformImage: "/industries/industrial&energy/real-time/factory-image.png",
   },
   whyChoose: {
-    heading: "Why industrial and energy operators choose V-Watch Ai",
+    heading: "Why industrial and energy operators choose V-Watch AI",
     subheading: "Most systems provide partial visibility.",
     cardTitle: "V-Watch AI provides complete awareness.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",

@@ -142,7 +142,7 @@ function CardBody({ icon, text, highlight }: Readonly<Pick<Card, "icon" | "text"
 
 export default function BuiltToScale() {
   return (
-    <section className="bg-white px-6 py-16 lg:px-[60px] lg:py-20">
+    <section className="bg-white px-6 py-10 lg:px-[60px] lg:py-20">
       <div className="mx-auto w-full max-w-[1410px]">
         <div className="mx-auto w-full max-w-[1160px]">
           {/* Heading */}
@@ -238,7 +238,7 @@ export default function BuiltToScale() {
               RocketCluster's variants (which propagate from a whileInView
               parent) actually fire — otherwise the rocket stays at opacity 0. */}
           <motion.div
-            className="mt-10 flex flex-col gap-9 md:hidden"
+            className="mt-6 lg:mt-10 flex flex-col gap-9 md:hidden"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}

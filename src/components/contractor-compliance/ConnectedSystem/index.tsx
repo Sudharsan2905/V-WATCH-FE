@@ -109,7 +109,7 @@ function BottomChip({ icon, label, delay }: { icon: string; label: string; delay
 export default function ConnectedSystem() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="overflow-x-hidden px-6 py-14 lg:px-15 lg:py-16" style={{ background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)" }}>
+      <section className="overflow-x-hidden px-6 py-10 lg:px-15 lg:py-16" style={{ background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)" }}>
         <div className="mx-auto max-w-[1320px]">
           {/* Heading */}
           <motion.div
@@ -137,7 +137,7 @@ export default function ConnectedSystem() {
 
           {/* Hub layout */}
           <motion.div
-            className="mt-10"
+            className="mt-6 lg:mt-10"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}

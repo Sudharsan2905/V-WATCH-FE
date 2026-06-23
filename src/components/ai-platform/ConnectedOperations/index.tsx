@@ -154,7 +154,7 @@ export default function ConnectedOperations() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative px-6 pb-20 pt-16 lg:px-[60px]">
+      <section className="relative px-6 pb-12 pt-10 lg:px-[60px] lg:pb-20 lg:pt-16">
         <motion.div
           className="mx-auto w-full max-w-[1410px]"
           initial="hidden"
@@ -174,14 +174,14 @@ export default function ConnectedOperations() {
 
           {/* Two-column panel */}
           <div
-            className="mt-10 flex flex-col gap-[30px] lg:flex-row lg:items-start"
+            className="mt-6 lg:mt-10 flex flex-col gap-[30px] xl:flex-row lg:items-start"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
             {/* Left: image carousel + pagination dots */}
             <motion.div
               variants={slideFromLeft}
-              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] lg:mx-0 lg:w-[600px] lg:shrink-0"
+              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] xl:mx-0 lg:w-[600px] lg:shrink-0"
             >
               <div className="relative h-[320px] w-full overflow-hidden rounded-[24px] border border-[#B8E6FF]/60 bg-[#EDF5FC] shadow-[6px_10px_23px_rgba(217,226,255,0.85)] lg:h-[480px]">
                 <AnimatePresence mode="wait">

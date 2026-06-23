@@ -181,7 +181,7 @@ export default function ConnectedSystem({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="px-6 py-12 lg:px-15 lg:py-16">
+      <section className="px-6 py-8 lg:px-15 lg:py-16">
         <motion.div
           className="mx-auto w-full max-w-[1280px] overflow-hidden rounded-[24px] border border-[#21B1F1]/35 bg-white p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_24px_60px_-24px_rgba(20,46,92,0.25),0_0_40px_rgba(33,177,241,0.18)] lg:p-10"
           initial="hidden"

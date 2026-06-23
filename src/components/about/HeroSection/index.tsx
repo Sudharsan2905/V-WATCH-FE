@@ -83,7 +83,7 @@ export default function HeroSection() {
       />
 
       {/* Content — vertically centered to match Figma */}
-      <div className="relative z-10 flex-1 flex items-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] py-[80px] lg:py-0">
+      <div className="relative z-10 flex-1 flex items-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] py-[40px] lg:py-0">
         <motion.div
           className="flex flex-col gap-[20px] w-full max-w-[600px]"
           initial="hidden"

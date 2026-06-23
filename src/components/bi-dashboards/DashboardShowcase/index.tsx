@@ -149,7 +149,7 @@ function RoadPath() {
 export default function DashboardShowcase() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_100%)] px-6 py-20 lg:px-[60px]">
+    <section className="relative overflow-hidden rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_100%)] px-6 py-12 lg:py-20 lg:px-[60px]">
       <div
         aria-hidden
         className="pointer-events-none w-100 h-100 right-0 top-[20%] absolute bg-[radial-gradient(ellipse_at_center,_#C5E9FB00_0%,_#C5E9FB99_38%,_#C5E9FB00_70%)] blur-3xl"
@@ -158,11 +158,11 @@ export default function DashboardShowcase() {
         aria-hidden
         className="pointer-events-none w-100 h-100 left-0 top-[25%] absolute bg-[radial-gradient(ellipse_at_center,_#C5E9FB00_0%,_#C5E9FB99_38%,_#C5E9FB00_70%)] blur-3xl"
       />
-      <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-20 lg:gap-40">
+      <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-12 lg:gap-40">
         <RoadPath />
         {/* Row 1 — Dashboard */}
         <motion.div
-          className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16"
+          className="relative z-10 flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}

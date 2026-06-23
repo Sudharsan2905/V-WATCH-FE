@@ -70,9 +70,9 @@ function LogoCard({ cell, delay }: { cell: Cell; delay: number }) {
 export default function TrustedBy() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 -mt-12 lg:-mt-16">
+      <section className="relative z-10 -mt-8 lg:-mt-16">
         <div
-          className="overflow-hidden rounded-t-[45px] px-6 py-12 sm:px-10 lg:px-15 lg:py-16 mt-10"
+          className="overflow-hidden rounded-t-[45px] px-6 py-8 sm:px-10 lg:px-15 lg:py-16 mt-6 lg:mt-10"
           style={{ background: "linear-gradient(160deg, #EDF7FF 0%, #EEF7FF 60%, #F0F8FF 100%)" }}
         >
         {/* Decorative blobs */}
