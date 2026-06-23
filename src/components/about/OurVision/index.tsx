@@ -32,14 +32,14 @@ export default function OurVision() {
   }, []);
 
   return (
-    <section className="bg-[#F5FBFF] overflow-hidden pb-[60px] lg:pb-0">
+    <section className="bg-[#F5FBFF] overflow-hidden lg:pb-[60px] lg:pb-0">
       {/* Section header */}
       <motion.div
         variants={wipeTop}
         initial="hidden"
         whileInView="show"
         viewport={viewportReveal}
-        className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] pt-[40px] lg:pt-[60px]"
+        className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] lg:pt-[60px]"
       >
         <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
           Our Vision
@@ -101,10 +101,10 @@ export default function OurVision() {
                 and control across
               </p>
             </div>
-            <div className="flex items-start justify-between gap-[4px]">
+            <div className="flex items-start justify-between gap-[2px]">
               {ICONS.map((icon, i) => (
                 <Fragment key={icon.label}>
-                  <div className="flex flex-col items-center gap-[6px] flex-1">
+                  <div className="flex min-w-0 flex-1 flex-col items-center gap-[6px]">
                     <div className="size-[44px] bg-white border border-[#9cdcff] rounded-full flex items-center justify-center">
                       <div className="relative size-[22px]">
                         <Image
@@ -116,12 +116,12 @@ export default function OurVision() {
                         />
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold text-white text-center leading-tight">
+                    <span className="w-full text-center text-[10px] font-bold leading-tight text-white">
                       {icon.label}
                     </span>
                   </div>
                   {i < ICONS.length - 1 && (
-                    <div className="relative mt-[17px] h-[10px] w-[18px] shrink-0">
+                    <div className="relative mt-[17px] h-[10px] w-[14px] shrink-0">
                       <Image
                         src="/Group (1).svg"
                         alt=""

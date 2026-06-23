@@ -13,7 +13,7 @@ const LIST_ITEMS = [
 
 export default function WhyWeBuilt() {
   return (
-    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px]">
+    <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] pt-[60px] lg:py-[80px]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         {/* Section header */}
         <motion.div
@@ -142,7 +142,7 @@ export default function WhyWeBuilt() {
           {/* RIGHT: image card — Figma node 1043:2653 (outer "nested" container):
               flex column, centered, bottom-justified, 10px bottom padding, ≥386px tall on
               desktop (Figma's 340px card + caption; grows as the card scales up). */}
-          <div className="flex-1 min-w-0 w-full flex flex-col items-center justify-end pb-[10px] lg:min-h-[386px] lg:flex-[1_0_0]">
+          <div className="flex-1 min-w-0 w-full flex flex-col items-center justify-end pb-[4px] md:pb-[10px] lg:min-h-[386px] lg:flex-[1_0_0]">
             {/* Card (Figma 1043:2654) — the 562×340 frame, but it fills the flex (1 0 0)
                 column so it scales with the available width instead of floating; the inner
                 image keeps the Figma 470/562 ≈ 84% ratio and 562/340 aspect. */}

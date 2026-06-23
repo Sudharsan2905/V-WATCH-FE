@@ -209,7 +209,7 @@ function ArrowConnector() {
 
 export default function OurApproach() {
   return (
-    <section className="bg-[#F2F8FE] py-[60px] lg:py-[80px] overflow-hidden">
+    <section className="bg-[#F2F8FE] py-[30px] lg:py-[60px] lg:py-[80px] overflow-hidden">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -231,7 +231,7 @@ export default function OurApproach() {
             flow plays out step by step from left to right. */}
         <motion.div
           variants={flowStagger}
-          className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-[20px] lg:gap-0"
+          className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-[10px] lg:gap-0"
         >
           <ApproachCard card={CARDS[0]} />
           <ArrowConnector />
