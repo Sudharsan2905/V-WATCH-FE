@@ -198,7 +198,7 @@ function FeatureCard({
           boxShadow: "0 6px 24px rgba(10,78,110,0.18)",
         }}
       >
-        <Image src={icon} alt={title} width={86} height={86} unoptimized className="w-full h-full" style={{ objectFit: "cover", transform: "scale(2.8)", transformOrigin: "center" }} />
+        <Image src={icon} alt={title} width={86} height={86} unoptimized className="w-full h-full" style={{ objectFit: "cover", transform: "scale(4.5) translateY(5%) translateX(0.2%)", transformOrigin: "center"}} />
       </div>
 
       {/* Card body */}
