@@ -1,0 +1,40 @@
+import Navbar from "@/components/layout/Navbar";
+import PageHero from "@/components/common/PageHero";
+import BiometricVerification from "@/components/facial-recognition/BiometricVerification";
+import HowItWorksNew from "@/components/facial-recognition/HowItWorksNew";
+import TrustedBy from "@/components/facial-recognition/TrustedBy";
+import Footer from "@/components/layout/Footer";
+
+const FOOTER_COLUMNS = [
+  {
+    heading: "Platform",
+    links: ["Dashboard", "BI Reporting", "System Integrators"],
+  },
+  {
+    heading: "Industries",
+    links: ["Construction", "Industrial", "Commercial"],
+  },
+  { heading: "Company", links: ["About Us", "Contact"] },
+];
+
+export default function FacialRecognitionPage() {
+  return (
+    <div className="relative overflow-x-hidden bg-[#F2F8FE]">
+      <Navbar />
+      <PageHero
+        bgImage="/facial-recognition.png"
+        heading="Eliminate Unauthorised Access with Facial Recognition"
+        description="Use facial recognition to verify identity instantly, prevent fraud, and maintain full control over who enters and moves within your operations — without cards, passes, or manual checks."
+        showBookADemo
+      />
+      <BiometricVerification />
+      <HowItWorksNew />
+      <TrustedBy />
+      <Footer
+        ctaTitle="Secure your site with verified identity"
+        ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."
+        linkColumns={FOOTER_COLUMNS}
+      />
+    </div>
+  );
+}
