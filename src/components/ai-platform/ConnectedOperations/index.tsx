@@ -162,7 +162,10 @@ export default function ConnectedOperations() {
           viewport={{ once: true, amount: 0.2 }}
         >
           {/* Header */}
-          <motion.header variants={fadeUp} className="flex max-w-[807px] flex-col gap-2.5">
+          <motion.header
+            variants={fadeUp}
+            className="flex max-w-[807px] flex-col gap-2.5"
+          >
             <h2 className="text-[26px] font-black text-[#0A4B6E]">
               Everything your operations depend on connected
             </h2>
@@ -183,7 +186,13 @@ export default function ConnectedOperations() {
               variants={slideFromLeft}
               className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] lg:mx-0 lg:w-[600px] lg:shrink-0"
             >
-              <div className="relative h-[320px] w-full overflow-hidden rounded-[24px] border border-[#B8E6FF]/60 bg-[#EDF5FC] shadow-[6px_10px_23px_rgba(217,226,255,0.85)] lg:h-[480px]">
+              <div
+                className="relative h-[320px] w-full overflow-hidden rounded-[24px] border-4 border-white/60 bg-[#EDF5FC] lg:h-[480px]"
+                style={{
+                  boxShadow:
+                    "0px 13px 110px 0px rgba(199,199,199,0.25), 6px 10px 33px 0px rgba(217,226,255,0.65), -6px -20px 33px 0px rgba(217,226,255,0.65), 9px 7px 60px 0px rgba(255,255,255,0.40)",
+                }}
+              >
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={current.key}
@@ -203,6 +212,11 @@ export default function ConnectedOperations() {
                     />
                   </motion.div>
                 </AnimatePresence>
+
+                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-[51px] bg-gradient-to-r from-[#F3F8FC] to-transparent" />
+                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-[51px] bg-gradient-to-l from-[#F3F8FC] to-transparent" />
+                <div className="pointer-events-none absolute left-0 top-0 z-10 h-[51px] w-full bg-gradient-to-b from-[#F3F8FC] to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[51px] w-full bg-gradient-to-t from-[#F3F8FC] to-transparent" />
               </div>
 
               {/* Full-width segmented progress — each segment fills like a
@@ -217,7 +231,9 @@ export default function ConnectedOperations() {
                     onClick={() => setActive(i)}
                     className="relative h-[6px] flex-1 cursor-pointer overflow-hidden rounded-full bg-[#CDE9FA]"
                   >
-                    {i < active && <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />}
+                    {i < active && (
+                      <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />
+                    )}
                     {i === active && (
                       <span
                         key={active}
@@ -291,8 +307,12 @@ export default function ConnectedOperations() {
                         />
                       </span>
                       <div className="flex flex-1 flex-col gap-0.5">
-                        <p className="text-[17px] font-bold text-[#0A4B6E]">{mod.title}</p>
-                        <p className="text-[14px] font-normal text-[#1391D4]">{mod.subtitle}</p>
+                        <p className="text-[17px] font-bold text-[#0A4B6E]">
+                          {mod.title}
+                        </p>
+                        <p className="text-[14px] font-normal text-[#1391D4]">
+                          {mod.subtitle}
+                        </p>
                       </div>
                     </div>
 

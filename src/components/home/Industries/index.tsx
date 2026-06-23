@@ -107,7 +107,7 @@ function IndustryTile({
       {/* Hover state: frosted glass card anchored near the bottom; wipes in
           from bottom → top on hover (clip-path inset reveal). */}
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center p-4">
-        <div className="pointer-events-auto w-[90%] max-w-[700px] rounded-[14px] border border-white/30 bg-black/40 p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
+        <div className="pointer-events-auto w-[90%] max-w-[700px] rounded-[14px] border border-white/30 bg-black/40 backdrop-blur-[3px] p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
           <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
           <p className="mt-1.5 line-clamp-3 text-[16px] font-normal leading-[17px] text-white/90 sm:line-clamp-4">{desc}</p>
           {showLearnMore && (

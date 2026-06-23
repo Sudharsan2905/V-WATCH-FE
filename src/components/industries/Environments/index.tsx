@@ -236,7 +236,7 @@ export default function Environments({
                 "linear-gradient(120deg,#cce6f6 0%,#dff0fb 35%,#eef7fd 70%,#f5fbff 100%)",
             }}
           >
-            <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:gap-4 sm:px-7 sm:py-4 lg:gap-6 lg:px-10 lg:py-5">
+            <div className="flex flex-col gap-3 px-5 py-1 sm:flex-row sm:items-center sm:gap-4 sm:px-7 lg:gap-6">
 
               {/* Images + arrow — centered on all breakpoints */}
               <div className="flex shrink-0 items-end justify-center gap-2 sm:gap-3 lg:gap-5">
@@ -250,7 +250,7 @@ export default function Environments({
                     width={110}
                     height={80}
                     unoptimized
-                    className="h-auto w-auto object-contain sm:h-[70px] lg:h-[96px]"
+                    className="h-auto w-auto object-contain"
                   />
                 </div>
 
@@ -273,14 +273,14 @@ export default function Environments({
                     width={140}
                     height={100}
                     unoptimized
-                    className="h-auto w-auto object-contain sm:h-[90px] lg:h-[120px]"
+                    className="h-auto w-auto object-contain"
                   />
                 </div>
               </div>
 
-              {/* Text + Logo — fills remaining row space, no overflow */}
-              <div className="flex min-w-0 flex-1 items-center justify-center gap-4 sm:justify-start lg:gap-6">
-                <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:text-left sm:px-2 lg:px-6">
+              {/* Text + Logo — grouped tight on the right side */}
+              <div className="flex min-w-0 flex-1 items-center justify-center gap-4 sm:justify-end lg:gap-6">
+                <div className="flex flex-col gap-0.5 text-center sm:text-left">
                   <p className="text-[14px] font-bold leading-snug text-[#0B1F3A] sm:text-[17px] lg:text-[20px]">
                     The need remains the same
                   </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -43,6 +44,47 @@ type WhyChooseContent = {
   cardContent?: string;
 };
 
+// Figma card shape: rectangular step-notch at TL with a cubic-bezier concave inner corner.
+// Left-side geometry is fixed; right side scales with card width.
+// Notch: bottom edge at y=72, right edge at x=72.906, concave arc C(56.788,72)(72.906,55.882)(72.906,36)
+// Corner radius: 24px (Figma: 24 = 10.745 bezier tangent inset)
+const CARD_H = 400;
+const R = 24;       // corner radius
+const T = 10.745;   // bezier tangent inset for R=24 quarter-circle (= R*(1-0.5523))
+
+function buildCardPath(w: number): string {
+  const h = CARD_H;
+  return (
+    // Start at bottom-right, go clockwise
+    `M${w} ${h - R}` +
+    // Bottom-right corner
+    ` C${w} ${h - T} ${w - T} ${h} ${w - R} ${h}` +
+    // Bottom edge →left
+    ` H${R}` +
+    // Bottom-left corner
+    ` C${T} ${h} 0 ${h - T} 0 ${h - R}` +
+    // Left edge going up to notch bottom
+    ` V96` +
+    // Round into notch horizontal edge (left inner notch corner, r=24)
+    ` C0 82.745 ${T} 72 ${R} 72` +
+    // Notch horizontal bottom edge
+    ` H36.906` +
+    // Figma concave arc: cubic bezier from (36.906,72) → (72.906,36)
+    // tangent is horizontal at start and vertical at end — smooth concave corner
+    ` C56.788 72 72.906 55.882 72.906 36` +
+    // Notch right vertical edge going up
+    ` V${R}` +
+    // Round into top edge (top-left inner notch corner, r=24)
+    ` C72.906 ${T} 83.651 0 96.906 0` +
+    // Top edge →right
+    ` H${w - R}` +
+    // Top-right corner
+    ` C${w - T} 0 ${w} ${T} ${w} ${R}` +
+    // Right edge going down
+    ` V${h - R} Z`
+  );
+}
+
 function ConnectCard({
   title,
   logo,
@@ -50,21 +92,52 @@ function ConnectCard({
   content,
   delay = 0,
 }: Readonly<{ title: string; logo: string; image: string; content?: string; delay?: number }>) {
-  // Bold the product name ("V-Watch AI") above a lighter tail
-  // ("connects everything." / "provides complete awareness.").
   const split = title.match(/^(.*?\bAI\b)\s*(.*)$/i);
   const lead = split ? split[1] : title;
   const tail = split ? split[2] : "";
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [cardWidth, setCardWidth] = useState(380);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      if (el.offsetWidth) setCardWidth(el.offsetWidth);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <motion.div
+      ref={cardRef}
       variants={fromLeft}
       custom={delay}
-      className="relative flex w-full h-[400px] flex-col gap-4 rounded-[24px] border border-[#E6EAF0] bg-white p-4 shadow-[0px_30px_60px_-30px_rgba(20,46,92,0.35),0px_2px_10px_rgba(20,46,92,0.05)] lg:w-[380px]"
+      className="relative w-full lg:w-[380px]"
+      style={{ height: CARD_H }}
     >
-      {/* Logo badge — floats OUT past the card's top-left corner. The card has
-          no overflow-hidden, so its rounded corners stay intact while the badge
-          is NOT clipped. A white ring sits behind the metallic V-WATCH badge. */}
-      <div className="absolute -left-4 -top-4 z-20 flex size-[72px] items-center justify-center rounded-full border border-[#E6EAF0] bg-white shadow-[0_10px_24px_-8px_rgba(61,143,214,0.45)]">
+      {/* SVG card shape: Figma path — white fill, border stroke, drop-shadow */}
+      <svg
+        className="pointer-events-none absolute left-0 top-0 z-[1] overflow-visible"
+        width={cardWidth}
+        height={CARD_H}
+        aria-hidden
+        style={{
+          filter:
+            "drop-shadow(6px 10px 23px rgba(217,226,255,0.85))",
+        }}
+      >
+        <path
+          d={buildCardPath(cardWidth)}
+          fill="white"
+          stroke="#E6EAF0"
+          strokeWidth="1"
+        />
+      </svg>
+
+      {/* Badge — sits in the step-notch at the top-left */}
+      <div className="absolute -top-1 -left-1 z-20 flex size-[72px] items-center justify-center rounded-full">
         <div className="relative flex size-[58px] items-center justify-center overflow-hidden rounded-full">
           <Image
             src={logo}
@@ -78,50 +151,49 @@ function ConnectCard({
             src="/industries/construction/v-watch-ai/logo.png"
             alt="V-Watch"
             width={44}
-            height={14  }
+            height={14}
             unoptimized
             className="relative z-10 w-full object-contain"
           />
         </div>
       </div>
 
-      {/* Title — left-padded so it clears the overflowing badge */}
-      <div className="pl-[66px] pt-1">
-        <p className="text-[18px] leading-[23px] text-[#1E3A52]">
-          <span className="block font-extrabold">{lead}</span>
-          {tail && (
-            <span className="block font-medium text-[#3890C0]">{tail}</span>
-          )}
-        </p>
-      </div>
+      {/* Card content */}
+      <div className="relative z-10 flex h-full flex-col gap-4 p-4">
+        {/* Title — left-padded to clear the badge notch */}
+        <div className="pl-[84px] pt-1">
+          <p className="text-[18px] leading-[23px] text-[#1E3A52]">
+            <span className="block font-extrabold">{lead}</span>
+            {tail && <span className="block font-medium text-[#3890C0]">{tail}</span>}
+          </p>
+        </div>
 
-      {/* Blue connector line + end dot — aligned to the lower title line,
-          running out to the card's right edge. */}
-      <span className="pointer-events-none absolute right-2 top-[70px] flex items-center">
-        <span className="h-[2px] w-[200px] rounded-full bg-gradient-to-r from-[#C6E3F8] to-[#3D8FD6]" />
-        <span className=" size-2.5 rounded-full bg-[#3D8FD6] " />
-      </span>
+        {/* Blue connector line + end dot */}
+        <span className="pointer-events-none absolute right-2 top-[70px] flex items-center">
+          <span className="h-[2px] w-[200px] rounded-full bg-gradient-to-r from-[#C6E3F8] to-[#3D8FD6]" />
+          <span className="size-2.5 rounded-full bg-[#3D8FD6]" />
+        </span>
 
-      {/* AI visual — on hover, a glassmorphism caption fades up from the bottom
-          revealing the cardContent copy. */}
-      <div className="group relative overflow-hidden rounded-[16px]">
-        <Image
-          src={image}
-          alt=""
-          width={370}
-          height={305}
-          unoptimized
-          className="h-[304px] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-        />
-        {content && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3  opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-            <div className="rounded-[12px] border border-white/25 bg-white/15 p-3 shadow-[0_8px_30px_rgba(10,75,110,0.25)] backdrop-blur-md">
-              <p className="text-[14px] font-medium leading-[19px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]">
-                {content}
-              </p>
+        {/* AI visual */}
+        <div className="group relative overflow-hidden rounded-[16px]">
+          <Image
+            src={image}
+            alt=""
+            width={370}
+            height={305}
+            unoptimized
+            className="h-[304px] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          />
+          {content && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="rounded-[12px] border border-white/25 bg-white/15 p-3 shadow-[0_8px_30px_rgba(10,75,110,0.25)] backdrop-blur-md">
+                <p className="text-[14px] font-medium leading-[19px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]">
+                  {content}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </motion.div>
   );
@@ -221,7 +293,7 @@ export default function WhyChoose({
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {/* Header — wipeTop */}
+          {/* Header */}
           <header className="flex flex-col gap-2">
             <motion.h2
               variants={wipeDown}
@@ -241,12 +313,8 @@ export default function WhyChoose({
 
           {/* Connect card → connectors → value rows */}
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-0">
-            {/* Left card slides in from the left */}
             <ConnectCard title={cardTitle} logo={cardLogo} image={cardImage} content={cardContent} delay={0.3} />
 
-          {/* Connectors stretch to exactly the value-rows column height so the
-              top branch meets row 1, the centre line meets row 2, and the
-              bottom branch meets row 3 — regardless of row content height. */}
           <div className="flex w-full flex-col gap-8 lg:w-auto lg:flex-1 lg:flex-row lg:items-stretch lg:gap-0">
             <Connectors delay={0.5} />
 
