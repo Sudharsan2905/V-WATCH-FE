@@ -120,7 +120,7 @@ function FeatureCard({
           height={86}
           unoptimized
           className="w-full h-full"
-          style={{ objectFit: "cover", transform: "scale(2.8)", transformOrigin: "center" }}
+          style={{ objectFit: "cover", transform: "scale(4.5) translateY(5%) translateX(0.2%)", transformOrigin: "center" }}
         />
       </div>
 

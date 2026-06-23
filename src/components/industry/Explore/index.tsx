@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -25,24 +26,27 @@ const slideUp: Variants = {
 };
 
 // "Explore how V-Watch Ai works across different environments" (Figma 270:13092)
-type Card = { title: string; img: string; desc?: string; link?: string };
+type Card = { title: string; img: string; desc?: string; link?: string; href?: string };
 
 const CARDS: Card[] = [
   {
     title: "Construction",
     img: "/industry/exp-construction.png",
+    href: "/industries/construction",
     desc: "Manage large workforces, multiple contractors, and strict compliance requirements with full visibility across your site.",
     link: "View Construction Solutions",
   },
   {
     title: "Industrial & Energy",
     img: "/industry/exp-industrial.png",
+    href: "/industries/industrial-energy",
     desc: "Maintain safety in high-risk environments with real-time tracking, restricted zone monitoring, and rapid emergency response.",
     link: "View Industrial & Energy Solutions",
   },
   {
     title: "Commercial & Facilities",
     img: "/industry/exp-commercial.png",
+    href: "/industries/commercial-facilities",
     desc: "Streamline building operations, enhance security, and improve efficiency across tenants, staff, and service providers.",
     link: "View Commercial & Facilities Solutions",
   },
@@ -89,37 +93,18 @@ export default function Explore() {
           </motion.header>
 
           <div className="flex flex-wrap justify-center gap-[30px]">
-            {CARDS.map((c, i) => (
-              <motion.div
-                key={c.title}
-                variants={slideUp}
-                custom={CARDS_START + i * CARD_STAGGER}
-                className="group relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
-                style={{
-                  // Custom border logic for the first (top) card:
-                  // - Top border is half thickness (0.625px)
-                  // - Right border is removed (0px)
-                  // - Left and Bottom remain full (1.25px)
-                  borderTop:
-                    i === 0
-                      ? "0.625px solid transparent"
-                      : "1.25px solid transparent",
-                  borderLeft: "1.25px solid transparent",
-                  borderBottom: "1.25px solid transparent",
-                  borderRight: i === 0 ? "0px" : "1.25px solid transparent",
-                  background:
-                    // Gap fill (the 4px frame): vertical gradient — Figma gray
-                    // (#D9D9D9) at the top, white at the bottom.
-                    "linear-gradient(180deg, #daeced 0%, #FFFFFF 100%) padding-box, " +
-                    // Gradient border, visible on specified sides: deep blue → light
-                    // blue (#0A8EC8 → #9DD2E9).
-                    "linear-gradient(135deg, #0A8EC8 0%, #9DD2E9 100%) border-box",
-                }}
-              >
+            {CARDS.map((c, i) => {
+              const cardStyle = {
+                borderTop: i === 0 ? "0.625px solid transparent" : "1.25px solid transparent",
+                borderLeft: "1.25px solid transparent",
+                borderBottom: "1.25px solid transparent",
+                borderRight: i === 0 ? "0px" : "1.25px solid transparent",
+                background:
+                  "linear-gradient(180deg, #daeced 0%, #FFFFFF 100%) padding-box, " +
+                  "linear-gradient(135deg, #0A8EC8 0%, #9DD2E9 100%) border-box",
+              };
+              const cardContent = (
                 <div className="relative h-full w-full overflow-hidden rounded-[14px]">
-                  {/* Dark blurred backdrop for the whole card — base photo +
-          frosted overlay. The inset photo sits on top, so this reads as a
-          frosted ring around the photo and a dark area below it. */}
                   <Image
                     src={c.img}
                     alt=""
@@ -130,16 +115,9 @@ export default function Explore() {
                   />
                   <div
                     className="absolute inset-0"
-                    style={{
-                      background: "rgba(24, 23, 23, 0.40)",
-                      backdropFilter: "blur(2px)",
-                    }}
+                    style={{ background: "rgba(24, 23, 23, 0.40)", backdropFilter: "blur(2px)" }}
                   />
-
-                  {/* Content column over the backdrop: photo on top, text below. */}
                   <div className="relative flex h-full flex-col p-3.5">
-                    {/* Sharp photo — fills the space above the text; the 14px
-            padding lets the frosted ring show on top/left/right. */}
                     <div className="relative min-h-0 flex-1 overflow-hidden rounded-[10px]">
                       <Image
                         src={c.img}
@@ -149,30 +127,18 @@ export default function Explore() {
                         sizes="367px"
                       />
                     </div>
-
-                    {/* Text below the photo, on the dark frosted area. */}
                     <div className="flex flex-col px-1 pt-3">
-                      <p className="text-[18px] font-bold leading-6 text-white">
-                        {c.title}
-                      </p>
-                      {/* Hidden at rest; expands and fades in on hover
-              (grid-rows 0fr → 1fr animates the height). */}
+                      <p className="text-[18px] font-bold leading-6 text-white">{c.title}</p>
                       {(c.desc || c.link) && (
                         <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out group-hover:grid-rows-[1fr]">
                           <div className="flex translate-y-3 flex-col gap-2.5 overflow-hidden opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                            {/* zero-height spacer — its flex gap recreates the
-                    title→description spacing inside the collapsing row */}
                             <div aria-hidden className="h-0" />
                             {c.desc && (
-                              <p className="text-[16px] font-normal leading-5 text-white">
-                                {c.desc}
-                              </p>
+                              <p className="text-[16px] font-normal leading-5 text-white">{c.desc}</p>
                             )}
                             {c.link && (
                               <div className="group/link flex w-fit cursor-pointer items-center gap-2.5">
-                                <p className="text-[16px] font-bold text-white">
-                                  {c.link}
-                                </p>
+                                <p className="text-[16px] font-bold text-white">{c.link}</p>
                                 <Arrow />
                               </div>
                             )}
@@ -182,8 +148,26 @@ export default function Explore() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              );
+
+              return (
+                <motion.div
+                  key={c.title}
+                  variants={slideUp}
+                  custom={CARDS_START + i * CARD_STAGGER}
+                  className="group relative h-[500px] w-full max-w-[367px] grow basis-[260px] overflow-hidden rounded-[20px] p-1 shadow-[0_16px_54px_rgba(184,230,255,0.18)]"
+                  style={cardStyle}
+                >
+                  {c.href ? (
+                    <Link href={c.href} className="block h-full w-full">
+                      {cardContent}
+                    </Link>
+                  ) : (
+                    cardContent
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </section>

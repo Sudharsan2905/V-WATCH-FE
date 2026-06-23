@@ -296,7 +296,7 @@ export default function PlatformOverview({
             custom={0.05}
             initial="hidden"
             animate="show"
-            className="font-lato max-w-[889px] text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
+            className="font-lato max-w-[889px] lg:pl-[112px] text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
           >
             {heading}
           </motion.h2>

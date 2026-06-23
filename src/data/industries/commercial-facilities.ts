@@ -189,8 +189,8 @@ export const commercialFacilitiesContent = {
       },
     ],
     footerPanels: [
-      { image: "/industries/commercial-facilities/single-building.png", label: "Single Facility" },
-      { image: "/industries/commercial-facilities/city-buildings.png", label: "Large Scale Facilities" },
+      { image: "/industries/industrial&energy/single-buildings.png", label: "Single Facility" },
+      { image: "/industries/industrial&energy/multi-site-portfolio.png", label: "Large Scale Facilities" },
     ],
     footerKeywords: ["Visibility", "Control", "Efficiency"],
   },

@@ -2,6 +2,7 @@
 
 import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
@@ -36,6 +37,7 @@ type Card = {
   img: string;
   descColor: string;
   descWeight: number;
+  href?: string;
 };
 
 const CARDS: Card[] = [
@@ -52,6 +54,7 @@ const CARDS: Card[] = [
     img: "/industry/sol-3.png",
     descColor: "#D4F0FF",
     descWeight: 500,
+    href: "/real-time-headcount",
   },
   {
     title: "Compliance tracking",
@@ -59,6 +62,7 @@ const CARDS: Card[] = [
     img: "/industry/sol-2.png",
     descColor: "#D4F0FF",
     descWeight: 400,
+    href: "/contractor-compliance",
   },
   {
     title: "Facial recognition access control",
@@ -66,6 +70,7 @@ const CARDS: Card[] = [
     img: "/industry/sol-4.png",
     descColor: "#D4F0FF",
     descWeight: 500,
+    href: "/facial-recognition",
   },
   {
     title: "Maintenance and task management",
@@ -217,6 +222,7 @@ export default function Solutions() {
               className="group relative h-[302px] min-w-[240px] flex-1 rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] lg:min-w-0 lg:flex-[0_0_calc((100%-60px)/4)] lg:snap-start"
               style={{ outline: "2px solid white", outlineOffset: -2 }}
             >
+            {c.href && <Link href={c.href} className="absolute inset-0 z-20 rounded-[30px]" aria-label={c.title} />}
               {/* Inner flex — justify-end pushes text to bottom */}
               <div className="relative flex h-full flex-col items-start justify-end">
                 {/* Image: inset -10px so it sits 10px from each card edge.
