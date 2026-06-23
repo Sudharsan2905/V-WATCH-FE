@@ -50,8 +50,8 @@ type EnvironmentsContent = {
   heading?: string;
   subtitle?: string;
   cards?: EnvCardData[];
-  footerPanels?: [EnvFooterPanel, EnvFooterPanel];
-  footerKeywords?: [string, string, string];
+  footerPanels?: EnvFooterPanel[];
+  footerKeywords?: string[];
 };
 
 function EnvCard({
