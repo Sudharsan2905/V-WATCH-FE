@@ -32,8 +32,11 @@ export default function MaintenanceTicketingPage() {
         <StepProcess />
         <div className="relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
-            title="Built for operations that cannot afford downtime"
-            subtitle="Used across construction, facilities, and industrial environments to manage maintenance workflows efficiently and reliably."
+            content={{
+              title: "Built for operations that cannot afford downtime",
+              subtitle:
+                "Used across construction, facilities, and industrial environments to manage maintenance workflows efficiently and reliably.",
+            }}
           />
         </div>
       </div>
