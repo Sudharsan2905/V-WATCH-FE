@@ -205,18 +205,18 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative hidden self-stretch lg:block lg:w-[170px]"
+      className="relative z-10 hidden self-stretch lg:block lg:w-[240px]"
     >
       {/* Upper link → row 1 (top half, meeting the center line on the left).
-          The lines extend ~56px past the right edge so their dashed ends tuck
-          under the value cards — a clean connection independent of width. */}
+          Each link is shifted 5px left and widened by 10px so it tucks 5px
+          under the left card and 5px under the right value cards (z-10). */}
       <Image
         src={`${base}/top.png`}
         alt=""
         width={493}
         height={181}
         unoptimized
-        className="absolute left-0 top-2 h-1/2 w-[calc(100%+10px)] object-fill"
+        className="absolute -left-[20px] top-2 h-1/2 w-[calc(100%+10px)] object-fill"
       />
       {/* Lower link → row 3 (bottom half) */}
       <Image
@@ -225,7 +225,7 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
         width={486}
         height={184}
         unoptimized
-        className="absolute bottom-3 left-0 h-1/2 w-[calc(100%+10px)] object-fill"
+        className="absolute bottom-3 -left-[20px] h-1/2 w-[calc(100%+10px)] object-fill"
       />
       {/* Straight link → row 2 */}
       <Image
@@ -234,7 +234,7 @@ function Connectors({ delay = 0 }: Readonly<{ delay?: number }>) {
         width={483}
         height={23}
         unoptimized
-        className="absolute left-0  top-1/2 h-auto w-[calc(100%+10px)] -translate-y-1/2"
+        className="absolute -left-[20px]  top-1/2 h-auto w-[calc(100%+10px)] -translate-y-1/2"
       />
     </motion.div>
   );
@@ -249,6 +249,11 @@ function ValueRow({
       variants={fadeUp}
       custom={delay}
       className="flex items-center gap-4 rounded-[18px] border border-white  px-5 py-4 shadow-[0px_20px_44px_-26px_rgba(20,46,92,0.30),0px_1px_6px_rgba(20,46,92,0.04)]"
+       style={{
+    background: "rgba(255, 255, 255, 0.12)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+  }}
     >
       <div className="border border-white rounded-[10px] p-2">
       <Image
@@ -318,7 +323,7 @@ export default function WhyChoose({
           <div className="flex w-full flex-col gap-8 lg:w-auto lg:flex-1 lg:flex-row lg:items-stretch lg:gap-0">
             <Connectors delay={0.5} />
 
-            <div className="flex w-full flex-col justify-between gap-6 lg:flex-1">
+            <div className="z-100 -ml-[40px] flex w-full flex-col justify-between gap-6 lg:flex-1">
               {items.map((item, i) => (
                 <ValueRow key={item.title} item={item} delay={0.55 + i * 0.15} />
               ))}

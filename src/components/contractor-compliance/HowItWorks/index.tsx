@@ -347,7 +347,7 @@ export default function HowItWorks() {
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="relative overflow-hidden px-6 py-14 lg:px-15 lg:py-16"
+        className="relative overflow-hidden px-6 py-10 lg:px-15 lg:py-16"
         style={{
           backgroundColor: "white",
           backgroundImage: "url('/contractor-complaince/bg-wave.webp')",
@@ -381,7 +381,7 @@ export default function HowItWorks() {
           </motion.h2>
 
           {/* Two-column layout — both columns locked to the same height on desktop */}
-          <div className="mt-10 flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
+          <div className="mt-6 flex flex-col gap-8 lg:mt-10 lg:flex-row lg:items-start lg:gap-12">
             {/* LEFT: sticky image */}
             <motion.div
               variants={slideLeft}

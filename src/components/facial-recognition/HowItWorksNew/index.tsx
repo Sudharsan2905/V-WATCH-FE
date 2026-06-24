@@ -247,7 +247,7 @@ export default function HowItWorksNew() {
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="px-6 py-14 lg:px-15 lg:py-16"
+        className="px-6 py-10 lg:px-15 lg:py-16"
         style={{ background: "linear-gradient(180deg, #EDF7FF 0%, #F5FBFF 100%)" }}
       >
         <div className="mx-auto max-w-330">
@@ -297,7 +297,7 @@ export default function HowItWorksNew() {
 
           {/* Bottom: 3 feature cards */}
           <motion.div
-            className="mt-30 grid grid-cols-1 gap-16 sm:gap-8 sm:grid-cols-3"
+            className="mt-12 grid grid-cols-1 gap-10 sm:gap-8 sm:grid-cols-3 lg:mt-30"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}

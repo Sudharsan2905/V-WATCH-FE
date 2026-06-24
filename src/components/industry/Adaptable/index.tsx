@@ -123,7 +123,7 @@ function IndustryCard({
 export default function Adaptable() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden px-6 pt-[21em] pb-24 lg:px-[60px]">
+    <section className="relative overflow-hidden px-6 pt-[21em] pb-14 lg:pb-24 lg:px-[60px]">
       <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
         <motion.header
           variants={fadeUp}

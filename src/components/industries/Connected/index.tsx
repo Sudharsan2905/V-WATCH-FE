@@ -20,12 +20,26 @@ const fadeUp: Variants = {
   show: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: EASE, delay },
+    transition: { duration: 0.45, ease: EASE, delay },
   }),
 };
 
-const CARDS_START  = 0.45;
-const CARD_STAGGER = 0.18;
+// Connector buttons "pop" in between the cards so each one reads as its own
+// beat in the sequence: card → button → card → button → card.
+const popIn: Variants = {
+  hidden: { opacity: 0, scale: 0.4 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1], delay },
+  }),
+};
+
+// Wide stagger so the elements arrive one at a time instead of all at once.
+// Each card lands on a whole step; each connector lands on the half step in
+// between (handled at the call site with the `i - 0.5` offset).
+const CARDS_START  = 0.3;
+const CARD_STAGGER = 0.45;
 
 type Step = { icon: string; title: string; desc: string };
 
@@ -133,7 +147,7 @@ function StepCard({
 function Connector({ delay = 0 }: Readonly<{ delay?: number }>) {
   return (
     <motion.div
-      variants={fadeUp}
+      variants={popIn}
       custom={delay}
       className="relative z-20 -mx-3 hidden shrink-0 items-center justify-center rounded-full lg:flex"
       style={{

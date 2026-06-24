@@ -50,6 +50,7 @@ export const commercialFacilitiesContent = {
     callout:
       "When systems are disconnected, efficiency drops and control becomes reactive.",
     calloutIcon: "/industries/construction/sites/grow-light.svg",
+    calloutWidth: 406,
     images: [
       "/industries/commercial/fragment/frag-1.png",
       "/industries/commercial/fragment/frag-2.png",

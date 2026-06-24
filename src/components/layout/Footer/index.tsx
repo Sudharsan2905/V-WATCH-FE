@@ -43,6 +43,7 @@ type FooterProps = {
   linkColumns?: LinkColumn[];
   ctaVariant?: "light" | "dark";
   isBookADemoVisible?: boolean;
+  showCta?: boolean;
 };
 
 const CTA_BG = {
@@ -57,6 +58,7 @@ export default function Footer({
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
   isBookADemoVisible = true,
+  showCta = true,
 }: Readonly<FooterProps>) {
   // Trigger point: when the footer enters the viewport, start the CTA slide-up.
   const triggerRef = useRef<HTMLDivElement>(null);

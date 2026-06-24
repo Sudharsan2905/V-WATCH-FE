@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
@@ -99,29 +99,31 @@ function FeatureCard({
       transition={{ duration: 0.25 }}
       className="relative h-32.5 w-full overflow-hidden rounded-[18px] px-2 py-5 flex flex-col items-center justify-center gap-2"
       style={{
-        background: "rgba(255, 255, 255, 0.15)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
+        // Soft clean-white frosted card (per Figma): predominantly white with a
+        // faint top-to-bottom gradient and a soft, slightly-blue drop shadow.
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 100%)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
 
-        border: "1px solid rgba(255,255,255,0.35)",
+        border: "1px solid rgba(255,255,255,0.85)",
 
         boxShadow: `
-          0 8px 32px rgba(31, 38, 135, 0.12),
-          0 2px 8px rgba(255,255,255,0.25) inset,
-          0 -2px 8px rgba(255,255,255,0.15) inset
+          0 18px 36px -18px rgba(56,116,170,0.30),
+          inset 0 1px 0 rgba(255,255,255,0.95)
         `,
       }}
     >
-      {/* Top glass shine */}
+      {/* Top glass shine — subtle highlight along the upper edge */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[18px]"
         style={{
           background: `
             linear-gradient(
               180deg,
-              rgba(255,255,255,0.35) 0%,
-              rgba(255,255,255,0.12) 20%,
-              transparent 60%
+              rgba(255,255,255,0.5) 0%,
+              rgba(255,255,255,0.12) 24%,
+              transparent 55%
             )
           `,
         }}
@@ -131,7 +133,16 @@ function FeatureCard({
       <div
         className="pointer-events-none absolute inset-0 rounded-[18px]"
         style={{
-          border: "1px solid rgba(255,255,255,0.45)",
+          border: "1px solid rgba(255,255,255,0.5)",
+        }}
+      />
+
+      {/* Bottom veil — keeps the card bottom edge clean */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-6 rounded-b-[18px]"
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%)",
         }}
       />
 
@@ -139,13 +150,10 @@ function FeatureCard({
       <span
         className="relative z-10 flex size-[48px] shrink-0 items-center justify-center rounded-full"
         style={{
-          background: "rgba(255,255,255,0.25)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          border: "1px solid rgba(255,255,255,0.4)",
+          background: "#FFFFFF",
           boxShadow: `
-            inset 0 1px 2px rgba(255,255,255,0.6),
-            0 4px 12px rgba(0,0,0,0.08)
+            inset 0 1px 2px rgba(255,255,255,0.9),
+            0 6px 14px rgba(56,116,170,0.16)
           `,
         }}
       >
@@ -181,14 +189,11 @@ const SP_CONNECTOR_SRC =
 // Secure-badge that overlaps the pill's left edge (shield + glowing rings).
 const SP_PILL_BADGE_SRC =
   "/pre-construction/single-platform/icons/secure-badge.svg";
-// Dots are baked into the raster, so to blur ONLY the dots we overlay a blurred
-// copy of the same image, masked to four circles over the dot positions.
-const SP_DOT_MASK =
-  "radial-gradient(circle 16px at 2% 22%, #000 65%, transparent 100%)," +
-  "radial-gradient(circle 16px at 34% 22%, #000 65%, transparent 100%)," +
-  "radial-gradient(circle 16px at 66% 22%, #000 65%, transparent 100%)," +
-  "radial-gradient(circle 16px at 98% 22%, #000 65%, transparent 100%)";
-
+// The raster's navy dots are sharp; per Figma they should be soft frosted
+// blurs. Layering a blurred copy on top doesn't hide the sharp originals, so we
+// instead paint our own navy dots — opaque enough at center to cover the baked
+// ones — then blur the whole overlay so each reads as a soft blur. The crisp
+// light-blue arcs of the base image are untouched.
 function Connector() {
   return (
     <div className="pointer-events-none relative mx-auto w-[80%]">
@@ -200,19 +205,13 @@ function Connector() {
         unoptimized
         className="w-full"
       />
-      {/* Blurred copy, shown only over the four dots via the mask. */}
-      <Image
-        src={SP_CONNECTOR_SRC}
-        alt=""
-        aria-hidden
-        width={404}
-        height={46}
-        unoptimized
-        className="absolute inset-0 w-full"
+      {/* Full-width strip matching section bg — hides all baked dots at the
+          arc peaks; fades to transparent so the arc lines emerge below. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0"
         style={{
-          filter: "blur(1.5px)",
-          maskImage: SP_DOT_MASK,
-          WebkitMaskImage: SP_DOT_MASK,
+          height: 20,
+          background: "linear-gradient(180deg, #f5fbff 45%, transparent 100%)",
         }}
       />
     </div>
@@ -239,23 +238,22 @@ export default function SinglePlatform({
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 lg:px-15">
         <div className="mx-auto max-w-[1320px]">
-
-        <motion.h2
-          variants={wipeDown}
-          custom={0.05}
-          className="max-w-[889px] text-[26px] font-extrabold leading-[34px] text-[#0A4B6E] sm:text-[28px] sm:leading-[36px]"
+          <motion.h2
+            variants={wipeDown}
+            custom={0.05}
+            className="max-w-[889px] text-[26px] font-extrabold leading-[34px] text-[#0A4B6E] sm:text-[28px] sm:leading-[36px]"
           >
-          {heading}
-        </motion.h2>
+            {heading}
+          </motion.h2>
 
-        <motion.p
-          variants={fadeUp}
-          custom={0.2}
-          className="mt-1 max-w-[878px] text-[20px] leading-[24px] text-[#0A4B6E]"
+          <motion.p
+            variants={fadeUp}
+            custom={0.2}
+            className="mt-1 max-w-[878px] text-[20px] leading-[24px] text-[#0A4B6E]"
           >
-          {intro}
-        </motion.p>
-          </div>
+            {intro}
+          </motion.p>
+        </div>
         <motion.div
           className="relative mt-[30px] mx-auto w-full max-w-[1320px]"
           initial="hidden"
@@ -264,7 +262,7 @@ export default function SinglePlatform({
         >
           {/* CONTENT — stacked above the map on mobile; from lg up it overlays the
               left while the map bleeds beneath it (glass cards sit over the map) */}
-          <div className="relative z-10 flex w-full max-w-[503px] flex-col lg:absolute lg:inset-y-0 lg:left-0">
+          <div className="relative z-10 flex w-full max-w-126.25 flex-col lg:absolute lg:inset-y-0 lg:left-0">
             <motion.p
               variants={fadeUp}
               custom={0.32}
@@ -309,7 +307,9 @@ export default function SinglePlatform({
                   ))}
                 </div>
 
-                {/* Connector — only on the single-row layout (z-10 < cards' z-20) */}
+                {/* Connector — z-30 so blurred dots render above cards (z-20).
+                    Arc image is transparent at top so only dot tops peek above
+                    card edges; arcs naturally sit below. */}
                 <motion.div
                   variants={fadeUp}
                   custom={0.9}
@@ -336,8 +336,19 @@ export default function SinglePlatform({
                 variant === "checklist"
                   ? undefined
                   : {
-                      background: "rgba(244,251,255,0.20)",
-                      boxShadow: "0px 13px 30px -12px rgba(20,46,92,0.22)",
+                      // Frosted glass — soft white translucent fill (brighter at
+                      // the top-left sheen) + backdrop blur so the map behind
+                      // reads as a soft blur through the chip.
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(244,251,255,0.28) 45%, rgba(244,251,255,0.14) 100%)",
+                      backdropFilter: "blur(14px)",
+                      WebkitBackdropFilter: "blur(14px)",
+                      boxShadow: `
+                        0 0 0 1px rgba(255,255,255,0.35),
+                        0px 18px 40px -16px rgba(20,46,92,0.20),
+                        0 0 24px rgba(255,255,255,0.45),
+                        inset 0 1px 0 rgba(255,255,255,0.7)
+                      `,
                     }
               }
             >
@@ -351,7 +362,7 @@ export default function SinglePlatform({
                   style={{
                     padding: 2,
                     background:
-                      "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%)",
+                      "linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 70%, #F3FAFF 100%)",
                     WebkitMask:
                       "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
                     WebkitMaskComposite: "xor",
@@ -374,9 +385,20 @@ export default function SinglePlatform({
                 />
               )}
               <span
-                className={`relative z-10 text-[16px] font-bold leading-[26px] text-[#006F9F] ${
-                  variant === "checklist" ? "text-center" : "sm:whitespace-nowrap"
-                } ${pillBadge ? "pl-20 sm:pl-24" : ""}`}
+                className={`
+                  relative z-10
+                  inline-flex items-center justify-center
+                  rounded-2xl
+                  px-8 py-4
+                  text-[18px] font-bold leading-[26px]
+                  text-[#006F9F]
+                  bg-white/60
+                  backdrop-blur-3xl
+                  border border-white
+                  shadow-[0_8px_32px_rgba(255,255,255,0.6),0_2px_10px_rgba(0,111,159,0.08)]
+                  ${variant === "checklist" ? "text-center" : "sm:whitespace-nowrap"}
+                  ${pillBadge ? "pl-20 sm:pl-24" : ""}
+                `}
               >
                 {pill}
               </span>
