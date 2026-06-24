@@ -15,7 +15,7 @@ export default function BiDashboardsPage() {
   return (
     <div className="relative bg-[#F2F8FE]">
       <Navbar active="Platform" />
-      <BiDashboardsHero />
+      <BiDashboardsHero />  
       <IntelligenceLayer />
       <IntegratorNetwork />
       <DashboardShowcase />

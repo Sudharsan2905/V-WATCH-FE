@@ -8,7 +8,17 @@ import { useState, useRef, useEffect } from "react";
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 type NavItem = { label: string; href: string; hasDropdown?: boolean };
-type DropdownLink = { icon: string; title: string; desc: string; href: string };
+// A leaf inside the Case Studies accordion. `href` is optional: items without a
+// destination page render as plain, non-interactive text.
+type CaseStudyLink = { label: string; href?: string };
+type DropdownLink = {
+  icon: string;
+  title: string;
+  desc: string;
+  href: string;
+  // When present, this item is an expandable accordion instead of a link.
+  children?: CaseStudyLink[];
+};
 type DropdownData = {
   label: string;
   desc: string;
@@ -119,6 +129,15 @@ const DROPDOWNS: Record<string, DropdownData> = {
         title: "Case Studies",
         desc: "Real implementation success stories.",
         href: "#",
+        children: [
+          { label: "Contractor Compliances", href: "/contractor-compliance" },
+          { label: "Payroll, Claims & Leave", href:"/#" },
+          { label: "Facial Recognition", href: "/facial-recognition" },
+          { label: "Real-Time Headcount", href: "/real-time-headcount" },
+          { label: "Geofencing", href: "/geofencing" },
+          { label: "Visitor Management", href: "/visitor-management" },
+          { label: "Maintenance & Ticketing", href: "/maintenance-ticketing" },
+        ],
       },
       {
         icon: "/nav/icons/resources-digest.svg",
@@ -225,8 +244,98 @@ function ChevronRightButton() {
   );
 }
 
-function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
+// A single case-study leaf. With an href it navigates (and shows a chevron);
+// without one it is plain, non-interactive text.
+function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
   const pathname = usePathname();
+  if (!href) {
+    return (
+      <div className="flex h-12 w-75 cursor-default items-center justify-between rounded-[10px] p-2.5 text-[14px] font-medium text-[#3E4B77]/55">
+        {label}
+      </div>
+    );
+  }
+  return (
+    <Link
+      href={href}
+      onClick={(e) => {
+        if (href === pathname) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
+      className="group flex h-12 w-75 items-center justify-between gap-2 rounded-[10px] border border-transparent p-2.5 text-[14px] font-medium text-[#3E4B77] transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+    >
+      <span className="truncate">{label}</span>
+      <ChevronRightButton />
+    </Link>
+  );
+}
+
+// Resources → "Case Studies": an inline accordion that expands into a 2-column
+// grid of solution links.
+function CaseStudiesAccordion({
+  icon,
+  title,
+  desc,
+  children,
+}: Readonly<DropdownLink>) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-[14px] border border-white bg-white/[0.06] shadow-[0px_10px_7px_rgba(184,230,255,0.14)]">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex h-[62px] w-full items-center gap-3 rounded-[14px] py-2.5 pl-2.5 pr-4 text-left transition-colors hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      >
+        <div className="flex h-6 w-6 shrink-0 items-center justify-center">
+          <Image
+            src={icon}
+            alt=""
+            width={24}
+            height={24}
+            unoptimized
+            className="h-6 w-6 object-contain"
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <p className="text-[16px] font-bold leading-normal text-[#3E4B77]">
+            {title}
+          </p>
+          <p className="truncate text-[14px] font-normal leading-normal text-[#556394]">
+            {desc}
+          </p>
+        </div>
+        {/* Green expand/collapse toggle (Figma) */}
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] text-white">
+          <ChevronDown open={open} />
+        </div>
+      </button>
+      {open && children && (
+        <div className="grid w-152.5 grid-cols-2 gap-2.5 pb-2.5 pt-0.5">
+          {children.map((c) => (
+            <CaseStudyRow key={c.label} {...c} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DropdownItem({ icon, title, desc, href, children }: Readonly<DropdownLink>) {
+  const pathname = usePathname();
+  if (children) {
+    return (
+      <CaseStudiesAccordion
+        icon={icon}
+        title={title}
+        desc={desc}
+        href={href}
+        children={children}
+      />
+    );
+  }
   return (
     <Link
       href={href}
@@ -264,6 +373,9 @@ function DropdownItem({ icon, title, desc, href }: Readonly<DropdownLink>) {
 }
 
 function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
+  // The Case Studies accordion expands to a fixed 610px grid; that panel needs a
+  // wider left info card (256px) so the total lands on the Figma 908px frame.
+  const wide = data.items.some((i) => i.children);
   return (
     <div
       className="flex gap-3.5 rounded-[20px] bg-white p-3.5"
@@ -273,7 +385,9 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
       }}
     >
       {/* Left info panel */}
-      <div className="relative flex w-[230px] shrink-0 flex-col justify-end gap-2.5 overflow-hidden rounded-[16px] border border-white p-2.5">
+      <div
+        className={`relative flex ${wide ? "w-64" : "w-[230px]"} shrink-0 flex-col justify-end gap-2.5 overflow-hidden rounded-[16px] border border-white p-2.5`}
+      >
         {/* Decorative blurred ellipses matching Figma: blue glow top-left,
             green glow bottom — solid fill @ 50% opacity with a large layer blur. */}
         <div className="pointer-events-none absolute -left-3 -top-2 h-[50px] w-[110px] rounded-[50%] bg-[#0A8EC8] opacity-50 blur-[40px]" />
@@ -317,6 +431,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState<string | null>(null);
+  const [mobileCaseStudies, setMobileCaseStudies] = useState(false);
   const [shift, setShift] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -410,7 +525,11 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                 DROPDOWNS[item.label] && (
                   <div
                   ref={panelRef}
-                    className="absolute left-1/2 top-full mt-2 w-[min(660px,calc(100vw-48px))]"
+                    className={`absolute left-1/2 top-full mt-2 ${
+                      DROPDOWNS[item.label]!.items.some((i) => i.children)
+                        ? "w-[min(908px,calc(100vw-48px))]"
+                        : "w-[min(660px,calc(100vw-48px))]"
+                    }`}
                   style={{
                     transform: "translateX(calc(-50% + var(--shift, 0px)))",
                     ["--shift"]: `${shift}px`,
@@ -484,33 +603,85 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                       </button>
                       {expanded && (
                         <ul className="flex flex-col gap-1 pb-2">
-                          {menu.items.map((sub) => (
-                            <li key={sub.title}>
-                              <Link
-                                href={sub.href}
-                                onClick={(e) => {
-                                  // Already on the target page: scroll to top
-                                  // instead of a no-op same-route navigation.
-                                  if (sub.href === pathname) {
-                                    e.preventDefault();
-                                    window.scrollTo({ top: 0, behavior: "smooth" });
-                                  }
-                                  setMobileOpen(false);
-                                  setMobileSub(null);
-                                }}
-                                className="group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
-                              >
-                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
-                                  <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
-                                </span>
-                                <span className="flex min-w-0 flex-1 flex-col">
-                                  <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
-                                  <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
-                                </span>
-                                <ChevronRightButton />
-                              </Link>
-                            </li>
-                          ))}
+                          {menu.items.map((sub) =>
+                            sub.children ? (
+                              <li key={sub.title}>
+                                <button
+                                  type="button"
+                                  onClick={() => setMobileCaseStudies((v) => !v)}
+                                  aria-expanded={mobileCaseStudies}
+                                  className="flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors hover:bg-white/[0.06]"
+                                >
+                                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
+                                    <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                  </span>
+                                  <span className="flex min-w-0 flex-1 flex-col">
+                                    <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
+                                    <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                  </span>
+                                  <ChevronDown open={mobileCaseStudies} className="text-white/80" />
+                                </button>
+                                {mobileCaseStudies && (
+                                  <ul className="grid grid-cols-2 gap-x-2 pb-1 pl-11 pr-2">
+                                    {sub.children.map((leaf) =>
+                                      leaf.href ? (
+                                        <li key={leaf.label}>
+                                          <Link
+                                            href={leaf.href}
+                                            onClick={(e) => {
+                                              if (leaf.href === pathname) {
+                                                e.preventDefault();
+                                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                              }
+                                              setMobileOpen(false);
+                                              setMobileSub(null);
+                                              setMobileCaseStudies(false);
+                                            }}
+                                            className="flex items-center justify-between gap-1 py-2 text-[12px] font-medium text-white/80 transition-colors hover:text-white"
+                                          >
+                                            <span className="truncate">{leaf.label}</span>
+                                          </Link>
+                                        </li>
+                                      ) : (
+                                        <li
+                                          key={leaf.label}
+                                          className="py-2 text-[12px] font-medium text-white/40"
+                                        >
+                                          {leaf.label}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                )}
+                              </li>
+                            ) : (
+                              <li key={sub.title}>
+                                <Link
+                                  href={sub.href}
+                                  onClick={(e) => {
+                                    // Already on the target page: scroll to top
+                                    // instead of a no-op same-route navigation.
+                                    if (sub.href === pathname) {
+                                      e.preventDefault();
+                                      window.scrollTo({ top: 0, behavior: "smooth" });
+                                    }
+                                    setMobileOpen(false);
+                                    setMobileSub(null);
+                                  }}
+                                  className="group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
+                                >
+                                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
+                                    <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                  </span>
+                                  <span className="flex min-w-0 flex-1 flex-col">
+                                    <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
+                                    <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                  </span>
+                                  <ChevronRightButton />
+                                </Link>
+                              </li>
+                            )
+                          )}
                         </ul>
                       )}
                     </>

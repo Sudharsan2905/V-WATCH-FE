@@ -6,15 +6,6 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const wipeDown: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
-  show: (delay = 0) => ({
-    clipPath: "inset(0 0 0% 0)",
-    opacity: 1,
-    transition: { delay, duration: 0.6, ease: EASE },
-  }),
-};
-
 const slideLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
   show: (delay = 0) => ({
@@ -332,18 +323,6 @@ export default function HowItWorks() {
     setActiveStep(closest);
   }
 
-  // Section heading in-view
-  const [headingVisible, setHeadingVisible] = useState(false);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setHeadingVisible(true); },
-      { threshold: 0.4 }
-    );
-    if (headingRef.current) obs.observe(headingRef.current);
-    return () => obs.disconnect();
-  }, []);
-
   return (
     <MotionConfig reducedMotion="user">
       <section
@@ -365,20 +344,12 @@ export default function HowItWorks() {
           }}
         />
 
-        <div className="relative mx-auto max-w-330">
-          {/* Heading */}
-          <motion.h2
-            ref={headingRef}
-            animate={
-              headingVisible
-                ? { clipPath: "inset(0 0 0% 0)", opacity: 1 }
-                : { clipPath: "inset(0 0 100% 0)", opacity: 0 }
-            }
-            transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
-            className="text-[24px] font-bold leading-8.5 text-[#0A4B6E] sm:text-[28px] sm:leading-9.5"
-          >
+        <div className="relative mx-auto max-w-[1280px] w-full">
+          {/* Heading — always rendered visible (no scroll-triggered reveal,
+              which could strand it hidden on fast scroll / observer timing) */}
+          <h2 className="text-[24px] font-bold leading-8.5 text-[#0A4B6E] sm:text-[28px] sm:leading-9.5">
             How contractor compliance and safety pass control works
-          </motion.h2>
+          </h2>
 
           {/* Two-column layout — both columns locked to the same height on desktop */}
           <div className="mt-6 flex flex-col gap-8 lg:mt-10 lg:flex-row lg:items-start lg:gap-12">

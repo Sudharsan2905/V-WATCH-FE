@@ -40,68 +40,79 @@ const CHIPS = [
   { icon: "/contractor-complaince/icons/powerbi.svg", label: "Power BI dashboards and reporting" },
 ];
 
-/* Icon box — white rounded square, no border, soft shadow */
+/* Icon box — 54×54, radius 14.4px, #FEFFFF fill, 1px linear-gradient border */
 function IconBox({ icon }: { icon: string }) {
   return (
     <div
-      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white"
+      className="flex h-13.5 w-13.5 shrink-0 items-center justify-center rounded-[14.4px]"
       style={{
+        padding: "8.23px",
+        background:
+          "linear-gradient(#FEFFFF, #FEFFFF) padding-box, linear-gradient(135deg, #5CB7E8 10%, #B8E6FF) border-box",
+        border: "1px solid transparent",
         boxShadow: "0 4px 20px rgba(10,78,110,0.10), 0 1px 4px rgba(10,78,110,0.06)",
       }}
     >
-      <Image src={icon} alt="" width={34} height={34} className="object-contain" />
+      <Image src={icon} alt="icon" width={32} height={32} className="object-contain" />
     </div>
   );
 }
 
-/* Horizontal chip — left side (iconRight=true) or right side (iconRight=false) */
+/* Text pill — 312px × 54px, radius 16px, 1px border, padding 6px/16px */
+function TextPill({ label, fluid = false }: { label: string; fluid?: boolean }) {
+  return (
+    <div
+      className={`flex h-13.5 items-center rounded-2xl bg-white px-4 py-1.5 ${
+        fluid ? "min-w-0 flex-1" : "w-78"
+      }`}
+      style={{
+        border: "1px solid rgba(92,183,232,0.30)",
+        boxShadow: "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)",
+      }}
+    >
+      <p className="font-lato text-[17px] font-medium leading-6 tracking-normal text-[#0F172B]">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+/* Horizontal chip — gap 14px; left side (iconRight=true) or right side (iconRight=false) */
 function Chip({
   icon,
   label,
   delay,
   iconRight = false,
+  fluid = false,
 }: {
   icon: string;
   label: string;
   delay: number;
   iconRight?: boolean;
+  fluid?: boolean;
 }) {
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className={`flex items-center gap-3 ${iconRight ? "" : "flex-row-reverse"}`}
+      className={`flex min-w-0 items-center gap-3.5 ${iconRight ? "" : "flex-row-reverse"}`}
     >
-      <div
-        className="rounded-[14px] bg-white px-5 py-3"
-        style={{ boxShadow: "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)" }}
-      >
-        <p className="text-[13px] font-semibold text-[#0A3D62] sm:text-[14px]">
-          {label}
-        </p>
-      </div>
+      <TextPill label={label} fluid={fluid} />
       <IconBox icon={icon} />
     </motion.div>
   );
 }
 
-/* Bottom chip — icon on top, text pill below */
+/* Bottom chip — icon on top, text pill below; vertical gap 14px */
 function BottomChip({ icon, label, delay }: { icon: string; label: string; delay: number }) {
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-col items-center gap-3"
+      className="flex flex-col items-center gap-3.5"
     >
       <IconBox icon={icon} />
-      <div
-        className="rounded-[14px] bg-white px-6 py-3"
-        style={{ boxShadow: "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)" }}
-      >
-        <p className="text-[13px] font-semibold text-[#0A3D62] sm:text-[14px]">
-          {label}
-        </p>
-      </div>
+      <TextPill label={label} />
     </motion.div>
   );
 }
@@ -109,8 +120,8 @@ function BottomChip({ icon, label, delay }: { icon: string; label: string; delay
 export default function ConnectedSystem() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="overflow-x-hidden px-6 py-10 lg:px-15 lg:py-16" style={{ background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)" }}>
-        <div className="mx-auto max-w-[1320px]">
+      <section className="overflow-x-hidden px-6 py-14 lg:px-15 lg:py-16" style={{ background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)" }}>
+        <div className="mx-auto max-w-[1280px] w-full">
           {/* Heading */}
           <motion.div
             initial="hidden"
@@ -127,10 +138,10 @@ export default function ConnectedSystem() {
             <motion.p
               variants={fadeUp}
               custom={0.2}
-              className="mt-3 max-w-[680px] text-[16px] leading-[26px] text-[#314158] sm:text-[18px] sm:leading-[28px]"
+              className="mt-3 max-w-165.75 text-[17px] font-normal leading-6.5 tracking-normal text-[#0A4B6E] sm:text-[20px] sm:leading-7"
             >
-              Contractor compliance is fully integrated within the V-Watch Ai
-              platform — linking identity, access, safety, and workforce
+              Contractor compliance is fully integrated within the V-Watch AI
+              platform linking identity, access, safety, and workforce
               management.
             </motion.p>
           </motion.div>
@@ -142,48 +153,46 @@ export default function ConnectedSystem() {
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
           >
-            {/* Desktop: 3-column hub */}
-            <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-3">
-              <div className="flex w-full max-w-300 items-stretch justify-center gap-4">
-                {/* Left chips — justify-around puts them at ~25% and ~75% of image height */}
-                <div className="flex flex-1 flex-col items-end justify-around">
-                  <Chip {...CHIPS[0]} delay={0.3} iconRight />
-                  <Chip {...CHIPS[2]} delay={0.5} iconRight />
-                </div>
+            {/* Desktop: chips absolutely anchored to the image corners so they
+                overlap inward (1160 × 520 stage, image 630×420 centered) */}
+            <div className="relative mx-auto hidden h-130 w-full max-w-290 lg:block">
+              {/* Center image — 630×420, Blend: Darken (per Figma) */}
+              <motion.div
+                variants={scaleIn}
+                custom={0.2}
+                className="absolute left-1/2 top-0 h-105 w-157.5 -translate-x-1/2"
+              >
+                <Image
+                  src="/contractor-complaince/v-watch.webp"
+                  alt="V-Watch Ai connected platform hub"
+                  fill
+                  sizes="630px"
+                  priority
+                  className="object-contain"
+                  style={{ mixBlendMode: "darken" }}
+                />
+              </motion.div>
 
-                {/* Center image */}
-                <motion.div
-                  variants={scaleIn}
-                  custom={0.2}
-                  className="relative h-130 w-130 shrink-0"
-                >
-                  <Image
-                    src="/contractor-complaince/v-watch.webp"
-                    alt="V-Watch Ai connected platform hub"
-                    fill
-                    sizes="520px"
-                    priority
-                    className="object-contain"
-                  />
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse 80% 75% at center, transparent 55%, #EDF7FF 90%)",
-                    }}
-                  />
-                </motion.div>
-
-                {/* Right chips */}
-                <div className="flex flex-1 flex-col items-start justify-around">
-                  <Chip {...CHIPS[1]} delay={0.4} />
-                  <Chip {...CHIPS[3]} delay={0.6} />
-                </div>
+              {/* Top-left */}
+              <div className="absolute left-0 top-2">
+                <Chip {...CHIPS[0]} delay={0.3} iconRight />
               </div>
-
-              {/* Bottom chip — icon on top, text pill below */}
-              <BottomChip {...CHIPS[4]} delay={0.7} />
+              {/* Top-right */}
+              <div className="absolute right-0 top-2">
+                <Chip {...CHIPS[1]} delay={0.4} />
+              </div>
+              {/* Bottom-left */}
+              <div className="absolute left-0 top-80">
+                <Chip {...CHIPS[2]} delay={0.5} iconRight />
+              </div>
+              {/* Bottom-right */}
+              <div className="absolute right-0 top-80">
+                <Chip {...CHIPS[3]} delay={0.6} />
+              </div>
+              {/* Bottom-center */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bottom-4">
+                <BottomChip {...CHIPS[4]} delay={0.7} />
+              </div>
             </div>
 
             {/* Mobile: image + chip grid */}
@@ -191,28 +200,21 @@ export default function ConnectedSystem() {
               <motion.div
                 variants={scaleIn}
                 custom={0.15}
-                className="relative mx-auto h-75 w-full max-w-100"
+                className="relative mx-auto aspect-3/2 w-full max-w-120"
               >
                 <Image
                   src="/contractor-complaince/v-watch.webp"
                   alt="V-Watch Ai connected platform hub"
                   fill
-                  sizes="360px"
+                  sizes="(max-width: 640px) 100vw, 480px"
                   className="object-contain"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 80% 75% at center, transparent 55%, #EDF7FF 90%)",
-                  }}
+                  style={{ mixBlendMode: "darken" }}
                 />
               </motion.div>
 
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {CHIPS.map((chip, i) => (
-                  <Chip key={chip.label} {...chip} delay={0.25 + i * 0.08} />
+                  <Chip key={chip.label} {...chip} delay={0.25 + i * 0.08} fluid iconRight />
                 ))}
               </div>
             </div>

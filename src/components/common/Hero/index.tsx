@@ -3,7 +3,7 @@ import BookADemo from "@/components/common/BookADemo";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#0A2A4A]">
+    <section className="relative overflow-hidden bg-[#0A2A4A]  px-6 lg:px-[60px]">
       {/* Baked glass-tile render (labels + icons composited in Figma) */}
       <div className="pointer-events-none absolute inset-0">
         <Image
@@ -17,7 +17,7 @@ export default function Hero() {
       </div>
 
       {/* Left-side copy */}
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+      <div className="relative z-10 mx-auto w-full max-w-[1410px]">
         <div className="flex min-h-[600px] max-w-[642px] flex-col justify-center gap-[30px] pt-[150px] pb-[100px] lg:min-h-[753px] lg:py-[140px]">
           <div className="flex flex-col items-start gap-[14px]">
             {/* "In Real Time" pill — glassmorphism with a directional gradient
