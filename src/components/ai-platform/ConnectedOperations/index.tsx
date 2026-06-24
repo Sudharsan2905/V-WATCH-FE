@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// How long each module stays in focus before auto-advancing (ms).
 const AUTO_ADVANCE_MS = 3500;
 
 const fadeUp: Variants = {
@@ -126,17 +125,92 @@ const MODULES: Module[] = [
 
 export default function ConnectedOperations() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const current = MODULES[active]!;
 
-  // Advancing is driven by the progress bar: when the active segment finishes
-  // filling, we move to the next module. The sequence stops once the last
-  // (6th) box is reached — no looping back to the first.
-  const goNext = () => setActive((prev) => Math.min(prev + 1, MODULES.length - 1));
+  // Refs that the RAF loop reads without triggering re-renders
+  const pausedRef = useRef(false);
+  const activeRef = useRef(active);
+  const progressBarRef = useRef<HTMLSpanElement | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
 
-  // The credits roll is locked to the active index so it stays in step with
-  // the progress timeline. We translate the track to bring the active card to
-  // the top of the viewport (leaving a small peek of the previous one).
+  // Keep activeRef in sync
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  // RAF-based progress loop — drives both the visual fill and the auto-advance.
+  // Using requestAnimationFrame instead of CSS animations or setTimeout avoids
+  // the CSS keyframe / onAnimationEnd reliability issues on mobile and in
+  // React dev-mode Strict Mode (which double-invokes effects).
+  const startLoop = () => {
+    startTimeRef.current = null;
+
+    const tick = (ts: number) => {
+      if (pausedRef.current) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (startTimeRef.current === null) startTimeRef.current = ts;
+
+      const elapsed = ts - startTimeRef.current;
+      const pct = Math.min((elapsed / AUTO_ADVANCE_MS) * 100, 100);
+
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${pct}%`;
+      }
+
+      if (pct >= 100) {
+        // Advance to the next module; the new active triggers a new loop via useEffect
+        setActive((prev) => (prev + 1) % MODULES.length);
+        return;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  const stopLoop = () => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  };
+
+  // Restart the loop every time the active module changes
+  useEffect(() => {
+    startLoop();
+    return stopLoop;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  // Pause/resume on mouse hover — desktop only.
+  // Must check pointerType because mobile browsers fire a synthetic mouseenter
+  // after every tap/swipe, which would permanently freeze the RAF loop since
+  // mouseleave never fires on touch devices.
+  const pausedAtMsRef = useRef<number | null>(null);
+
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    pausedAtMsRef.current = performance.now();
+    pausedRef.current = true;
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    // Shift the virtual start time forward by the pause duration so the RAF
+    // loop resumes from the exact same progress percentage instead of restarting.
+    if (startTimeRef.current !== null && pausedAtMsRef.current !== null) {
+      startTimeRef.current += performance.now() - pausedAtMsRef.current;
+    }
+    pausedAtMsRef.current = null;
+    pausedRef.current = false;
+  };
+
+  // Vertical card-roll track position
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const [trackY, setTrackY] = useState(0);
 
@@ -148,13 +222,41 @@ export default function ConnectedOperations() {
       setTrackY(active === 0 ? 0 : -(el.offsetTop - PEEK));
     };
     measure();
+    const raf = requestAnimationFrame(measure);
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", measure);
+    };
   }, [active]);
+
+  // Touch swipe for mobile navigation
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = touchStartX.current - e.changedTouches[0].clientX;
+    const dy = Math.abs(touchStartY.current - e.changedTouches[0].clientY);
+    if (Math.abs(dx) > 40 && Math.abs(dx) > dy) {
+      setActive((prev) =>
+        dx > 0
+          ? Math.min(prev + 1, MODULES.length - 1)
+          : Math.max(prev - 1, 0)
+      );
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative px-6 pb-12 pt-10 lg:px-[60px] lg:pb-20 lg:pt-16">
+      <section className="relative px-6 pt-8 lg:pt-16 lg:pb-20 lg:px-[60px]">
         <motion.div
           className="mx-auto w-full max-w-[1410px]"
           initial="hidden"
@@ -177,14 +279,16 @@ export default function ConnectedOperations() {
 
           {/* Two-column panel */}
           <div
-            className="mt-6 lg:mt-10 flex flex-col gap-[30px] xl:flex-row lg:items-start"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            className="mt-10 flex flex-col gap-[30px] lg:flex-row lg:items-start"
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}
           >
             {/* Left: image carousel + pagination dots */}
             <motion.div
               variants={slideFromLeft}
-              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] xl:mx-0 lg:w-[600px] lg:shrink-0"
+              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] lg:mx-0 lg:w-[600px] lg:shrink-0"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
               <div
                 className="relative h-[320px] w-full overflow-hidden rounded-[24px] border-4 border-white/60 bg-[#EDF5FC] lg:h-[480px]"
@@ -219,9 +323,8 @@ export default function ConnectedOperations() {
                 <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[51px] w-full bg-gradient-to-t from-[#F3F8FC] to-transparent" />
               </div>
 
-              {/* Full-width segmented progress — each segment fills like a
-                  timer, then advances to the next module. */}
-              <style>{`@keyframes co-fill{from{width:0%}to{width:100%}}`}</style>
+              {/* Segmented progress — width is driven by the RAF loop above via
+                  a direct DOM ref, so no re-renders and no CSS keyframe dependency. */}
               <div className="flex w-full items-center gap-2">
                 {MODULES.map((mod, i) => (
                   <button
@@ -231,17 +334,14 @@ export default function ConnectedOperations() {
                     onClick={() => setActive(i)}
                     className="relative h-[6px] flex-1 cursor-pointer overflow-hidden rounded-full bg-[#CDE9FA]"
                   >
+                    {/* Completed segments stay fully filled */}
                     {i < active && (
                       <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />
                     )}
+                    {/* Active segment: ref-driven so RAF can update width directly */}
                     {i === active && (
                       <span
-                        key={active}
-                        onAnimationEnd={goNext}
-                        style={{
-                          animation: `co-fill ${AUTO_ADVANCE_MS}ms linear forwards`,
-                          animationPlayState: paused ? "paused" : "running",
-                        }}
+                        ref={progressBarRef}
                         className="absolute inset-y-0 left-0 w-0 rounded-full bg-[#0A8EC8]"
                       />
                     )}
@@ -250,10 +350,7 @@ export default function ConnectedOperations() {
               </div>
             </motion.div>
 
-            {/* Right: fixed-height vertical roll, locked to the active index so
-                it stays in step with the progress timeline. It scrolls from the
-                first box to the last and stops there (no looping). Top/bottom
-                mask gradients fade content in and out. */}
+            {/* Right: fixed-height vertical card roll */}
             <motion.div
               variants={slideFromRight}
               className="relative h-[420px] w-full overflow-hidden lg:h-[480px] lg:flex-1"
@@ -281,9 +378,9 @@ export default function ConnectedOperations() {
                         : "border-white/50 bg-white/40 opacity-60 backdrop-blur-md"
                     }`}
                   >
-                    {/* Faded watermark icon (already low-opacity in the asset) */}
+                    {/* Faded watermark icon */}
                     <div
-                      className="pointer-events-none absolute right-6 lg:right-[80px] top-1/2 -translate-y-1/2"
+                      className="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 lg:right-[80px]"
                       aria-hidden
                     >
                       <Image
@@ -319,13 +416,13 @@ export default function ConnectedOperations() {
                     {/* Bullets */}
                     <ul className="relative flex flex-col gap-2.5 px-5 pt-4 lg:ml-15">
                       {mod.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-center gap-3">
+                        <li key={bullet} className="flex items-start gap-3">
                           <Image
                             src="/ai-platform/bulletpoint.svg"
                             alt=""
                             width={22}
                             height={22}
-                            className="shrink-0"
+                            className="mt-0.75 shrink-0"
                           />
                           <span className="text-[15px] font-normal leading-[22px] text-[#0A4B6E]">
                             {bullet}

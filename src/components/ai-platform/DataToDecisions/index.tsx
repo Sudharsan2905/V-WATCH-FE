@@ -160,8 +160,6 @@ function StepContent({ step, flip = false }: Readonly<{ step: DecisionStep; flip
     <div
       className="flex max-w-[507px] flex-col gap-2.5 rounded-[16px] px-5 py-3"
       style={{
-        // Subtle blue "Linear 16%" fill from Figma — bluest toward the centre line,
-        // fading out toward the outer edge of the card.
         background: `linear-gradient(${flip ? "270deg" : "90deg"}, rgba(125,191,238,0.22) 0%, rgba(125,191,238,0) 72%)`,
       }}
     >
@@ -176,27 +174,34 @@ function StepContent({ step, flip = false }: Readonly<{ step: DecisionStep; flip
 export default function DataToDecisions() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-10 py-10 lg:px-[60px] lg:pt-16 lg:py-16">
-      {/* Faint grid background */}
+    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-16 py-16 lg:px-[60px]">
+      {/* Faint grid background — lowest layer */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-50 bg-[linear-gradient(to_right,#E1EDF8_1px,transparent_1px),linear-gradient(to_bottom,#E1EDF8_1px,transparent_1px)] bg-size-[60px_60px]"
+        className="pointer-events-none absolute inset-0 z-[0] opacity-50 bg-[linear-gradient(to_right,#E1EDF8_1px,transparent_1px),linear-gradient(to_bottom,#E1EDF8_1px,transparent_1px)] bg-size-[60px_60px]"
       />
-      {/* Bright panel behind the timeline — two lobes meeting at the centre with
-          a curved arch notched into the top & bottom centre (Figma 386:1405). */}
+      {/* Bright panel behind the timeline */}
       <svg
         aria-hidden
         viewBox="0 0 1280 923"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
+        className="pointer-events-none absolute inset-0 z-[1] hidden h-full w-full lg:block"
       >
-        <g filter="url(#dtd-panel-glow)">
-          <path
-            d="M360.5 34C486 34 638.3 70.799 639.5 215.999C639.5 159.498 675 34 913.5 34H1280V888.999H841.521C666.078 878.73 640 810.726 640 760.499C640 864.417 509.281 884.944 418.622 888.999H0V34H360.5Z"
-            fill="white"
-          />
-        </g>
         <defs>
+          {/* Repeating rounded-rect tile — true rx corners, no dots */}
+          <pattern id="dtd-rect-bg" x="0" y="0" width="160" height="80" patternUnits="userSpaceOnUse">
+            <rect x="12" y="12" width="136" height="56" rx="12" ry="12" fill="rgba(189,217,245,0.08)" />
+          </pattern>
+          {/* Horizontal fade — transparent at edges, full opacity in centre */}
+          <linearGradient id="dtd-h-fade" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%"   stopColor="white" stopOpacity="0" />
+            <stop offset="12%"  stopColor="white" stopOpacity="1" />
+            <stop offset="88%"  stopColor="white" stopOpacity="1" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+          <mask id="dtd-fade-mask">
+            <rect width="1280" height="923" fill="url(#dtd-h-fade)" />
+          </mask>
           <filter
             id="dtd-panel-glow"
             x="-34"
@@ -216,9 +221,22 @@ export default function DataToDecisions() {
             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
           </filter>
         </defs>
+        {/* White panel with drop shadow */}
+        <g filter="url(#dtd-panel-glow)">
+          <path
+            d="M360.5 34C486 34 638.3 70.799 639.5 215.999C639.5 159.498 675 34 913.5 34H1280V888.999H841.521C666.078 878.73 640 810.726 640 760.499C640 864.417 509.281 884.944 418.622 888.999H0V34H360.5Z"
+            fill="white"
+          />
+        </g>
+        {/* Subtle rect pattern — fills same path so it's auto-clipped to panel shape */}
+        <path
+          d="M360.5 34C486 34 638.3 70.799 639.5 215.999C639.5 159.498 675 34 913.5 34H1280V888.999H841.521C666.078 878.73 640 810.726 640 760.499C640 864.417 509.281 884.944 418.622 888.999H0V34H360.5Z"
+          fill="url(#dtd-rect-bg)"
+          mask="url(#dtd-fade-mask)"
+        />
       </svg>
 
-      <div className="relative mx-auto w-full max-w-[1410px]">
+      <div className="relative z-[3] mx-auto w-full max-w-[1410px]">
         {/* Header */}
         <motion.header
           variants={fadeUp}
@@ -248,7 +266,7 @@ export default function DataToDecisions() {
               {/* Large number */}
               <span
                 className="shrink-0 text-[60px] font-black leading-none"
-                style={{ color: "rgba(33,177,241,0.15)" }}
+                style={{ color: "#7ECFFA" }}
                 aria-hidden
               >
                 {step.num}
@@ -266,28 +284,24 @@ export default function DataToDecisions() {
 
         {/* Desktop: zigzag with centre line */}
         <div className="relative mt-14 hidden lg:block">
-          {/* Centre vertical dotted line */}
-          <div
-            aria-hidden
-            className="absolute bottom-0 left-1/2 top-0 w-[4px] -translate-x-1/2 bg-[linear-gradient(to_bottom,transparent,#7FCDEE_8%,#7FCDEE_92%,transparent)]"
-          />
-
-          <div className="flex flex-col gap-0">
+          {/* Step rows — own container, no line inside */}
+          <div className="-mt-5 flex flex-col gap-0">
             {STEPS.map((step, i) => {
               const isLeft = i % 2 === 0; // even → number on LEFT, content on RIGHT
+              const isLast = i === STEPS.length - 1;
               return (
                 <motion.div
                   key={step.num}
-                  className="relative flex min-h-[160px] items-center"
+                  className={`relative flex min-h-40 ${isLast ? "items-start" : "items-center"}`}
                   initial="hidden"
                   whileInView="show"
                   viewport={{ once: true, amount: 0.6 }}
                 >
-                  {/* Centre target dot on the line */}
+                  {/* Centre target dot — last row: at top (line end); others: centred */}
                   <motion.div
                     variants={dotPop}
                     aria-hidden
-                    className="absolute left-1/2 z-10 flex size-[18px] -translate-x-1/2 items-center justify-center rounded-full border-2 border-[#7FCDEE] bg-white shadow-[0_0_8px_rgba(33,177,241,0.35)]"
+                    className={`absolute left-1/2 z-10 flex size-4.5 -translate-x-1/2 items-center justify-center rounded-full border-2 border-[#7FCDEE] bg-white shadow-[0_0_8px_rgba(33,177,241,0.35)] ${isLast ? "top-13" : "top-1/2 -translate-y-1/2"}`}
                   >
                     <div className="size-[8px] rounded-full bg-[#21B1F1]" />
                   </motion.div>
@@ -335,6 +349,12 @@ export default function DataToDecisions() {
               );
             })}
           </div>
+
+          {/* Centre vertical line — dot at top-5 in last row; line ends ~20px below the dot */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-2 bottom-18 left-1/2 w-1 -translate-x-1/2 rounded-full bg-[#7FCDEE]"
+          />
         </div>
       </div>
     </section>

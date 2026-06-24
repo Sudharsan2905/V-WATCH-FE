@@ -565,12 +565,12 @@ export default function DemoForm() {
           <InputField
             id="phoneNumber"
             label="Phone Number"
-            type="number"
+            type="tel"
             placeholder="Enter Phone Number"
             value={form.phoneNumber}
             onChange={(v) => {
               clearError("phoneNumber");
-              setForm((p) => ({ ...p, phoneNumber: v }));
+              setForm((p) => ({ ...p, phoneNumber: v.replace(/\D/g, "") }));
             }}
             error={errors.phoneNumber}
             required
