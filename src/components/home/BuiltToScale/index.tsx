@@ -64,28 +64,25 @@ const BOW_DELAY = 1.75; // the arc connecting the cards — last
 type Card = {
   icon: string;
   text: string;
-  top: string;
-  left: string;
-  width: string;
+  cls: string;   // desktop: absolute positioning
+  mCls: string;  // mobile: per-card left padding to follow the bow curve
   highlight?: boolean;
 };
 
 const CARDS: Card[] = [
-  { icon: "/home/card-1.png", text: "Monitor up to 100,000 profiles per site", top: "8%", left: "60%", width: "37%" },
+  { icon: "/home/card-1.png", text: "Monitor up to 100,000 profiles per site", cls: "top-[8%] left-[60%] w-[37%]", mCls: "right-[50px]" },
   {
     icon: "/home/card-2.png",
     text: "Real-time data processing across multiple operations",
-    top: "33%",
-    left: "64%",
-    width: "33%",
+    cls: "top-[33%] left-[65%] w-[33%]",
+    mCls: "left-[14px]",
     highlight: true,
   },
   {
     icon: "/home/card-3.png",
     text: "Built for scalability across large and distributed environments",
-    top: "63%",
-    left: "62%",
-    width: "35%",
+    cls: "top-[63%] left-[62%] w-[35%]",
+    mCls: "right-[28px]",
   },
 ];
 
@@ -94,25 +91,79 @@ const CARDS: Card[] = [
 function RocketCluster() {
   return (
     <>
-      {/* The 3 concentric glow ellipses — fade in together, first */}
-      <motion.div variants={loadIn} custom={ELLIPSE_DELAY} className="absolute inset-0">
-        <Image src="/home/glow-outer.png" alt="" fill className="object-contain" sizes="(max-width: 768px) 90vw, 500px" priority />
-        <div className="absolute" style={{ left: "2%", top: "15.9%", width: "68.7%", aspectRatio: "387 / 313" }}>
-          <Image src="/home/glow-mid.png" alt="" fill className="object-contain" sizes="350px" />
+      {/* The 3 concentric glow ellipses */}
+      <motion.div
+        variants={loadIn}
+        custom={ELLIPSE_DELAY}
+        className="absolute inset-0"
+      >
+        <Image
+          src="/home/glow-outer.png"
+          alt=""
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 90vw, 500px"
+          priority
+        />
+
+        {/* glow-mid */}
+        <div className="absolute left-[2%] top-[15.9%] w-[68.7%] aspect-[387/313]">
+          <Image
+            src="/home/glow-mid.png"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="350px"
+          />
         </div>
-        <div className="absolute" style={{ left: "1%", top: "34.65%", width: "33.2%", aspectRatio: "1 / 1" }}>
-          <Image src="/home/glow-bulb.png" alt="" fill className="object-contain" sizes="170px" />
+
+        {/* glow-bulb */}
+        <div
+          className="
+            absolute
+            left-[1%]
+            top-[14.65%]
+            w-[63.2%]
+            aspect-square
+            lg:top-[34.65%]
+            lg:w-[33.2%]
+          "
+        >
+          <Image
+            src="/home/glow-bulb.png"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="170px"
+          />
         </div>
       </motion.div>
 
-      {/* rocket — fades in after the bullet image */}
+      {/* rocket */}
       <motion.div
         variants={loadIn}
         custom={ROCKET_DELAY}
-        className="absolute"
-        style={{ left: "3%", top: "40.4%", width: "23.4%", aspectRatio: "132 / 134" }}
+        className="
+          absolute
+          left-0
+          top-[35%]
+          w-[50%]
+          aspect-[132/134]
+          lg:left-[3%]
+          lg:top-[40.4%]
+          lg:w-[23.4%]
+          md:w-[25%]
+          md:left-[5%]
+          md:top-[40%]
+        "
       >
-        <Image src="/home/rocket.png" alt="V-Watch Ai rocket" fill className="object-contain" sizes="120px" />
+        <Image
+          src="/home/rocket.png"
+          alt="V-Watch Ai rocket"
+          fill
+          className="object-contain"
+          sizes="120px"
+        />
       </motion.div>
     </>
   );
@@ -120,10 +171,10 @@ function RocketCluster() {
 
 // The visual card itself (node + icon + text). Positioning/width is controlled
 // by the parent so it can be reused in both the absolute stage and the stack.
-function CardBody({ icon, text, highlight }: Readonly<Pick<Card, "icon" | "text" | "highlight">>) {
+function CardBody({ icon, text, highlight, mCls = "" }: Readonly<Pick<Card, "icon" | "text" | "highlight"> & { mCls?: string }>) {
   return (
     <div
-      className={`relative flex items-center gap-3.5 rounded-[18px] px-4 py-3.5 backdrop-blur-md ${
+      className={`relative flex items-center gap-3.5 rounded-[18px] px-4 py-3.5 backdrop-blur-md ${mCls} ${
         highlight
           ? "border border-white/70 bg-[rgba(226,241,252,0.55)] shadow-[0_14px_40px_rgba(120,170,215,0.18)]"
           : "border border-white/60 bg-white/35 shadow-[0_10px_30px_rgba(120,170,215,0.10)]"
@@ -224,8 +275,7 @@ export default function BuiltToScale() {
                 key={c.text}
                 variants={riseUp}
                 custom={CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER}
-                className="absolute"
-                style={{ top: c.top, left: c.left, width: c.width }}
+                className={`absolute ${c.cls}`}
               >
                 <CardBody icon={c.icon} text={c.text} highlight={c.highlight} />
               </motion.div>
@@ -278,19 +328,19 @@ export default function BuiltToScale() {
                 <motion.div
                   variants={loadIn}
                   custom={BOW_DELAY}
-                  className="pointer-events-none absolute left-0 top-1/2 h-[88%] -translate-x-1/2 -translate-y-1/2"
+                  className="pointer-events-none absolute left-[-35px] lg:left-[-24px] top-[0%] h-[110%] lg:top-[-12%] lg:h-[135%] -translate-x-1/2"
                   style={{ aspectRatio: "291 / 459" }}
                 >
-                  <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="140px" />
+                  <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="200px" />
                 </motion.div>
-                <div className="relative z-10 flex flex-col gap-4 pl-3">
+                <div className="relative z-10 flex flex-col gap-2">
                   {CARDS.map((c, i) => (
                     <motion.div
                       key={c.text}
                       variants={riseUp}
                       custom={CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER}
                     >
-                      <CardBody icon={c.icon} text={c.text} highlight={c.highlight} />
+                      <CardBody icon={c.icon} text={c.text} highlight={c.highlight} mCls={c.mCls} />
                     </motion.div>
                   ))}
                 </div>

@@ -64,6 +64,7 @@ export default function PageHero({
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: EASE }}
+          style={{ '--desktop-pos': bgObjectPosition } as React.CSSProperties}
         >
           <Image
             src={bgImage}
@@ -71,8 +72,7 @@ export default function PageHero({
             fill
             priority
             sizes="100vw"
-            className="object-cover"
-            style={{ objectPosition: bgObjectPosition }}
+            className="object-cover object-[68%_center] sm:object-center"
           />
         </motion.div>
 

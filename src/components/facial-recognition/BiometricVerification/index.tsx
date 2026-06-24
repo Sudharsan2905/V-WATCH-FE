@@ -140,7 +140,7 @@ export default function BiometricVerification() {
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
-                className="relative min-h-65 w-full overflow-hidden rounded-[18px] sm:min-h-80 lg:flex-1"
+                className="relative w-full overflow-hidden rounded-[18px] aspect-[3/2] md:max-w-[520px] md:mx-auto lg:max-w-none lg:mx-0 lg:aspect-auto lg:flex-1"
               >
                 <Image
                   src="/facial-recognition/Right image.png"

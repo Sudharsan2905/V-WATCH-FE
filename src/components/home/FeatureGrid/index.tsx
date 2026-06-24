@@ -78,7 +78,7 @@ function FeatureCard({
       custom={CARD_START + index * CARD_STAGGER}
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="relative max-w-[554px] shrink-0 lg:h-[211.5px] lg:w-[calc(50%-15px)]"
+      className="relative h-auto shrink-0 lg:h-[211.5px] lg:w-[calc(50%-15px)]"
     >
       {/* Blob background — lg+ only */}
       <div className="pointer-events-none absolute bottom-0 left-[5px] right-[3px] top-[4px] hidden lg:block">
@@ -93,10 +93,10 @@ function FeatureCard({
       </div>
 
       {/* Card — full-width on mobile; offset 46.5 × 43.5 on lg+, right-aligned */}
-      <div className="group relative max-h-[144px] max-w-[470px] lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:right-[38.5px] lg:h-[144px] lg:w-[470px]">
+      <div className="group relative min-h-[100px] lg:absolute lg:left-[46.5px] lg:top-[43.5px] lg:right-[38.5px] lg:h-[144px] lg:w-auto">
         {/* Card glass border/background */}
         <div
-          className="absolute inset-0 rounded-[20px] border-2 border-white shadow-[6px_10px_23px_0px_rgba(217,226,255,0.85),0px_13px_100px_0px_rgba(199,199,199,0.25)] transition-colors duration-300 group-hover:bg-[rgba(186,224,245,0.18)]"
+          className="absolute inset-0 rounded-[20px] border-2 lg:border-white lg:shadow-[0px_4px_20px_0px_rgba(217,226,255,0.75),0px_8px_32px_0px_rgba(199,199,199,0.22)] transition-colors duration-300 group-hover:bg-[rgba(186,224,245,0.18)]"
           style={{ backgroundImage: CARD_GRADIENT }}
         />
 
@@ -123,8 +123,8 @@ function FeatureCard({
 
         {/* Text content */}
         <div className="flex h-full flex-col justify-center pl-[90px] pr-2.5 py-2.5">
-          <p className="text-[20px] font-bold text-[#0A4B6E]">{title}</p>
-          <p className="mt-2.5 text-[18px] leading-6 text-[#202020]">{desc}</p>
+          <p className="text-[16px] lg:text-[20px] font-bold text-[#0A4B6E]">{title}</p>
+          <p className="mt-2.5 text-[14px] lg:text-[18px] leading-5 lg:leading-6 text-[#202020]">{desc}</p>
         </div>
       </div>
     </motion.div>
