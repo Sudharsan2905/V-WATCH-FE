@@ -161,15 +161,20 @@ function ConnectCard({
       {/* Card content */}
       <div className="relative z-10 flex h-full flex-col gap-4 p-4">
         {/* Title — left-padded to clear the badge notch */}
-        <div className="pl-[84px] pt-1">
+        <div className="relative pl-[84px] pt-1">
           <p className="text-[18px] leading-[23px] text-[#1E3A52]">
             <span className="block font-extrabold">{lead}</span>
             {tail && <span className="block font-medium text-[#3890C0]">{tail}</span>}
           </p>
+          {/* Blue connector line + end dot — mobile/tablet: right-anchored below title */}
+          <span className="pointer-events-none absolute -right-4 -bottom-3 flex items-center lg:hidden">
+            <span className="h-[2px] w-[200px] rounded-full bg-gradient-to-r from-[#C6E3F8] to-[#3D8FD6]" />
+            <span className="size-2.5 rounded-full bg-[#3D8FD6]" />
+          </span>
         </div>
 
-        {/* Blue connector line + end dot */}
-        <span className="pointer-events-none absolute right-2 top-[70px] flex items-center">
+        {/* Blue connector line + end dot — desktop: absolute positioned */}
+        <span className="pointer-events-none absolute right-2 top-[70px] hidden items-center lg:flex">
           <span className="h-[2px] w-[200px] rounded-full bg-gradient-to-r from-[#C6E3F8] to-[#3D8FD6]" />
           <span className="size-2.5 rounded-full bg-[#3D8FD6]" />
         </span>

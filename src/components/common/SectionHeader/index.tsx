@@ -34,7 +34,7 @@ export default function SectionHeader({
 }: Readonly<Props>) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className={`${background} px-6 py-10 lg:px-[60px] ${className}`}>
+      <div className={`${background} px-6 py-0 md:py-10 lg:px-[60px] ${className}`}>
         <motion.header
           variants={fadeUp}
           initial="hidden"

@@ -201,7 +201,7 @@ function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
           {steps.map((step, i) => (
             <div
               key={step.title}
-              className="flex min-w-0 flex-[0_0_85%] justify-center px-2"
+              className="flex min-w-0 flex-[0_0_100%] justify-center px-4"
             >
               {/* tilt={0} — no rotation on mobile */}
               <StepCard step={step} tilt={0} delay={CARDS_START + i * CARD_STAGGER} />

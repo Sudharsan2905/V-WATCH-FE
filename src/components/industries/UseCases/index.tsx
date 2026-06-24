@@ -105,6 +105,7 @@ export default function UseCases({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const updateArrows = useCallback(() => {
     const el = scrollRef.current;
@@ -113,6 +114,9 @@ export default function UseCases({
     setAtStart(scrollLeft <= 1);
     // -1 tolerance for sub-pixel rounding; also true when content fits (no overflow).
     setAtEnd(scrollLeft >= scrollWidth - clientWidth - 1);
+    // Update active dot based on scroll position
+    const cardWidth = el.firstElementChild ? (el.firstElementChild as HTMLElement).offsetWidth + 20 : clientWidth;
+    setActiveIndex(Math.round(scrollLeft / cardWidth));
   }, []);
 
   useEffect(() => {
@@ -203,6 +207,28 @@ export default function UseCases({
                 disabled={atEnd}
                 className="hidden shrink-0 sm:flex"
               />
+            </div>
+          )}
+
+          {/* Dots — mobile only */}
+          {cards.length > 1 && (
+            <div className="flex items-center justify-center gap-2 sm:hidden">
+              {cards.map((c, i) => (
+                <button
+                  key={c.title}
+                  type="button"
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => {
+                    const el = scrollRef.current;
+                    if (!el) return;
+                    const cardWidth = el.firstElementChild ? (el.firstElementChild as HTMLElement).offsetWidth + 20 : el.clientWidth;
+                    el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
+                  }}
+                  className={`rounded-full transition-all duration-200 ${
+                    i === activeIndex ? "h-[8px] w-[24px] bg-[#0A4B6E]" : "size-[8px] bg-[#0A4B6E]/30"
+                  }`}
+                />
+              ))}
             </div>
           )}
         </motion.div>

@@ -14,37 +14,62 @@ const fadeUp: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
-const gridStagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.05, delayChildren: 0.2 } },
-};
+function LogoCard({ src }: { src: string }) {
+  return (
+    <div className="flex h-[72px] w-[160px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-5 py-4 shadow-[0_4px_14px_rgba(255,255,255,0.04)]">
+      <span className="relative block size-full">
+        <Image
+          src={src}
+          alt="Technology partner"
+          fill
+          className="object-contain"
+          sizes="160px"
+        />
+      </span>
+    </div>
+  );
+}
 
-const logoItem: Variants = {
-  hidden: { opacity: 0, scale: 0.92 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } },
-};
+function MarqueeRow({ logos, direction }: { logos: string[]; direction: "left" | "right" }) {
+  const doubled = [...logos, ...logos];
+  const animClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
+  return (
+    <div className="flex overflow-hidden">
+      <div className={`flex gap-5 ${animClass}`}>
+        {doubled.map((src, i) => (
+          <LogoCard key={`${src}-${i}`} src={src} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
-// "Integrated with leading global technologies" — dark navy rounded band with
-// two rows of technology-partner cards. The rows are centered and masked so
-// the outermost cards fade toward the edges, matching the design.
 export default function GlobalTechnologiesSection() {
   const mid = Math.ceil(TECH_PARTNER_LOGOS.length / 2);
-  const rows = [TECH_PARTNER_LOGOS.slice(0, mid), TECH_PARTNER_LOGOS.slice(mid)];
+  const row1 = TECH_PARTNER_LOGOS.slice(0, mid);
+  const row2 = TECH_PARTNER_LOGOS.slice(mid);
 
   return (
     <MotionConfig reducedMotion="user">
+      <style>{`
+        @keyframes marquee-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-marquee-left  { animation: marquee-left  28s linear infinite; }
+        .animate-marquee-right { animation: marquee-right 28s linear infinite; }
+      `}</style>
+
       <section className="relative bg-[#dff2f3]">
-        {/* full-width rounded band — the gradient covers the whole band, the
-            40px top corners curve against the light backdrop */}
         <div className="relative overflow-hidden rounded-t-[40px] px-6 lg:px-[60px]">
-          {/* deep navy base with a diagonal light beam from the upper right */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_120%_at_85%_0%,rgba(64,120,255,0.3),transparent_60%),linear-gradient(118deg,#12306B_0%,#0A1A44_35%,#070F2B_70%,#0B1C4A_100%)]"
           />
-
-          {/* side shades spanning the full band — cards (and the future
-              carousel) slide under these and fade toward the band edges */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-0 left-0 z-20 w-[140px] bg-[linear-gradient(90deg,#0A1A44_0%,rgba(10,26,68,0.55)_45%,transparent_100%)] sm:w-[180px]"
@@ -60,8 +85,6 @@ export default function GlobalTechnologiesSection() {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
           >
-            {/* z-30 keeps the header above the side shades; the card rows
-                stay below them so they fade at the edges */}
             <motion.header variants={fadeUp} className="relative z-30 flex flex-col gap-2.5">
               <h2 className="text-[26px] font-bold leading-none text-white">
                 {GLOBAL_TECH_HEADER.title}
@@ -71,29 +94,10 @@ export default function GlobalTechnologiesSection() {
               </p>
             </motion.header>
 
-            <motion.div variants={gridStagger} className="flex flex-col gap-5 pb-3">
-              {rows.map((row) => (
-                <div key={row[0]} className="flex justify-center gap-12">
-                  {row.map((src) => (
-                    <motion.div
-                      variants={logoItem}
-                      key={src}
-                      className="flex h-[72px] w-[160px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-5 py-4 shadow-[0_4px_14px_rgba(255,255,255,0.04)]"
-                    >
-                      <span className="relative block size-full">
-                        <Image
-                          src={src}
-                          alt="Technology partner"
-                          fill
-                          className="object-contain"
-                          sizes="160px"
-                        />
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              ))}
-            </motion.div>
+            <div className="flex flex-col gap-5 pb-3">
+              <MarqueeRow logos={row1} direction="left" />
+              <MarqueeRow logos={row2} direction="right" />
+            </div>
           </motion.div>
         </div>
       </section>

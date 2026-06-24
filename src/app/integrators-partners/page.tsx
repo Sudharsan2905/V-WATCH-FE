@@ -35,7 +35,7 @@ export default function ProductsPage() {
       <SectionHeader {...IMPLEMENTATION_HEADER} />
 
       <RealTimeImplementationSection />
-      <SectionHeader {...NETWORK_HEADER} background="bg-[#eaf7fa]" />
+      <SectionHeader {...NETWORK_HEADER} background="bg-[#eaf7fa]" className="max-md:pb-4" />
       <IntegratorNetworkSection />
       <GlobalTechnologiesSection />
       <WhyPartnerSection />
