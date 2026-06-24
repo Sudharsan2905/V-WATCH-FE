@@ -169,7 +169,7 @@ export default function IntelligenceLayer() {
     <MotionConfig reducedMotion="user">
     <section
       id="intelligence-layer"
-      className="relative z-10 scroll-mt-24 px-6 pb-20 pt-16 lg:px-[60px]"
+      className="relative z-10 scroll-mt-24 px-6 pb-0 md:pb-10 lg:pb-20 pt-16 lg:px-[60px]"
     >
       {/* Curved top — carves the dark hero into a downward dip above this section */}
       <svg

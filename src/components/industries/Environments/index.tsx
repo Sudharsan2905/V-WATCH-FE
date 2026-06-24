@@ -57,26 +57,28 @@ type EnvironmentsContent = {
 function EnvCard({
   card,
   delay = 0,
-}: Readonly<{ card: EnvCardData; delay?: number }>) {
-  const isActive = card.active;
+  selected = false,
+  onSelect,
+}: Readonly<{ card: EnvCardData; delay?: number; selected?: boolean; onSelect?: () => void }>) {
 
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
+      onClick={onSelect}
       className={`group flex flex-col gap-4 transition-all duration-300 ${
-        isActive
+        selected
           ? "rounded-[30px] px-[10px] pt-[10px] pb-[20px]"
           : "rounded-[20px] border border-transparent p-3 hover:border-white/10 hover:bg-gradient-to-br hover:from-[#21B1F1] hover:via-[#5CB7E8] hover:to-[#EFF9FF] hover:shadow-[0_24px_60px_rgba(0,0,0,0.4)]"
       }`}
       style={
-        isActive
+        selected
           ? { background: "linear-gradient(135deg, #21B1F1 0%, #5CB7E8 55%, #EFF9FF 100%)" }
           : {}
       }
     >
       {/* Image frame — fixed Figma ratio 328×290, 24px radius */}
-      <div className={`relative aspect-[328/290] w-full overflow-hidden rounded-[24px] border ${isActive ? "border-white/40" : "border-white/10"}`}>
+      <div className={`relative aspect-[328/290] w-full overflow-hidden rounded-[24px] border ${selected ? "border-white/40" : "border-white/10"}`}>
         {/* Resting image */}
         <Image
           src={card.image}
@@ -85,7 +87,7 @@ function EnvCard({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
           className="object-cover"
         />
-        {/* Hover image — crossfades in on top when the card is hovered */}
+        {/* Hover/tap image — crossfades in on hover (desktop) or tap (mobile) */}
         {card.originalImage && (
           <Image
             src={card.originalImage}
@@ -94,15 +96,15 @@ function EnvCard({
             fill
             unoptimized
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
-            className="object-cover opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+            className={`object-cover transition-opacity duration-300 ease-out group-hover:opacity-100 ${selected ? "opacity-100" : "opacity-0"}`}
           />
         )}
       </div>
       <div className="flex flex-col gap-2 px-1 pb-1">
-        <p className={`text-[18px] font-bold leading-[21px] ${isActive ? "text-[#0A2540]" : "text-white group-hover:text-[#0A2540]"}`}>
+        <p className={`text-[18px] font-bold leading-[21px] ${selected ? "text-[#0A2540]" : "text-white group-hover:text-[#0A2540]"}`}>
           {card.title}
         </p>
-        <p className={`text-[14px] font-normal leading-[22px] ${isActive ? "text-[#0A4B6E]" : "text-white group-hover:text-[#0A2540]"} sm:text-[16px] sm:leading-[24px] lg:text-[18px]`}>
+        <p className={`text-[14px] font-normal leading-[22px] ${selected ? "text-[#0A4B6E]" : "text-white group-hover:text-[#0A2540]"} sm:text-[16px] sm:leading-[24px] lg:text-[18px]`}>
           {card.desc}
         </p>
       </div>
@@ -115,19 +117,21 @@ function EnvCard({
 // the grid layout untouched.
 function MobileCarousel({
   cards,
-}: Readonly<{ cards: EnvCardData[] }>) {
+  selectedCard,
+  onSelect,
+}: Readonly<{ cards: EnvCardData[]; selectedCard: number | null; onSelect: (i: number) => void }>) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
     containScroll: "trimSnaps",
   });
-  const [selected, setSelected] = useState(0);
+  const [scrollIndex, setScrollIndex] = useState(0);
 
   useEffect(() => {
     if (!emblaApi) return;
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect).on("reInit", onSelect);
+    const onScroll = () => setScrollIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onScroll).on("reInit", onScroll);
     return () => {
-      emblaApi.off("select", onSelect).off("reInit", onSelect);
+      emblaApi.off("select", onScroll).off("reInit", onScroll);
     };
   }, [emblaApi]);
 
@@ -137,7 +141,12 @@ function MobileCarousel({
         <div className="flex">
           {cards.map((card, i) => (
             <div key={card.title} className="min-w-0 flex-[0_0_88%] pr-4">
-              <EnvCard card={card} delay={CARDS_START + i * CARD_STAGGER} />
+              <EnvCard
+                card={card}
+                delay={CARDS_START + i * CARD_STAGGER}
+                selected={selectedCard === i}
+                onSelect={() => onSelect(i)}
+              />
             </div>
           ))}
         </div>
@@ -153,7 +162,7 @@ function MobileCarousel({
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => emblaApi?.scrollTo(i)}
               className={`rounded-full transition-all duration-200 ${
-                i === selected ? "h-[8px] w-[24px] bg-white" : "size-[8px] bg-white/30"
+                i === scrollIndex ? "h-[8px] w-[24px] bg-white" : "size-[8px] bg-white/30"
               }`}
             />
           ))}
@@ -176,6 +185,10 @@ export default function Environments({
     ],
     footerKeywords = ["Real-time visibility", "Safety", "Control"] as [string, string, string],
   } = environments;
+
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+
+  const handleSelect = (i: number) => setSelectedCard(selectedCard === i ? null : i);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -213,7 +226,7 @@ export default function Environments({
           </header>
 
           {/* Mobile (< sm): swipeable carousel */}
-          <MobileCarousel cards={cards} />
+          <MobileCarousel cards={cards} selectedCard={selectedCard} onSelect={handleSelect} />
 
           {/* Tablet & up: grid — one by one */}
           <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
@@ -222,6 +235,8 @@ export default function Environments({
                 key={card.title}
                 card={card}
                 delay={CARDS_START + i * CARD_STAGGER}
+                selected={selectedCard === i}
+                onSelect={() => handleSelect(i)}
               />
             ))}
           </div>

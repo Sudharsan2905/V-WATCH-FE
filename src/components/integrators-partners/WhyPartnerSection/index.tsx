@@ -106,7 +106,7 @@ function PointCard({
 export default function WhyPartnerSection() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-30 -mt-10 overflow-hidden rounded-t-[40px] border-t-2 border-white bg-[radial-gradient(70%_60%_at_50%_45%,rgba(189,228,250,0.55),transparent_70%),linear-gradient(180deg,#F4FAFF_0%,#EAF5FC_55%,#F6FBFF_100%)] px-6 pb-20 pt-14 lg:px-[60px]">
+      <section className="relative z-30 -mt-10 overflow-hidden rounded-t-[40px] border-t-2 border-white bg-[radial-gradient(70%_60%_at_50%_45%,rgba(189,228,250,0.55),transparent_70%),linear-gradient(180deg,#F4FAFF_0%,#EAF5FC_55%,#F6FBFF_100%)] px-6 pb-4 pt-14 md:pb-20 lg:px-[60px]">
         <motion.div
           className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-12"
           initial="hidden"

@@ -318,14 +318,14 @@ export default function PostConstructionTransition({
                 }}
               >
                 {/* Glowing tower — fills the panel, anchored to the bottom-right. */}
-                <div className="pointer-events-none absolute bottom-0 right-0 z-0 h-[88%] w-[80%]">
+                <div className="pointer-events-none absolute inset-0 z-0 opacity-40 lg:inset-auto lg:bottom-0 lg:right-0 lg:h-[88%] lg:w-[80%] lg:opacity-100">
                   <Image
                     src={panelImage}
                     alt="Post-construction operations tower"
                     fill
                     unoptimized
                     sizes="(max-width: 1024px) 70vw, 460px"
-                    className="object-contain object-bottom-right"
+                    className="object-cover lg:object-contain lg:object-bottom-right"
                   />
                 </div>
 

@@ -166,7 +166,6 @@ export const constructionContent = {
         originalImage: "/industries/construction/designed-environment/1.webp",
         title: "High-Rise & Commercial Developments",
         desc: "Manage large workforces, multiple contractors, and high volumes of site activity across vertical environments.",
-        active: true,
       },
       {
         image: "/industries/construction/designed-environment/env-1.png",
