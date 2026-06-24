@@ -36,8 +36,11 @@ export default function WorkforceManagementPage() {
 
         <div className="relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
-            title="Built for teams managing large and dynamic workforces"
-            subtitle="From construction sites to industrial operations, V-Watch Ai simplifies workforce administration and reduces manual workload."
+            content={{
+              title: "Built for teams managing large and dynamic workforces",
+              subtitle:
+                "From construction sites to industrial operations, V-Watch Ai simplifies workforce administration and reduces manual workload.",
+            }}
           />
         </div>
       </div>
