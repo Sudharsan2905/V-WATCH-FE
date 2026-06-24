@@ -120,7 +120,7 @@ function DotBullet({ text }: Readonly<{ text: string }>) {
   );
 }
 
-function PillarCard({ icon, title, desc, bullets, image, index }: Readonly<Pillar & { index: number }>) {
+function PillarCard({ icon: _icon, title, desc, bullets, image, index }: Readonly<Pillar & { index: number }>) {
   return (
     <motion.div
       variants={cardItem}
@@ -205,9 +205,9 @@ function FlowIcon({ type }: Readonly<{ type: "link" | "gear" | "sparkle" }>) {
 export default function ThreePillars() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="bg-[#F4FAFF] px-6 pt-6 pb-15 lg:px-[60px]">
+      <section className="bg-[#F4FAFF] px-6 pt-6 pb-15 lg:px-15">
         <motion.div
-          className="mx-auto w-full max-w-[1410px]"
+          className="mx-auto w-full max-w-352.5"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
@@ -259,10 +259,30 @@ export default function ThreePillars() {
           <motion.div
             variants={fadeUp}
             custom={CARDS_START + PILLARS.length * CARD_STAGGER}
-            className="mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center"
+            className="relative mt-6 flex flex-col items-center gap-8 overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(90deg,#0D1628_0%,#111E35_100%)] p-5 lg:flex-row lg:items-center"
           >
+            {/* piller-bg — left half only */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2">
+              <Image
+                src="/bi-dashboards/piller-bg.png"
+                alt=""
+                fill
+                aria-hidden
+                className="object-fill"
+              />
+            </div>
+            {/* Looper decorative — left to mid */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2">
+              <Image
+                src="/bi-dashboards/Looper BG.png"
+                alt=""
+                fill
+                aria-hidden
+                className="object-cover object-left"
+              />
+            </div>
             {/* Flow icons */}
-            <div className="flex w-full shrink-0 items-center justify-center gap-2 sm:gap-4 lg:w-auto lg:justify-start">
+            <div className="relative z-10 flex w-full shrink-0 items-center justify-center gap-2 sm:gap-4 lg:w-auto lg:justify-start">
               <FlowIcon type="link" />
               <ConnectsArrow />
               <FlowIcon type="gear" />
@@ -270,7 +290,7 @@ export default function ThreePillars() {
               <FlowIcon type="sparkle" />
             </div>
 
-            <div className="flex w-full items-center justify-evenly">
+            <div className="relative z-10 flex w-full items-center justify-evenly">
               {/* Text */}
               <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0] lg:text-left">
                 One platform that{" "}
