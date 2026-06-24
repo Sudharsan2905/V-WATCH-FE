@@ -216,16 +216,14 @@ function FeatureCard({
         <p className="text-center mb-4 text-[17px] font-bold text-[#0A4B6E]">{title}</p>
 
         {/* Image */}
-        <div className="relative w-full overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
+        <div className="relative w-auto overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
           <Image
             src={image}
             alt={title}
             fill
-            sizes="(max-width: 640px) 100vw, 33vw"
-            className="object-cover"
           />
           <div
-            className="absolute bottom-0 left-0 right-0 px-4 py-4"
+            className="absolute bottom-0 left-0 right-0 p-3 md:p-3 lg:p-3.5"
             style={{
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
@@ -234,7 +232,7 @@ function FeatureCard({
               borderBottomRightRadius: 14,
             }}
           >
-            <p className="text-[13px] leading-5 text-white">{description}</p>
+            <p className="text-[12px] md:text-[14px] lg:text-[16px] leading-4.5 md:leading-5 lg:leading-5.5 text-white">{description}</p>
           </div>
         </div>
       </div>
@@ -275,15 +273,13 @@ export default function HowItWorksNew() {
             <motion.div
               variants={slideLeft}
               custom={0.1}
-              className="relative w-full overflow-hidden rounded-[20px] lg:w-[44%] lg:shrink-0"
-              style={{ minHeight: 340 }}
+              className="flex items-center justify-center overflow-hidden rounded-[20px] lg:w-[44%] lg:shrink-0"
             >
               <Image
-                src="/facial-recognition/how-it-works-left.png"
+                src="/facial-recognition/how-it-works.webp"
                 alt="Facial recognition scan"
-                fill
-                sizes="(max-width: 1024px) 100vw, 44vw"
-                className="object-cover"
+                width={520}
+                height={350}
               />
             </motion.div>
 
@@ -297,13 +293,15 @@ export default function HowItWorksNew() {
 
           {/* Bottom: 3 feature cards */}
           <motion.div
-            className="mt-12 grid grid-cols-1 gap-10 sm:gap-8 sm:grid-cols-3 lg:mt-30"
+            className="mt-20 flex flex-wrap justify-center gap-x-8 gap-y-16"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
           >
             {CARDS.map(({ key, title, icon, image, description }, i) => (
-              <FeatureCard key={key} title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />
+              <div key={key} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)]">
+                <FeatureCard title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />
+              </div>
             ))}
           </motion.div>
 

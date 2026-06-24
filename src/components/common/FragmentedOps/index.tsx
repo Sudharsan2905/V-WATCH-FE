@@ -110,7 +110,7 @@ function ResultsCard() {
     <motion.div
       variants={wipeBottom}
       custom={RESULTS_START}
-      className="relative max-w-[380px] min-h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] lg:flex-1"
+      className="relative max-w-[380px] min-h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] md:w-[440px] md:max-w-[520px] md:self-center lg:w-auto lg:max-w-none lg:self-stretch lg:flex-1"
     >
       <motion.h3 variants={wipeTop} custom={RESULTS_START + 0.1} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
       <ul className="mt-[14px] flex flex-col gap-4">
@@ -176,7 +176,7 @@ export default function FragmentedOps() {
 
         <div className="mt-10 flex flex-col items-stretch gap-8 lg:flex-row lg:items-center lg:gap-[40px]">
           {/* Left: fragmented cards — primary content, grows to fill */}
-          <div className="flex w-full flex-col gap-9 lg:flex-1">
+          <div className="flex w-full flex-col gap-9 px-0 lg:px-0 md:px-20 lg:flex-1 ">
             {FRAG_CARDS.map((c, i) => (
               <FragCard key={c.text} {...c} index={i} />
             ))}
@@ -185,7 +185,7 @@ export default function FragmentedOps() {
           {/* Middle: connected-core render — compact, fixed-size supporting square */}
           <motion.div
             variants={loadIn}
-            className="relative mx-auto aspect-square w-full max-w-[340px] shrink-0 overflow-hidden rounded-[20px] max-h-[338px] lg:mx-0 lg:w-[340px] lg:max-w-none"
+            className="relative mx-auto aspect-square w-full max-w-[440px] shrink-0 overflow-hidden rounded-[20px] max-h-[338px] lg:mx-0 lg:w-[340px] lg:max-w-none"
           >
             <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="340px" className="object-cover" />
           </motion.div>
