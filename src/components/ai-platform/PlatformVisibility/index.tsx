@@ -51,7 +51,7 @@ const STEPS: Step[] = [
 export default function PlatformVisibility() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative z-10 px-6 pb-20 pt-16 lg:px-[60px]">
+    <section className="relative z-10 px-6 pt-8 lg:pt-16 lg:pb-20 lg:px-[60px]">
       {/* Curved top — carves the dark hero into a downward dip above this section.
           Anchored to the section's top edge (bottom-full) so the curve position is
           independent of section height — otherwise tall mobile layouts push the dip
@@ -97,7 +97,7 @@ export default function PlatformVisibility() {
                     key={step.num}
                     variants={stepItem}
                     custom={STEPS_START + i * STEP_STAGGER}
-                    className="relative flex items-center gap-5 rounded-[16px] bg-white py-2 pl-[68px] pr-6 shadow-[0_14px_34px_-12px_rgba(150,190,230,0.55)]"
+                    className="relative flex items-center gap-5 py-2 pl-[68px] pr-6 rounded-2xl bg-white shadow-[0_14px_34px_-12px_rgba(150,190,230,0.55)] lg:-mr-16 lg:rounded-none lg:[background:linear-gradient(to_right,#ffffff_0%,#ffffff_75%,rgba(255,255,255,0)_100%)]"
                   >
                     {/* Number badge — overhangs the card's left edge */}
                     <span className="absolute left-0 top-1/2 flex h-14 w-10 -translate-x-[38%] -translate-y-1/2 items-center justify-center rounded-full border border-white bg-white text-[20px] font-extrabold text-[#0A4B6E] shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_30px_0px_#FFFFFF33_inset,4px_1px_6px_0px_#21B1F133]">
