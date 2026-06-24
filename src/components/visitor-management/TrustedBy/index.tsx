@@ -49,7 +49,7 @@ function LogoMark({ name }: Readonly<{ name: string }>) {
       height={38}
       // 108 × 38 box (Figma logo size); object-contain fits each logo without
       // stretching, regardless of its own aspect ratio.
-      className="h-[38px] w-[108px] object-contain"
+      className="h-[38px] w-[108px] object-contain [filter:grayscale(1)]" 
     />
   );
 }
@@ -107,11 +107,11 @@ function BrickRow({
   );
 }
 
-export default function TrustedBy() {
+export default function TrustedBy({ trustTitle, trustText }: { trustTitle: string; trustText: string }) {
   return (
     <section className="relative rounded-t-[48px] bg-[linear-gradient(180deg,#D8EBF6_0%,#EAF5FC_20%,#F5FBFF_50%)] px-5 pt-20 pb-20 sm:px-8 lg:px-[60px]">
       <motion.div
-        className="mx-auto flex w-full max-w-[1154px] flex-col gap-12 lg:gap-20"
+        className="mx-auto flex w-full max-w-[1280px] flex-col gap-12 lg:gap-20"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}
@@ -122,21 +122,20 @@ export default function TrustedBy() {
             variants={wipeTop}
             className="text-[22px] font-bold leading-[1.1] text-[#0A4B6E] sm:text-[26px] sm:leading-none"
           >
-            Trusted by teams operating in high-security environments
+            {trustTitle}
           </motion.h2>
           <motion.p
             variants={wipeTop}
             custom={0.12}
             className="text-[16px] font-normal leading-[1.4] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]"
           >
-            From construction sites to critical facilities, organisations rely on
-            V-Watch Ai to manage visitor access securely and efficiently.
+            {trustText}
           </motion.p>
         </div>
 
         {/* ── Brick wall (desktop) — rows touch; the mortar gaps come from
             each card sitting centered inside its larger 194×104 slot. ── */}
-        <div className="relative hidden lg:block">
+        <div className="relative hidden lg:flex">
           <div className="flex flex-col">
             <BrickRow cards={ROW_TOP} inset startDelay={0.1} />
             <BrickRow cards={ROW_MID} startDelay={0.25} />

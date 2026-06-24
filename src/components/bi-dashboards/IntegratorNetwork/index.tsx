@@ -209,15 +209,19 @@ const PANEL_CLASS =
 // step. Reused by the desktop right column and the inline mobile panel.
 function DetailContent({ current }: Readonly<{ current: Step }>) {
   return (
-    <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
+    <div className="flex w-full flex-col gap-6 min-[1300px]:flex-row min-[1300px]:items-stretch min-[1300px]:gap-8">
       {/* Copy */}
       <div className="flex flex-1 flex-col gap-4">
-        <span className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-[16px] font-extrabold text-white">
-          {current.num}
-        </span>
-        <h3 className="text-[20px] font-bold leading-[27px] text-[#0A4B6E]">
-          {current.title}
-        </h3>
+        {/* Below 1300px (incl. tablet): number badge left, heading right on one
+            row. From 1300px up: badge stacked above the heading. */}
+        <div className="flex flex-row items-center gap-4 min-[1300px]:flex-col min-[1300px]:items-start">
+          <span className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-[16px] font-extrabold text-white">
+            {current.num}
+          </span>
+          <h3 className="text-[20px] font-bold leading-[27px] text-[#0A4B6E]">
+            {current.title}
+          </h3>
+        </div>
 
         <div className="flex flex-col gap-3">
           {current.body.map((para) => (
@@ -274,8 +278,9 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
         )}
       </div>
 
-      {/* Operations visual */}
-      <div className="w-full lg:w-[300px] lg:shrink-0">
+      {/* Operations visual — centered below the copy under 1300px; fixed-width
+          right column from 1300px up. */}
+      <div className="mx-auto w-full max-w-[460px] min-[1300px]:mx-0 min-[1300px]:w-[300px] min-[1300px]:max-w-none min-[1300px]:shrink-0">
         <OpsVisual caption={current.caption} />
       </div>
     </div>
@@ -337,7 +342,11 @@ export default function IntegratorNetwork() {
 
         <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
           {/* Left: step list + section pointer */}
-          <motion.div variants={slideFromLeft} className="relative lg:w-[400px] lg:shrink-0">
+          <motion.div variants={slideFromLeft} className="lg:w-[400px] lg:shrink-0">
+            {/* Wrapper sizes to the step list so the pointer track tracks the
+                list height — not the stretched column (which grows to match the
+                taller right panel and would otherwise inflate the thumb). */}
+            <div className="relative">
             <ul className="flex flex-col gap-1.5 rounded-[20px] border border-[#E1EFF9] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(244,250,255,0.7))] p-3">
               {STEPS.map((step, i) => {
                 const isActive = i === active;
@@ -417,6 +426,7 @@ export default function IntegratorNetwork() {
                 className="absolute left-1/2 w-2 -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] shadow-[0_0_10px_rgba(33,177,241,0.65)] cursor-grab active:cursor-grabbing select-none transition-[top,height] duration-300"
                 style={{ top: `calc(${active * 20}% + 10px)`, height: "calc(20% - 20px)" }}
               />
+            </div>
             </div>
           </motion.div>
 

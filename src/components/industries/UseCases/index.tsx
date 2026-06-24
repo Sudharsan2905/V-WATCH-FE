@@ -46,13 +46,13 @@ function Card({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="snap-start rounded-[20px] bg-white p-1.5 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)]"
+      className="snap-start h-75.5 w-68.75 rounded-[30px] border-2 border-white/70 bg-white/50 p-2 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)] backdrop-blur-[6px]"
     >
-      <div className="relative aspect-[256/282] overflow-hidden rounded-[15px]">
+      <div className="relative h-full w-full overflow-hidden rounded-[20px]">
         <Image src={image} alt="" fill sizes="(max-width:1024px) 50vw, 23vw" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,20,35,0.9)] via-[rgba(8,20,35,0.28)] to-transparent" />
-        <div className="absolute rounded-[20px] inset-x-0 bottom-0 flex flex-col gap-1.5 p-4 backdrop-blur-[4px]">
-          <p className="text-[17px] font-bold leading-[21px] text-white">{title}</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,20,35,0.92)] via-[rgba(8,20,35,0.30)] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1.5 p-5">
+          <p className="text-[18px] font-bold leading-[22px] text-white">{title}</p>
           <p className="text-[13px] leading-[18px] text-white/85">{desc}</p>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function UseCases({
     <MotionConfig reducedMotion="user">
       <section
         className="relative z-10 -mt-8 overflow-hidden rounded-t-[38px] px-6 py-16 lg:-mt-12 lg:rounded-t-[50px] lg:px-[60px]"
-        style={{ background: "linear-gradient(160deg, #E8F3FD 0%, #F5FAF2 100%)" }}
+        style={{ background: "linear-gradient(90deg, #E0F0FC 0%, #ECF6FE 45%, #EEF7E9 100%)" }}
       >
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-10"
@@ -189,7 +189,7 @@ export default function UseCases({
 
               <div
                 ref={scrollRef}
-                className="grid min-w-0 flex-1 snap-x snap-mandatory grid-flow-col auto-cols-[100%] gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:auto-cols-[calc((100%-20px)/2)] lg:auto-cols-[calc((100%-60px)/4)]"
+                className="grid min-w-0 flex-1 snap-x snap-mandatory grid-flow-col auto-cols-max gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {cards.map((c, i) => (
                   <Card

@@ -64,9 +64,11 @@ function FeatureCard({
       <div
         className="flex h-full flex-col gap-2.5 rounded-[20px] p-4"
         style={{
-          background: "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
+          background:
+            "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
           border: "1px solid transparent",
-          boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
+          boxShadow:
+            "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
         {/* Icon stack: ellipse base → blue circle → shifted icon card */}
@@ -76,7 +78,8 @@ function FeatureCard({
             className="absolute inset-0"
             style={{
               borderRadius: "100px",
-              background: "linear-gradient(180deg, rgba(184,230,255,0.8) 0%, rgba(193,236,255,0.8) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(184,230,255,0.8) 0%, rgba(193,236,255,0.8) 100%)",
             }}
           />
           {/* 2. Blue circle — shifted toward left */}
@@ -84,7 +87,8 @@ function FeatureCard({
             className="absolute top-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               left: "calc(50% - 8px)",
-              background: "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
+              background:
+                "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
               boxShadow: "0 4px 14px rgba(26,143,206,0.32)",
             }}
           />
@@ -97,7 +101,13 @@ function FeatureCard({
               border: "2px solid rgba(255,255,255,0.85)",
             }}
           >
-            <Image src={icon} alt="" width={24} height={24} className="object-contain" />
+            <Image
+              src={icon}
+              alt=""
+              width={24}
+              height={24}
+              className="object-contain"
+            />
           </div>
         </div>
 
@@ -115,10 +125,10 @@ export default function ComplianceControl() {
       {/* Full-width section — rounded top only to overlap hero, no side/bottom margins, no shadow */}
       <section className="relative z-10 -mt-8 lg:-mt-16">
         <div
-          className="overflow-hidden rounded-t-[28px]"
+          className="overflow-hidden rounded-t-[28px] px-6 lg:px-[60px]"
           style={{ background: "#EDF7FF" }}
         >
-          <div className="mx-auto max-w-330 px-6 py-8 sm:px-8 sm:py-8 lg:px-15 lg:py-10">
+          <div className="mx-auto max-w-[1280px] w-full py-8  sm:py-10">
             {/* Section header */}
             <motion.div
               initial="hidden"
@@ -187,8 +197,8 @@ export default function ComplianceControl() {
                       "inset 0 0 0 1.5px rgba(100,196,255,0.45), inset 0 0 32px rgba(33,177,241,0.12)",
                   }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-[rgba(5,10,35,0.90)] via-[rgba(5,10,35,0.55)] to-transparent p-5 pt-20">
-                  <p className="text-center text-[14px] font-bold leading-5.5 text-white sm:text-[15px] sm:leading-6">
+                <div className="max-h-[64px] h-[64px] w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 p-[10px] backdrop-blur-[2px] leading-[100%]">
+                  <p className="w-[462px] text-center text-[18px] font-bold leading-none text-white">
                     No spreadsheets. No missed renewals.
                     <br />
                     No unauthorised entry.

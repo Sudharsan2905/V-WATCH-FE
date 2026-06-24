@@ -243,14 +243,14 @@ export const constructionContent = {
         desc: "Ensure every third-party worker meets safety requirements.",
       },
       {
-        image: "/industries/construction/critical-construction/restricted zones.png",
-        title: "Geofencing Restricted Zones",
-        desc: "Detect unauthorized movement across restricted site zones.",
-      },
-      {
         image: "/industries/construction/critical-construction/emergency_count.png",
         title: "Real-Time Headcount & Emergency Muster",
         desc: "Track safety, missing, and onsite personnel during emergencies.",
+      },
+      {
+        image: "/industries/construction/critical-construction/restricted zones.png",
+        title: "Geofencing Restricted Zones",
+        desc: "Detect unauthorized movement across restricted site zones.",
       },
       {
         image: "/industries/construction/critical-construction/visitor_management.png",

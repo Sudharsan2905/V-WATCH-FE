@@ -32,7 +32,8 @@ export default function VisitorManagementPage() {
       <HeroSection />
       <SmarterWay />
       <HowItWorks />
-      <TrustedBy />
+      <TrustedBy trustTitle="Trusted by teams operating in high-security environments" trustText="From construction sites to critical facilities, organisations rely on
+            V-Watch Ai to manage visitor access securely and efficiently." />
       <Footer
         ctaTitle="Take control of your visitor access"
         ctaText="See how V-Watch Ai helps you streamline visitor management, improve security, and maintain full visibility across your operations."

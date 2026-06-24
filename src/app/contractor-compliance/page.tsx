@@ -3,8 +3,9 @@ import PageHero from "@/components/common/PageHero";
 import ComplianceControl from "@/components/contractor-compliance/ComplianceControl";
 import HowItWorks from "@/components/contractor-compliance/HowItWorks";
 import ConnectedSystem from "@/components/contractor-compliance/ConnectedSystem";
-import TrustedBy from "@/components/contractor-compliance/TrustedBy";
+
 import Footer from "@/components/layout/Footer";
+import TrustedBy from "@/components/visitor-management/TrustedBy";
 
 const FOOTER_COLUMNS = [
   {
@@ -31,7 +32,8 @@ export default function ContractorCompliancePage() {
       <ComplianceControl />
       <HowItWorks />
       <ConnectedSystem />
-      <TrustedBy />
+      {/* <TrustedBy /> */}
+      <TrustedBy trustTitle="Trusted in environments where compliance is critical " trustText="From construction sites to industrial facilities, organisations rely on V-Watch AI to ensure every worker meets safety and regulatory requirements. " />
       <Footer
         ctaTitle="Stay compliant. Stay in control."
         ctaText="See how V-Watch Ai helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."
