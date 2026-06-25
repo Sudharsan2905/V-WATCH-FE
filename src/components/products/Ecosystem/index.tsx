@@ -109,7 +109,7 @@ export default function Ecosystem() {
             <div className="flex w-full flex-col gap-[30px] lg:w-[482px] lg:h-[372px]">
               <motion.div
                 variants={fadeUp}
-                className="flex items-center gap-3.5"
+                className="flex items-center gap-3.5 mt-6 px-4 lg:mt-0 lg:px-0"
               >
                 <IconBox src="/products/eco/icon-integrators.svg" />
                 <p className="flex-1 text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
@@ -167,7 +167,7 @@ export default function Ecosystem() {
               </motion.div>
               <motion.div
                 variants={calloutReveal}
-                className="absolute bottom-2 left-0 flex h-[60px] w-full max-w-[633px] items-center gap-3.5 rounded-l-[40px] rounded-r-[16px] border border-white/60 bg-[linear-gradient(180deg,rgba(184,230,255,0.6),rgba(193,236,255,0.6))] py-px pl-px pr-[14px] shadow-[0_1px_2px_0_rgba(184,230,255,0.5),inset_0_-6px_23px_rgba(212,240,255,0.24)] backdrop-blur-[10px]"
+                className="absolute bottom-2 left-0 flex min-h-[60px] w-full max-w-[633px] items-center gap-3.5 rounded-l-[40px] rounded-r-[16px] border border-white/60 bg-[linear-gradient(180deg,rgba(184,230,255,0.6),rgba(193,236,255,0.6))] py-2 pl-px pr-[14px] shadow-[0_1px_2px_0_rgba(184,230,255,0.5),inset_0_-6px_23px_rgba(212,240,255,0.24)] backdrop-blur-[10px]"
               >
                 <span className="flex size-[58px] shrink-0 items-center justify-center rounded-full border-[1.25px] border-white bg-[linear-gradient(180deg,rgba(184,230,255,0.6),rgba(193,236,255,0.6))]">
                   <Image

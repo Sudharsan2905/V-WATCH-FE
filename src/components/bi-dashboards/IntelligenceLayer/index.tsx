@@ -201,11 +201,11 @@ export default function IntelligenceLayer() {
         </motion.header>
 
         {/* Two-column layout */}
-        <div className="relative mt-10 lg:h-[480px]">
+        <div className="relative mt-10 xl:h-[480px]">
           {/* Soft center glow */}
           <svg
             aria-hidden
-            className="pointer-events-none absolute left-[75%] top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
+            className="pointer-events-none absolute left-[75%] top-1/2 hidden -translate-x-1/2 -translate-y-1/2 xl:block"
             width="615"
             height="534"
             viewBox="0 0 615 534"
@@ -225,19 +225,23 @@ export default function IntelligenceLayer() {
           {/* Power BI visual */}
           <motion.div
             variants={slideFromLeft}
-            className="flex items-center justify-center lg:absolute lg:left-0 lg:top-1/2 lg:w-[68%] lg:-translate-y-1/2 lg:justify-start"
+            className="flex items-center justify-center xl:absolute xl:left-0 xl:top-1/2 xl:w-[68%] xl:-translate-y-1/2 xl:justify-start"
           >
             <Image
               src="/bi-dashboards/intelligence-layer.svg"
               alt="Operational data consolidating into a Power BI intelligence layer"
               width={487}
               height={362}
-              className="h-auto w-full object-contain lg:h-[445px] lg:w-auto"
+              className="h-auto w-full object-contain xl:h-[445px] xl:w-auto"
             />
           </motion.div>
 
           {/* Feature cards */}
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-[54%] lg:-translate-y-1/2 lg:gap-x-10 lg:gap-y-8">
+          <div className="mt-8 flex flex-col gap-5 xl:absolute xl:right-0 xl:top-1/2 xl:mt-0 xl:w-[54%] xl:-translate-y-1/2">
+            <motion.p variants={fadeUp} custom={CARDS_START - 0.05} className="text-[20px] font-semibold text-[#006F9F]">
+              This allows you to
+            </motion.p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-x-10 lg:gap-y-8">
             {FEATURES.map((f, i) => (
               <motion.div
                 key={f.label}
@@ -256,6 +260,7 @@ export default function IntelligenceLayer() {
                 </p>
               </motion.div>
             ))}
+          </div>
           </div>
         </div>
       </motion.div>

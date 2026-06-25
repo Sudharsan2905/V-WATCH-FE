@@ -43,7 +43,7 @@ type CopyProps = {
   ghost: string;
   title: string;
   body: string;
-  listHeading: string;
+  listHeading?: string;
   items: string[];
   /** When the column sits on the right (reversed row), fade the white toward the left. */
   reverse?: boolean;
@@ -75,7 +75,7 @@ function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, m
       <p className="max-w-[520px] text-[17px] font-normal leading-[26px] text-[#0A4B6E]">
         {body}
       </p>
-      <p className="mt-1 text-[17px] font-bold text-[#0A4B6E]">{listHeading}</p>
+      {listHeading && <p className="mt-1 text-[17px] font-bold text-[#0A4B6E]">{listHeading}</p>}
       <ul className="flex flex-col gap-3">
         {items.map((it) => (
           <CheckBullet key={it} text={it} />
@@ -251,7 +251,6 @@ export default function DashboardShowcase() {
             ghost="Power BI Data"
             title="Built on real-time data across your entire platform"
             body="The BI layer is powered by data captured across V-Watch Ai."
-            listHeading="Connected sources"
             items={[
               "Workforce and attendance",
               "Access and identity systems",

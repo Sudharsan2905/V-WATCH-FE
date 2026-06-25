@@ -26,7 +26,6 @@ export default function ContactUsPage() {
         ctaText="If you're evaluating solutions or ready to explore implementation, we recommend booking a demo for a more detailed session."
         linkColumns={CONTACT_COLUMNS}
         ctaVariant="light"
-        isBookADemoVisible={false}
       />
     </div>
   );

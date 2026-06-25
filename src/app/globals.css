@@ -8,11 +8,27 @@
 /* Smooth in-page navigation (e.g. Hero "See How It Works" -> FeatureGrid). */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 /* Auto-advancing accordion progress bar (products CapabilityTabs).
    Animate transform (GPU-composited, no per-frame layout) instead of width
    so the fill is smooth on the very first run. */
+/* Technology Partners marquee rows */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
 @keyframes progressGrow {
   from {
     transform: translateX(-100%);

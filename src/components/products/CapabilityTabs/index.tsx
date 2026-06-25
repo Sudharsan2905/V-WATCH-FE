@@ -243,7 +243,7 @@ export default function CapabilityTabs() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-white px-6 py-6 lg:py-20 lg:px-[60px]">
+    <section className="relative overflow-hidden bg-white px-6 py-6 lg:py-20 lg:px-[60px] -mt-px">
       <div
         ref={sectionRef}
         className="relative z-10 mx-auto flex items-center w-full max-w-[1410px] flex-col gap-10"
@@ -251,7 +251,7 @@ export default function CapabilityTabs() {
         <LayoutGroup>
           <motion.div
             ref={tabScrollerRef}
-            className="flex h-14 w-full items-center gap-2.5 overflow-x-auto rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex h-14 w-full items-center gap-2.5 overflow-x-auto overflow-y-hidden rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             variants={tabBarVariant}
             initial="hidden"
             animate={inView ? "show" : "hidden"}

@@ -34,7 +34,7 @@ export default function SectionHeader({
 }: Readonly<Props>) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className={`${background} px-6 py-0 md:py-10 lg:px-[60px] ${className}`}>
+      <div className={`${background} px-6 py-0 pt-12 md:pb-10 lg:pt-0 lg:px-[60px] ${className}`}>
         <motion.header
           variants={fadeUp}
           initial="hidden"
@@ -45,11 +45,11 @@ export default function SectionHeader({
           <h2 className={`text-[26px] font-bold leading-none ${titleClassName}`}>
             {title}
           </h2>
-          {/* {subtitle && (
-            <p className={`text-[20px] font-normal leading-7 w-[775px] ${subtitleClassName}`}>
+          {subtitle && (
+            <p className={`text-[20px] font-normal leading-7 w-full md:w-[775px] ${subtitleClassName}`}>
               {subtitle}
             </p>
-          )} */}
+          )}
         </motion.header>
       </div>
     </MotionConfig>

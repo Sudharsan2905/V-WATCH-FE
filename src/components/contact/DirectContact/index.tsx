@@ -56,7 +56,7 @@ export default function DirectContact() {
               centered with a slight upward offset per Figma (top:50% - 563/2 - 20.5). */}
           <motion.div
             variants={formRight}
-            className="mt-6 lg:absolute lg:right-[45px] lg:top-1/2 lg:mt-0 lg:-translate-y-[calc(50%+20px)]"
+            className="mt-6 xl:absolute xl:right-[45px] xl:top-1/2 xl:mt-0 xl:-translate-y-[calc(50%+20px)]"
           >
             <ContactForm />
           </motion.div>
@@ -66,7 +66,7 @@ export default function DirectContact() {
           <motion.p
             variants={fadeUp}
             custom={0.4}
-            className="mt-6 flex items-center gap-2 text-[14px] font-bold leading-[20px] text-[#0A8EC8] lg:mt-5"
+            className="mt-6 flex items-center gap-2 text-[14px] font-bold leading-[20px] text-[#0A8EC8] xl:mt-5"
           >
             <span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border border-[#0A8EC8]">
               <svg
