@@ -258,7 +258,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`relative flex w-full flex-col items-center gap-5 rounded-[36px] bg-white p-5 ${CARD_SHADOW} lg:h-[563px] lg:w-[548px]`}
+      className={`relative flex w-full flex-col items-center gap-5 rounded-[36px] bg-white p-5 ${CARD_SHADOW} xl:h-[563px] xl:w-[548px]`}
     >
       <h3 className="text-center text-[20px] font-bold leading-[25px] text-[#0A4B6E] sm:text-[24px] sm:leading-[29px]">
         Send us a message

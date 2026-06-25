@@ -329,13 +329,23 @@ function ToggleRings({ className }: { className?: string }) {
   );
 }
 
+const CALLOUT_WIDTH = 376;
+
 function CalloutCard({ className }: { className?: string }) {
+  const mobileScale = Math.min(1, 270 / CALLOUT_WIDTH);
+  const mobileMargin = -(CALLOUT_WIDTH * (1 - mobileScale)) / 2;
+
   return (
-    <div className={`relative h-[111px] w-[376px] ${className ?? ""}`}>
-      {/* Card shape — rounded body with a curved tab cut into the top-left for
-          the badge. Exact Figma vector; the SVG carries the gradient border and
-          layered glassy shadows. The card art sits at (290,236) inside the
-          876×611 canvas, so the image is offset to land at the container origin. */}
+    <div
+      className={`relative h-[111px] origin-center scale-(--pill-scale) mx-(--pill-mx) sm:mx-0 sm:scale-100 ${className ?? ""}`}
+      style={
+        {
+          width: CALLOUT_WIDTH,
+          "--pill-scale": mobileScale,
+          "--pill-mx": `${mobileMargin}px`,
+        } as Record<string, string | number>
+      }
+    >
       <Image
         src="/industry/challenges/callout-card.svg"
         alt=""
@@ -347,7 +357,6 @@ function CalloutCard({ className }: { className?: string }) {
         style={{ left: -282, top: -236, maxWidth: "none" }}
       />
 
-      {/* Bot badge — nestles in the curved top-left tab, rising above the body */}
       <Image
         src="/industry/callout-logo.svg"
         alt=""
@@ -357,8 +366,7 @@ function CalloutCard({ className }: { className?: string }) {
         className="absolute bottom-1.5 left-4 drop-shadow-[0_10px_22px_rgba(120,170,205,0.35)]"
       />
 
-      {/* Callout text — in the card body, to the right of the badge */}
-      <div className="absolute left-[88px] top-[35px] flex h-[76px] items-center pr-5">
+      <div className="absolute left-[88px] top-[35px] flex h-[76px] items-center pr-5" style={{ width: CALLOUT_WIDTH - 94 }}>
         <p className="text-[15px] font-bold leading-[21px] text-[#314158]">
           When systems are fragmented, control is limited and risks increase.
         </p>

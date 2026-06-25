@@ -44,7 +44,7 @@ function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
   const align = isTall ? "items-start" : "items-center";
   return (
     <div
-      className={`relative flex w-full ${align} gap-3 rounded-[16px] p-2 shadow-[inset_-4px_-4px_6px_rgba(255,255,255,0.1)] transition-colors hover:brightness-110 lg:w-[490px] ${isTall ? "lg:h-[106px]" : "lg:h-[64px]"}`}
+      className={`relative flex w-full ${align} gap-3 rounded-[16px] p-2 shadow-[inset_-4px_-4px_6px_rgba(255,255,255,0.1)] transition-colors hover:brightness-110 xl:w-[490px] ${isTall ? "xl:h-[106px]" : "xl:h-[64px]"}`}
       style={{
         background:
           "linear-gradient(92.69deg, rgba(255,255,255,0.03) 6.01%, rgba(255,255,255,0.07) 90.83%)",
@@ -82,7 +82,7 @@ function TileContent({ icon, label, value, isTall }: Readonly<TileProps>) {
 
 export default function ContactInfoPanel() {
   return (
-    <div className="relative overflow-hidden rounded-[32px] px-6 py-8 sm:px-10 lg:h-[350px] lg:px-10 lg:pb-20 lg:pt-10">
+    <div className="relative overflow-hidden rounded-[32px] px-6 py-8 sm:px-10 lg:px-10 lg:pb-10 lg:pt-10 xl:h-[350px] xl:pb-20">
       {/* Banner background — replaces the previous layered gradient + wave SVG. */}
       <Image
         src="/book-a-demo/BackBanner.webp"
@@ -93,7 +93,7 @@ export default function ContactInfoPanel() {
       />
 
       {/* Tiles — stacked vertically; left side of panel so form sits beside them on lg */}
-      <div className="relative z-10 flex max-w-full flex-col gap-5 lg:max-w-[490px]">
+      <div className="relative z-10 flex max-w-full flex-col gap-5 xl:max-w-[490px]">
         {TILES.map((t) => {
           const isTall = t.label === "Office";
           const isExternal = t.href?.startsWith("http");

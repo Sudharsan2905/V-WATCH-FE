@@ -113,8 +113,7 @@ export default function ProductsHero({
               fill
               priority
               sizes="100vw"
-              className="object-cover"
-              style={{ objectPosition: imageObjectPosition }}
+              className="object-cover object-[60%_center] sm:object-center"
             />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />

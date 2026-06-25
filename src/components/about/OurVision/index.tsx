@@ -3,7 +3,17 @@
 import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { fadeUp, fadeIn, wipeTop, staggerContainer, viewportReveal } from "../anim";
+import { fadeUp, fadeIn, wipeTop, zoomIn, staggerContainer, viewportReveal, EASE } from "../anim";
+
+const slideFromLeft: import("motion/react").Variants = {
+  hidden: { opacity: 0, x: -60 },
+  show: (delay = 0) => ({ opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE, delay } }),
+};
+
+const slideFromRight: import("motion/react").Variants = {
+  hidden: { opacity: 0, x: 60 },
+  show: (delay = 0) => ({ opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE, delay } }),
+};
 
 const ICONS = [
   { src: "/about/vision-icon-people.webp", label: "People" },
@@ -141,7 +151,7 @@ export default function OurVision() {
       {/* Desktop layout — contained within max-width, dark card at container left-0 */}
       <motion.div
         ref={frameRef}
-        variants={fadeIn}
+        variants={staggerContainer}
         initial="hidden"
         whileInView="show"
         viewport={viewportReveal}
@@ -155,7 +165,7 @@ export default function OurVision() {
           style={{ transform: `scale(${scale})` }}
         >
           {/* Faint splaying arrows (up + down) behind the target — Figma node 1043:2286 */}
-          <div className="absolute right-[457px] top-1/2 -translate-y-1/2 w-[1045px] pointer-events-none">
+          <motion.div variants={slideFromLeft} custom={0.1} className="absolute right-[457px] top-1/2 -translate-y-1/2 w-[1045px] pointer-events-none">
             <svg
               width="100%"
               viewBox="0 0 1044.88 414.537"
@@ -174,9 +184,9 @@ export default function OurVision() {
                 fill="#29A9E1"
               />
             </svg>
-          </div>
+          </motion.div>
           {/* Right target graphic */}
-          <div className="absolute right-[0px] inset-y-0 w-[480px] pointer-events-none">
+          <motion.div variants={zoomIn} custom={0.2} className="absolute right-[0px] inset-y-0 w-[480px] pointer-events-none">
             <Image
               src="/about/vision-bg-right.png"
               alt=""
@@ -184,7 +194,7 @@ export default function OurVision() {
               className="object-contain object-right"
               sizes="480px"
             />
-          </div>
+          </motion.div>
           {/* Fade gradient to blend dark card edge */}
           <div
             className="absolute inset-y-0 left-[480px] w-[280px] pointer-events-none"
@@ -199,7 +209,9 @@ export default function OurVision() {
             (2) blue gradient #1B75BB → #2C3460 at 10% opacity, top→bottom, BEHIND;
             (3) inner shadow — rgb(126,207,250) @ 31%, offset right + heavily blurred,
                 reading as a soft blue glow on the card's left side. */}
-          <div
+          <motion.div
+            variants={slideFromRight}
+            custom={0.3}
             className="absolute top-1/2 -translate-y-1/2 right-[4.5%] w-[260px] rounded-[24px] p-[20px]"
             style={{
               background:
@@ -215,10 +227,10 @@ export default function OurVision() {
               To help organisations move from fragmented management to complete
               operational intelligence.
             </p>
-          </div>
+          </motion.div>
 
           {/* Dark card — starts at container left (left-0) */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-[419px] w-[592px] rounded-tr-[46px] rounded-br-[46px] overflow-hidden">
+          <motion.div variants={slideFromLeft} custom={0.15} className="absolute left-0 top-1/2 -translate-y-1/2 h-[419px] w-[592px] rounded-tr-[46px] rounded-br-[46px] overflow-hidden">
             {/* Card background image — Figma Frame 2147231126 (592×419) */}
             <Image
               src="/Frame 2147231126.webp"
@@ -342,10 +354,10 @@ export default function OurVision() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Main solid arrow into the target — Figma node 1043:2354 (on top, tail fades into card) */}
-          <div className="absolute right-[444px] top-1/2 -translate-y-1/2 w-[1041px] h-[92px] pointer-events-none">
+          <motion.div variants={slideFromLeft} custom={0.25} className="absolute right-[444px] top-1/2 -translate-y-1/2 w-[1041px] h-[92px] pointer-events-none">
             <Image
               src="/about/vision-main-arrow.svg"
               alt=""
@@ -353,7 +365,7 @@ export default function OurVision() {
               className="object-fill"
               sizes="1041px"
             />
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </section>
