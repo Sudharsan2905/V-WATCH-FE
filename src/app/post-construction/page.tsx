@@ -13,6 +13,7 @@ export default function PostConstructionPage() {
     unifiedPlatform,
     longTermSecurity,
     criticalEnvironments,
+    continuity,
     footer,
   } = postConstructionContent;
 
@@ -25,7 +26,7 @@ export default function PostConstructionPage() {
       <ComplexEnvironments content={criticalEnvironments} />
       {/* Same transition section — its CTA detects this route and toggles back
           to pre-construction. */}
-      <PostConstructionTransition />
+      <PostConstructionTransition content={continuity} />
       <Footer
         ctaTitle={footer.ctaTitle}
         ctaText={footer.ctaText}

@@ -78,7 +78,7 @@ export default function PageHero({
 
         <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
           <motion.div
-            className="flex flex-col justify-center gap-[30px] pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
+            className="flex flex-col justify-center pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"
             animate="show"
           >
@@ -102,7 +102,7 @@ export default function PageHero({
             <motion.p
               variants={copyReveal}
               custom={0.5}
-              className="max-w-140 text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
+              className="max-w-140 mt-[20px]  text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
             >
               {description}
             </motion.p>
@@ -111,7 +111,7 @@ export default function PageHero({
               <motion.div
                 variants={copyReveal}
                 custom={0.65}
-                className="flex flex-wrap items-center gap-4"
+                className="flex mt-[30px] flex-wrap items-center gap-4"
               >
                 {showBookADemo && <BookADemo />}
                 {secondaryCta && (

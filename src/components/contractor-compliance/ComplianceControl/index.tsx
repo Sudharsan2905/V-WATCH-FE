@@ -57,7 +57,7 @@ function FeatureCard({
       custom={delay}
       className="h-full rounded-[20px] p-1.5"
       style={{
-        background: "#ECF6FF",
+        background: "#e5f4fe",
       }}
     >
       {/* Inner card */}
@@ -71,47 +71,88 @@ function FeatureCard({
             "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
-        {/* Icon stack: ellipse base → blue circle → shifted icon card */}
-        <div className="relative h-16 w-24 shrink-0">
-          {/* 1. Ellipse — D-shape (small left radius, full right curve) */}
+        {/* Icon badge — Figma spec: 60×54 pill, blue circle, frosted icon
+            square. All sizes/positions read from the Figma inspector. */}
+        <div className="relative shrink-0 flex justify-center items-center" style={{ width: 60, height: 54 }}>
+          {/* 1. Outer pill — radius 82.4, gradient fill #B8E6FF→#C1ECFF,
+              1.25px white→transparent gradient border (masked ring). */}
           <div
             className="absolute inset-0"
             style={{
-              borderRadius: "100px",
-              background:
-                "linear-gradient(180deg, rgba(184,230,255,0.8) 0%, rgba(193,236,255,0.8) 100%)",
+              borderRadius: 82.4,
+              background: "linear-gradient(180deg, #B8E6FF 0%, #C1ECFF 100%)",
             }}
-          />
-          {/* 2. Blue circle — shifted toward left */}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                borderRadius: 82.4,
+                padding: 1.25,
+                background:
+                  "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0) 100%)",
+                WebkitMask:
+                  "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                maskComposite: "exclude",
+              }}
+            />
+          </div>
+          {/* 2. Blue circle — 41.35×38.4, centred in the pill */}
           <div
-            className="absolute top-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="absolute"
             style={{
-              left: "calc(50% - 8px)",
+              width: '29px',
+              height: '29px',
+              borderRadius: 9999,
               background:
                 "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
               boxShadow: "0 4px 14px rgba(26,143,206,0.32)",
             }}
-          />
-          {/* 3. Rounded-square icon — same left as circle */}
+          >
+          {/* 3. Frosted icon square — 28.55×28.55 at (11.08, 8.4),
+              0.4px white(40%)→transparent gradient border (masked ring). */}
           <div
-            className="absolute top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-[14px]"
+            className="absolute flex items-center justify-center"
             style={{
-              left: "calc(50% - 10px)",
-              background: "transparent",
-              border: "2px solid rgba(255,255,255,0.85)",
+              width: 28.55,
+              height: 28.55,
+              left: '7.08px',
+              top: '5px',
+              borderRadius: 9,
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
             }}
           >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                borderRadius: 9,
+                padding: 0.4,
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)",
+                WebkitMask:
+                  "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                maskComposite: "exclude",
+              }}
+            />
             <Image
               src={icon}
               alt=""
-              width={24}
-              height={24}
+              width={18}
+              height={18}
               className="object-contain"
             />
           </div>
         </div>
+        </div>
 
-        <p className="text-[13px] font-medium leading-5 text-[#314158] sm:text-[14px] sm:leading-5.5">
+        <p className="text-[14px] md:text-[18px] font-medium leading-[24px] text-[#1D293D]">
           {label}
         </p>
       </div>
@@ -146,10 +187,10 @@ export default function ComplianceControl() {
               <motion.p
                 variants={fadeUp}
                 custom={0.2}
-                className="mt-3 max-w-170 text-[15px] leading-6 text-[#314158] sm:text-[16px] sm:leading-6.5"
+                className="mt-3 max-w-[953px] text-[15px] md:text-[20px] leading-6 text-[#0A4B6E]  sm:leading-6.5"
               >
                 V-Watch Ai centralises contractor records, certifications, and
-                safety requirements into one system — automatically tracking
+                safety requirements into one system automatically tracking
                 expiry, enforcing access rules, and eliminating compliance gaps.
               </motion.p>
             </motion.div>
@@ -163,7 +204,7 @@ export default function ComplianceControl() {
             >
               {/* Left: 2×2 feature grid — Figma: 356×356 radial gradient at 50% opacity behind cards */}
               <div
-                className="relative grid grid-cols-2 gap-3 lg:flex-1"
+                className="relative mx-auto grid w-full max-w-[630px] grid-cols-2 gap-3 lg:mx-0 lg:flex-1"
                 style={{
                   background:
                     "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
@@ -175,34 +216,51 @@ export default function ComplianceControl() {
                 ))}
               </div>
 
-              {/* Right: compliance visualization with caption */}
+              {/* Right: compliance visualization — framed card.
+                  Figma: 10px padding, 27.69 radius, 2px #F5FBFF→#FFFFFF
+                  gradient border, #F4FBFF/60 fill, blue glow top/bottom-center */}
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
-                className="relative min-h-65 w-full overflow-hidden rounded-[18px] sm:min-h-80 lg:flex-1"
+                className="relative mx-auto flex h-[240px] w-full max-w-[506px] overflow-hidden sm:h-[316px] lg:mx-0 lg:flex-1"
+                style={{
+                  borderRadius: 27.69,
+                  padding: 10,
+                  background:
+                    "rgba(244,251,255,0.6) padding-box, linear-gradient(180deg, #F5FBFF 0%, #FFFFFF 100%) border-box",
+                  border: "2px solid transparent",
+                  boxShadow: "0 8px 30px rgba(33,177,241,0.16)",
+                }}
               >
-                <Image
-                  src="/contractor-complaince/track.webp"
-                  alt="Compliance management system visualization"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                {/* Glowing glass border over the image */}
+                {/* Blue glow peeking through the 10px padding gap at the
+                    top-center and bottom-center, behind the inner image. */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-[18px]"
-                  style={{
-                    boxShadow:
-                      "inset 0 0 0 1.5px rgba(100,196,255,0.45), inset 0 0 32px rgba(33,177,241,0.12)",
-                  }}
+                  className="pointer-events-none absolute inset-x-0 top-0 z-0 mx-auto h-[26px] w-[45%] -translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
                 />
-                <div className="max-h-[64px] h-[64px] w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 p-[10px] backdrop-blur-[2px] leading-[100%]">
-                  <p className="w-[462px] text-center text-[18px] font-bold leading-none text-white">
-                    No spreadsheets. No missed renewals.
-                    <br />
-                    No unauthorised entry.
-                  </p>
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-[26px] w-[45%] translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
+                />
+
+                {/* Inner image */}
+                <div className="relative z-10 h-full w-full flex-1 overflow-hidden rounded-2xl">
+                  <Image
+                    src="/contractor-complaince/track.webp"
+                    alt="Compliance management system visualization"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+
+                  {/* Caption */}
+                  <div className="absolute bottom-0 w-full flex min-h-16 items-center justify-center rounded-2xl border border-white/30 bg-black/30 px-3 py-2.5 backdrop-blur-[2px] leading-[100%]">
+                    <p className="text-center text-[14px] font-bold leading-tight text-white sm:text-[18px]">
+                      No spreadsheets. No missed renewals.
+                      <br />
+                      No unauthorised entry.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>

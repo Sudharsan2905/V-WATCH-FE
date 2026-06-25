@@ -86,7 +86,7 @@ function StepRow({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-1 items-center gap-4 rounded-[16px] px-5 py-3"
+      className="flex flex-1 items-center gap-4 rounded-[16px] px-5 py-3 h-[78px] max-w-[636px] "
       style={{
         background: "rgb(242, 249, 255)",
         border: "1.5px solid #D6E8F5",
@@ -140,7 +140,7 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative w-full"
+      className="relative w-[367px]"
       style={{ filter: "drop-shadow(0 16px 36px rgba(184,209,236,0.45))" }}
     >
       {/* Header: left piece + SVG notch + right piece */}
@@ -189,16 +189,16 @@ function FeatureCard({
       <div
         className="absolute left-1/2 z-10 flex items-center justify-center overflow-hidden"
         style={{
-          top: -45,
-          width: 86,
-          height: 86,
+          top: -40,
+          width: 64,
+          height: 64,
           transform: "translateX(-50%)",
           background: "rgb(240, 249, 255)",
           borderRadius: 22,
           boxShadow: "0 6px 24px rgba(10,78,110,0.18)",
         }}
       >
-        <Image src={icon} alt={title} width={86} height={86} unoptimized className="w-full h-full" style={{ objectFit: "cover", transform: "scale(4.5) translateY(5%) translateX(0.2%)", transformOrigin: "center"}} />
+        <Image src={icon} alt={title} width={64} height={64} unoptimized className="w-[64px] h-[64px]" style={{ objectFit: "cover", transform: "scale(4.5) translateY(5%) translateX(0.2%)", transformOrigin: "center"}} />
       </div>
 
       {/* Card body */}
@@ -210,7 +210,8 @@ function FeatureCard({
         borderBottom: "1.5px solid #dce9f7",
         borderBottomLeftRadius: 24,
         borderBottomRightRadius: 24,
-        padding: "24px 16px 16px",
+        padding: "24px 10px 10px",
+        maxWidth: "367px",
       }}>
         {/* Title */}
         <p className="text-center mb-4 text-[17px] font-bold text-[#0A4B6E]">{title}</p>
@@ -223,11 +224,11 @@ function FeatureCard({
             fill
           />
           <div
-            className="absolute bottom-0 left-0 right-0 p-3 md:p-3 lg:p-3.5"
+            className="absolute bottom-0 rounded-t-[16px] left-0 right-0 p-3 md:p-3 lg:p-3.5"
             style={{
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              background: "rgba(10, 20, 40, 0.45)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              background: "rgba(10, 20, 40, 0.35)",
               borderBottomLeftRadius: 14,
               borderBottomRightRadius: 14,
             }}
@@ -278,8 +279,8 @@ export default function HowItWorksNew() {
               <Image
                 src="/facial-recognition/how-it-works.webp"
                 alt="Facial recognition scan"
-                width={520}
-                height={350}
+                width={500}
+                height={354}
               />
             </motion.div>
 
@@ -293,13 +294,13 @@ export default function HowItWorksNew() {
 
           {/* Bottom: 3 feature cards */}
           <motion.div
-            className="mt-20 flex flex-wrap justify-center gap-x-8 gap-y-16"
+            className="mt-20 flex flex-wrap justify-center gap-x-[30px] gap-y-16"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
           >
             {CARDS.map(({ key, title, icon, image, description }, i) => (
-              <div key={key} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)]">
+              <div key={key} className="flex w-full justify-center sm:w-auto">
                 <FeatureCard title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />
               </div>
             ))}

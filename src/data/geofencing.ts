@@ -23,12 +23,11 @@ export const geofencingContent = {
     subtitle: "where boundaries matter",
     description:
       "Used across construction, industrial, and high-security operations to enforce zone control and prevent critical incidents.",
-    note: "Trusted to enforce zone control where safety can't be compromised.",
   },
   footer: {
-    ctaTitle: "Set boundaries. Enforce them instantly.",
+    ctaTitle: "Take control of your operational boundaries",
     ctaText:
-      "Define restricted zones, monitor movement in real time, and prevent unauthorized access before it becomes a safety or operational risk.",
+      "See how V-Watch Ai helps you monitor movement, enforce restricted zones, and prevent risks in real time.",
     linkColumns: [
       { heading: "Platform", links: ["Dashboard", "BI Reporting", "System Integrators"] },
       { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },

@@ -118,7 +118,7 @@ function ConnectedBanner({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.4 }}
-      className="mx-auto mt-10 flex h-[60px] w-full max-w-[1140px] items-center justify-center gap-2.5 rounded-[30px] px-2.5"
+      className="mx-auto mt-10 flex min-h-15 w-full max-w-[1140px] items-center justify-center gap-2.5 rounded-[30px] px-2.5 py-3 lg:py-0"
       style={{
         // Fill: centre 70% is light lavender (#CDCDFE), outer 30% fades to white.
         // Border: vertical gradient — light blue (#C1ECFF) on top fading to white
@@ -135,17 +135,17 @@ function ConnectedBanner({
       }}
     >
       {/* Left line fades from transparent (outer) to solid blue at the dot. */}
-      <span className="hidden items-center sm:flex">
+      <span className="hidden items-center lg:flex">
         <span className="h-0.5 w-44 bg-linear-to-r from-[#006F9F]/0 to-[#006F9F]" />
         <span className="size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
       </span>
 
-      <span className="font-lato shrink-0 px-10 text-center text-[18px] font-bold leading-[26px] tracking-[-0.6px] text-[#006F9F]">
+      <span className="font-lato px-4 text-center text-[18px] font-bold leading-[26px] tracking-[-0.6px] text-[#006F9F] lg:shrink-0 lg:px-10">
         {text}
       </span>
 
       {/* Right line mirrors the left: solid at the dot, fading out to the edge. */}
-      <span className="hidden items-center sm:flex">
+      <span className="hidden items-center lg:flex">
         <span className="size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
         <span className="h-0.5 w-44 bg-linear-to-l from-[#006F9F]/0 to-[#006F9F]" />
       </span>
@@ -196,7 +196,7 @@ function CapabilityRow({
           for content-right). The inner, non-rounded side fades the white out to
           transparent so it melts into the page background instead of a hard edge. */}
       <div
-        className={`flex-1 px-2 py-4 lg:p-8 ${
+        className={`flex-1 px-2 py-4 lg:w-136.75 lg:flex-none lg:p-8 ${
           reverse
             ? "lg:rounded-r-4xl lg:bg-[linear-gradient(to_left,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
             : "lg:rounded-l-4xl lg:bg-[linear-gradient(to_right,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
@@ -251,7 +251,7 @@ function CapabilityRow({
               width={340}
               height={360}
               unoptimized
-              className="aspect-340/360 w-full rounded-xl object-cover"
+              className="max-w-[340px] h-[360px] w-full rounded-xl object-cover"
             />
           </div>
         </div>
@@ -289,14 +289,14 @@ export default function PlatformOverview({
           className="pointer-events-none absolute -right-28 top-2/3 size-[480px] rounded-full bg-[#E2ECFB] opacity-60 blur-[100px]"
         />
 
-        <div className="relative z-10">
+        <div className="relative z-10 mx-auto max-w-[1280px]">
           {/* Heading — full width, sits at the section's 60px left padding. */}
           <motion.h2
             variants={wipeDown}
             custom={0.05}
             initial="hidden"
             animate="show"
-            className="font-lato max-w-[889px] lg:pl-[112px] text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
+            className="font-lato max-w-[1280px] text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
           >
             {heading}
           </motion.h2>

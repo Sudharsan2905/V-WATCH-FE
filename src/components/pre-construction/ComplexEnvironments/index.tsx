@@ -111,8 +111,11 @@ function EnvironmentCard({
 
 type ComplexEnvironmentsContent = {
   heading?: string;
-  // Radial-glow PNG that frames the top of the section. Default points at the
-  // asset already in /public; pass "" to render the gradient alone.
+  // Full-cover background texture/glow behind the card (shared with the home
+  // "Industries" band). Pass "" to fall back to the flat dark gradient.
+  backgroundImage?: string;
+  // Radial-glow PNG that frames the top of the section. Empty by default; pass a
+  // path to overlay it on top of the background image.
   framingImage?: string;
   // Top row = three equal cards, bottom row = two wide cards.
   topCards?: EnvCard[];
@@ -124,7 +127,10 @@ export default function ComplexEnvironments({
 }: Readonly<{ content?: ComplexEnvironmentsContent }> = {}) {
   const {
     heading = "Built for complex construction environments",
-    framingImage = "/pre-construction/complex-environments/rader_image.png",
+    // Background texture/glow — shared with the home "Industries" band so both
+    // sections read the same. Pass a value to overlay the old radial framing.
+    backgroundImage = "/home/industries_bg.webp",
+    framingImage = "",
     topCards = TOP_CARDS,
     bottomCards = BOTTOM_CARDS,
   } = content;
@@ -138,11 +144,25 @@ export default function ComplexEnvironments({
         <div
           className="relative mx-auto w-full max-w-[1282px] overflow-hidden rounded-[36px] border border-white/10 px-6 py-14 sm:px-10 lg:px-[60px] lg:py-16"
           style={{
-            // Base background: dark navy → deep indigo linear gradient.
+            // Fallback fill behind the background image (also used when
+            // backgroundImage is "").
             background:
               "linear-gradient(180deg,#070a1c 0%,#0c1130 45%,#0a0e26 100%)",
           }}
         >
+          {/* Background texture + glow — same asset as the home "Industries"
+              band, covering the whole card. */}
+          {backgroundImage ? (
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="pointer-events-none z-0 object-cover object-[center_90%] select-none"
+            />
+          ) : null}
+
           {/* Radial-glow framing — only the BOTTOM HALF of rader_image (1840 × 1693),
             attached to the top edge. The image renders at full width (full height =
             width × 1693/1840) and is anchored to the wrapper's bottom; the wrapper
@@ -179,26 +199,28 @@ export default function ComplexEnvironments({
               {heading}
             </motion.h2>
 
-            {/* Top row — three equal cards (Figma: 356 × 318). */}
+            {/* Top row — three equal cards (Figma: 356 × 318). Flex + wrap so a
+                lone card (e.g. the 3rd at the 2-column breakpoint) centres instead
+                of hugging the left. At xl all three fill the row exactly. */}
             <div className="mt-10 flex flex-wrap justify-center gap-7.5 lg:mt-12">
               {topCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
                   card={card}
                   index={i}
-                  sizeClassName="h-[318px] w-full sm:w-[356px]"
+                  sizeClassName="h-[318px] w-full sm:w-[calc(50%-15px)] xl:w-[calc(33.333%-20px)]"
                 />
               ))}
             </div>
 
             {/* Bottom row — two wide cards (Figma: 551.53 × 318). */}
-            <div className="mt-7.5 flex flex-wrap justify-center gap-7.5">
+            <div className="mt-7.5 grid grid-cols-1 gap-7.5 xl:grid-cols-2">
               {bottomCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
                   card={card}
                   index={i + topCards.length}
-                  sizeClassName="h-[318px] w-full lg:w-[551px]"
+                  sizeClassName="h-[318px] w-full"
                 />
               ))}
             </div>

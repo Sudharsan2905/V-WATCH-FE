@@ -225,12 +225,12 @@
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3018_5782" result="shape"/>
 </filter>
 <linearGradient id="paint0_linear_3018_5782" x1="75.8336" y1="66.25" x2="149.377" y2="174.118" gradientUnits="userSpaceOnUse">
-<stop stop-color="#D563FF"/>
-<stop offset="1" stop-color="#5CB7E8"/>
+<stop stop-color="#e9dffd"/>
+<stop offset="1" stop-color="#e8d8f2"/>
 </linearGradient>
 <linearGradient id="paint1_linear_3018_5782" x1="90.944" y1="72.5" x2="142.335" y2="147.878" gradientUnits="userSpaceOnUse">
-<stop stop-color="#D563FF"/>
-<stop offset="1" stop-color="#5CB7E8"/>
+<stop stop-color="#e9dffd"/>
+<stop offset="1" stop-color="#e8d8f2"/>
 </linearGradient>
 <radialGradient id="paint2_radial_3018_5782" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(117.498 115) scale(49.6729)">
 <stop offset="0.76"/>

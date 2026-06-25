@@ -145,10 +145,22 @@ export const postConstructionContent = {
     ],
   },
 
+  // ── "Your operations begin with full context from day one." (PostConstructionTransition)
+  // Feature cards, panel image, and the CTA (auto-derived from the route →
+  // "Explore Pre-Construction (Atlas)") keep the component defaults.
+  continuity: {
+    heading: "Your operations begin with full context from day one.",
+    intro:
+      "V-Watch Aegis builds on the data captured during construction through Atlas.",
+    pill: "CONTINUITY FROM ATLAS",
+    panelTitle:
+      "There is no need for re-onboarding or rebuilding systems. Key data flows directly into operations",
+  },
+
   footer: {
-    ctaTitle: "Keep your facility secure long after construction ends",
+    ctaTitle: "Secure and control your operations for the long term",
     ctaText:
-      "See how V-Watch Aegis unifies security, monitoring, and compliance into one continuously-operating platform.",
+      "See how V-Watch Aegis helps you maintain security, ensure compliance, and protect your operations across their entire lifecycle.",
     linkColumns: [
       { heading: "Platform", links: ["Dashboard", "BI Reporting", "System Integrators"] },
       { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
