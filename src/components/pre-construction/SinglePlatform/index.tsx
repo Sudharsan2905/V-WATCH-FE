@@ -83,6 +83,104 @@ const DEFAULT_FEATURES: Feature[] = [
 ];
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
+// function FeatureCard({
+//   icon,
+//   label,
+//   delay,
+// }: Readonly<Feature & { delay: number }>) {
+//   return (
+//     <motion.div
+//       variants={cardIn}
+//       custom={delay}
+//       whileHover={{
+//         y: -4,
+//         scale: 1.02,
+//       }}
+//       transition={{ duration: 0.25 }}
+//       className="relative h-32.5 w-full overflow-hidden rounded-[18px] px-2 py-5 flex flex-col items-center justify-center gap-2"
+//       style={{
+//         // Frosted glass (matches the CalloutPill body): translucent ~50% white
+//         // over an 8px backdrop blur so the section/map behind reads as a soft
+//         // blur through the card, with a faint top-to-bottom gradient.
+//         // background:
+//         //   "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.42) 100%)",
+//         WebkitBackdropFilter: "blur(1px)",
+
+//         border: "1px solid rgba(255,255,255,0.6)",
+
+//         boxShadow: `
+//           0 18px 36px -18px rgba(56,116,170,0.30),
+//           inset 0 1px 0 rgba(255,255,255,0.7)
+//         `,
+//       }}
+//     >
+//       {/* Top glass shine — subtle highlight along the upper edge */}
+//       <div
+//         className="pointer-events-none absolute inset-0 rounded-[18px]"
+//         style={{
+//           background: `
+//             linear-gradient(
+//               180deg,
+//               rgba(255,255,255,0.5) 0%,
+//               rgba(255,255,255,0.12) 24%,
+//               transparent 55%
+//             )
+//           `,
+//         }}
+//       />
+
+//       {/* Glow border */}
+//       <div
+//         className="pointer-events-none absolute inset-0 rounded-[18px]"
+//         style={{
+//           border: "1px solid rgba(255,255,255,0.5)",
+//         }}
+//       />
+
+//       {/* Bottom veil — keeps the card bottom edge clean */}
+//       <div
+//         className="pointer-events-none absolute inset-x-0 bottom-0 h-6 rounded-b-[18px]"
+//         style={{
+//           background:
+//             "linear-gradient(0deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 100%)",
+//         }}
+//       />
+
+//       {/* Icon */}
+//       <span
+//         className="relative z-10 flex size-[48px] shrink-0 items-center justify-center rounded-full"
+//         style={{
+//           background: "#FFFFFF",
+//           boxShadow: `
+//             inset 0 1px 2px rgba(255,255,255,0.9),
+//             0 6px 14px rgba(56,116,170,0.16)
+//           `,
+//         }}
+//       >
+//         <Image
+//           src={icon}
+//           alt=""
+//           width={24}
+//           height={24}
+//           unoptimized
+//           className="size-6 object-contain"
+//         />
+//       </span>
+
+//       {/* Text */}
+//       <span
+//         className="relative z-10 text-center text-[14px] font-bold"
+//         style={{
+//           color: "#314158",
+//           textShadow: "0 1px 1px rgba(255,255,255,0.6)",
+//         }}
+//       >
+//         {label}
+//       </span>
+//     </motion.div>
+//   );
+// }
+
 function FeatureCard({
   icon,
   label,
@@ -92,89 +190,59 @@ function FeatureCard({
     <motion.div
       variants={cardIn}
       custom={delay}
-      whileHover={{
-        y: -4,
-        scale: 1.02,
-      }}
-      transition={{ duration: 0.25 }}
-      className="relative h-32.5 w-full overflow-hidden rounded-[18px] px-2 py-5 flex flex-col items-center justify-center gap-2"
+      className="
+        relative
+        flex
+        h-[130px]
+        w-full
+        flex-col
+        items-center
+        justify-center
+        gap-3
+        overflow-hidden
+        rounded-[20px]
+        bg-white/10
+        backdrop-blur-[2px]
+        border-2 border-white
+        
+       "
       style={{
-        // Soft clean-white frosted card (per Figma): predominantly white with a
-        // faint top-to-bottom gradient and a soft, slightly-blue drop shadow.
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 100%)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-
-        border: "1px solid rgba(255,255,255,0.85)",
-
+        border: "1px solid rgba(255,255,255,0.7)",
         boxShadow: `
-          0 18px 36px -18px rgba(56,116,170,0.30),
-          inset 0 1px 0 rgba(255,255,255,0.95)
+          inset 0 1px 0 rgba(255,255,255,0.9),
+          0 18px 30px -12px rgba(56,116,170,0.35),
+          0 6px 14px -4px rgba(56,116,170,0.20)
         `,
       }}
     >
-      {/* Top glass shine — subtle highlight along the upper edge */}
+      {/* Glass highlight */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[18px]"
+        className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full"
         style={{
-          background: `
-            linear-gradient(
-              180deg,
-              rgba(255,255,255,0.5) 0%,
-              rgba(255,255,255,0.12) 24%,
-              transparent 55%
-            )
-          `,
+          background: "rgba(88,190,255,0.06)",
+          filter: "blur(40px)",
         }}
       />
-
-      {/* Glow border */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[18px]"
-        style={{
-          border: "1px solid rgba(255,255,255,0.5)",
-        }}
-      />
-
-      {/* Bottom veil — keeps the card bottom edge clean */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-6 rounded-b-[18px]"
+        className="pointer-events-none absolute inset-0 rounded-[20px]"
         style={{
           background:
-            "linear-gradient(0deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 45%, transparent 100%)",
         }}
       />
 
-      {/* Icon */}
-      <span
-        className="relative z-10 flex size-[48px] shrink-0 items-center justify-center rounded-full"
+      {/* Icon circle */}
+      <div
+        className="relative z-10 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-white"
         style={{
-          background: "#FFFFFF",
-          boxShadow: `
-            inset 0 1px 2px rgba(255,255,255,0.9),
-            0 6px 14px rgba(56,116,170,0.16)
-          `,
+          boxShadow:
+            "0 6px 16px rgba(135,170,205,0.15), inset 0 1px 0 rgba(255,255,255,1)",
         }}
       >
-        <Image
-          src={icon}
-          alt=""
-          width={24}
-          height={24}
-          unoptimized
-          className="size-6 object-contain"
-        />
-      </span>
+        <Image src={icon} alt={label} width={28} height={28} unoptimized />
+      </div>
 
-      {/* Text */}
-      <span
-        className="relative z-10 text-center text-[14px] font-bold"
-        style={{
-          color: "#314158",
-          textShadow: "0 1px 1px rgba(255,255,255,0.6)",
-        }}
-      >
+      <span className="relative z-10 text-[14px] font-bold text-[#0D4E75]">
         {label}
       </span>
     </motion.div>
@@ -194,6 +262,9 @@ const SP_PILL_BADGE_SRC =
 // instead paint our own navy dots — opaque enough at center to cover the baked
 // ones — then blur the whole overlay so each reads as a soft blur. The crisp
 // light-blue arcs of the base image are untouched.
+// x-positions of the 4 arc peaks as % of the 80%-wide connector container
+const DOT_POSITIONS = ["2%", "34%", "66%", "98%"];
+
 function Connector() {
   return (
     <div className="pointer-events-none relative mx-auto w-[80%]">
@@ -204,16 +275,36 @@ function Connector() {
         height={46}
         unoptimized
         className="w-full"
+        style={{ filter: "blur(0.5px)" }}
       />
-      {/* Full-width strip matching section bg — hides all baked dots at the
-          arc peaks; fades to transparent so the arc lines emerge below. */}
+      {/* Fade strip — hides baked-in flat dots; sits below custom dots */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0"
         style={{
-          height: 20,
-          background: "linear-gradient(180deg, #f5fbff 45%, transparent 100%)",
+          height: 22,
+          background: "linear-gradient(180deg, #f2f6fb 0%, transparent 100%)",
         }}
       />
+      {/* Each dot = large upward glow + solid sphere */}
+      {DOT_POSITIONS.map((left, i) => (
+        <div key={i} className="absolute" style={{ left, top: 4, transform: "translate(-50%, -50%)" }}>
+          {/* Upper-only halo — sits entirely above the dot center */}
+          <div
+            style={{
+              position: "absolute",
+              width: 50,
+              height: 28,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -100%)",
+              borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
+              background:
+                "radial-gradient(ellipse at 50% 100%, rgba(10,75,140,0.72) 0%, rgba(10,75,140,0.32) 50%, rgba(10,75,140,0) 80%)",
+              filter: "blur(9px)",
+            }}
+          />
+        </div>
+      ))}
     </div>
   );
 }
@@ -236,8 +327,8 @@ export default function SinglePlatform({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 lg:px-15">
-        <div className="mx-auto max-w-[1320px]">
+      <section className="relative z-10 overflow-hidden bg-[#f2f6fb] pb-12 px-6 lg:pb-0 lg:max-h-175 lg:px-15">
+        <div className="mx-auto max-w-[1280px]">
           <motion.h2
             variants={wipeDown}
             custom={0.05}
@@ -255,14 +346,14 @@ export default function SinglePlatform({
           </motion.p>
         </div>
         <motion.div
-          className="relative mt-[30px] mx-auto w-full max-w-[1320px]"
+          className="relative mt-[30px] mx-auto w-full max-w-[1280px]"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
         >
           {/* CONTENT — stacked above the map on mobile; from lg up it overlays the
               left while the map bleeds beneath it (glass cards sit over the map) */}
-          <div className="relative z-10 flex w-full max-w-126.25 flex-col lg:absolute lg:inset-y-0 lg:left-0">
+          <div className="relative z-10 flex w-full flex-col lg:absolute lg:inset-y-0 lg:left-0 lg:max-w-126.25">
             <motion.p
               variants={fadeUp}
               custom={0.32}
@@ -279,9 +370,35 @@ export default function SinglePlatform({
                     key={f.label}
                     variants={cardIn}
                     custom={0.45 + i * 0.1}
-                    className="flex items-center gap-3 rounded-[14px] bg-white px-4 py-2.5 shadow-[0_12px_30px_-14px_rgba(20,46,92,0.20)]"
+                    /* Frosted glass — translucent #F4FBFF (20%) fill over a
+                       backdrop blur so the map behind reads as a soft blur
+                       through the row (Figma: 60px tall, radius 14, 2px border). */
+                    className="relative flex min-h-15 items-center gap-2.5 rounded-[14px] px-4 py-1.5"
+                    style={{
+                      background: "rgba(244,251,255,0.20)",
+                      backdropFilter: "blur(4px)",
+                      WebkitBackdropFilter: "blur(8px)",
+                      boxShadow: "0 12px 30px -14px rgba(20,46,92,0.20)",
+                    }}
                   >
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.15)]">
+                    {/* 2px gradient border ring (Figma: #FFFFFF → #EFF9FF),
+                        masked so the translucent fill stays see-through (a solid
+                        border would hide the blur behind it). */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-[14px]"
+                      style={{
+                        padding: 2,
+                        background:
+                          "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%)",
+                        WebkitMask:
+                          "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                        WebkitMaskComposite: "xor",
+                        mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                        maskComposite: "exclude",
+                      }}
+                    />
+                    <span className="relative z-10 flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.15)]">
                       <Image
                         src={f.icon}
                         alt=""
@@ -291,7 +408,7 @@ export default function SinglePlatform({
                         className="size-5 object-contain"
                       />
                     </span>
-                    <span className="text-[16px] font-semibold leading-snug text-[#0A4B6E]">
+                    <span className="relative z-10 text-[16px] font-semibold leading-snug text-[#0A4B6E]">
                       {f.label}
                     </span>
                   </motion.li>
@@ -301,7 +418,7 @@ export default function SinglePlatform({
               <>
                 {/* Feature cards — 2×2 on mobile, single row from sm up.
                     z-20 keeps the cards above the connector so its dots tuck under. */}
-                <div className="relative z-20 mt-10 grid max-w-full grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="relative z-40 mt-10 grid max-w-full grid-cols-2 gap-3 sm:grid-cols-4">
                   {features.map((f, i) => (
                     <FeatureCard key={f.label} {...f} delay={0.45 + i * 0.1} />
                   ))}
@@ -313,7 +430,7 @@ export default function SinglePlatform({
                 <motion.div
                   variants={fadeUp}
                   custom={0.9}
-                  className="relative z-10 hidden w-full sm:block -mt-2"
+                  className="relative z-30 hidden w-full sm:block -mt-2"
                 >
                   <Connector />
                 </motion.div>
@@ -327,28 +444,19 @@ export default function SinglePlatform({
             <motion.div
               variants={fadeUp}
               custom={1}
-              className={`relative flex w-[505px] max-w-full items-center justify-center rounded-[14px] px-5 ${
+              className={`relative flex w-fit max-w-full items-center rounded-[14px] pl-2 ${
                 variant === "checklist"
-                  ? "mt-8 py-3.5 lg:mt-[80px]"
-                  : "mt-12 py-3 sm:h-[54px] sm:py-0"
+                  ? "mt-8 py-3.5 lg:mt-[80px] justify-center"
+                  : "mt-12 sm:h-13.5"
               }`}
               style={
                 variant === "checklist"
                   ? undefined
                   : {
-                      // Frosted glass — soft white translucent fill (brighter at
-                      // the top-left sheen) + backdrop blur so the map behind
-                      // reads as a soft blur through the chip.
-                      background:
-                        "linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(244,251,255,0.28) 45%, rgba(244,251,255,0.14) 100%)",
+                      background: "rgba(244,251,255,0.20)",
                       backdropFilter: "blur(14px)",
                       WebkitBackdropFilter: "blur(14px)",
-                      boxShadow: `
-                        0 0 0 1px rgba(255,255,255,0.35),
-                        0px 18px 40px -16px rgba(20,46,92,0.20),
-                        0 0 24px rgba(255,255,255,0.45),
-                        inset 0 1px 0 rgba(255,255,255,0.7)
-                      `,
+                      boxShadow: "0px 18px 40px -16px rgba(20,46,92,0.20)",
                     }
               }
             >
@@ -419,27 +527,28 @@ export default function SinglePlatform({
               width={708}
               height={528}
               priority
+              unoptimized
               sizes="(max-width: 1024px) 100vw, 70vw"
               className="h-auto w-full"
-              style={{
-                maskImage:
-                  "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(to right, #000 84%, transparent 100%)",
-                maskComposite: "intersect",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(to right, #000 84%, transparent 100%)",
-                WebkitMaskComposite: "source-in",
-              }}
+              // style={{
+              //   maskImage:
+              //     "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 0%), linear-gradient(to right, #000 92%, transparent 100%)",
+              //   maskComposite: "intersect",
+              //   WebkitMaskImage:
+              //     "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(to right, #000 92%, transparent 100%)",
+              //   WebkitMaskComposite: "source-in",
+              // }}
             />
             {/* Left readability scrim — lg only; keeps the detail copy legible while
                 still letting the map show softly through the glass cards */}
-            <div
+            {/* <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 left-0 hidden w-[60%] lg:block"
               style={{
-                background:
-                  "linear-gradient(90deg,rgba(245,251,255,0.85) 0%,rgba(245,251,255,0.35) 42%,rgba(245,251,255,0) 68%)",
+                // background:
+                //   "linear-gradient(90deg,rgba(245,251,255,0.85) 0%,rgba(245,251,255,0.35) 42%,rgba(245,251,255,0) 68%)",
               }}
-            />
+            /> */}
           </motion.div>
         </motion.div>
       </section>

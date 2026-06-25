@@ -50,87 +50,31 @@ const rowIn: Variants = {
 // Geofencing zone map → public/geofencing/connected-system.jpg
 const CONNECTED_SYSTEM_MAP = "/geofencing/connected-system.jpg";
 
-// ─── Feature icons (inline so only the map image needs supplying) ────────────
-type IconProps = Readonly<{ className?: string }>;
-
-function PinIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M12 21s7-6.04 7-11a7 7 0 1 0-14 0c0 4.96 7 11 7 11Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <circle cx="12" cy="10" r="2.6" stroke="currentColor" strokeWidth="1.7" />
-    </svg>
-  );
-}
-
-function WarningIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M12 3.5 1.8 20.5h20.4L12 3.5Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <path d="M12 9.5v4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      <circle cx="12" cy="17" r="1.1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function BellIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M6 9a6 6 0 0 1 12 0c0 5 1.5 6.5 1.5 6.5h-15S6 14 6 9Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <path d="M10 19a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
+// ─── Feature data ────────────────────────────────────────────────────────────
 type Feature = {
-  icon: "pin" | "warning" | "bell";
-  tone: string;
+  icon: string;
   title: string;
   desc: string;
 };
 
-const ICONS = {
-  pin: PinIcon,
-  warning: WarningIcon,
-  bell: BellIcon,
-} as const;
-
 const DEFAULT_FEATURES: Feature[] = [
   {
-    icon: "pin",
-    tone: "#13B5A6",
+    icon: "/geofencing/define_zone.png",
     title: "Define Zones",
-    desc: "Mark restricted, controlled, or high-risk zones across your site.",
+    desc: "Mark restricted, controlled, or high-risk areas across your site.",
   },
   {
-    icon: "pin",
-    tone: "#21B1F1",
+    icon: "/geofencing/track_movement.png",
     title: "Track Movement",
     desc: "Monitor the live location of workers, vehicles, and assets.",
   },
   {
-    icon: "warning",
-    tone: "#F5A623",
+    icon: "/geofencing/detect_breaches.png",
     title: "Detect Breaches",
     desc: "Instantly identify when someone enters a restricted zone.",
   },
   {
-    icon: "bell",
-    tone: "#E5484D",
+    icon: "/geofencing/trigger_alerts.png",
     title: "Trigger Alerts",
     desc: "Notify teams immediately or activate automated responses.",
   },
@@ -146,23 +90,39 @@ type ConnectedSystemContent = {
 // ─── Sub-components ──────────────────────────────────────────────────────────
 function FeatureRow({
   icon,
-  tone,
   title,
   desc,
   delay,
 }: Readonly<Feature & { delay: number }>) {
-  const Icon = ICONS[icon];
   return (
-    <motion.div variants={rowIn} custom={delay} className="flex items-start gap-4">
+    <motion.div
+      variants={rowIn}
+      custom={delay}
+      className="flex items-center gap-5 lg:h-full lg:flex-1"
+    >
+      {/* Icon box — 54×54, radius 14, 2px white→#EFF9FF gradient border,
+          #F4FBFF/20% fill, soft drop shadow (Figma). */}
       <span
-        className="flex size-10 shrink-0 items-center justify-center rounded-xl"
-        style={{ background: `${tone}1A`, color: tone }}
+        className="flex size-[54px] shrink-0 items-center justify-center"
+        style={{
+          borderRadius: 14,
+          border: "2px solid transparent",
+          background:
+            "rgba(244,251,255,0.2) padding-box, linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%) border-box",
+          boxShadow: "0 8px 20px rgba(20,46,92,0.10)",
+        }}
       >
-        <Icon className="size-5" />
+        <Image
+          src={icon}
+          alt=""
+          width={28}
+          height={28}
+          className="size-7 object-contain"
+        />
       </span>
-      <div className="flex flex-col gap-1">
-        <p className="text-[16px] font-bold leading-tight text-[#0A4B6E]">{title}</p>
-        <p className="text-[14px] leading-[20px] text-[#5B7A93]">{desc}</p>
+      <div className="flex flex-col gap-2.5">
+        <p className="font-lato text-[20px] font-bold leading-none text-black">{title}</p>
+        <p className="font-lato text-[18px] font-normal leading-[1.25] text-black">{desc}</p>
       </div>
     </motion.div>
   );
@@ -181,51 +141,60 @@ export default function ConnectedSystem({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="px-6 py-8 lg:px-15 lg:py-16">
+      {/* Light panel overlaps the (flat) hero with a rounded top — matches the
+          ComplianceControl / TrustedBy pattern used across the site. */}
+      <section className="relative z-10 -mt-8 lg:-mt-16">
+        <div
+          className="overflow-hidden rounded-t-[28px] px-6 lg:px-15"
+          style={{ background: "#f5fbff" }}
+        >
         <motion.div
-          className="mx-auto w-full max-w-[1280px] overflow-hidden rounded-[24px] border border-[#21B1F1]/35 bg-white p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_24px_60px_-24px_rgba(20,46,92,0.25),0_0_40px_rgba(33,177,241,0.18)] lg:p-10"
+          className="mx-auto flex w-full max-w-[1280px] flex-col gap-8 py-8 sm:py-10 lg:gap-10"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.h2
-            variants={wipeDown}
-            custom={0.05}
-            className="text-[22px] font-bold leading-snug text-[#0A4B6E] sm:text-[26px]"
-          >
-            {heading}
-          </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            custom={0.18}
-            className="mt-2 max-w-[760px] text-[15px] leading-[22px] text-[#5B7A93]"
-          >
-            {intro}
-          </motion.p>
+          {/* Header group — gap 10px */}
+          <div className="flex flex-col gap-2.5">
+            <motion.h2
+              variants={wipeDown}
+              custom={0.05}
+              className="font-lato text-[22px] font-bold leading-none text-[#0A4B6E] sm:text-[26px]"
+            >
+              {heading}
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={0.18}
+              className="max-w-[953px] font-lato text-[16px] font-normal leading-[1.4] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]"
+            >
+              {intro}
+            </motion.p>
+          </div>
 
-          <div className="mt-8 flex flex-col gap-8 lg:mt-10 lg:flex-row lg:items-center lg:gap-12">
-            {/* Isometric site map — full width (centered, capped) when stacked;
-                takes the left ~55% from lg up. */}
+          {/* Content row — gap 24px, height 470 at lg */}
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-6 lg:h-[470px]">
+            {/* Isometric site map — fills the remaining width; fixed 470 height
+                at lg, intrinsic aspect when stacked. */}
             <motion.div
               variants={fromLeft}
               custom={0.25}
-              className="mx-auto w-full max-w-[560px] lg:mx-0 lg:w-[55%] lg:max-w-none lg:shrink-0"
+              className="relative aspect-[823/470] w-full overflow-hidden rounded-[16px] lg:aspect-auto lg:h-full lg:flex-1"
             >
               <Image
                 src={mapImage}
                 alt="Isometric site map with restricted, controlled and high-risk zones outlined"
-                width={1024}
-                height={576}
+                fill
                 unoptimized
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="h-auto w-full"
+                sizes="(max-width: 1024px) 100vw, 65vw"
+                className="object-cover"
               />
             </motion.div>
 
-            {/* Feature list — 1 column on mobile, 2 on tablet, back to a single
-                column beside the map from lg up. */}
+            {/* Feature list — fixed 461px column at lg (4 × 110 + 3 × 10 = 470);
+                1 col mobile, 2 col tablet. */}
             <motion.div
-              className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 lg:gap-7"
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:flex lg:w-[461px] lg:shrink-0 lg:flex-col lg:gap-2.5 lg:h-full"
               variants={{ show: { transition: { staggerChildren: 0.1 } } }}
             >
               {features.map((f, i) => (
@@ -234,6 +203,7 @@ export default function ConnectedSystem({
             </motion.div>
           </div>
         </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

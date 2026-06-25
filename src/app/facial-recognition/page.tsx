@@ -2,7 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import PageHero from "@/components/common/PageHero";
 import BiometricVerification from "@/components/facial-recognition/BiometricVerification";
 import HowItWorksNew from "@/components/facial-recognition/HowItWorksNew";
-import TrustedBy from "@/components/facial-recognition/TrustedBy";
+import TrustedBy from "@/components/visitor-management/TrustedBy";
 import Footer from "@/components/layout/Footer";
 
 const FOOTER_COLUMNS = [
@@ -29,7 +29,10 @@ export default function FacialRecognitionPage() {
       />
       <BiometricVerification />
       <HowItWorksNew />
-      <TrustedBy />
+      <TrustedBy
+        trustTitle="Trusted by teams operating in high-security environments"
+        trustText="From construction sites to critical facilities, organizations rely on V-Watch AI to secure access and ensure accountability."
+      />
       <Footer
         ctaTitle="Secure your site with verified identity"
         ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."

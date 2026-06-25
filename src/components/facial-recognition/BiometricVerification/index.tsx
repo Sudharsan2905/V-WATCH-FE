@@ -57,7 +57,7 @@ function FeatureCard({
       custom={delay}
       className="h-full rounded-[20px] p-1.5"
       style={{
-        background: "#ECF6FF",
+        background: "#E5F4FE",
       }}
     >
       {/* Inner card */}
@@ -90,7 +90,7 @@ export default function BiometricVerification() {
           className="overflow-hidden rounded-t-[28px]"
           style={{ background: "#EDF7FF" }}
         >
-          <div className="mx-auto max-w-330 px-6 py-8 sm:px-8 sm:py-8 lg:px-15 lg:py-10">
+          <div className="mx-auto max-w-[1280px] px-6 py-8 sm:px-8 sm:py-8 lg:px-15 lg:py-10">
             {/* Section header */}
             <motion.div
               initial="hidden"
@@ -117,14 +117,14 @@ export default function BiometricVerification() {
 
             {/* Content row — feature grid left, image right */}
             <motion.div
-              className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8"
+              className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-6"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.12 }}
             >
               {/* Left: 2×2 feature grid */}
               <div
-                className="relative grid grid-cols-2 gap-3 lg:flex-1"
+                className="relative grid grid-cols-2 gap-3 lg:grid-rows-2 lg:gap-6 lg:flex-[630_1_0%] lg:h-[316px]"
                 style={{
                   background:
                     "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
@@ -140,30 +140,36 @@ export default function BiometricVerification() {
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
-                className="relative w-full overflow-hidden rounded-[18px] aspect-[3/2] md:max-w-[520px] md:mx-auto lg:max-w-none lg:mx-0 lg:aspect-auto lg:flex-1"
+                className="relative mx-auto aspect-[506/316] w-full max-w-[506px] overflow-hidden rounded-[27.69px] border-2 border-white bg-[#F4FBFF]/60 p-2.5 lg:mx-0 lg:aspect-auto lg:h-[316px] lg:w-auto lg:flex-[506_1_0%]"
               >
-                <Image
-                  src="/facial-recognition/Right image.png"
-                  alt="Facial recognition access control visualization"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                {/* Glowing glass border over the image */}
+                {/* Blue glow peeking through the 10px padding gap at the
+                    top-center and bottom-center, behind the inner image. */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-[18px]"
-                  style={{
-                    boxShadow:
-                      "inset 0 0 0 1.5px rgba(100,196,255,0.45), inset 0 0 32px rgba(33,177,241,0.12)",
-                  }}
+                  className="pointer-events-none absolute inset-x-0 top-0 z-0 mx-auto h-[26px] w-[45%] -translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-[rgba(5,10,35,0.90)] via-[rgba(5,10,35,0.55)] to-transparent p-5 pt-20">
-                  <p className="text-center text-[14px] font-bold leading-5.5 text-white sm:text-[15px] sm:leading-6">
-                    No duplicates, No sharing,
-                    <br />
-                    No guesswork
-                  </p>
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-[26px] w-[45%] translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
+                />
+
+                <div className="relative z-10 h-full w-full overflow-hidden rounded-[16px]">
+                  <Image
+                    src="/facial-recognition/Right image.png"
+                    alt="Facial recognition access control visualization"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 506px"
+                    className="object-cover"
+                  />
+
+                  {/* Caption pill — semi-transparent black, near bottom */}
+                  <div className="absolute inset-x-0 bottom-0 flex h-full max-h-[64px] w-full items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
+                    <p className="w-[462px] text-center text-[18px] font-bold leading-none text-white">
+                      No duplicates, No sharing,
+                      <br />
+                      No guesswork
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>

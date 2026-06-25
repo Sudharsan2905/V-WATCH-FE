@@ -77,23 +77,23 @@ function getOffsetTop(el: HTMLElement, container: HTMLElement): number {
 }
 
 /**
- * S-curve notch shape based on the user's CustomCard reference (530×240).
- * The pocket (icon slot) is kept at fixed pixel coordinates so the icon
- * and text card left-edge are always aligned regardless of card width.
- *
- * Pocket: x=20→135 (fixed depth), vertically centred, 80 px tall.
+ * Scalable glass-card outline with a left-edge notch for the icon.
+ * Width/height come from a ResizeObserver, so the shape (and notch) stay
+ * aligned and centred at any size — fully responsive. The notch is kept at
+ * fixed pixel coords + fixed height so it always frames the 100px icon.
  */
-function computeCardPath(W: number, H: number): string {
-  const OL  = 20;   // outer left wall x
-  const OCR = 10;   // outer corner radius
-  const PD  = 135;  // pocket right-edge x (fixed)
-  const PR  = 15;   // pocket corner radius
-  const cy  = H / 2;
-  const PH  = Math.max(120, H - 56); // pocket scales with card; 28 px margin each side
-  const pt  = cy - PH / 2;   // pocket top y
-  const pb  = cy + PH / 2;   // pocket bottom y
-  const GAP = 20;   // left-wall length above/below pocket
-
+function computeCardPath(W: number, H: number, compact = false): string {
+  // Desktop/laptop values unchanged; compact (tablet/mobile) shrinks the notch
+  // so the icon doesn't eat the narrow content width.
+  const OL = compact ? 12 : 18; // left wall x (the notch sits here)
+  const OCR = compact ? 14 : 16; // outer corner radius
+  const PD = compact ? 92 : 130; // notch right-edge x (clears the icon)
+  const PR = compact ? 14 : 18; // notch corner radius
+  const PH = compact ? 80 : 116; // notch height (frames the icon)
+  const cy = H / 2;
+  const pt = cy - PH / 2;
+  const pb = cy + PH / 2;
+  const GAP = 18;
   const f = (n: number) => +n.toFixed(2);
   const p = (x: number, y: number) => `${f(x)} ${f(y)}`;
 
@@ -122,18 +122,25 @@ function StepItem({
   stepRef: (el: HTMLDivElement | null) => void;
 }) {
   const isActive = diff === 0;
-  const opacity  = isActive ? 1 : diff === 1 ? 0.42 : 0.16;
+  const opacity = isActive ? 1 : diff === 1 ? 0.42 : 0.16;
   const containerRef = useRef<HTMLDivElement>(null);
-  const [clipPath, setClipPath] = useState(
-    `path('${computeCardPath(530, 200)}')`
-  );
+  const [clipPath, setClipPath] = useState(`path('${computeCardPath(560, 220)}')`);
+  // usePng: card is wide enough for the bg_card.png to look right and contain
+  // the inner card. Narrower/taller cards fall back to the scalable CSS glass,
+  // which always wraps the content. Toggle is driven by the card width itself.
+  const [usePng, setUsePng] = useState(true);
+  const compact = !usePng;
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const update = () => {
       const { width: W, height: H } = el.getBoundingClientRect();
-      if (W > 0 && H > 0) setClipPath(`path('${computeCardPath(W, H)}')`);
+      if (W > 0 && H > 0) {
+        const png = W >= 580;
+        setUsePng(png);
+        setClipPath(`path('${computeCardPath(W, H, !png)}')`);
+      }
     };
     update();
     const ro = new ResizeObserver(update);
@@ -142,11 +149,7 @@ function StepItem({
   }, []);
 
   return (
-    <div
-      ref={stepRef}
-      data-step
-      className={!isLast ? "pb-4 lg:pb-5" : ""}
-    >
+    <div ref={stepRef} data-step className={!isLast ? "pb-4 lg:pb-5" : ""}>
       <motion.div
         ref={containerRef}
         animate={{
@@ -158,84 +161,127 @@ function StepItem({
             : "drop-shadow(0 0 1px rgba(148,210,240,0.55))",
         }}
         transition={{ duration: 0.45, ease: EASE }}
-        className="relative"
+        className="relative mx-auto flex w-full max-w-[636px] items-center"
+        // Lock to the bg_card.png aspect (660×380) so the measured glass/notch
+        // percentages below map exactly to the artwork. Box still grows if the
+        // content is taller (aspect-ratio yields to content in the block axis).
+        style={{ aspectRatio: usePng ? "66 / 38" : undefined }}
       >
-        {/* ① BASE — full-bleed background with clip-path */}
-        <div
-          className="absolute inset-0"
-          style={{
-            clipPath,
-            /* Fill: #FFFFFF 60% → #D4F0FF 24% | Border: #FFFFFF → #EFF9FF */
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.60) 0%, rgba(212,240,255,0.24) 100%) padding-box, " +
-              "linear-gradient(180deg, #FFFFFF, #EFF9FF) border-box",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "2px solid transparent",
-            /* Shadow 1: #5CB7E8 24% | Shadow 2: #F5F8FF 40% */
-            boxShadow:
-              "0px 13px 24px rgba(92,183,232,0.24), " +
-              "6px 10px 30px rgba(245,248,255,0.40)",
-          }}
-        />
+        {usePng ? (
+          /* ① BASE (wide cards) — bg_card.png glass shape. The container's
+             locked 66/38 aspect matches the artwork exactly, so object-cover
+             never crops horizontally and the measured notch/glass percentages
+             line up; the inner card stays centred inside the glass. */
+          <Image
+            src="/contractor-complaince/bg_card.png"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 678px, 100vw"
+            className="pointer-events-none select-none object-cover"
+          />
+        ) : (
+          /* ① BASE (narrow/tall cards) — scalable CSS glass card with the icon
+             notch. The clip-path recomputes with size, so the glass always
+             wraps the content (the PNG can't at narrow/tall aspects). */
+          <div
+            className="absolute inset-0"
+            style={{
+              clipPath,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.60) 0%, rgba(212,240,255,0.24) 100%) padding-box, " +
+                "linear-gradient(180deg, #FFFFFF, #EFF9FF) border-box",
+              border: "2px solid transparent",
+              boxShadow:
+                "0px 13px 24px rgba(92,183,232,0.22), 6px 10px 30px rgba(245,248,255,0.40)",
+            }}
+          />
+        )}
 
-        {/* ② TEXT CARD — drives the container height; left margin clears the pocket */}
+        {/* ② CONTENT AREA — clears the notch on the left, then centres the
+            inner card in the remaining space (vertically + horizontally). */}
         <div
-          className="relative z-10 rounded-2xl p-4"
+          className="relative z-10 flex flex-1 items-center justify-center py-[18px] sm:py-[22px]"
           style={{
-            marginLeft: 140,
-            marginRight: 16,
-            marginTop: 28,
-            marginBottom: 28,
-            background: "rgba(255,255,255,0.92)",
-            boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+            // Measured from bg_card.png (660×380): notch right wall 16.8%, glass
+            // right edge 93.3%. With the 84px icon nested in the notch (right edge
+            // ~18%), padL 24% leaves a clean ~36px gap after the icon, and padR
+            // 13% keeps a ~40px gap before the glass right edge. Scales w/ width.
+            paddingLeft: compact ? 116 : "24%",
+            paddingRight: compact ? 24 : "13%",
           }}
         >
-          <div className="mb-2.5 flex items-center gap-2">
-            <span className="text-[12px] font-bold tabular-nums text-[#0A8EC8]">
+          {/* INNER CARD — width capped + centred on desktop/laptop; fills on
+              tablet/mobile. Content drives the height. */}
+          <div
+            className="flex w-full flex-col gap-[14px] rounded-3xl p-4"
+            style={{
+              border: "1px solid transparent",
+              background:
+                "linear-gradient(rgba(255,255,255,0.80), rgba(255,255,255,0.80)) padding-box, " +
+                "linear-gradient(180deg, #E4F6FD 0%, #D7F4FD 100%) border-box",
+            }}
+          >
+          {/* Number badge (46×32) + dashed connector */}
+          <div className="flex items-center gap-3.5">
+            <span
+              className="flex h-[32px] w-[46px] items-center justify-center rounded-[14px] text-[14px] font-bold tabular-nums text-[#006F9F]"
+              style={{
+                border: "2px solid transparent",
+                background:
+                  "linear-gradient(rgba(244,251,255,0.20), rgba(244,251,255,0.20)) padding-box, " +
+                  "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%) border-box",
+              }}
+            >
               {step.number}
             </span>
             <div className="h-px flex-1 border-t-2 border-dashed border-[#C1E8FF]" />
           </div>
-          <h3 className="text-[15px] font-bold text-[#0A4B6E] sm:text-[17px]">
+
+          {/* Title — Lato 700, 20/24, #006F9F */}
+          <h3 className="text-[20px] font-bold leading-6 text-[#006F9F]">
             {step.title}
           </h3>
-          <p className="mt-1.5 text-[13px] leading-5.5 text-navy-700 sm:text-[14px] sm:leading-6">
+
+          {/* Description — Lato 400, 18/24, #1D6C97 */}
+          <p className="text-[18px] font-normal leading-6 text-[#1D6C97]">
             {step.description}
           </p>
+
           {step.bullets && step.bullets.length > 0 && (
-            <ul className="mt-2.5 space-y-1.5">
+            <ul className="space-y-1.5">
               {step.bullets.map((b) => (
                 <li
                   key={b}
-                  className="flex items-start gap-2 text-[13px] leading-5 text-navy-700 sm:text-[14px]"
+                  className="flex items-start gap-2 text-[16px] leading-5 text-[#1D6C97]"
                 >
-                  <span className="mt-1.25 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0A8EC8]" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#006F9F]" />
                   {b}
                 </li>
               ))}
             </ul>
           )}
+          </div>
         </div>
 
-        {/* ③ ICON CARD — sits in the pocket (x=20→135), vertically centred */}
+        {/* ③ ICON BOX — nestled in the notch, vertically centred. Shrinks on
+            tablet/mobile (compact) so it fits the narrower card. */}
         <div
-          className="absolute z-20 flex items-center justify-center rounded-2xl"
+          className="absolute top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-2xl"
           style={{
-            left: 22,
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: 96,
-            height: 96,
+            // The PNG's notch cutout is only ~68px wide (measured: x=40→111 in
+            // the 660px art). Size the icon to ~84px so it nests in the notch
+            // without its right edge spilling into / overlapping the inner card.
+            // Centre on the notch opening (~11.45% of width), offset by half.
+            left: compact ? 12 : "calc(11.45% - 42px)",
+            width: compact ? 68 : 84,
+            height: compact ? 68 : 84,
             background: "#E8F4FB",
             backgroundImage:
               "linear-gradient(rgba(10,140,200,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(10,140,200,0.08) 1px, transparent 1px)",
             backgroundSize: "12px 12px",
             border: "2px solid rgba(255,255,255,0.90)",
             boxShadow:
-              "0 0 0 1px rgba(255,255,255,0.40), " +
-              "0 0 12px rgba(255,255,255,0.70), " +
-              "0 4px 16px rgba(10,78,110,0.12)",
+              "0 0 0 1px rgba(255,255,255,0.40), 0 0 12px rgba(255,255,255,0.70), 0 4px 16px rgba(10,78,110,0.12)",
           }}
         >
           <Image
@@ -243,7 +289,7 @@ function StepItem({
             alt=""
             width={64}
             height={64}
-            className="h-16 w-16 object-contain"
+            className={`object-contain ${compact ? "h-11 w-11" : "h-13 w-13"}`}
           />
         </div>
       </motion.div>
@@ -347,7 +393,7 @@ export default function HowItWorks() {
         <div className="relative mx-auto max-w-[1280px] w-full">
           {/* Heading — always rendered visible (no scroll-triggered reveal,
               which could strand it hidden on fast scroll / observer timing) */}
-          <h2 className="text-[24px] font-bold leading-8.5 text-[#0A4B6E] sm:text-[28px] sm:leading-9.5">
+          <h2 className="text-[20px] md:text-[26px] font-bold leading-8.5 text-[#0A4B6E] sm:leading-9.5">
             How contractor compliance and safety pass control works
           </h2>
 
@@ -360,7 +406,7 @@ export default function HowItWorks() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
-              className="sticky top-14 h-70 overflow-hidden rounded-[20px] sm:h-90 lg:flex-1 lg:top-22 lg:h-110"
+              className="sticky top-14 mx-auto h-70 w-full max-w-[504px] overflow-hidden rounded-[20px] sm:h-90 lg:mx-0 lg:flex-1 lg:top-22 lg:h-110"
             >
               <Image
                 src="/contractor-complaince/safety.webp"
@@ -380,10 +426,10 @@ export default function HowItWorks() {
             <div
               ref={scrollRef}
               onScroll={handleScroll}
-              className="h-70 overflow-y-auto sm:h-90 lg:flex-1 lg:h-110"
+              className="mx-auto h-70 w-full max-w-[656px] overflow-y-auto sm:h-90 lg:mx-0 lg:flex-1 lg:h-110"
               style={{ scrollbarWidth: "none" }}
             >
-              <div className="pr-1">
+              <div className="px-2">
                 {STEPS.map((step, i) => (
                   <StepItem
                     key={step.number}

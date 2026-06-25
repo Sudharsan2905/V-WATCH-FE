@@ -101,12 +101,9 @@ const DEFAULT_FEATURES: Feature[] = [
 ];
 
 // Diagonal chamfer on the top-right AND bottom-left corners. CHAMFER is the
-// perpendicular inset of each 45° cut in px (each leg of the notch ≈ CHAMFER × √2).
-// A mask is used instead of clip-path so the other two corners keep their
-// border-radius; the soft outer shadow lives on a wrapper `drop-shadow` filter,
-// which follows the masked (chamfered) alpha. The two corner gradients are
-// composited with `intersect` so the alpha is clipped at BOTH corners (a single
-// gradient can only notch one).
+// perpendicular inset of each 45° cut in px. A mask is used instead of clip-path
+// so the other two corners keep their border-radius; the two corner gradients
+// are composited with `intersect` so the alpha is clipped at BOTH corners.
 const CHAMFER = 30;
 const CHAMFER_MASK = [
   `linear-gradient(225deg, transparent 0 ${CHAMFER}px, #000 ${CHAMFER + 1}px)`, // top-right
@@ -135,7 +132,7 @@ function FeatureCard({
           card, half inside. It lives OUTSIDE the masked card so its upper half
           isn't clipped by the chamfer mask. */}
       <span
-        className="absolute left-4 top-0 z-20 inline-flex shrink-0 -translate-y-1/2 items-center justify-center rounded-xl border-[1.45px] border-white px-[7.5px] py-[2.5px]"
+        className="absolute left-4 top-0 z-20 inline-flex size-15 shrink-0 -translate-y-1/2 items-center justify-center rounded-[18.52px] border-[1.45px] border-white"
         style={{
           background: "linear-gradient(180deg, #CCE5FF 0%, #FFFFFF 100%)",
           boxShadow: "0 1.16px 2.31px 0 rgba(0,0,0,0.05)",
@@ -144,10 +141,10 @@ function FeatureCard({
         <Image
           src={icon}
           alt=""
-          width={35}
-          height={35}
+          width={36}
+          height={36}
           unoptimized
-          className="h-10 w-auto object-contain"
+          className="h-9 w-auto object-contain"
         />
       </span>
 
@@ -171,7 +168,7 @@ function FeatureCard({
 
         {/* Illustration — floats directly on the card over a soft floor glow.
             Fills the leftover height inside the fixed 260px box. */}
-        <div className="relative mt-1 w-full flex-1 min-h-0">
+        <div className="relative mt-5 w-full flex-1 min-h-0">
           <div className="pointer-events-none absolute inset-x-3 bottom-2 h-1/3 rounded-[50%] bg-[radial-gradient(60%_100%_at_50%_100%,rgba(124,135,210,0.16)_0%,transparent_70%)] blur-md" />
           <Image
             src={image}
@@ -197,7 +194,7 @@ export default function PostConstructionTransition({
     intro = "Data collected during construction doesn't disappear it becomes the foundation for long-term operational control.",
     pill = "TRANSITION TO POST-CONSTRUCTION",
     features = DEFAULT_FEATURES,
-    panelTitle = "With V-Watch Ai, everything transitions seamlessly into post-construction operations",
+    panelTitle = "With V-Watch AI, everything transitions seamlessly into post-construction operations",
     ctaLabel,
     ctaHref,
     panelImage = "/pre-construction/post-construction/transition-tower.png",
@@ -250,14 +247,14 @@ export default function PostConstructionTransition({
             <motion.div
               variants={fadeUp}
               custom={0.3}
-              className="inline-flex h-11 w-fit shrink-0 items-center self-start overflow-hidden rounded-l-[10px] rounded-r-[4px] pl-5"
+              className="inline-flex min-h-11 w-fit shrink-0 items-center self-start overflow-hidden rounded-l-[10px] rounded-r-[4px] py-1.5 pl-5 sm:py-0"
               style={{
                 background:
                   "linear-gradient(90deg, rgba(33,177,241,0.10) 0%, rgba(197,235,76,0.10) 100%)",
               }}
             >
               <span
-                className="bg-clip-text pr-3.5 font-lato text-[20px] font-bold leading-none tracking-normal text-transparent"
+                className="bg-clip-text pr-3.5 font-lato text-[16px] font-bold leading-tight tracking-normal text-transparent sm:text-[20px] sm:leading-none"
                 style={{
                   backgroundImage:
                     "linear-gradient(90deg, #7ECFFA 0%, #3890C0 100%)",
@@ -275,13 +272,15 @@ export default function PostConstructionTransition({
               the panel's copy shows through, and the Access card overlays the
               panel's lower-left — mirroring the Figma. */}
           <div className="relative mt-10">
-            {/* Feature cards — row 1 holds two cards, row 2 holds three, with a
-                uniform 30px gap. Row 1 stops at two so the panel occupies the open
-                top-right, and the third card in row 2 nests into the panel's
-                chamfered bottom-left corner. */}
+            {/* Feature cards — row 1 holds two cards, row 2 holds three. Within a
+                row the gap is 30px (gap-7.5). Between rows it's 60px (gap-15): the
+                lower row's icon badges float up 30px past their cards, so the extra
+                30px keeps a true 30px clear gap between the rows. Row 1 stops at two
+                so the panel occupies the open top-right, and the third card in row 2
+                nests into the panel's chamfered bottom-left corner. */}
             {/* lg: let clicks in the empty card area fall through to the panel
                 CTA behind it (the cards re-enable their own pointer events). */}
-            <div className="relative z-10 flex flex-col gap-7.5 lg:pointer-events-none">
+            <div className="relative z-10 flex flex-col gap-15 lg:pointer-events-none">
               {/* Row 1 — two cards */}
               <div className="flex flex-wrap justify-center gap-7.5 lg:justify-start">
                 <FeatureCard {...features[0]} delay={0.45} />
