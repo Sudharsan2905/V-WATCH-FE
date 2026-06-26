@@ -272,7 +272,7 @@ function ValueRow({
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <p className="text-[16px] font-bold leading-[20px] text-[#0A4B6E]">{item.title}</p>
-        <p className="text-[14px] leading-[19px] text-[#5B7385]">{item.desc}</p>
+        <p className="text-[14px] font-medium leading-[19px] text-[#0F172A]">{item.desc}</p>
       </div>
       <Image src={item.number} alt="" width={56} height={40} unoptimized className="h-9 w-auto shrink-0 object-contain" />
     </motion.div>
@@ -315,7 +315,7 @@ export default function WhyChoose({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="text-[16px] font-normal text-[#3890C0]"
+              className="text-[16px] font-medium text-[#0A4B6E]"
             >
               {subheading}
             </motion.p>

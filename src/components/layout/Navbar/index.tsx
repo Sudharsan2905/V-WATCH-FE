@@ -131,7 +131,7 @@ const DROPDOWNS: Record<string, DropdownData> = {
         href: "#",
         children: [
           { label: "Contractor Compliances", href: "/contractor-compliance" },
-          { label: "Payroll, Claims & Leave", href:"/#" },
+          { label: "Payroll, Claims & Leave", href:"/workforce-management" },
           { label: "Facial Recognition", href: "/facial-recognition" },
           { label: "Real-Time Headcount", href: "/real-time-headcount" },
           { label: "Geofencing", href: "/geofencing" },

@@ -245,27 +245,62 @@ export default function Environments({
           <motion.div
             variants={wipeUp}
             custom={CARDS_START + cards.length * CARD_STAGGER}
-            className="overflow-hidden rounded-[20px]"
+            className="relative overflow-hidden rounded-[20px]"
             style={{
-              background:
-                "linear-gradient(120deg,#cce6f6 0%,#dff0fb 35%,#eef7fd 70%,#f5fbff 100%)",
+              background: "linear-gradient(180deg, #FFFFFF 0%, #EFF9FF 100%)",
+              border: "1px solid #FFFFFF",
+              boxShadow: "-4px -4px 10px 0px rgba(255,255,255,0.24), 0px 14px 14px 0px rgba(193,236,255,0.10), 0px 4px 24px 0px rgba(10,75,110,0.10)",
             }}
           >
-            <div className="flex flex-col gap-3 px-5 py-1 sm:flex-row sm:items-center sm:gap-4 sm:px-7 lg:gap-6">
+            {/* Spiral SVG — left-anchored, fades out before text */}
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 w-[68%]"
+              style={{
+                maskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+              }}
+            >
+              <Image
+                src="/spiral.svg"
+                alt=""
+                aria-hidden
+                fill
+                unoptimized
+                className="select-none object-cover object-left"
+              />
+            </div>
 
-              {/* Images + arrow — centered on all breakpoints */}
-              <div className="flex shrink-0 items-end justify-center gap-2 sm:gap-3 lg:gap-5">
-                <div className="flex flex-col items-start gap-1.5">
-                  <span className="px-2 py-0.5 text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] lg:px-3 lg:py-1 lg:text-[14px]">
+            {/* Figma Ellipse 3550 — #0A8EC8 with massive layer blur, creates the soft blue glow arc */}
+            <div
+              className="pointer-events-none absolute"
+              style={{
+                width: "800px",
+                height: "800px",
+                left: "-300px",
+                bottom: "-520px",
+                background: "#0A8EC8",
+                borderRadius: "50%",
+                filter: "blur(180px)",
+                opacity: 0.25,
+              }}
+            />
+
+            <div className="relative flex flex-col gap-3 px-5 md:flex-row md:items-stretch md:gap-4 md:px-0 lg:gap-6">
+
+              {/* Images + arrow */}
+              <div className="flex shrink-0 items-end justify-center gap-3 md:gap-4 lg:gap-6">
+                {/* Single Buildings */}
+                <div className="relative flex items-end self-stretch">
+                  <span className="absolute top-1 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
                     {footerPanels[0].label}
                   </span>
                   <Image
                     src={footerPanels[0].image}
                     alt={footerPanels[0].label}
-                    width={110}
-                    height={80}
+                    width={160}
+                    height={130}
                     unoptimized
-                    className="h-auto w-auto object-contain"
+                    className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
                   />
                 </div>
 
@@ -273,33 +308,34 @@ export default function Environments({
                   src="/industries/industrial&energy/right-arrow.svg"
                   alt=""
                   aria-hidden
-                  width={36}
-                  height={16}
-                  className="mb-3 h-3.5 w-auto shrink-0 sm:mb-4 sm:h-4 lg:mb-5 lg:h-5"
+                  width={40}
+                  height={18}
+                  className="h-4 w-auto shrink-0 mb-[21px] min-[321px]:mb-[50px] md:h-5 lg:h-6"
                 />
 
-                <div className="flex flex-col items-start gap-1.5">
-                  <span className="px-2 py-0.5 text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] lg:px-3 lg:py-1 lg:text-[14px]">
+                {/* Multi-site Portfolio */}
+                <div className="relative flex items-end self-stretch">
+                  <span className="absolute top-1 -left-4 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
                     {footerPanels[1].label}
                   </span>
                   <Image
                     src={footerPanels[1].image}
                     alt={footerPanels[1].label}
-                    width={140}
-                    height={100}
+                    width={200}
+                    height={150}
                     unoptimized
-                    className="h-auto w-auto object-contain"
+                    className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
                   />
                 </div>
               </div>
 
-              {/* Text + Logo — grouped tight on the right side */}
-              <div className="flex min-w-0 flex-1 items-center justify-center gap-4 sm:justify-end lg:gap-6">
-                <div className="flex flex-col gap-0.5 text-center sm:text-left">
-                  <p className="text-[14px] font-bold leading-snug text-[#0B1F3A] sm:text-[17px] lg:text-[20px]">
+              {/* Text + Logo */}
+              <div className="flex min-w-0 flex-1 items-center justify-center gap-4 md:justify-end lg:gap-6">
+                <div className="flex flex-col gap-0.5 text-center md:text-left">
+                  <p className="text-[14px] font-bold leading-snug text-[#0B1F3A] md:text-[17px] lg:text-[20px]">
                     The need remains the same
                   </p>
-                  <p className="text-[14px] leading-[18px] sm:text-[17px] lg:text-[20px]">
+                  <p className="text-[14px] leading-[18px] md:text-[17px] lg:text-[20px]">
                     <span className="font-semibold text-[#21B1F1]">{footerKeywords[0]}</span>
                     <span className="text-[#1A2B3C]">, </span>
                     <span className="font-semibold text-[#88A724]">{footerKeywords[1]}</span>
@@ -309,14 +345,25 @@ export default function Environments({
                   </p>
                 </div>
 
-                <Image
-                  src="/industries/industrial&energy/vwatch-circle.png"
-                  alt="V-Watch"
-                  width={72}
-                  height={72}
-                  unoptimized
-                  className="h-auto w-auto shrink-0 self-center"
-                />
+                {/* V-Watch circle — with #3890C0 layer blur glow behind */}
+                <div className="relative shrink-0">
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-full"
+                    style={{
+                      background: "#3890C0",
+                      filter: "blur(49px)",
+                      transform: "translateY(90px) translateX(50px)",
+                    }}
+                  />
+                  <Image
+                    src="/industries/industrial&energy/vwatch-circle.png"
+                    alt="V-Watch"
+                    width={100}
+                    height={100}
+                    unoptimized
+                    className="relative h-auto w-auto"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>
