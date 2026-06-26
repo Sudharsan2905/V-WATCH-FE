@@ -251,7 +251,7 @@ export default function Challenges({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 lg:px-[60px]">
+      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 pb-16 lg:px-[60px] lg:pb-24">
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-8"
           initial="hidden"
@@ -270,7 +270,7 @@ export default function Challenges({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="text-[18px] font-normal text-[#3890C0]"
+              className="text-[20px] font-normal text-[#0A4B6E]"
             >
               {subheading}
             </motion.p>

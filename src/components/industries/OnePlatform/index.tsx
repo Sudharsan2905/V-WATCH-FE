@@ -131,8 +131,8 @@ function FeatureRow({
           {title}
         </p>
         <p
-          className={`text-[14px] leading-[20px] transition-colors duration-500 ${
-            isActive ? "text-[#475569]" : "text-[#B6C0CE]"
+          className={`text-[14px] font-normal leading-[20px] transition-colors duration-500 ${
+            isActive ? "text-[#1D6C97]" : "text-[#002D45]"
           }`}
         >
           {desc}
@@ -177,7 +177,8 @@ function AllowCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-col gap-3 rounded-[16px] border border-[#EAF1F8] bg-white px-4 py-4 shadow-[0px_10px_30px_-18px_rgba(20,46,92,0.25)]"
+      className="flex flex-col gap-3 rounded-[16px] border border-[#EAF1F8] px-4 py-4 shadow-[0px_10px_30px_-18px_rgba(20,46,92,0.25)]"
+      style={{ background: "rgb(245, 251, 255)" }}
     >
       <Image
         src={badge}
@@ -310,7 +311,7 @@ export default function OnePlatform({
             <motion.p
               variants={wipeDown}
               custom={HEADER_P}
-              className="max-w-[760px] text-[16px] leading-[24px] text-[#3E6079]"
+              className="max-w-[760px] text-[20px] font-normal leading-[24px] text-[#0A4B6E]"
             >
               {subtitle}
             </motion.p>

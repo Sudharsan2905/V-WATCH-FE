@@ -275,7 +275,7 @@ export default function Connected({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="max-w-[620px] text-[16px] leading-[24px] text-[#5E7C95]"
+              className="max-w-[620px] text-[16px] font-medium leading-[24px] text-[#0A4B6E]"
             >
               {subtitle}
             </motion.p>

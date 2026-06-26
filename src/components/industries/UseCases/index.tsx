@@ -46,14 +46,24 @@ function Card({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="snap-start h-75.5 w-68.75 rounded-[30px] border-2 border-white/70 bg-white/50 p-2 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)] backdrop-blur-[6px]"
+      className="group snap-start h-75.5 w-68.75 rounded-[30px] border-2 border-white/70 bg-white/50 p-2 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)] backdrop-blur-[6px]"
     >
       <div className="relative h-full w-full overflow-hidden rounded-[20px]">
-        <Image src={image} alt="" fill sizes="(max-width:1024px) 50vw, 23vw" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,20,35,0.92)] via-[rgba(8,20,35,0.30)] to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1.5 p-5">
+        <Image src={image} alt="" fill sizes="(max-width:1024px) 50vw, 23vw" className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,20,35,0.85)] via-[rgba(8,20,35,0.20)] to-transparent" />
+        {/* Content panel — frosted glass, expands on hover to reveal Learn More */}
+        <div className="absolute inset-x-0 bottom-0 rounded-b-[20px] backdrop-blur-[3px] bg-[rgba(8,20,35,0.55)] px-5 pt-4 pb-4 flex flex-col gap-2 transition-all duration-400 ease-out">
           <p className="text-[18px] font-bold leading-[22px] text-white">{title}</p>
           <p className="text-[13px] leading-[18px] text-white/85">{desc}</p>
+          {/* Learn More — hidden by default, slides in on hover */}
+          <div className="overflow-hidden max-h-0 opacity-0 group-hover:max-h-[40px] group-hover:opacity-100 transition-all duration-400 ease-out">
+            <div className="pt-2 flex items-center gap-1.5 text-[14px] font-semibold text-white">
+              Learn More
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden className="size-4">
+                <path d="M3 13 13 3M13 3H6M13 3v7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -165,7 +175,7 @@ export default function UseCases({
               <motion.p
                 variants={wipeDown}
                 custom={0.2}
-                className="text-[16px] leading-[24px] text-[#3E6079]"
+                className="text-[16px] font-medium leading-[24px] text-[#0A4B6E]"
               >
                 {subtitle}
               </motion.p>
