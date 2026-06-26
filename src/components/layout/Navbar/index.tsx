@@ -145,12 +145,12 @@ const DROPDOWNS: Record<string, DropdownData> = {
         desc: "Latest trends and platform updates.",
         href: "#",
       },
-      {
-        icon: "/nav/icons/industries-construction.svg",
-        title: "Contractor Compliance",
-        desc: "Ensure only compliant workers enter your site.",
-        href: "/contractor-compliance",
-      },
+      // {
+      //   icon: "/nav/icons/industries-construction.svg",
+      //   title: "Contractor Compliance",
+      //   desc: "Ensure only compliant workers enter your site.",
+      //   href: "/contractor-compliance",
+      // },
     ],
   },
 };
