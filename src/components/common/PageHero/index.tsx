@@ -58,7 +58,7 @@ export default function PageHero({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px] px-6 lg:px-[60px]">
         <motion.div
           className="pointer-events-none absolute inset-0"
           initial={{ opacity: 0, scale: 1.06 }}
@@ -76,7 +76,7 @@ export default function PageHero({
           />
         </motion.div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+        <div className="relative z-10 mx-auto w-full max-w-[1410px] ">
           <motion.div
             className="flex flex-col justify-center pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"
@@ -94,7 +94,7 @@ export default function PageHero({
 
             <motion.h1
               variants={headingReveal}
-              className="text-[28px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]"
+              className="text-[28px] md:w-[600px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]"
             >
               {heading}
             </motion.h1>
@@ -102,7 +102,7 @@ export default function PageHero({
             <motion.p
               variants={copyReveal}
               custom={0.5}
-              className="max-w-140 mt-[20px]  text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
+              className="max-w-[600px] mt-[20px]  text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
             >
               {description}
             </motion.p>

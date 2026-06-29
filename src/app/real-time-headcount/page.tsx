@@ -5,6 +5,7 @@ import HeadcountFeatureGrid from "@/components/real-time-headcount/HeadcountFeat
 import PoweredByData from "@/components/real-time-headcount/PoweredByData";
 import UsedInEnvironments from "@/components/real-time-headcount/UsedInEnvironments";
 import Footer from "@/components/layout/Footer";
+import TechnologyPartners from "@/components/products/TechnologyPartners";
 
 const FOOTER_COLUMNS = [
   {
@@ -21,7 +22,7 @@ const FOOTER_COLUMNS = [
 export default function RealTimeHeadcountPage() {
   return (
     <div className="relative overflow-x-hidden bg-[#F2F8FE]">
-      <Navbar />
+      <Navbar active="Resources" />
       <PageHero
         bgImage="/real-time-headcount/Home.png"
         heading="Know Who's Safe. Instantly."
@@ -31,7 +32,15 @@ export default function RealTimeHeadcountPage() {
       <WhenEmergencyHappens />
       <HeadcountFeatureGrid />
       <PoweredByData />
-      <UsedInEnvironments />
+      <div className="relative pt-2 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <TechnologyPartners
+          content={{
+            title: "Used in environments where safety is non-negotiable ",
+            subtitle:
+              "From construction sites to industrial operations, V-Watch AI supports emergency response with real-time visibility and accurate data. ",
+          }}
+        />
+      </div>
       <Footer
         ctaTitle="Be prepared when it matters most"
         ctaText="See how V-Watch AI helps you respond faster, act smarter, and protect your workforce during critical situations."

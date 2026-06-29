@@ -59,7 +59,7 @@ function FeatureCard({
   return (
     <motion.div
       variants={scaleIn}
-      className="flex min-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
+      className="flex max-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
       style={{ boxShadow: CARD_SHADOW }}
     >
       {/* Icon tile */}
@@ -67,9 +67,18 @@ function FeatureCard({
         className="flex size-[64px] shrink-0 items-center justify-center rounded-[16px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-[10px]"
         style={{ boxShadow: ICON_SHADOW }}
       >
-        <Image src={icon} alt="" width={iconW} height={iconH} aria-hidden="true" className="h-[30px] w-auto object-contain" />
+        <Image
+          src={icon}
+          alt=""
+          width={iconW}
+          height={iconH}
+          aria-hidden="true"
+          className="h-[30px] w-auto object-contain"
+        />
       </div>
-      <h3 className="text-[20px] font-bold leading-tight text-[#1E293B]">{title}</h3>
+      <h3 className="text-[20px] font-bold leading-tight text-[#1E293B]">
+        {title}
+      </h3>
       <p className="text-[16px] leading-[24px] text-[#475569]">{body}</p>
     </motion.div>
   );
@@ -104,13 +113,24 @@ export default function FeatureGrid() {
             whileInView="show"
             viewport={viewportReveal}
             variants={loadIn}
-            className="relative aspect-[352/427] w-full max-w-[360px] self-center overflow-hidden rounded-[24px] border-2 border-white lg:aspect-auto lg:max-w-none lg:w-[352px] lg:shrink-0 lg:self-stretch"
+            className="
+                relative
+                w-full
+                max-w-[360px]
+                self-center
+                overflow-hidden
+                rounded-[24px]
+                lg:h-[424px]
+                lg:w-[352px]
+                lg:aspect-auto
+                lg:max-w-none
+                lg:shrink-0
+              "
           >
             <Image
               src="/maintenance/maintenance-features.webp"
               alt="V-Watch Ai maintenance operations overview"
               fill
-              sizes="(min-width: 1024px) 352px, 100vw"
               className="object-cover"
             />
           </motion.div>
@@ -121,7 +141,7 @@ export default function FeatureGrid() {
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}
-            className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2"
+            className="grid flex-1 grid-cols-1 gap-[24px] sm:grid-cols-2"
           >
             {FEATURES.map((feature) => (
               <FeatureCard key={feature.title} {...feature} />

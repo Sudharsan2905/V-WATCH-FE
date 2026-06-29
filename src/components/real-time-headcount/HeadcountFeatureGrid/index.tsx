@@ -47,7 +47,7 @@ function FeatureCard({ icon, title, body }: Readonly<(typeof FEATURES)[number]>)
     >
       {/* Icon tile */}
       <div
-        className="flex size-[64px] shrink-0 items-center justify-center overflow-hidden rounded-[16px] border-2 border-white bg-[rgba(244,251,255,0.20)]"
+        className="flex size-[54px] shrink-0 items-center justify-center overflow-hidden rounded-[16px]"
         style={{ boxShadow: ICON_SHADOW }}
       >
         <Image
@@ -56,10 +56,10 @@ function FeatureCard({ icon, title, body }: Readonly<(typeof FEATURES)[number]>)
           width={160}
           height={160}
           aria-hidden="true"
-          className="h-[160px] w-[160px] scale-[4.8] translate-y-[9%] object-contain"
+          className="h-[54px] w-[54px]  border-2 border-white scale-[4.8] translate-y-[9%] object-contain"
         />
       </div>
-      <h3 className="text-[20px] font-bold leading-[100%] tracking-[0px] text-[#005276]">{title}</h3>
+      <h3 className="text-[20px] font-bold leading-[100%] tracking-[0px] text-[#0F172A]">{title}</h3>
       <p className="text-[18px] font-normal leading-[24px] tracking-[-0.2%] text-[#0F172A]">{body}</p>
     </motion.div>
   );
@@ -68,17 +68,17 @@ function FeatureCard({ icon, title, body }: Readonly<(typeof FEATURES)[number]>)
 export default function HeadcountFeatureGrid() {
   return (
     <section className="px-6 pb-12 lg:pb-20 lg:px-[60px]">
-      <div className="mx-auto flex w-full max-w-[1410px] flex-col items-center gap-[30px]">
+      <div className="flex w-full max-w-[1410px] flex-col gap-[30px]">
         {/* Header */}
-        <motion.p
+        <motion.div
           initial="hidden"
           whileInView="show"
           viewport={viewportReveal}
           variants={wipeTop}
-          className="w-full text-[20px] font-normal leading-[28px] tracking-[0%] text-[#0A4B6E]"
+          className="w-full text-[20px] font-normal leading-[28px] tracking-[0%] text-[#0A4B6E] max-w-[953px]"
         >
           V-Watch AI provides real-time headcount and muster visibility giving you immediate insight into workforce status during emergencies.
-        </motion.p>
+        </motion.div>
 
         {/* Image + 2×2 card grid */}
         <div className="flex w-full flex-col gap-[30px] lg:flex-row lg:items-stretch">
@@ -105,7 +105,7 @@ export default function HeadcountFeatureGrid() {
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}
-            className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2"
+            className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2"
           >
             {FEATURES.map((feature) => (
               <FeatureCard key={feature.title} {...feature} />

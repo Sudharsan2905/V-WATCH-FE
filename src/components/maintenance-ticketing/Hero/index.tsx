@@ -61,7 +61,7 @@ const buttonReveal: Variants = {
 export default function MaintenanceHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:max-h-[754px]">
         {/* Background image */}
         <div className="pointer-events-none absolute inset-0">
           <motion.div
@@ -76,24 +76,24 @@ export default function MaintenanceHero() {
               fill
               priority
               sizes="100vw"
-              className="object-cover object-right-top"
+              className="object-cover object-right top-0%"
             />
           </motion.div>
           {/* Gradient keeps text legible against the bright right-side image */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" /> */}
         </div>
 
         {/* Content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+        <div className="relative z-10 w-full mx-auto max-w-[1440px] px-6 lg:px-[60px]">
           <motion.div
-            className="flex min-h-[600px] flex-col justify-center gap-[30px] pt-[140px] pb-[100px] lg:min-h-[754px] lg:py-[140px]"
+            className="flex min-h-[600px] max-w-[1280px] flex-col justify-center gap-[30px] pt-[140px] pb-[100px] lg:min-h-[754px] lg:py-[140px]"
             initial="hidden"
             animate="show"
           >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 ">
               <div className="flex flex-col gap-3.5">
                 {/* Badge */}
-                <motion.span
+                {/* <motion.span
                   variants={badgeReveal}
                   className="inline-flex w-fit items-center gap-[6px] rounded-full border border-white/15 bg-linear-to-b from-white/20 to-white/5 px-[13px] py-[9px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_8px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-md"
                 >
@@ -101,10 +101,10 @@ export default function MaintenanceHero() {
                   <span className="text-base font-bold leading-none text-white">
                     Maintenance &amp; Ticketing
                   </span>
-                </motion.span>
+                </motion.span> */}
 
                 {/* Heading — each line clips independently */}
-                <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+                <h1 className="max-w-[600px] w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
                   <span className="block overflow-hidden">
                     <motion.span custom={0.3} variants={lineReveal} className="block">
                       Keep Operations
@@ -124,7 +124,7 @@ export default function MaintenanceHero() {
               </div>
 
               {/* Description — wipe on first line, fade-rise on subsequent lines */}
-              <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+              <p className="max-w-[600px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
                 <motion.span custom={0.75} variants={copyReveal} className="block">
                   Manage maintenance requests, assign service tasks, and track
                 </motion.span>

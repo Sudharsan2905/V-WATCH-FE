@@ -51,7 +51,7 @@ const buttonReveal: Variants = {
 export default function WorkforceHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px] px-6 lg:px-[60px]">
         {/* Background image */}
         <div className="pointer-events-none absolute inset-0">
           <motion.div
@@ -74,7 +74,7 @@ export default function WorkforceHero() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+        <div className="relative z-10 mx-auto w-full max-w-[1410px]">
           <motion.div
             className="flex min-h-[600px] flex-col justify-center gap-[30px] pt-[140px] pb-[100px] lg:min-h-[754px] lg:py-[140px]"
             initial="hidden"
@@ -82,7 +82,7 @@ export default function WorkforceHero() {
           >
             <div className="flex flex-col gap-5">
               {/* Heading — each line clips independently */}
-              <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+              <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white md:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden">
                   <motion.span custom={0.3} variants={lineReveal} className="block">
                     Simplify Workforce
@@ -101,7 +101,7 @@ export default function WorkforceHero() {
               </h1>
 
               {/* Description — wipe on first line, fade-rise on subsequent lines */}
-              <p className="max-w-[580px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+              <p className="max-w-[580px] text-base font-bold leading-7 text-white md:text-[20px] lg:leading-8">
                 <motion.span custom={0.75} variants={copyReveal} className="block">
                   Automate payroll, claims, and leave management using real-time
                 </motion.span>

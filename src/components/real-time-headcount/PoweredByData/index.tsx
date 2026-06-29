@@ -55,7 +55,7 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative w-full"
+      className="relative w-full max-h-[381px] h-full"
       style={{ filter: "drop-shadow(0 16px 36px rgba(184,209,236,0.45))" }}
     >
       {/* Header: left piece + SVG notch + right piece */}
@@ -104,9 +104,9 @@ function FeatureCard({
       <div
         className="absolute left-1/2 z-10 flex items-center justify-center overflow-hidden"
         style={{
-          top: -45,
-          width: 86,
-          height: 86,
+          top: -25,
+          width: 64,
+          height: 64,
           transform: "translateX(-50%)",
           background: "rgb(240, 249, 255)",
           borderRadius: 22,
@@ -133,26 +133,25 @@ function FeatureCard({
         borderBottom: "1.5px solid #dce9f7",
         borderBottomLeftRadius: 24,
         borderBottomRightRadius: 24,
-        padding: "24px 16px 16px",
-      }}>
-        <p className="text-center mb-4 text-[17px] font-bold text-[#0A4B6E]">{title}</p>
+        padding: "3px 10px",
+      }} >
+        <p className="text-center mb-[14px] text-[20px] font-bold text-[#005276]">{title}</p>
 
-        <div className="relative w-full overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
+        <div className="max-h-[284px] h-full relative w-full overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
           <Image
             src={image}
             alt={title}
             fill
             sizes="(max-width: 640px) 100vw, 33vw"
-            className="object-cover"
+            className="object-cover h-[284px]"
           />
           <div
-            className="absolute bottom-0 left-0 right-0 px-4 py-4"
+            className="absolute bottom-0 left-0 right-0 px-4 py-4 rounded-t-[14px]"
             style={{
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              background: "rgba(10, 20, 40, 0.45)",
-              borderBottomLeftRadius: 14,
-              borderBottomRightRadius: 14,
+              backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(8px)",
+              background: "rgba(10, 20, 40, 0.15)",
+              
             }}
           >
             <p className="text-[13px] leading-5 text-white">{description}</p>
@@ -178,7 +177,7 @@ export default function PoweredByData() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
-            className="mb-16 text-[24px] font-bold leading-8 text-[#0A4B6E] sm:text-[28px] sm:leading-9"
+            className="mb-16 text-[24px] font-bold leading-8 text-[#0A4B6E] sm:text-[26px] sm:leading-9"
           >
             Powered by real-time operational data
           </motion.h2>

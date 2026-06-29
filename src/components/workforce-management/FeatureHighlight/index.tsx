@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { motion, MotionConfig } from "motion/react";
-import { wipeTop, fadeUp, loadIn, staggerContainer, viewportReveal } from "@/components/about/anim";
+import {
+  wipeTop,
+  fadeUp,
+  loadIn,
+  staggerContainer,
+  viewportReveal,
+} from "@/components/about/anim";
 
 const FEATURES = [
   {
@@ -19,14 +25,19 @@ const CARD_SHADOW = "0 4px 32px 0 rgba(0,117,180,0.06)";
 export default function FeatureHighlight() {
   return (
     <MotionConfig reducedMotion="user">
-      <section
-        className="px-6 pb-4 pt-4 lg:px-[60px]"
-        style={{
-          background: "linear-gradient(180deg, #F8FCFF 0%, #EBF5FE 55%, #F8FCFF 100%)",
-          maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-        }}
-      >
+      <section className="relative overflow-hidden px-6 pb-4 pt-4 lg:px-[60px]">
+        <div
+          aria-hidden
+          className="z-100 pointer-events-none absolute left-1/2 bottom-[0px] -translate-x-1/2"
+          style={{
+            width: "700px",
+            height: "180px",
+            background:
+              "radial-gradient(ellipse at center, rgba(213,191,255,0.55) 0%, rgba(213,191,255,0.28) 35%, rgba(213,191,255,0) 100%)",
+            filter: "blur(6px)",
+          }}
+        />
+
         <motion.div
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-6"
           variants={staggerContainer}
@@ -34,22 +45,23 @@ export default function FeatureHighlight() {
           whileInView="show"
           viewport={viewportReveal}
         >
+          <div
+  aria-hidden
+  className="pointer-events-none absolute bottom-0 left-0 right-0 h-[100px]"
+  style={{
+    background:
+      "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 75%, #ffffff 100%)",
+  }}
+/>
           {FEATURES.map(({ number, title, description, image }, i) => (
             <motion.div
               key={number}
               variants={fadeUp}
-              className="relative flex flex-col items-center gap-6 rounded-3xl p-6 sm:flex-row sm:gap-8 sm:p-8"
+              className="relative flex flex-col items-center gap-6 rounded-t-3xl p-6 sm:flex-row sm:gap-8 sm:p-8"
               style={{ boxShadow: CARD_SHADOW }}
             >
               {/* White background that fades right — image sits above this */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-3xl bg-white"
-                style={{
-                  maskImage: "linear-gradient(to right, black 50%, transparent 85%)",
-                  WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 85%)",
-                }}
-              />
+
               {/* Left — number + text */}
               <div className="relative z-10 flex flex-1 items-start gap-5 sm:gap-6">
                 {/* Large number */}
@@ -84,7 +96,7 @@ export default function FeatureHighlight() {
               <motion.div
                 variants={loadIn}
                 custom={0.15 + i * 0.1}
-                className="relative z-10 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl sm:w-[260px]"
+                className="relative z-10 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl sm:w-[360px] h-[260px]"
               >
                 <Image
                   src={image}
