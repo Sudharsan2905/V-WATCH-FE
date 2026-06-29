@@ -315,7 +315,7 @@ export default function WhyChoose({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="text-[16px] font-medium text-[#0A4B6E]"
+              className="font-['Lato'] text-[20px] font-medium leading-[28px] tracking-normal text-[#0A4B6E]"
             >
               {subheading}
             </motion.p>

@@ -154,6 +154,21 @@ function PillarCard({ icon: _icon, title, desc, bullets, image, index }: Readonl
           sizes="(max-width: 1024px) 100vw, 33vw"
           className=""
         />
+        {/* CSS Grid Background Overlay (Specifically for Card 1 to match Card 2 and 3) */}
+        {index === 0 && (
+          <div 
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
+              `,
+              backgroundSize: "32px 32px",
+              maskImage: "linear-gradient(to bottom, black 20%, transparent 50%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 20%, transparent 50%)",
+            }}
+          />
+        )}
       </div>
     </motion.div>
   );
@@ -292,7 +307,7 @@ export default function ThreePillars() {
 
             <div className="relative z-10 flex w-full items-center justify-evenly">
               {/* Text */}
-              <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#B8D8F0] lg:text-left">
+              <p className="flex-1 text-center text-[18px] max-w-150 font-semibold leading-7.5 text-[#FFFFFF] lg:text-left">
                 One platform that{" "}
                 <span className="font-bold text-[#21B1F1]">Connects</span> your
                 systems,{" "}

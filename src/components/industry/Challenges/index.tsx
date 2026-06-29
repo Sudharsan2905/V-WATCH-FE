@@ -254,9 +254,9 @@ function ToggleDial() {
           borderTop: "0.81px rgba(255,255,255,0.04) solid",
         }}
       />
-      {/* Toggle switch — ON state (knob on right) */}
+      {/* Toggle switch — OFF state (knob on left) */}
       <div
-        className="relative flex items-center justify-end"
+        className="relative flex items-center justify-start"
         style={{
           width: 90,
           height: 50,

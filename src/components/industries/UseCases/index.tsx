@@ -175,7 +175,7 @@ export default function UseCases({
               <motion.p
                 variants={wipeDown}
                 custom={0.2}
-                className="text-[16px] font-medium leading-[24px] text-[#0A4B6E]"
+                className="font-['Lato'] text-[20px] font-medium leading-[28px] tracking-normal text-[#0A4B6E]"
               >
                 {subtitle}
               </motion.p>

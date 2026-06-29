@@ -138,7 +138,7 @@ function StepCard({
       <Medallion icon={step.icon} />
       <div className="flex flex-col gap-2.5">
         <p className="text-[19px] font-bold text-[#13476B]">{step.title}</p>
-        <p className="mx-auto max-w-[220px] text-[13.5px] leading-[20px] text-[#5E7C95]">{step.desc}</p>
+        <p className="mx-auto max-w-[220px] font-['Lato'] text-[18px] font-normal leading-[24px] tracking-normal text-center text-[#005276]">{step.desc}</p>
       </div>
     </motion.div>
   );
@@ -275,7 +275,7 @@ export default function Connected({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="max-w-[620px] text-[16px] font-medium leading-[24px] text-[#0A4B6E]"
+              className="max-w-[620px] font-['Lato'] text-[20px] font-medium leading-[28px] tracking-normal text-[#0A4B6E]"
             >
               {subtitle}
             </motion.p>

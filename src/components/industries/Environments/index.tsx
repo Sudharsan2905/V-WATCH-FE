@@ -44,7 +44,16 @@ type EnvCardData = {
   active?: boolean;
 };
 
-type EnvFooterPanel = { image: string; label: string };
+type EnvFooterPanel = { 
+  image: string; 
+  label: string; 
+  /** Page-specific responsive left offset values (e.g. { default: "0px", md: "24px", lg: "96px" }) */
+  leftOffsets?: {
+    default?: string;
+    md?: string;
+    lg?: string;
+  };
+};
 
 type EnvironmentsContent = {
   heading?: string;
@@ -52,6 +61,13 @@ type EnvironmentsContent = {
   cards?: EnvCardData[];
   footerPanels?: EnvFooterPanel[];
   footerKeywords?: string[];
+  /**
+   * Controls where the label is placed relative to each footer panel image.
+   * "top-right"  → label pinned to the absolute top-right corner of the image
+   *                  container (no overlap). Used on the industrial-energy page.
+   * "default"    → original layout (absolute left-positioned overlay).
+   */
+  footerLabelPosition?: "top-right" | "default";
 };
 
 function EnvCard({
@@ -184,6 +200,7 @@ export default function Environments({
       { image: "/industries/industrial&energy/large-scale-operations.png", label: "Large Scale Operations" },
     ],
     footerKeywords = ["Real-time visibility", "Safety", "Control"] as [string, string, string],
+    footerLabelPosition = "default",
   } = environments;
 
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
@@ -219,7 +236,7 @@ export default function Environments({
             <motion.p
               variants={wipeDown}
               custom={0.2}
-              className="max-w-[640px] text-[16px] leading-[24px] text-[#9DB2C9]"
+              className="max-w-[640px] font-['Lato'] text-[20px] font-medium leading-[28px] tracking-normal text-[#FAECFF]"
             >
               {subtitle}
             </motion.p>
@@ -289,20 +306,64 @@ export default function Environments({
 
               {/* Images + arrow */}
               <div className="flex shrink-0 items-end justify-center gap-3 md:gap-4 lg:gap-6">
-                {/* Single Buildings */}
-                <div className="relative flex items-end self-stretch">
-                  <span className="absolute top-1 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
-                    {footerPanels[0].label}
-                  </span>
-                  <Image
-                    src={footerPanels[0].image}
-                    alt={footerPanels[0].label}
-                    width={160}
-                    height={130}
-                    unoptimized
-                    className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
-                  />
-                </div>
+
+                {/* Panel 0 */}
+                {footerLabelPosition === "top-right" ? (
+                  /*
+                   * TOP-RIGHT mode (industrial-energy page only):
+                   * Flex-col stretches full height of the banner row.
+                   * Label sits in normal flow at the top, right-aligned (self-end).
+                   * Image is pushed to the bottom with mt-auto.
+                   * No overlap — matches Figma exactly.
+                   */
+                  <div className="panel-0-container relative flex flex-col">
+                    <span 
+                      className="absolute top-1 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] md:text-[12px] lg:text-[14px]"
+                      style={{
+                        // Apply responsive CSS properties for left positioning
+                        left: `var(--panel-0-left-default, ${footerPanels[0].leftOffsets?.default ?? "0px"})`
+                      }}
+                    >
+                      {/* CSS Variables injected to support tailwind breakpoint styling natively */}
+                      <style jsx={false}>{`
+                        @media (min-width: 768px) {
+                          :global(.panel-0-container span) {
+                            left: ${footerPanels[0].leftOffsets?.md ?? "10px"} !important;
+                          }
+                        }
+                        @media (min-width: 1024px) {
+                          :global(.panel-0-container span) {
+                            left: ${footerPanels[0].leftOffsets?.lg ?? "40px"} !important;
+                          }
+                        }
+                      `}</style>
+                      {footerPanels[0].label}
+                    </span>
+                    <Image
+                      src={footerPanels[0].image}
+                      alt={footerPanels[0].label}
+                      width={160}
+                      height={130}
+                      unoptimized
+                      className="mt-[20px] h-[100px] w-auto object-contain object-bottom sm:h-[110px] md:h-[120px] lg:h-[145px]"
+                    />
+                  </div>
+                ) : (
+                  /* DEFAULT mode — original layout, other pages unaffected */
+                  <div className="relative flex items-end self-stretch">
+                    <span className="absolute top-1 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
+                      {footerPanels[0].label}
+                    </span>
+                    <Image
+                      src={footerPanels[0].image}
+                      alt={footerPanels[0].label}
+                      width={160}
+                      height={130}
+                      unoptimized
+                      className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
+                    />
+                  </div>
+                )}
 
                 <Image
                   src="/industries/industrial&energy/right-arrow.svg"
@@ -313,20 +374,54 @@ export default function Environments({
                   className="h-4 w-auto shrink-0 mb-[21px] min-[321px]:mb-[50px] md:h-5 lg:h-6"
                 />
 
-                {/* Multi-site Portfolio */}
-                <div className="relative flex items-end self-stretch">
-                  <span className="absolute top-1 -left-4 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
-                    {footerPanels[1].label}
-                  </span>
-                  <Image
-                    src={footerPanels[1].image}
-                    alt={footerPanels[1].label}
-                    width={200}
-                    height={150}
-                    unoptimized
-                    className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
-                  />
-                </div>
+                {/* Panel 1 */}
+                {footerLabelPosition === "top-right" ? (
+                  <div className="panel-1-container relative flex flex-col">
+                    <span 
+                      className="absolute top-1 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] sm:text-[11px] md:text-[12px] lg:text-[14px]"
+                      style={{
+                        left: footerPanels[1].leftOffsets?.default ?? "0px"
+                      }}
+                    >
+                      <style jsx={false}>{`
+                        @media (min-width: 768px) {
+                          :global(.panel-1-container span) {
+                            left: ${footerPanels[1].leftOffsets?.md ?? "10px"} !important;
+                          }
+                        }
+                        @media (min-width: 1024px) {
+                          :global(.panel-1-container span) {
+                            left: ${footerPanels[1].leftOffsets?.lg ?? "45px"} !important;
+                          }
+                        }
+                      `}</style>
+                      {footerPanels[1].label}
+                    </span>
+                    <Image
+                      src={footerPanels[1].image}
+                      alt={footerPanels[1].label}
+                      width={200}
+                      height={150}
+                      unoptimized
+                      className="mt-[20px] h-[100px] w-auto object-contain object-bottom sm:h-[110px] md:h-[120px] lg:h-[145px]"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative flex items-end self-stretch">
+                    <span className="absolute top-1 -left-4 md:left-25 lg:left-38 z-10 whitespace-nowrap text-[10px] font-bold leading-none text-[#0F172B] md:text-[10px] lg:text-[14px]">
+                      {footerPanels[1].label}
+                    </span>
+                    <Image
+                      src={footerPanels[1].image}
+                      alt={footerPanels[1].label}
+                      width={200}
+                      height={150}
+                      unoptimized
+                      className="h-[135px] w-auto object-contain object-bottom min-[50px]:h-[110px] md:h-[130px] lg:h-[160px]"
+                    />
+                  </div>
+                )}
+
               </div>
 
               {/* Text + Logo */}

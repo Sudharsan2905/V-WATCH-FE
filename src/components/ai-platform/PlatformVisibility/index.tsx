@@ -86,7 +86,7 @@ export default function PlatformVisibility() {
         <div className="mt-5 flex flex-col gap-[60px] justify-between lg:flex-row lg:items-center lg:gap-6">
           {/* Left: numbered steps */}
           <div className="flex flex-1 flex-col gap-6 lg:max-w-[560px] min-w-[300px]">
-            <motion.p variants={fadeUp} custom={0.2} className="text-[18px] font-bold text-[#006F9F]">
+            <motion.p variants={fadeUp} custom={0.2} className="text-[20px] font-bold text-[#006F9F]">
               It acts as a central operational layer
             </motion.p>
 

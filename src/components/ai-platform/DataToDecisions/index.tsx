@@ -175,11 +175,6 @@ export default function DataToDecisions() {
   return (
     <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-16 py-16 lg:px-[60px]">
-      {/* Faint grid background — lowest layer */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-[0] opacity-50 bg-[linear-gradient(to_right,#E1EDF8_1px,transparent_1px),linear-gradient(to_bottom,#E1EDF8_1px,transparent_1px)] bg-size-[60px_60px]"
-      />
       {/* Bright panel behind the timeline */}
       <svg
         aria-hidden

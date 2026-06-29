@@ -204,7 +204,7 @@ export default function BecomeIntegratorSection() {
                 <h2 className="text-[26px] font-bold leading-tight text-[#0A4B6E]">
                   {BECOME_INTEGRATOR_HEADER.title}
                 </h2>
-                <p className="max-w-[440px] text-[16px] font-normal leading-[24px] text-[#3a6e8c]">
+                <p className="max-w-[440px] text-[20px] font-normal leading-[24px] text-[#3a6e8c]">
                   {BECOME_INTEGRATOR_HEADER.subtitle}
                 </p>
               </motion.header>

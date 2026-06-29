@@ -216,7 +216,7 @@ export default function ProductsHero({
                 <motion.p
                   custom={1.45}
                   variants={copyReveal}
-                  className="max-w-[561px] text-base font-semibold leading-7 text-white lg:text-[20px] lg:leading-8"
+                  className="max-w-[561px] text-base leading-7 text-white lg:text-[20px] lg:leading-8"
                 >
                   {boldLine}
                 </motion.p>
