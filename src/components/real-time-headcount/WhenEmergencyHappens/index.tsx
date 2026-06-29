@@ -38,15 +38,16 @@ const CANNOT_RELY_ON = [
 export default function WhenEmergencyHappens() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 -mt-12 lg:-mt-16">
-        <div className="overflow-hidden rounded-t-[28px] bg-[#EDF7FF]">
-          <div className="mx-auto max-w-[1410px] px-6 py-10 sm:px-8 sm:py-12 lg:px-[60px] lg:py-16">
+      <section className="relative z-10 -mt-12 lg:-mt-16 ">
+        <div className="overflow-hidden rounded-t-[28px] bg-[#EDF7FF] min-h-[320px]  px-6 py-10 sm:px-8 sm:py-12 lg:px-[60px] lg:py-10">
+          <div className="mx-auto max-w-[1410px]">
 
             {/* Header */}
             <motion.div
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
+              className="max-w-[953px]"
             >
               <motion.h2
                 variants={wipeDown}
@@ -58,7 +59,7 @@ export default function WhenEmergencyHappens() {
               <motion.p
                 variants={fadeUp}
                 custom={0.2}
-                className="mt-2 text-[20px] font-normal leading-[28px] text-[#0A4B6E]"
+                className="mt-2 text-[16px] md:text-[20px] font-normal leading-[28px] text-[#0A4B6E]"
               >
                 During an emergency, teams need immediate visibility into workforce status because every second lost can directly impact safety and response effectiveness.
               </motion.p>
@@ -66,13 +67,13 @@ export default function WhenEmergencyHappens() {
 
             {/* 3-column layout */}
             <motion.div
-              className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-6"
+              className="mt-[30px] flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.15 }}
             >
               {/* Left: You need to know */}
-              <div className="flex w-full flex-col gap-6 lg:flex-1">
+              <div className="flex w-full flex-col gap-6 lg:flex-1 lg:py-[33px] lg:pl-[45px]">
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
@@ -88,7 +89,7 @@ export default function WhenEmergencyHappens() {
                       custom={0.15 + i * 0.1}
                       className="flex items-center gap-4"
                     >
-                      <div className="relative h-[64px] w-[64px] shrink-0">
+                      <div className="relative h-[54px] w-[54px] shrink-0">
                         <Image src={item.icon} alt="" fill className="object-contain" />
                       </div>
                       <span className="text-[18px] font-normal leading-[24px] text-[#0F172A]">
@@ -103,19 +104,19 @@ export default function WhenEmergencyHappens() {
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
-                className="relative mx-auto w-full max-w-[400px] shrink-0 lg:mx-0 lg:w-[400px] lg:max-w-none"
+                className="relative mx-auto w-full h-full max-w-[400px] shrink-0 lg:mx-0 lg:w-[416px] lg:max-w-none"
               >
                 <Image
                   src="/real-time-headcount/emergency-floor-plan.png"
                   alt="Emergency floor plan showing occupant locations"
-                  width={400}
-                  height={340}
-                  className="h-auto w-full object-contain"
+                  width={416}
+                  height={320}
+                  className="h-full w-full object-contain"
                 />
               </motion.div>
 
               {/* Right: And you cannot rely on */}
-              <div className="flex w-full flex-col gap-6 lg:flex-1">
+              <div className="flex w-full flex-col gap-6 lg:flex-1 lg:py-[33px] lg:pr-[45px]">
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
@@ -131,7 +132,7 @@ export default function WhenEmergencyHappens() {
                       custom={0.25 + i * 0.1}
                       className="flex items-center gap-4"
                     >
-                      <div className="relative h-[64px] w-[64px] shrink-0 rounded-full bg-white shadow-sm overflow-hidden">
+                      <div className="relative h-[54px] w-[54px] shrink-0 rounded-full bg-white shadow-sm overflow-hidden">
                         <Image
                           src={item.icon}
                           alt=""

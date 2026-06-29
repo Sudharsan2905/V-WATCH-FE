@@ -34,7 +34,7 @@ export default function WorkforceManagementPage() {
         <ConnectedTo />
         <FeatureHighlight />
 
-        <div className="relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <div className="py-2 px-5 relative rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             content={{
               title: "Built for teams managing large and dynamic workforces",

@@ -12,10 +12,10 @@ import {
 
 // ─── Process steps ────────────────────────────────────────────────────────────
 const STEPS = [
-  { icon: "/workforce/process/icon-attendance.svg", w: 32, h: 32, label: "Track Attendance", image: "/workforce/process/step-1.webp" },
-  { icon: "/workforce/process/icon-manhours.svg", w: 28, h: 30, label: "Calculate Manhours", image: "/workforce/process/step-2.webp" },
-  { icon: "/workforce/process/icon-claims.svg", w: 29, h: 30, label: "Process Claims & Leave", image: "/workforce/process/step-3.webp" },
-  { icon: "/workforce/process/icon-payroll.svg", w: 27, h: 30, label: "Generate Payroll", image: "/workforce/process/step-4.webp" },
+  { icon: "/workforce/process/icon-attendance.svg", w: 36, h: 36, label: "Track Attendance", image: "/workforce/process/step-1.webp" },
+  { icon: "/workforce/process/icon-manhours.svg", w: 36, h: 36, label: "Calculate Manhours", image: "/workforce/process/step-2.webp" },
+  { icon: "/workforce/process/icon-claims.svg", w: 32, h: 33, label: "Process Claims & Leave", image: "/workforce/process/step-3.webp" },
+  { icon: "/workforce/process/icon-payroll.svg", w: 29, h: 32, label: "Generate Payroll", image: "/workforce/process/step-4.webp" },
 ];
 
 // Entrance for each connector: clip-reveals left-to-right, staggered by the parent.
@@ -117,7 +117,7 @@ export default function OperationalData() {
               className="grid grid-cols-1 gap-x-6 gap-y-10 min-[426px]:grid-cols-2 min-[1046px]:grid-cols-4 min-[1046px]:gap-x-8 min-[1046px]:pt-9"
             >
               {STEPS.map((step) => (
-                <motion.div key={step.label} variants={fadeUp} className="flex flex-col items-center gap-4">
+                <motion.div key={step.label} variants={fadeUp} className="max-h-[306px] flex flex-col items-center">
                   {/* Step circle */}
                   <motion.div
                     variants={popIn}
@@ -126,18 +126,17 @@ export default function OperationalData() {
                     <Image src={step.icon} alt="" width={step.w} height={step.h} aria-hidden="true" />
                   </motion.div>
                   {/* Label */}
-                  <h3 className="text-center font-lato text-[16px] font-bold leading-tight tracking-[-0.04px] text-[#0F172A] sm:text-[20px]">
+                  <h3 className="mt-[6px] text-center font-lato text-[16px] font-bold leading-[110%] tracking-[-0.04px] text-[#0F172A] sm:text-[20px]">
                     {step.label}
                   </h3>
                   {/* Illustration: blurred glow + frosted glass behind the sharp art. */}
-                  <div className="relative aspect-[5/4] w-full max-w-[250px] overflow-hidden rounded-2xl bg-[linear-gradient(180deg,#EAF4FB_0%,#F4FBFF_100%)]">
-                    <Image
+                  <div className="mt-[12px] relative h-[200px] w-full max-w-[250px] overflow-hidden rounded-2xl bg-[linear-gradient(180deg,#EAF4FB_0%,#F4FBFF_100%)]">               <Image
                       src={step.image}
                       alt=""
                       aria-hidden="true"
                       fill
                       sizes="250px"
-                      className="scale-[1.04] object-cover object-right-bottom blur-[3.5px]"
+                      className="scale-[1.04] object-cover h-full object-right-bottom blur-[3.5px]"
                     />
                     <div
                       aria-hidden

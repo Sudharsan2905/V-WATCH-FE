@@ -4,13 +4,14 @@ import PreConstructionHero from "@/components/pre-construction/Hero";
 import ConnectedSystem from "@/components/geofencing/ConnectedSystem";
 import TrustedBy from "@/components/visitor-management/TrustedBy";
 import { geofencingContent } from "@/data/geofencing";
+import TechnologyPartners from "@/components/products/TechnologyPartners";
 
 export default function GeofencingPage() {
   const { hero, connectedSystem, partners, footer } = geofencingContent;
 
   return (
     <div className="relative bg-[#f5fbff]">
-      <Navbar active="Solutions" />
+      <Navbar active="Resources" />
 
       {/* Common hero — same component/colors/image handling as the pre & post
           construction pages. Copy + bgImage come from the data file. */}
@@ -21,11 +22,19 @@ export default function GeofencingPage() {
 
       {/* Brick-wall partner logos — same component as visitor-management,
           title + description supplied from the data file. */}
-      <TrustedBy
+      {/* <TrustedBy
         trustTitle={`${partners.title} ${partners.subtitle}`}
         trustText={partners.description}
-      />
-
+      /> */}
+      <div className="relative pt-2 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+          <TechnologyPartners
+            content={{
+              title: `${partners.title}`,
+              subtitle:`${partners.subtitle}`
+                
+            }}
+          />
+        </div>
       <Footer
         ctaTitle={footer.ctaTitle}
         ctaText={footer.ctaText}

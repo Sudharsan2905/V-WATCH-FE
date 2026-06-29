@@ -2,28 +2,58 @@
 
 import Image from "next/image";
 import { motion, MotionConfig } from "motion/react";
-import { wipeTop, fadeUp, loadIn, viewportReveal } from "@/components/about/anim";
+import {
+  wipeTop,
+  fadeUp,
+  loadIn,
+  viewportReveal,
+} from "@/components/about/anim";
 
 // ─── Decorative blade fan ─────────────────────────────────────────────────────
 // Identical flat 35×555 radial-glow fins behind the dashboard, masked top/bottom.
-const BLADE_COUNT = 60; // plenty to span any desktop width; clipped by the section
+const BLADE_COUNT = 40; // plenty to span any desktop width; clipped by the section
 const BLADE_GRADIENT =
-  "radial-gradient(101.76% 69.46% at 50% 50%, rgba(245,251,255,0.40) 36.61%, rgba(255,255,255,0.00) 67.79%)";
+  "radial-gradient(101.76% 69.46% at 50% 50%, #F5FBFF 36.61%, rgba(255,255,255,0) 67.79%)";
 // Blue wash behind the fan so the translucent white fins read blue-tinted.
 const BLADE_BLUE_WASH =
   "radial-gradient(70% 50% at 50% 50%, rgba(91,184,245,0.40) 0%, rgba(91,184,245,0.12) 45%, rgba(91,184,245,0.00) 75%)";
 
 function BladeFan() {
   const center = (BLADE_COUNT - 1) / 2;
+
   return (
-    <div className="flex h-[555px] items-stretch justify-center">
+    <div className="relative flex h-[400px] items-stretch justify-center">
       {Array.from({ length: BLADE_COUNT }).map((_, i) => {
-        const boxShadow = i < center ? "inset 6px 0 30px 0 #FFF" : "inset -6px 0 30px 0 #FFF";
+        const distance = Math.abs(i - center);
+        const ratio = distance / center;
+        const intensity = Math.abs(i - center) / center;
+
+        const blue = 0.6 + intensity * 0.28;
+
         return (
           <span
             key={i}
-            className="block h-[555px] w-[35px] shrink-0"
-            style={{ background: BLADE_GRADIENT, boxShadow }}
+            className="h-full w-[36px] shrink-0"
+            style={{
+              background:
+                i < center
+                  ? `linear-gradient(to left,
+        rgba(91,184,245,${blue}),
+        rgba(245,251,255,0.35))`
+                  : `linear-gradient(to right,
+        rgba(91,184,245,${blue}),
+        rgba(245,251,255,0.35))`,
+
+              opacity: 0.2 + ratio * 0.8,
+
+              filter: "blur(0.6px)",
+
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%)",
+
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%)",
+            }}
           />
         );
       })}
@@ -56,8 +86,8 @@ export default function Overview() {
               className="max-w-[760px] font-lato text-[16px] font-normal leading-[24px] sm:text-[20px] sm:leading-[28px]"
             >
               V-Watch Ai brings together attendance, workforce activity, and
-              administrative processes into a single dashboard giving you a clear,
-              real-time overview of your operation.
+              administrative processes into a single dashboard giving you a
+              clear, real-time overview of your operation.
             </motion.p>
           </motion.header>
 
@@ -66,7 +96,7 @@ export default function Overview() {
             {/* Decorative blade fan behind the mockup (desktop only), masked top/bottom. */}
             <div
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[555px] w-screen -translate-x-1/2 -translate-y-1/2 items-center justify-center lg:flex"
+              className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[555px] w-screen -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden lg:flex"
               style={{
                 maskImage:
                   "linear-gradient(to bottom, transparent 0%, #000 16%, #000 56%, transparent 78%)",
@@ -74,8 +104,27 @@ export default function Overview() {
                   "linear-gradient(to bottom, transparent 0%, #000 16%, #000 56%, transparent 78%)",
               }}
             >
-              {/* Blue wash so the fins read blue-tinted, not white */}
-              <div className="absolute inset-0" style={{ background: BLADE_BLUE_WASH }} />
+              {/* Left blue glow */}
+              <div
+                className="absolute left-0 top-1/2 h-[420px] w-[38%] -translate-y-1/2"
+                style={{
+                  background:
+                    "radial-gradient(circle at left center, rgba(91,184,245,.42) 0%, rgba(91,184,245,.18) 35%, transparent 80%)",
+                  filter: "blur(45px)",
+                }}
+              />
+
+              {/* Right blue glow */}
+              <div
+                className="absolute right-0 top-1/2 h-[420px] w-[38%] -translate-y-1/2"
+                style={{
+                  background:
+                    "radial-gradient(circle at right center, rgba(91,184,245,.42) 0%, rgba(91,184,245,.18) 35%, transparent 80%)",
+                  filter: "blur(45px)",
+                }}
+              />
+
+              {/* Blades */}
               <BladeFan />
             </div>
 
