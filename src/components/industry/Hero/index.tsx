@@ -181,7 +181,7 @@ export default function IndustryHero() {
             </div>
 
             {/* Subtitle */}
-            <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+            <p className="max-w-[720px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
               <motion.span custom={0.65} variants={copyReveal} className="block">
                 V-Watch Ai is designed for complex, high-activity environments
               </motion.span>

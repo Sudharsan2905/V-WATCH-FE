@@ -199,9 +199,26 @@ export const constructionContent = {
       },
     ],
     footerPanels: [
-      { image: "/industries/industrial&energy/small-projects.png", label: "Small Projects" },
-      { image: "/industries/industrial&energy/large-scale-developments.png", label: "Large Scale Developments" },
+      { 
+        image: "/industries/industrial&energy/small-projects.png", 
+        label: "Small Projects",
+        leftOffsets: {
+          default: "0px",
+          md: "48px",
+          lg: "96px"
+        }
+      },
+      { 
+        image: "/industries/industrial&energy/large-scale-developments.png", 
+        label: "Large Scale Developments",
+        leftOffsets: {
+          default: "-20px",
+          md: "56px",
+          lg: "125px"
+        }
+      },
     ],
+    footerLabelPosition: "top-right" as const,
     footerKeywords: ["Visibility", "Control", "Coordination"],
   },
   connected: {

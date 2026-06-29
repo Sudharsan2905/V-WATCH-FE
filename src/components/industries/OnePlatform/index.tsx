@@ -292,7 +292,7 @@ export default function OnePlatform({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-16 lg:px-[60px]">
+      <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-0 pb-16 lg:px-[60px]">
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-12"
           initial="hidden"

@@ -361,6 +361,18 @@ export default function ConnectedOperations() {
                   "linear-gradient(to bottom, transparent 0%, #000 11%, #000 87%, transparent 100%)",
               }}
             >
+              {/* Subtle sky-blue background grid */}
+              <div 
+                className="pointer-events-none absolute inset-0 opacity-[0.25]"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(to right, rgba(33, 177, 241, 0.14) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(33, 177, 241, 0.14) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "30px 30px",
+                }}
+              />
+
               <motion.div
                 className="flex flex-col"
                 animate={{ y: trackY }}

@@ -34,7 +34,7 @@ function FeatureCard({ icon, text }: { icon: string; text: string }) {
           />
         </div>
 
-        <p className="text-[14px] font-lato font-[400] leading-relaxed text-[#0A4B6E] sm:text-[16px] lg:text-[18px]">
+        <p className="text-[14px] font-lato font-[400] leading-relaxed text-[#0A4B6E] sm:text-[16px] lg:text-[20px]">
           {text}
         </p>
       </div>

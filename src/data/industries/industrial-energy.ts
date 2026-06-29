@@ -187,6 +187,27 @@ export const industrialEnergyContent = {
       },
     ],
     footerImage: "/industries/construction/designed-environment/env-footer.png",
+    footerPanels: [
+      { 
+        image: "/industries/industrial&energy/confined-industry.png", 
+        label: "Confined Industrial",
+        leftOffsets: {
+          default: "0px",
+          md: "32px",
+          lg: "150px"
+        }
+      },
+      { 
+        image: "/industries/industrial&energy/large-scale-operations.png", 
+        label: "Large Scale Operations",
+        leftOffsets: {
+          default: "0px",
+          md: "32px",
+          lg: "175px"
+        }
+      },
+    ],
+    footerLabelPosition: "top-right" as const,
   },
   connected: {
     heading: "From risk detection to response — in real time",

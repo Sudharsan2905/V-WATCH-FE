@@ -89,7 +89,7 @@ export default function GlobalTechnologiesSection() {
               <h2 className="text-[26px] font-bold leading-none text-white">
                 {GLOBAL_TECH_HEADER.title}
               </h2>
-              <p className="max-w-[720px] text-[16px] font-normal leading-[24px] text-white/85">
+              <p className="max-w-[720px] text-[20px] font-normal leading-[24px] text-white/85">
                 {GLOBAL_TECH_HEADER.subtitle}
               </p>
             </motion.header>

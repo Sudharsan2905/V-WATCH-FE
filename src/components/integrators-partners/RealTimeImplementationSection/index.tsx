@@ -97,13 +97,16 @@ function ShieldBadge() {
       {/* outer circle */}
       <span className="absolute inset-0 rounded-full border border-white/40 bg-[radial-gradient(circle,rgba(255,255,255,0.4)_0%,rgba(202,235,250,0.18)_55%,transparent_72%)]" />
       {/* inner circle — 206/300 of the badge */}
-      <span className="absolute aspect-square w-[68.7%] rounded-full border border-white/60 bg-[radial-gradient(circle,rgba(255,255,255,0.92)_0%,rgba(222,243,253,0.5)_60%,transparent_80%)] shadow-[0_0_40px_rgba(255,255,255,0.55)]" />
+      <span className="absolute aspect-square w-[68.7%] rounded-full border border-white/60 bg-[radial-gradient(circle,rgba(255,255,255,0.92)_0%,rgba(222,243,253,0.5)_60%,transparent_80%)] shadow-[0_0_40px_rgba(33,177,241,0.35),_0_0_20px_rgba(255,255,255,0.6)]" />
+
+      {/* Volumetric Blue Glow layer behind the shield */}
+      <span className="absolute aspect-square w-[45%] rounded-full bg-[#21B1F1] opacity-[0.35] blur-[32px]" />
 
       {/* shield + pin icon — 160/300 of the badge */}
       <svg
         viewBox="0 0 160 180"
         fill="none"
-        className="relative h-auto w-[53.3%] drop-shadow-[0_12px_30px_rgba(120,200,245,0.4)]"
+        className="relative h-auto w-[53.3%] drop-shadow-[0_12px_24px_rgba(33,177,241,0.45)]"
       >
         <defs>
           <linearGradient id="shield-fill" x1="80" y1="12" x2="80" y2="170" gradientUnits="userSpaceOnUse">

@@ -118,7 +118,7 @@ export default function WhyPartnerSection() {
             <h2 className="text-[26px] font-bold leading-none text-[#0A4B6E]">
               {WHY_PARTNER_HEADER.title}
             </h2>
-            <p className="text-[16px] font-normal leading-[24px] text-[#3a6e8c]">
+            <p className="text-[20px] font-normal leading-[24px] text-[#3a6e8c]">
               {WHY_PARTNER_HEADER.subtitle}
             </p>
           </motion.header>
@@ -129,7 +129,7 @@ export default function WhyPartnerSection() {
                 rings centered behind the grid */}
             <motion.div
               variants={emblemReveal}
-              className="pointer-events-none absolute -inset-x-6 -inset-y-16 z-0 hidden lg:block"
+              className="pointer-events-none absolute -inset-x-6 top-0 -bottom-30 z-0 hidden lg:block"
             >
               <Image
                 src={WHY_PARTNER_EMBLEM}
