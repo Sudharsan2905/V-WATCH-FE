@@ -131,12 +131,12 @@ const DROPDOWNS: Record<string, DropdownData> = {
         href: "#",
         children: [
           { label: "Contractor Compliances", href: "/contractor-compliance" },
-          { label: "Payroll, Claims & Leave", href:"/workforce-management" },
           { label: "Facial Recognition", href: "/facial-recognition" },
-          { label: "Real-Time Headcount", href: "/real-time-headcount" },
           { label: "Geofencing", href: "/geofencing" },
-          { label: "Visitor Management", href: "/visitor-management" },
           { label: "Maintenance & Ticketing", href: "/maintenance-ticketing" },
+          { label: "Payroll, Claims & Leave", href:"/workforce-management" },
+          { label: "Real-Time Headcount", href: "/real-time-headcount" },
+          { label: "Visitor Management", href: "/visitor-management" },
         ],
       },
       {
@@ -244,13 +244,13 @@ function ChevronRightButton() {
   );
 }
 
-// A single case-study leaf. With an href it navigates (and shows a chevron);
-// without one it is plain, non-interactive text.
+// A single case-study leaf. With an href it navigates (and shows a card hover
+// with a green chevron); without one it is plain, non-interactive text.
 function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
   const pathname = usePathname();
   if (!href) {
     return (
-      <div className="flex h-12 w-75 cursor-default items-center justify-between rounded-[10px] p-2.5 text-[14px] font-medium text-[#3E4B77]/55">
+      <div className="flex h-12 cursor-default items-center justify-between rounded-[10px] p-2.5 text-[14px] font-medium text-[#3E4B77]/55">
         {label}
       </div>
     );
@@ -264,7 +264,7 @@ function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }}
-      className="group flex h-12 w-75 items-center justify-between gap-2 rounded-[10px] border border-transparent p-2.5 text-[14px] font-medium text-[#3E4B77] transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      className="group flex h-12 items-center justify-between gap-2 rounded-[10px] border border-transparent p-2.5 text-[14px] font-medium text-[#3E4B77] transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
     >
       <span className="truncate">{label}</span>
       <ChevronRightButton />
@@ -272,22 +272,24 @@ function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
   );
 }
 
-// Resources → "Case Studies": an inline accordion that expands into a 2-column
-// grid of solution links.
+// Resources → "Case Studies": an inline accordion that expands into a
+// single-column list of teal text links (Figma design).
 function CaseStudiesAccordion({
   icon,
   title,
   desc,
   children,
 }: Readonly<DropdownLink>) {
+  // Closed by default — opens only when the user clicks the header.
   const [open, setOpen] = useState(false);
   return (
+    // Teal border wrapping the whole block (header + expanded items).
     <div className="rounded-[14px] border border-white bg-white/[0.06] shadow-[0px_10px_7px_rgba(184,230,255,0.14)]">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex h-[62px] w-full items-center gap-3 rounded-[14px] py-2.5 pl-2.5 pr-4 text-left transition-colors hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+        className={`flex h-[62px] w-full items-center gap-3 py-2.5 pl-2.5 pr-4 text-left transition duration-300 hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)] ${open ? "rounded-t-[14px]" : "rounded-[14px]"}`}
       >
         <div className="flex h-6 w-6 shrink-0 items-center justify-center">
           <Image
@@ -300,20 +302,21 @@ function CaseStudiesAccordion({
           />
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-          <p className="text-[16px] font-bold leading-normal text-[#3E4B77]">
+          <p className="text-[16px] font-bold leading-normal text-[#0A4B6E]">
             {title}
           </p>
-          <p className="truncate text-[14px] font-normal leading-normal text-[#556394]">
+          <p className="truncate text-[13px] font-normal leading-normal text-[#556394]">
             {desc}
           </p>
         </div>
-        {/* Green expand/collapse toggle (Figma) */}
+        {/* Green rounded-square chevron toggle matching Figma */}
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] text-white">
           <ChevronDown open={open} />
         </div>
       </button>
       {open && children && (
-        <div className="grid w-152.5 grid-cols-2 gap-2.5 pb-2.5 pt-0.5">
+        // Single-column list — no chevrons, plain teal links.
+        <div className="flex flex-col pb-3 pt-1">
           {children.map((c) => (
             <CaseStudyRow key={c.label} {...c} />
           ))}
