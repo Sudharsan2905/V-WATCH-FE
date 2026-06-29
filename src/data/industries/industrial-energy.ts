@@ -94,7 +94,7 @@ export const industrialEnergyContent = {
         desc: "Maintain a live view of site activity to support faster, more informed decisions.",
       },
     ],
-    allowsLabel: "It allows you to",
+    allowsLabel: "You can",
     allows: [
       {
         badge: "/industries/construction/one-platform/one.svg",

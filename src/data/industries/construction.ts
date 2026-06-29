@@ -107,7 +107,7 @@ export const constructionContent = {
         ],
       },
     ],
-    allowsLabel: "It allows you to",
+    allowsLabel: "You can",
     allows: [
       {
         badge: "/industries/construction/one-platform/one.svg",
