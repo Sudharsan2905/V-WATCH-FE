@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
-import BookADemo from "@/components/common/BookADemo";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -228,7 +227,6 @@ export default function HelpCards() {
                 </>
               }
               bgSrc="/contact/cards/bgpattern.svg"
-              cta={<BookADemo noBorder />}
               className="min-h-[320px] lg:h-[440px]"
               variants={cardLeft}
               delay={0.1}

@@ -58,21 +58,7 @@ export default function WhatWeSee() {
   return (
     <section className="relative z-10 -mt-[46px] rounded-tl-[46px] rounded-tr-[46px] bg-[#F5FBFF] py-[60px] lg:py-[80px]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
-        {/* Header */}
-        <motion.div
-          className="mb-[30px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
-          variants={wipeTop}
-        >
-          <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
-            What We See
-          </h2>
-          <p className="text-[16px] font-normal lg:text-[20px] text-[#0a4b6e] leading-[28px]">
-            Operations today are fragmented and difficult to control
-          </p>
-        </motion.div>
+
 
         {/* 3-column layout. On tablet (md) the fixed-width illustration can't sit
             between two text columns, so it spans full width on top and the two

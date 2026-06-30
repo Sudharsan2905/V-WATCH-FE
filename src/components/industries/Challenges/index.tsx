@@ -393,15 +393,7 @@ export default function Challenges({
                 </div>
               )}
 
-              {callout && (
-                <motion.div
-                  variants={fadeUp}
-                  custom={IMGS_START + IMG_STAGGER * 4}
-                  className="mt-5 mb-1.25 flex justify-center md:mb-0 md:block md:absolute md:bottom-[10px] md:left-[150px] lg:left-[-40px] xl:left-[-80px] md:mt-0 md:max-w-[450px]"
-                >
-                  <CalloutPill text={callout} icon={calloutIcon} width={calloutWidth} />
-                </motion.div>
-              )}
+
             </div>
           </div>
         </motion.div>
