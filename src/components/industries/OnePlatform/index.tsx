@@ -177,18 +177,10 @@ function AllowCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-col gap-3 rounded-[16px] border border-[#EAF1F8] px-4 py-4 shadow-[0px_10px_30px_-18px_rgba(20,46,92,0.25)]"
+      className="flex items-center justify-center rounded-[16px] border border-[#EAF1F8] px-4 py-4 shadow-[0px_10px_30px_-18px_rgba(20,46,92,0.25)]"
       style={{ background: "rgb(245, 251, 255)" }}
     >
-      <Image
-        src={badge}
-        alt=""
-        width={33}
-        height={33}
-        unoptimized
-        className="size-[33px] object-contain"
-      />
-      <p className="text-[18px] font-regular font-[400] leading-[20px] text-[#002D45]">
+      <p className="text-center text-[18px] font-normal leading-[20px] text-[#002D45]">
         {title}
       </p>
     </motion.div>

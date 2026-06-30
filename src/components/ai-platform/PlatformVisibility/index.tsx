@@ -123,7 +123,8 @@ export default function PlatformVisibility() {
               alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
               width={593}
               height={453}
-              className="h-auto max-w-[670px] object-fill"
+              className="h-[453px] max-w-[593px] object-contain"
+              quality={100}
             />
           </motion.div>
         </div>

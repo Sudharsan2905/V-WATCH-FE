@@ -190,9 +190,9 @@ export default function PostConstructionTransition({
   content = {},
 }: Readonly<{ content?: PostConstructionTransitionContent }> = {}) {
   const {
-    heading = "No Re-onboarding, No data loss, Just continuity.",
-    intro = "Data collected during construction doesn't disappear it becomes the foundation for long-term operational control.",
-    pill = "TRANSITION TO POST-CONSTRUCTION",
+    heading = "",
+    intro = "",
+    pill = "",
     features = DEFAULT_FEATURES,
     panelTitle = "With V-Watch AI, everything transitions seamlessly into post-construction operations",
     ctaLabel,
@@ -204,9 +204,11 @@ export default function PostConstructionTransition({
   // pre-construction, otherwise (e.g. the pre-construction page) link forward to
   // post-construction. Explicit `ctaHref` / `ctaLabel` from content always win.
   const pathname = usePathname();
-  const onPostConstruction = pathname?.startsWith("/post-construction") ?? false;
+  const onPostConstruction =
+    pathname?.startsWith("/post-construction") ?? false;
   const ctaTarget =
-    ctaHref ?? (onPostConstruction ? "/pre-construction" : "/post-construction");
+    ctaHref ??
+    (onPostConstruction ? "/pre-construction" : "/post-construction");
   const resolvedLabel =
     ctaLabel ??
     (onPostConstruction
@@ -224,46 +226,50 @@ export default function PostConstructionTransition({
         >
           {/* Header row — heading + intro on the left, pill on the right. */}
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
-            <div className="max-w-[733px]">
-              <motion.h2
-                variants={wipeDown}
-                custom={0.05}
-                className="text-[22px] font-bold leading-none text-[#0A4B6E] sm:text-[26px]"
-              >
-                {heading}
-              </motion.h2>
-              <motion.p
-                variants={fadeUp}
-                custom={0.2}
-                className="mt-2 font-lato text-[20px] font-normal leading-7 tracking-normal text-[#0A4B6E]"
-              >
-                {intro}
-              </motion.p>
-            </div>
+            {heading && intro && (
+              <div className="max-w-[733px]">
+                <motion.h2
+                  variants={wipeDown}
+                  custom={0.05}
+                  className="text-[22px] font-bold leading-none text-[#0A4B6E] sm:text-[26px]"
+                >
+                  {heading}
+                </motion.h2>
+                <motion.p
+                  variants={fadeUp}
+                  custom={0.2}
+                  className="mt-2 font-lato text-[20px] font-normal leading-7 tracking-normal text-[#0A4B6E]"
+                >
+                  {intro}
+                </motion.p>
+              </div>
+            )}
 
             {/* Pill — pale glass chip; gradient text with a 6px gradient accent
                 bar pinned flush to the right edge (Figma: 44px tall, radius
                 TL/BL 10px · TR/BR 4px, padding L20 / R14). */}
-            <motion.div
-              variants={fadeUp}
-              custom={0.3}
-              className="inline-flex min-h-11 w-fit shrink-0 items-center self-start overflow-hidden rounded-l-[10px] rounded-r-[4px] py-1.5 pl-5 sm:py-0"
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(33,177,241,0.10) 0%, rgba(197,235,76,0.10) 100%)",
-              }}
-            >
-              <span
-                className="bg-clip-text pr-3.5 font-lato text-[16px] font-bold leading-tight tracking-normal text-transparent sm:text-[20px] sm:leading-none"
+            {pill && (
+              <motion.div
+                variants={fadeUp}
+                custom={0.3}
+                className="inline-flex min-h-11 w-fit shrink-0 items-center self-start overflow-hidden rounded-l-[10px] rounded-r-[4px] py-1.5 pl-5 sm:py-0"
                 style={{
-                  backgroundImage:
-                    "linear-gradient(90deg, #7ECFFA 0%, #3890C0 100%)",
+                  background:
+                    "linear-gradient(90deg, rgba(33,177,241,0.10) 0%, rgba(197,235,76,0.10) 100%)",
                 }}
               >
-                {pill}
-              </span>
-              <span className="w-1.5 self-stretch bg-[linear-gradient(180deg,#21B1F1_0%,#C5EB4C_100%)]" />
-            </motion.div>
+                <span
+                  className="bg-clip-text pr-3.5 font-lato text-[16px] font-bold leading-tight tracking-normal text-transparent sm:text-[20px] sm:leading-none"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(90deg, #7ECFFA 0%, #3890C0 100%)",
+                  }}
+                >
+                  {pill}
+                </span>
+                <span className="w-1.5 self-stretch bg-[linear-gradient(180deg,#21B1F1_0%,#C5EB4C_100%)]" />
+              </motion.div>
+            )}
           </div>
 
           {/* Card field with the glass panel woven behind the right column.
