@@ -258,18 +258,30 @@ export default function OnePlatform({
     const container = scrollRef.current;
     if (!container) return;
 
-    const focal = container.scrollTop + container.clientHeight / 3;
     let nearest = 0;
-    let best = Infinity;
-    rowRefs.current.forEach((row, i) => {
-      if (!row) return;
-      const center = row.offsetTop + row.offsetHeight / 2;
-      const dist = Math.abs(center - focal);
-      if (dist < best) {
-        best = dist;
-        nearest = i;
-      }
-    });
+
+    // Check if scrolled completely to the top
+    if (container.scrollTop <= 5) {
+      nearest = 0;
+    }
+    // Check if scrolled completely to the bottom
+    else if (container.scrollTop + container.clientHeight >= container.scrollHeight - 15) {
+      nearest = features.length - 1;
+    }
+    // Otherwise calculate based on proximity to focal line
+    else {
+      const focal = container.scrollTop + container.clientHeight / 3;
+      let best = Infinity;
+      rowRefs.current.forEach((row, i) => {
+        if (!row) return;
+        const center = row.offsetTop + row.offsetHeight / 2;
+        const dist = Math.abs(center - focal);
+        if (dist < best) {
+          best = dist;
+          nearest = i;
+        }
+      });
+    }
 
     setActiveIndex(prev => {
       if (prev !== nearest) skipAutoScroll.current = true;

@@ -458,21 +458,6 @@ export default function Challenges() {
             <ToggleRings />
           </motion.div>
 
-          {/* Callout card (xl only) — positioned by its tab top-left */}
-          <motion.div
-            variants={fadeUp}
-            custom={CALLOUT_DELAY}
-            className="absolute z-10 hidden xl:block"
-            style={{ left: 782, top: 300 }}
-          >
-            <CalloutCard />
-          </motion.div>
-
-          {/* Callout message under the cards (below xl). The toggle is part of
-              the connector diagram, so it's hidden whenever the connector is. */}
-          <motion.div variants={fadeUp} custom={CALLOUT_DELAY} className="mt-8 xl:hidden">
-            <CalloutCard />
-          </motion.div>
         </div>
       </motion.div>
     </section>

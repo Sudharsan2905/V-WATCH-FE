@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
@@ -32,7 +33,13 @@ const slideFromRight: Variants = {
 
 // "Also used across a wide range of environments" — dark masonry of industry
 // image cards (alternating 488 / 608 widths). (Figma node 270:13152)
-type Card = { title: string; img: string; icon: string; size: "sm" | "lg" };
+type Card = { 
+  title: string; 
+  img: string; 
+  icon: string; 
+  size: "sm" | "lg";
+  borderStyle?: React.CSSProperties;
+};
 
 const ROWS: Card[][] = [
   [
@@ -41,12 +48,20 @@ const ROWS: Card[][] = [
       img: "/industry/adapt-datacenter.png",
       icon: "/industries/industries-hub/datacenters.svg",
       size: "sm",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(135deg, rgb(81, 127, 156) 0%, transparent 100%) border-box",
+      },
     },
     {
       title: "Manufacturing",
       img: "/industry/adapt-manufacturing.png",
       icon: "/industries/industries-hub/manufacturing.svg",
       size: "lg",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(225deg, transparent 0%, rgb(106, 125, 92) 100%) border-box",
+      },
     },
   ],
   [
@@ -55,12 +70,20 @@ const ROWS: Card[][] = [
       img: "/industry/adapt-healthcare.png",
       icon: "/industries/industries-hub/healthcare.svg",
       size: "lg",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(180deg, #A6C936 0%, #21B1F1 100%) border-box",
+      },
     },
     {
       title: "Infrastructure & Utilities",
       img: "/industry/adapt-infrastructure.png",
       icon: "/industries/industries-hub/infrastructure.svg",
       size: "sm",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(135deg, transparent 0%, rgb(82, 128, 158) 100%) border-box",
+      },
     },
   ],
   [
@@ -69,12 +92,20 @@ const ROWS: Card[][] = [
       img: "/industry/adapt-logistics.png",
       icon: "/industries/industries-hub/logistics.svg",
       size: "sm",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(45deg, rgb(83, 117, 143) 0%, transparent 100%) border-box",
+      },
     },
     {
       title: "Transportation Hubs (airports, ports, rail)",
       img: "/industry/adapt-transport.png",
       icon: "/industries/industries-hub/transport.svg",
       size: "lg",
+      borderStyle: {
+        border: "8px solid transparent",
+        background: "linear-gradient(to bottom, #0f172a, #0f172a) padding-box, linear-gradient(315deg, rgb(111, 128, 102) 0%, transparent 100%) border-box",
+      },
     },
   ],
 ];
@@ -85,15 +116,25 @@ function IndustryCard({
   icon,
   size,
   side,
+  borderStyle,
 }: Readonly<Card & { side: "left" | "right" }>) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const defaultBorderStyle: React.CSSProperties = {
+    border: "8px solid rgba(255, 255, 255, 0.1)",
+  };
+
   return (
     <motion.div
       variants={side === "left" ? slideFromLeft : slideFromRight}
-      className={`relative h-[280px] w-full overflow-hidden rounded-[24px] border-8 border-white/10 sm:w-auto ${
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative h-[280px] w-full overflow-hidden rounded-[24px] sm:w-auto transition-[border,background] duration-300 ${
         // flex-basis:0 only on sm+ (row axis = width). On mobile the cards are a
         // column, where flex-basis:0 would zero their HEIGHT — so keep w-full.
         size === "lg" ? "sm:flex-[608_1_0]" : "sm:flex-[488_1_0]"
       }`}
+      style={isHovered && borderStyle ? borderStyle : defaultBorderStyle}
     >
       <Image
         src={img}

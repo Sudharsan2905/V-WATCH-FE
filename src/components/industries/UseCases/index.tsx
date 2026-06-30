@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ViewAllUseCases from "@/components/common/ViewAllUseCases";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -108,7 +107,6 @@ export default function UseCases({
   const {
     heading = "Solve critical challenges",
     subtitle = "",
-    ctaHref = "#",
     cards = [],
   } = useCases;
 
@@ -180,10 +178,6 @@ export default function UseCases({
                 {subtitle}
               </motion.p>
             </div>
-
-            <motion.div variants={fadeUp} custom={0.3} className="shrink-0">
-              <ViewAllUseCases href={ctaHref} />
-            </motion.div>
           </header>
 
           {/* Cards — scroll row with arrows placed before & after, not over the images */}
