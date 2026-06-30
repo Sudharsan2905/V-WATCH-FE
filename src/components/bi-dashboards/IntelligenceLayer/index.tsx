@@ -1,4 +1,4 @@
-﻿// "A single intelligence layer powered by Power BI"
+// "A single intelligence layer powered by Power BI"
 // Left: the isometric Power BI "stack" artwork. Right: a 2x2 grid of cards.
 
 "use client";
@@ -255,7 +255,7 @@ export default function IntelligenceLayer() {
                 >
                   {f.icon}
                 </span>
-                <p className="text-[17px] font-bold leading-[24px] text-[#0A4B6E]">
+                <p className="text-[17px] font-bold leading-[24px] text-[#1D293D]">
                   {f.label}
                 </p>
               </motion.div>
