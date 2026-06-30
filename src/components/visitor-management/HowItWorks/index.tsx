@@ -46,22 +46,46 @@ const ICON = (file: string) => `/visitor-management/how-to-work/${file}.png`;
 
 // System Input — top row (registration → access → identity → entry).
 const INPUT_LEFT: Item[] = [
-  { text: "Visitors are pre-registered or registered on arrival", icon: ICON("visitor-registration") },
-  { text: "Access is granted based on approval and permissions", icon: ICON("access-approval") },
+  {
+    text: "Visitors are pre-registered or registered on arrival",
+    icon: ICON("visitor-registration"),
+  },
+  {
+    text: "Access is granted based on approval and permissions",
+    icon: ICON("access-approval"),
+  },
 ];
 const INPUT_RIGHT: Item[] = [
-  { text: "Identity is verified via digital pass, QR, or facial recognition", icon: ICON("identity-verification") },
-  { text: "Entry, movement, and exit are recorded in real time", icon: ICON("entry-exit-tracking") },
+  {
+    text: "Identity is verified via digital pass, QR, or facial recognition",
+    icon: ICON("identity-verification"),
+  },
+  {
+    text: "Entry, movement, and exit are recorded in real time",
+    icon: ICON("entry-exit-tracking"),
+  },
 ];
 
 // System Output — bottom row (logs → alerts → visibility → audit).
 const OUTPUT_LEFT: Item[] = [
-  { text: "Complete visitor logs know who entered and when", icon: ICON("visitor-logs") },
-  { text: "Alerts for unauthorized or unregistered access", icon: ICON("unauthorized-access-alert") },
+  {
+    text: "Complete visitor logs know who entered and when",
+    icon: ICON("visitor-logs"),
+  },
+  {
+    text: "Alerts for unauthorized or unregistered access",
+    icon: ICON("unauthorized-access-alert"),
+  },
 ];
 const OUTPUT_RIGHT: Item[] = [
-  { text: "Real-time visibility of all visitors on-site", icon: ICON("realtime-visibility") },
-  { text: "Audit-ready records for compliance and reporting", icon: ICON("audit-records") },
+  {
+    text: "Real-time visibility of all visitors on-site",
+    icon: ICON("realtime-visibility"),
+  },
+  {
+    text: "Audit-ready records for compliance and reporting",
+    icon: ICON("audit-records"),
+  },
 ];
 
 function HiwCard({
@@ -84,7 +108,9 @@ function HiwCard({
     >
       <p
         className={`text-[16px] font-normal leading-[22px] text-[#1D293D] sm:text-[18px] sm:leading-6 ${
-          iconRight ? "pl-5 pr-[44px]" : "pl-[44px] pr-5"
+          iconRight
+            ? "pl-5 pr-[72px] min-[1140px]:pr-[44px]"
+            : "pl-[72px] pr-5 min-[1140px]:pl-[44px]"
         }`}
       >
         {text}
@@ -96,8 +122,8 @@ function HiwCard({
           // Below lg the badge tucks inside the card; on desktop (lg) it sits
           // half-outside on the inner edge, where the connector meets it.
           iconRight
-            ? "right-2 xl:right-0 xl:translate-x-1/2"
-            : "left-2 xl:left-0 xl:-translate-x-1/2"
+            ? "right-2 min-[1140px]:right-0 min-[1140px]:translate-x-1/2"
+            : "left-2 min-[1140px]:left-0 min-[1140px]:-translate-x-1/2"
         }`}
       >
         <Image
@@ -120,8 +146,10 @@ function CardColumn({
   return (
     <div
       className={`flex flex-col gap-8 ${
-        align === "start" ? "lg:items-start" : "lg:items-end"
-      } ${side === "left" ? "items-start" : "items-start lg:items-end"}`}
+        align === "start"
+          ? "min-[1140px]:items-start"
+          : "min-[1140px]:items-end"
+      } ${side === "left" ? "items-start" : "items-start md:items-end"}`}
     >
       {items.map((it, i) => (
         <HiwCard key={it.text} {...it} side={side} index={i} />
@@ -132,37 +160,37 @@ function CardColumn({
 
 export default function HowItWorks() {
   return (
-    <section className="relative bg-[#F5FBFF] px-5 pt-10 pb-16 sm:px-8 lg:px-[60px] xl:pb-0">
+    <section className="relative bg-[#F5FBFF] px-5 pt-10 pb-16 sm:px-8 min-[1140px]:px-[60px] xl:pb-0">
       <motion.div
-        className="mx-auto flex w-full max-w-[1280px] flex-col gap-5 xl:h-[687px] xl:max-h-[687px]"
+        className="flex w-full max-w-[1280px] flex-col gap-5 xl:h-[687px] xl:max-h-[687px]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}
       >
         <motion.h2
           variants={wipeTop}
-          className="text-[24px] font-bold leading-tight text-[#0A4B6E] sm:text-[28px]"
+          className="text-[24px] font-bold leading-tight text-[#0A4B6E] sm:text-[26px]"
         >
           How It Works
         </motion.h2>
 
         {/* Diagram area — 1160 × 556 at desktop. Hidden below lg (the connector
             diagram can't render in a single column); mobile uses the block below. */}
-        <div className="relative mx-auto hidden w-full max-w-[1130px] xl:block">
+        <div className="relative mx-auto hidden w-full max-w-[1130px] min-[1140px]:block">
           {/* Central diagram — two layers: the faint grid behind, the hub +
               connector curves on top, both centered. Hidden below lg, where
               the layout collapses to a single column. */}
           <motion.div
             aria-hidden
             variants={diagramIn}
-            className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 min-[1140px]:block"
           >
             <Image
               src="/visitor-management/how-it-works-grid.png"
               alt=""
               width={706}
               height={520}
-              className="h-auto w-[706px] max-w-none"
+              className="h-[520px] w-[706px] max-w-none"
             />
             <Image
               src="/visitor-management/how-it-works-hub.png"
@@ -175,13 +203,13 @@ export default function HowItWorks() {
 
           {/* Cards grid: left column · center labels · right column,
               for the Input (top) and Output (bottom) rows. */}
-          <div className="relative z-10 grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-[350px_1fr_350px] lg:gap-x-0 lg:gap-y-[188px]">
+          <div className="relative z-10 grid grid-cols-1 gap-x-6 gap-y-10 min-[1140px]:grid-cols-[350px_1fr_350px] min-[1140px]:gap-x-0 min-[1140px]:gap-y-[188px]">
             {/* ── System Input row ── */}
             <CardColumn items={INPUT_LEFT} side="left" align="start" />
             <motion.div
               variants={labelIn}
               custom={0.2}
-              className="hidden items-center justify-center lg:flex"
+              className="hidden items-center justify-center min-[1140px]:flex"
             >
               <span className="text-center text-[20px] font-bold leading-6 tracking-[-0.6px] text-[#006F9F]">
                 System Input
@@ -194,7 +222,7 @@ export default function HowItWorks() {
             <motion.div
               variants={labelIn}
               custom={0.2}
-              className="hidden items-center justify-center lg:flex"
+              className="hidden items-center justify-center min-[1140px]:flex"
             >
               <span className="text-center text-[20px] font-bold leading-6 tracking-[-0.6px] text-[#006F9F]">
                 System Output
@@ -206,7 +234,7 @@ export default function HowItWorks() {
 
         {/* ── Mobile / tablet — labelled card groups, no diagram. 1 column on
             mobile, 2 columns on tablet (md). Desktop (lg) uses the block above. */}
-        <div className="flex flex-col gap-10 xl:hidden">
+        <div className="flex flex-col gap-10 min-[1140px]:hidden">
           <div>
             <motion.p
               variants={labelIn}

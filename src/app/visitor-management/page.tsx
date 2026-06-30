@@ -5,6 +5,7 @@ import SmarterWay from "@/components/visitor-management/SmarterWay";
 import HowItWorks from "@/components/visitor-management/HowItWorks";
 import TrustedBy from "@/components/visitor-management/TrustedBy";
 import Footer from "@/components/layout/Footer";
+import TechnologyPartners from "@/components/products/TechnologyPartners";
 
 export const metadata: Metadata = {
   title: "Visitor Management — V-Watch Ai",
@@ -32,8 +33,19 @@ export default function VisitorManagementPage() {
       <HeroSection />
       <SmarterWay />
       <HowItWorks />
-      <TrustedBy trustTitle="Trusted by teams operating in high-security environments" trustText="From construction sites to critical facilities, organisations rely on
-            V-Watch Ai to manage visitor access securely and efficiently." />
+      {/* <TrustedBy trustTitle="Trusted by teams operating in high-security environments" trustText="From construction sites to critical facilities, organisations rely on
+            V-Watch Ai to manage visitor access securely and efficiently." /> */}
+
+      <div className="p-4 relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <TechnologyPartners
+          content={{
+            title: "Trusted by teams operating in high-security environments",
+            subtitle:
+              "From construction sites to critical facilities, organisations rely on V-Watch Ai to manage visitor access securely and efficiently.",
+          }}
+        />
+      </div>
+
       <Footer
         ctaTitle="Take control of your visitor access"
         ctaText="See how V-Watch Ai helps you streamline visitor management, improve security, and maintain full visibility across your operations."

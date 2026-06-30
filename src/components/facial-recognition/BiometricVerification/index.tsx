@@ -55,26 +55,104 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="h-full rounded-[20px] p-1.5"
+      className="h-full rounded-[20px]"
       style={{
-        background: "#E5F4FE",
+        background: "#e5f4fe",
       }}
     >
       {/* Inner card */}
       <div
         className="flex h-full flex-col gap-2.5 rounded-[20px] p-4"
         style={{
-          background: "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
+          background:
+            "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
           border: "1px solid transparent",
-          boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
+          boxShadow:
+            "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
-        {/* Icon — Presentation*.png already contains the full icon graphic */}
-        <div className="relative h-16 w-24 shrink-0">
-          <Image src={icon} alt="" fill className="object-contain" />
+        {/* Icon badge — Figma spec: 60×54 pill, blue circle, frosted icon
+            square. All sizes/positions read from the Figma inspector. */}
+        <div className="relative shrink-0 flex justify-center items-center" style={{ width: 60, height: 54 }}>
+          {/* 1. Outer pill — radius 82.4, gradient fill #B8E6FF→#C1ECFF,
+              1.25px white→transparent gradient border (masked ring). */}
+          <div
+            className="absolute inset-0"
+            style={{
+              borderRadius: 82.4,
+              background: "linear-gradient(180deg, #B8E6FF 0%, #C1ECFF 100%)",
+            }}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                borderRadius: 82.4,
+                padding: 1.25,
+                background:
+                  "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0) 100%)",
+                WebkitMask:
+                  "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                maskComposite: "exclude",
+              }}
+            />
+          </div>
+          {/* 2. Blue circle — 41.35×38.4, centred in the pill */}
+          <div
+            className="absolute"
+            style={{
+              width: '29px',
+              height: '29px',
+              borderRadius: 9999,
+              background:
+                "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
+              boxShadow: "0 4px 14px rgba(26,143,206,0.32)",
+            }}
+          >
+          {/* 3. Frosted icon square — 28.55×28.55 at (11.08, 8.4),
+              0.4px white(40%)→transparent gradient border (masked ring). */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{
+              width: 28.55,
+              height: 28.55,
+              left: '7.08px',
+              top: '5px',
+              borderRadius: 9,
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+            }}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                borderRadius: 9,
+                padding: 0.4,
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)",
+                WebkitMask:
+                  "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                maskComposite: "exclude",
+              }}
+            />
+            <Image
+              src={icon}
+              alt=""
+              width={18}
+              height={18}
+              className="object-contain"
+            />
+          </div>
+        </div>
         </div>
 
-        <p className="text-[18px] font-normal leading-6 text-[#1D293D]">
+        <p className="text-[14px] md:text-[18px] font-medium leading-[24px] text-[#1D293D]">
           {label}
         </p>
       </div>
@@ -164,7 +242,7 @@ export default function BiometricVerification() {
 
                   {/* Caption pill — semi-transparent black, near bottom */}
                   <div className="absolute inset-x-0 bottom-0 flex h-full max-h-[64px] w-full items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
-                    <p className="w-[462px] text-center text-[18px] font-bold leading-none text-white">
+                    <p className="w-[462px] text-center text-[18px] font-bold leading-[130%] text-white">
                       No duplicates, No sharing,
                       <br />
                       No guesswork
