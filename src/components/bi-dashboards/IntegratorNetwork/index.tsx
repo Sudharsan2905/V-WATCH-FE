@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
@@ -227,7 +227,7 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
           {current.body.map((para) => (
             <p
               key={para}
-              className="text-[16px] font-normal leading-[24px] text-[#3E4B77]"
+              className="text-[16px] font-normal leading-[24px] text-[#1D293D]"
             >
               {para}
             </p>
@@ -247,7 +247,7 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
                   <span className="mt-[3px]">
                     <CheckIcon />
                   </span>
-                  <span className="text-[16px] font-normal leading-[22px] text-[#3E4B77]">
+                  <span className="text-[16px] font-normal leading-[22px] text-[#1D293D]">
                     {point}
                   </span>
                 </li>
@@ -269,7 +269,7 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
                 <span className="mt-[3px]">
                   <ArrowIcon />
                 </span>
-                <span className="text-[15px] font-normal leading-[22px] text-[#3E4B77]">
+                <span className="text-[15px] font-normal leading-[22px] text-[#1D293D]">
                   {r.items}
                 </span>
               </li>
@@ -380,7 +380,7 @@ export default function IntegratorNetwork() {
                         )}
                       </span>
                       <span
-                        className={`text-[17px] font-bold ${isActive ? "text-[#0A8EC8]" : "text-[#556394]"
+                        className={`text-[17px] font-bold ${isActive ? "text-[#0A8EC8]" : "text-[#002D45CC]"
                           }`}
                       >
                         {step.label}

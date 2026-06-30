@@ -102,7 +102,7 @@ export default function PageHero({
             <motion.p
               variants={copyReveal}
               custom={0.5}
-              className="max-w-[600px] mt-[20px]  text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
+              className="max-w-[600px] lg:max-w-140 mt-[20px] font-bold text-sm leading-6 text-white sm:text-base sm:leading-7 lg:text-[20px] lg:leading-8"
             >
               {description}
             </motion.p>

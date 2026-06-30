@@ -69,7 +69,7 @@ export default function WhatWeSee() {
           <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
             What We See
           </h2>
-          <p className="text-[16px] lg:text-[20px] text-[#0a4b6e] leading-[28px]">
+          <p className="text-[16px] font-normal lg:text-[20px] text-[#0a4b6e] leading-[28px]">
             Operations today are fragmented and difficult to control
           </p>
         </motion.div>

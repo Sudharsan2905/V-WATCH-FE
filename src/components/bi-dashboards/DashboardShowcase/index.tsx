@@ -34,7 +34,7 @@ function CheckBullet({ text }: Readonly<{ text: string }>) {
           </g>
         </svg>
       </span>
-      <span className="text-[16px] font-normal leading-[24px] text-[#3E4B77]">{text}</span>
+      <span className="text-[18px] font-normal leading-[24px] text-[#3E4B77]">{text}</span>
     </li>
   );
 }
@@ -72,10 +72,10 @@ function CopyColumn({ ghost, title, body, listHeading, items, reverse = false, m
       <h3 className="-mt-2 text-[24px] font-bold leading-[32px] text-[#0A4B6E] lg:text-[26px]">
         {title}
       </h3>
-      <p className="max-w-[520px] text-[17px] font-normal leading-[26px] text-[#0A4B6E]">
+      <p className="max-w-[520px] text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
         {body}
       </p>
-      {listHeading && <p className="mt-1 text-[17px] font-bold text-[#0A4B6E]">{listHeading}</p>}
+      {listHeading && <p className="mt-1 text-[18px] font-bold text-[#0A4B6E]">{listHeading}</p>}
       <ul className="flex flex-col gap-3">
         {items.map((it) => (
           <CheckBullet key={it} text={it} />

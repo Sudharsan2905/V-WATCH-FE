@@ -26,7 +26,7 @@ export default function WhyWeBuilt() {
           <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
             Why we built this
           </h2>
-          <p className="text-[16px] lg:text-[20px] text-[#1d6c97] leading-[28px]">
+          <p className="text-[16px] font-normal lg:text-[20px] text-[#0A4B6E] leading-[28px]">
             Because visibility changes everything
           </p>
         </motion.div>
@@ -143,74 +143,46 @@ export default function WhyWeBuilt() {
               flex column, centered, bottom-justified, 10px bottom padding, ≥386px tall on
               desktop (Figma's 340px card + caption; grows as the card scales up). */}
           <div className="flex-1 min-w-0 w-full flex flex-col items-center justify-end pb-[4px] md:pb-[10px] lg:min-h-[386px] lg:flex-[1_0_0]">
-            {/* Card (Figma 1043:2654) — the 562×340 frame, but it fills the flex (1 0 0)
-                column so it scales with the available width instead of floating; the inner
-                image keeps the Figma 470/562 ≈ 84% ratio and 562/340 aspect. */}
+            {/* Parent Wrapper for Main Card */}
             <motion.div
-              className="relative w-full max-w-[760px] aspect-[562/340] rounded-[26px] overflow-hidden flex items-center justify-center"
+              className="relative w-full max-w-[760px] flex items-center justify-center p-[8px] md:p-[12px]"
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
               variants={loadIn}
             >
-              {/* Background layers */}
-              <div className="absolute inset-0 pointer-events-none">
-                <Image
-                  src="/about/why-built-photo-bg1.png"
-                  alt=""
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 562px"
-                />
-              </div>
-              <div className="absolute inset-0 pointer-events-none">
-                <Image
-                  src="/about/why-built-photo-bg2.png"
-                  alt=""
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 562px"
-                />
-              </div>
-              {/* Glow ellipses */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40%] aspect-square pointer-events-none opacity-50">
-                <Image
-                  src="/about/why-built-ellipse-left.png"
-                  alt=""
-                  fill
-                  className="object-contain"
-                  sizes="200px"
-                />
-              </div>
-              <div className="absolute right-0 bottom-0 w-[40%] aspect-square pointer-events-none opacity-50">
-                <Image
-                  src="/about/why-built-ellipse-right.png"
-                  alt=""
-                  fill
-                  className="object-contain"
-                  sizes="200px"
-                />
-              </div>
-              {/* Glass wrapper (Figma 1043:2658) — backdrop-blur-[10px], white border, p-[4px],
-                  rounded-[30px]; sized so the inner image is ~470px wide within the 562 card. */}
-              <div className="relative z-10 w-[85.8%] rounded-[30px] border-2 border-white backdrop-blur-[10px] bg-[rgba(255,255,255,0.5)] p-[4px] shadow-[0px_20px_20px_0px_rgba(0,0,0,0.02)]">
-                {/* Image (Figma 1043:2659) — width 470.191px, aspect-ratio 443/277, rounded-30 */}
-                <div className="relative w-full aspect-[443/277] rounded-[30px] overflow-hidden">
-                  <Image
-                    src="/about/why-built-photo.webp"
-                    alt="V-Watch operations intelligence"
-                    fill
-                    className="object-cover object-center"
-                    sizes="(max-width: 1024px) 100vw, 470px"
-                  />
+
+              {/* Main Card Container — styled exactly like the Figma design */}
+              <div
+                className="relative z-10 w-[95%] rounded-[32px] flex flex-col items-center gap-[20px] pt-[20px] pb-[24px] px-[16px] md:px-[24px]"
+                style={{
+                  background: "linear-gradient(180deg, rgba(245, 251, 255, 0.95) 0%, rgba(215, 235, 250, 0.55) 100%)",
+                  border: "1px solid rgba(245, 251, 255, 0.65)",
+                  boxShadow: "inset 0 0 24px rgba(245, 251, 255, 0.7)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
+              >
+                {/* Dashboard image wrapper */}
+                <div className="relative w-full rounded-[26px] border-2 border-white backdrop-blur-[10px] bg-[rgba(255,255,255,0.55)] p-[4px] shadow-[0px_10px_20px_0px_rgba(0,0,0,0.01)]">
+                  <div className="relative w-full aspect-[443/277] rounded-[22px] overflow-hidden">
+                    <Image
+                      src="/about/why-built-photo.webp"
+                      alt="V-Watch operations intelligence"
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 1024px) 100vw, 700px"
+                    />
+                  </div>
                 </div>
+
+                {/* Caption (Figma 1043:2660) — Lato Bold 18px, #0a4b6e, max 422px */}
+                <p className="relative z-10 text-[14px] lg:text-[18px] font-bold text-[#0a4b6e] text-center max-w-[422px] mx-auto leading-[24px]">
+                  We built V-Watch AI to make this level of visibility possible in
+                  real time.
+                </p>
               </div>
             </motion.div>
-            {/* Caption (Figma 1043:2660) — Lato Bold 18px, #0a4b6e, max 422px */}
-            <p className="text-[14px] lg:text-[18px] font-bold text-[#0a4b6e] text-center max-w-[422px] mx-auto leading-[24px]">
-              We built V-Watch Ai to make this level of visibility possible in
-              real time.
-            </p>
           </div>
         </div>
       </div>

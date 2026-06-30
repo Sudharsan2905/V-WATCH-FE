@@ -248,11 +248,10 @@ export default function HelpCards() {
                       width={182}
                       height={182}
                       unoptimized
-                      className="pointer-events-none absolute"
+                      className="pointer-events-none absolute right-[-60px] md:right-[10px] lg:right-auto lg:left-[220px]"
                       style={{
                         width: "220px",
                         height: "220px",
-                        left: "220px",
                         top: "0px",
                       }}
                     />
@@ -262,11 +261,10 @@ export default function HelpCards() {
                       width={195}
                       height={130}
                       unoptimized
-                      className="pointer-events-none absolute"
+                      className="pointer-events-none absolute right-[-20px] md:right-[25px] lg:right-auto lg:left-[245px]"
                       style={{
                         width: "195px",
                         height: "130px",
-                        left: "245px",
                         top: "45px",
                       }}
                     />
@@ -291,11 +289,10 @@ export default function HelpCards() {
                       width={182}
                       height={182}
                       unoptimized
-                      className="pointer-events-none absolute"
+                      className="pointer-events-none absolute right-[-60px] md:right-[10px] lg:right-auto lg:left-[235px]"
                       style={{
                         width: "220px",
                         height: "220px",
-                        left: "235px",
                         top: "0px",
                       }}
                     />
@@ -305,11 +302,10 @@ export default function HelpCards() {
                       width={245}
                       height={163}
                       unoptimized
-                      className="pointer-events-none absolute"
+                      className="pointer-events-none absolute right-[-60px] md:right-[25px] lg:right-auto lg:left-[205px]"
                       style={{
                         width: "245px",
                         height: "163px",
-                        left: "205px",
                         top: "30px",
                       }}
                     />

@@ -31,7 +31,7 @@ const CARDS = [
     title: "Capture",
     description:
       "Collect real-time data across access, movement, and operations.",
-    icon: "/about/approach-icon-capture.webp",
+    icon: "/industries/construction/connected/capture-1.png",
     bg: "/about/approach-card-bg-left.png",
     ghost: true,
     flipBg: false,
@@ -41,7 +41,7 @@ const CARDS = [
     title: "Control",
     description:
       "Manage permissions, workflows, and compliance from one platform.",
-    icon: "/about/approach-icon-control.webp",
+    icon: "/industries/construction/connected/control-1.png",
     bg: null,
     ghost: false,
     flipBg: false,
@@ -51,7 +51,7 @@ const CARDS = [
     title: "Prove",
     description:
       "Generate insights and reports that provide full operational visibility.",
-    icon: "/about/approach-icon-prove.webp",
+    icon: "/industries/construction/connected/prove-1.png",
     bg: "/about/approach-card-bg-right.png",
     ghost: true,
     // The right-card panel ships with the same geometry as the left one
@@ -111,31 +111,17 @@ function ApproachCard({ card }: { card: (typeof CARDS)[0] }) {
         </>
       )}
 
-      {/* Concentric rings — CSS-based (SVG ellipses have oversized filter halos in browser) */}
-      <div className="relative z-10 size-[151px] flex-shrink-0 flex items-center justify-center">
-        {/* Outer diffuse glow */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: "radial-gradient(circle at 50% 48%, rgba(126,207,250,0.22) 0%, rgba(126,207,250,0.08) 55%, transparent 78%)",
-            boxShadow: "0 8px 40px rgba(126,207,250,0.18), 6px 10px 24px rgba(217,226,255,0.55)",
-          }}
-        />
-        {/* Ring 1 */}
-        <div
-          className="absolute inset-[10px] rounded-full border border-[rgba(126,207,250,0.28)]"
-          style={{
-            background: "radial-gradient(circle at 50% 45%, #fff 25%, rgba(212,240,255,0.85) 65%, rgba(160,218,250,0.4) 100%)",
-          }}
-        />
-        {/* Ring 2 — bright inner */}
-        <div
-          className="absolute inset-[27px] rounded-full bg-white"
-          style={{ boxShadow: "0 2px 10px rgba(126,207,250,0.35)" }}
-        />
-        {/* Icon */}
-        <div className="relative z-10 size-[50px]">
-          <Image src={card.icon} alt={card.title} fill className="object-contain" sizes="50px" />
+      {/* Medallion Icon (matches industries page look) */}
+      <div className="relative z-10 size-[130px] flex-shrink-0 flex items-center justify-center">
+        <div className="absolute size-[210px] pointer-events-none">
+          <Image
+            src={card.icon}
+            alt={card.title}
+            fill
+            unoptimized
+            className="object-contain"
+            sizes="210px"
+          />
         </div>
       </div>
 
@@ -209,7 +195,7 @@ function ArrowConnector() {
 
 export default function OurApproach() {
   return (
-    <section className="bg-[#F2F8FE] py-[30px] lg:py-[60px] lg:py-[80px] overflow-hidden">
+    <section className="bg-[#F2F8FE] pt-[30px] pb-[85px] md:pb-[105px] lg:py-[80px] overflow-hidden">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -222,7 +208,7 @@ export default function OurApproach() {
           <h2 className="text-[22px] lg:text-[26px] font-bold text-[#0a4b6e] leading-normal mb-[10px]">
             Our Approach
           </h2>
-          <p className="text-[16px] lg:text-[20px] text-[#0a4b6e] leading-[28px]">
+          <p className="text-[16px] font-normal lg:text-[20px] text-[#0a4b6e] leading-[28px]">
             Simple system. Powerful impact.
           </p>
         </motion.div>

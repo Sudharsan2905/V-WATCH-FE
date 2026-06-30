@@ -58,7 +58,7 @@ const MODULES: Module[] = [
     key: "hrms",
     label: "HRMS",
     illustration: "/about/platform-hrms-inner.webp",
-    icon: "/about/platform-hrms-icon.webp",
+    icon: "/about/Tick.svg",
     title: "HRMS + Task Management",
     subtitle: "Workforce and performance",
     flip: false,
@@ -305,7 +305,7 @@ export default function VWatchAIPlatform() {
           <h2 className="text-[22px] lg:text-[26px] font-bold text-white leading-normal mb-[10px]">
             What is V-Watch AI
           </h2>
-          <p className="text-[16px] lg:text-[20px] text-white leading-[28px]">
+          <p className="text-[16px] font-normal lg:text-[20px] text-white leading-[28px]">
             More than a system a connected platform.
           </p>
         </motion.div>
