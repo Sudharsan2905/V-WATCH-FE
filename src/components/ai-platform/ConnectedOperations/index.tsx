@@ -6,7 +6,7 @@ import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/rea
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const AUTO_ADVANCE_MS = 3500;
+const AUTO_ADVANCE_MS = 1500;
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },

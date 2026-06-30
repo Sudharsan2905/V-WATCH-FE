@@ -69,13 +69,6 @@ function PointCard({
       <div className="relative z-10 overflow-hidden rounded-[16px] border border-white bg-[linear-gradient(180deg,#ffffff,#f6fbff)] shadow-[0_13px_40px_rgba(148,182,212,0.25)]">
         {/* Big outlined number — at the card's outer edge, clipped to the
             card's rounded bounds */}
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-sans text-[96px] font-black italic leading-none text-transparent [-webkit-text-stroke:2.5px_rgba(18,100,190,0.8)] ${side === "left" ? "-left-5" : "-right-0"
-            }`}
-        >
-          {point.num}
-        </span>
 
         {/* Icon — circular badge at the inner top corner */}
         <span

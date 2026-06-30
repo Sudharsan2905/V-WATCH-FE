@@ -35,7 +35,6 @@ const copyReveal: Variants = {
   }),
 };
 
-
 const buttonReveal: Variants = {
   hidden: { opacity: 0, y: 12, scale: 0.96 },
   show: {
@@ -68,7 +67,7 @@ export default function IndustriesHero({
       <section className="relative min-h-[650px] overflow-hidden bg-[#030515] lg:min-h-[96vh]">
         {/* Background image */}
         <motion.div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[828px]"
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[828px] overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, ease: EASE }}
@@ -81,6 +80,26 @@ export default function IndustriesHero({
             sizes="100vw"
             className="object-cover sm:object-fill"
           />
+
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-black/15" />
+
+          {/* Mask matching the white wave */}
+          <svg
+            className="absolute bottom-0 left-0 h-[154px] w-full"
+            viewBox="0 0 1440 100"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <mask id="hero-bg-mask">
+                <rect width="1440" height="100" fill="white" />
+                <path
+                  d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z"
+                  fill="black"
+                />
+              </mask>
+            </defs>
+          </svg>
         </motion.div>
 
         {/* White wave curve — section-level so it is never inside the fading bg div
@@ -145,7 +164,11 @@ export default function IndustriesHero({
               </motion.div> */}
               <h1 className="max-w-[642px] text-[32px] font-black leading-[40px] tracking-[1px] text-white sm:text-[40px] sm:leading-[52px] lg:text-[50px] lg:leading-[68px]">
                 <span className="block overflow-hidden pb-[0.12em]">
-                  <motion.span custom={0.3} variants={lineReveal} className="block">
+                  <motion.span
+                    custom={0.3}
+                    variants={lineReveal}
+                    className="block"
+                  >
                     {heading}
                   </motion.span>
                 </span>
@@ -154,13 +177,20 @@ export default function IndustriesHero({
 
             {/* Subtitle */}
             <p className="max-w-[561px] text-[16px] font-bold leading-7 text-white sm:text-[18px] lg:text-[20px] lg:leading-8">
-              <motion.span custom={0.65} variants={copyReveal} className="block">
+              <motion.span
+                custom={0.65}
+                variants={copyReveal}
+                className="block"
+              >
                 {subtitle}
               </motion.span>
             </p>
 
             {/* CTA button */}
-            <motion.div variants={buttonReveal} className="flex flex-wrap items-center gap-5">
+            <motion.div
+              variants={buttonReveal}
+              className="flex flex-wrap items-center gap-5"
+            >
               <BookADemo />
             </motion.div>
           </motion.div>

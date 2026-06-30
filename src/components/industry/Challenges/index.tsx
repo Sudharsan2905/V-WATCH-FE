@@ -365,12 +365,6 @@ function CalloutCard({ className }: { className?: string }) {
         unoptimized
         className="absolute bottom-1.5 left-4 drop-shadow-[0_10px_22px_rgba(120,170,205,0.35)]"
       />
-
-      <div className="absolute left-[88px] top-[35px] flex h-[76px] items-center pr-5" style={{ width: CALLOUT_WIDTH - 94 }}>
-        <p className="text-[15px] font-bold leading-[21px] text-[#314158]">
-          When systems are fragmented, control is limited and risks increase.
-        </p>
-      </div>
     </div>
   );
 }

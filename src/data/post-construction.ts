@@ -32,7 +32,7 @@ export const postConstructionContent = {
       { icon: "/pre-construction/single-platform/icons/icon-3.png", label: "Maintain compliance across systems and processes" },
       { icon: "/pre-construction/single-platform/icons/icon-4.png", label: "Ensure continuous uptime and operational stability" },
     ],
-    pill: "From security to compliance everything is continuously monitored and controlled.",
+    pill: "",
     // ADD → /public/post-construction/single-platform/map.png
     mapImage: "/post-construction/single-platform/map.png",
   },
@@ -152,7 +152,7 @@ export const postConstructionContent = {
     heading: "Your operations begin with full context from day one.",
     intro:
       "V-Watch Aegis builds on the data captured during construction through Atlas.",
-    pill: "CONTINUITY FROM ATLAS",
+    pill: "",
     panelTitle:
       "There is no need for re-onboarding or rebuilding systems. Key data flows directly into operations",
   },
