@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import ProductsHero from "@/components/products/Hero";
-import BookADemo from "@/components/common/BookADemo";
+import BookADemo, { ArrowBadge } from "@/components/common/BookADemo";
 
 const BUTTON_STYLE: React.CSSProperties = {
   background: `
@@ -34,6 +34,7 @@ export default function HrmsHero() {
             className="inline-flex h-11 items-center gap-2.5 rounded-full px-5 text-base font-bold text-white shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)] transition-[transform,filter] duration-200 ease-out hover:scale-[1.02] hover:brightness-110"
             style={BUTTON_STYLE}
           >
+            <ArrowBadge/>
             Start Free 14-Day Trial
           </Link>
           <BookADemo />

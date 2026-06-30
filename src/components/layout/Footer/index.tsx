@@ -44,6 +44,7 @@ type FooterProps = {
   ctaVariant?: "light" | "dark";
   isBookADemoVisible?: boolean;
   showCta?: boolean;
+  showHeader ?: boolean
 };
 
 const CTA_BG = {
@@ -58,7 +59,7 @@ export default function Footer({
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
   isBookADemoVisible = true,
-  showCta = true,
+  showHeader = true
 }: Readonly<FooterProps>) {
   // Trigger point: when the footer enters the viewport, start the CTA slide-up.
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -101,12 +102,14 @@ export default function Footer({
           <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#0DBFC4] opacity-40 blur-[170px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-[26rem] rounded-full bg-[#4DAFE0] opacity-30 blur-[200px]" />
 
-          <motion.div
+          {showHeader ? 
+
+            <motion.div
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             initial={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.5, ease: EASE, delay: 0.55 }}
             className="relative mx-auto flex max-w-[991px] flex-col items-center gap-6"
-          >
+            >
             <div className="flex flex-col items-center gap-4">
               <h2 className="text-[28px] font-bold text-white sm:text-[32px]">
                 {ctaTitle}
@@ -117,6 +120,9 @@ export default function Footer({
             </div>
             {isBookADemoVisible && <BookADemo />}
           </motion.div>
+          :(
+  <div className="h-[220px]" />
+)}
         </div>
 
         {/* ── Footer card — sits on top of CTA via z-10 */}

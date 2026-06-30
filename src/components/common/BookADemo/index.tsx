@@ -40,7 +40,7 @@ function Arrow({ className = "" }: Readonly<{ className?: string }>) {
 // (up-right) and out of the badge, while a second copy revolves up from the
 // bottom-left into its place. Both copies share one grid cell so the swap reads
 // as a single continuous loop; the badge clips them with overflow-hidden.
-function ArrowBadge() {
+export function ArrowBadge() {
   return (
     <span className="relative grid h-[25px] w-[25px] place-items-center overflow-hidden rounded-full bg-white">
       <Arrow className="transition-transform duration-300 ease-out group-hover:translate-x-[160%] group-hover:-translate-y-[160%] motion-reduce:transition-none" />

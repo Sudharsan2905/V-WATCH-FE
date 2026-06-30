@@ -55,7 +55,7 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="h-full rounded-[20px] p-1.5"
+      className="h-full rounded-[20px]"
       style={{
         background: "#e5f4fe",
       }}
@@ -204,7 +204,7 @@ export default function ComplianceControl() {
             >
               {/* Left: 2×2 feature grid — Figma: 356×356 radial gradient at 50% opacity behind cards */}
               <div
-                className="relative mx-auto grid w-full max-w-[630px] grid-cols-2 gap-3 lg:mx-0 lg:flex-1"
+                className="relative mx-auto grid w-full max-w-[630px] grid-cols-2 gap-6 lg:mx-0 lg:flex-1"
                 style={{
                   background:
                     "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
@@ -254,8 +254,8 @@ export default function ComplianceControl() {
                   />
 
                   {/* Caption */}
-                  <div className="absolute bottom-0 w-full flex min-h-16 items-center justify-center rounded-2xl border border-white/30 bg-black/30 px-3 py-2.5 backdrop-blur-[2px] leading-[100%]">
-                    <p className="text-center text-[14px] font-bold leading-tight text-white sm:text-[18px]">
+                  <div className="absolute bottom-0 w-full flex max-h-16 items-center justify-center rounded-2xl border border-white/30 bg-black/30 px-3 py-2.5 backdrop-blur-[2px] leading-[100%]">
+                    <p className="text-center text-[14px] font-bold leading-[130%] text-white sm:text-[18px]">
                       No spreadsheets. No missed renewals.
                       <br />
                       No unauthorised entry.

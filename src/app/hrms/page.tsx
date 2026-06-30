@@ -23,11 +23,11 @@ export const metadata = {
 
 export default function HrmsPage() {
   return (
-    <div className="relative overflow-x-clip bg-[#F2F8FE]">
+    <div className="relative overflow-x-clip bg-[#f5fbff]">
       <Navbar active="Platform" />
       <HrmsHero />
 
-      <div className="relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)] pb-[440px]">
+      <div className="relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">
         <HrmsOverview />
         <HrmsFeatureAccordion />
         <HrmsPlanStructure />
@@ -36,6 +36,7 @@ export default function HrmsPage() {
       <HrmsTrialForm />
 
       <Footer
+        showHeader={false}
         showCta={false}
         linkColumns={FOOTER_COLUMNS}
       />

@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { motion, MotionConfig } from "motion/react";
-import { scaleIn, staggerContainer, viewportReveal, wipeTop } from "@/components/about/anim";
+import {
+  scaleIn,
+  staggerContainer,
+  viewportReveal,
+  wipeTop,
+} from "@/components/about/anim";
+import { div } from "motion/react-client";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -31,24 +37,6 @@ const INCLUSIONS = [
   "Reporting and dashboards",
 ];
 
-// ─── Check icon ───────────────────────────────────────────────────────────────
-
-function CheckIcon() {
-  return (
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-[#21B1F1]/15">
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden>
-        <path
-          d="M2 5.5l2.5 2.5 4.5-5"
-          stroke="#21B1F1"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
-}
-
 // ─── Plan card ────────────────────────────────────────────────────────────────
 
 function PlanCard({
@@ -67,34 +55,57 @@ function PlanCard({
   return (
     <motion.div
       variants={scaleIn}
-      className="flex flex-col overflow-hidden rounded-2xl border border-[#C8E8F8] bg-[linear-gradient(180deg,#FFFFFF_30%,#DAF0FD_100%)]"
+      className="bg-[#edf7fd] relative max-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
     >
-      {/* Text block */}
-      <div className="flex flex-col gap-1 px-5 pt-5 pb-3">
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: `
+      radial-gradient(
+        ellipse 90% 80% at 50% 60%,
+        rgba(255,255,255,1) 0%,
+        rgba(255,255,255,1) 25%,
+        rgba(180,215,250,0.75) 48%,
+        rgba(200,225,250,0.3) 65%,
+        rgba(255,255,255,0) 80%
+      )
+    `,
+        }}
+      />
+      <div
+        className="relative z-20 flex flex-col gap-1 px-6 pt-6 "
+        
+      >
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="font-lato text-[16px] font-bold text-[#0A4B6E]">{role}</span>
+          <span className="font-lato text-[20px] font-bold text-[#0F172A]">
+            {role}
+          </span>
           {tag && (
-            <span className="font-lato text-[12px] font-normal text-[#5A7F9A]">
+            <span className="font-lato text-[18px] font-normal text-[#0F172A]">
               ({tag})
             </span>
           )}
         </div>
         <p className="font-lato">
-          <span className="text-[28px] font-black leading-tight text-[#0A4B6E] sm:text-[32px]">
+          <span className="text-[28px] font-black leading-tight text-[#005276] sm:text-[32px]">
             {price}
           </span>
-          <span className="ml-1 text-[13px] text-[#6B8EA5]">{period}</span>
+          <span className="ml-1 text-[15px] md:text-[18px] text-[#005276]">
+            {period}
+          </span>
         </p>
       </div>
 
-      {/* Illustration — fills bottom */}
-      <div className="relative mt-auto h-[200px] w-full sm:h-[220px]">
+      {/* Illustration container */}
+      <div className="relative h-[200px] w-full sm:h-[220px]">
+        {/* Glow layer — sits ABOVE white bg but BELOW the image */}
+
         <Image
           src={image}
           alt={role}
           fill
           sizes="(min-width: 768px) 30vw, 100vw"
-          className="object-contain object-bottom"
+          className="relative z-10 object-contain object-bottom"
         />
       </div>
     </motion.div>
@@ -105,28 +116,37 @@ function PlanCard({
 
 function InclusionList() {
   return (
-    <motion.div
-      variants={scaleIn}
-      className="flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
-      style={{
-        maskImage: "linear-gradient(to right, black 0%, black 65%, transparent 100%)",
-        WebkitMaskImage: "linear-gradient(to right, black 0%, black 65%, transparent 100%)",
-      }}
-    >
-      <h3 className="mb-5 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[17px]">
-        What&apos;s included
-      </h3>
-      <ul className="flex flex-col gap-3.5">
-        {INCLUSIONS.map((item) => (
-          <li key={item} className="flex items-center gap-3">
-            <CheckIcon />
-            <span className="font-lato text-[14px] leading-snug text-[#3A6480] sm:text-[15px]">
-              {item}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </motion.div>
+    <div className="flex items-center">
+      <motion.div
+        variants={scaleIn}
+        className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
+        style={{
+          maskImage:
+            "linear-gradient(to right, black 0%, black 50%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 0%, black 50%, transparent 100%)",
+        }}
+      >
+        <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
+          What&apos;s included
+        </h3>
+        <ul className="flex flex-col gap-5">
+          {INCLUSIONS.map((item) => (
+            <li key={item} className="flex items-center gap-3">
+              <Image
+                src={"/hrms/tick.svg"}
+                alt="tick-icon"
+                height={24}
+                width={24}
+              />
+              <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </div>
   );
 }
 
@@ -135,10 +155,30 @@ function InclusionList() {
 export default function HrmsPlanStructure() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="px-6 py-16 lg:px-[60px]">
-        <div className="mx-auto w-full max-w-[1410px]">
-          {/* Outer container — no border */}
-          <div className="rounded-2xl bg-[#EEF7FD] p-5 sm:p-7">
+      <div
+        className="w-full rounded-t-[40px]"
+        style={{
+          background: `
+      radial-gradient(
+        ellipse 55% 40% at 50% 0%,
+        rgba(255,255,255,1) 0%,
+        rgba(255,255,255,0.7) 30%,
+        rgba(255,255,255,0) 70%
+      ),
+      linear-gradient(
+        180deg,
+        #ecf6fc 0%,
+        #E3F2FC 30%,
+        #D9EDFA 60%,
+        #f0f8ff 100%
+      )
+    `,
+        }}
+      >
+        <section className="px-6 py-6 md:py-10 lg:px-[60px]">
+          <div className="mx-auto w-full max-w-[1410px]">
+            {/* Outer container — no border */}
+
             {/* Title */}
             <motion.h2
               initial="hidden"
@@ -156,7 +196,7 @@ export default function HrmsPlanStructure() {
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
-              className="grid grid-cols-1 gap-4 sm:grid-cols-3"
+              className="h-[356px] grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
             >
               {PLANS.map((plan) => (
                 <PlanCard key={plan.role} {...plan} />
@@ -164,8 +204,8 @@ export default function HrmsPlanStructure() {
               <InclusionList />
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </MotionConfig>
   );
 }

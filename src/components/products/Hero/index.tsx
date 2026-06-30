@@ -6,7 +6,8 @@ import BookADemo from "@/components/common/BookADemo";
 
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const CURVE_DEFAULT_FILL = "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
+const CURVE_DEFAULT_FILL =
+  "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
 const CURVE_DEFAULT_STROKE = "M0 84 C33.33 103 66.67 103 100 84";
 const CURVE_SMALL_FILL = "M0 84 C33.33 90 66.67 90 100 84 L100 100 L0 100 Z";
 const CURVE_SMALL_STROKE = "M0 84 C33.33 90 66.67 90 100 84";
@@ -71,15 +72,15 @@ export type ProductsHeroProps = {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ProductsHero({
-  badge = "What V-Watch Ai",
+  // badge = "What V-Watch Ai",
   badgeDotColor = "#86D58B",
-  headingLines = ["One Platform", "Multiple Capabilities", "Total Control"],
+  // headingLines = ["One Platform", "Multiple Capabilities", "Total Control"],
   descriptionLines = [
     "V-Watch Ai brings together a suite of integrated capabilities",
     "that manage your workforce, operations, assets, and security",
     "all in one connected system.",
   ],
-  boldLine = "Start with what you need. Scale as you grow.",
+  // boldLine = "Start with what you need. Scale as you grow.",
   imageSrc = "/products/hero.png",
   imageObjectPosition = "bottom",
   ctaSlot,
@@ -116,7 +117,7 @@ export default function ProductsHero({
               className="object-cover object-[60%_center] sm:object-center"
             />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" /> */}
 
           <svg
             className="absolute inset-0 h-full w-full"
@@ -125,7 +126,14 @@ export default function ProductsHero({
             aria-hidden
           >
             <defs>
-              <linearGradient id="hero-curve-stroke" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+              <linearGradient
+                id="hero-curve-stroke"
+                x1="0"
+                y1="0"
+                x2="100"
+                y2="0"
+                gradientUnits="userSpaceOnUse"
+              >
                 <stop offset="0" stopColor="#21B1F1" stopOpacity="0" />
                 <stop offset="0.5" stopColor="#7ECFFA" stopOpacity="1" />
                 <stop offset="1" stopColor="#21B1F1" stopOpacity="0" />
@@ -165,17 +173,17 @@ export default function ProductsHero({
             </g>
           </svg>
         </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px] xl:px-[10px]">
-        <motion.div
-          className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[140px]  lg:pb-[240px]"
-          initial="hidden"
-          animate="show"
-        >
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-3.5">
-              {/* badge */}
-              {/* <motion.span
+          
+        <div className="relative z-10 w-full px-[24px] lg:px-[60px] pt-[140px] pb-[110px] md:pb-[120px] lg:pb-[240px]">
+          <motion.div
+            className="flex mx-auto max-w-[1410px] max-h-[754px] flex-col justify-center gap-[30px]"
+            initial="hidden"
+            animate="show"
+          >
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-3.5">
+                {/* badge */}
+                {/* <motion.span
                 variants={badgeReveal}
                 className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]"
               >
@@ -184,35 +192,41 @@ export default function ProductsHero({
               </motion.span> */}
 
                 {/* Heading */}
-                <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
-                  {headingLines.map((line, i) => (
-                    <span key={line} className="block overflow-hidden">
-                      <motion.span
-                        custom={0.3 + i * 0.15}
-                        variants={lineReveal}
-                        className="block"
-                      >
-                        {line}
-                      </motion.span>
-                    </span>
-                  ))}
+                <h1 className="max-w-[642px] w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
+                  <span className="block overflow-hidden">
+                    <motion.span variants={lineReveal} className="block">
+                      Manage Your People and The Work They Do
+                    </motion.span>
+                  </span>
                 </h1>
               </div>
 
               {/* Description */}
-              <p className="max-w-[561px] text-base leading-7 text-white lg:text-[20px] lg:leading-8">
-                <motion.span custom={0.8} variants={copyReveal} className="block">
+              <p className="max-w-[561px] font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+                <motion.span
+                  custom={0.8}
+                  variants={copyReveal}
+                  className="block"
+                >
                   {descriptionLines[0]}
                 </motion.span>
-                <motion.span custom={1.05} variants={subLineReveal} className="block">
+                <motion.span
+                  custom={1.05}
+                  variants={subLineReveal}
+                  className="block"
+                >
                   {descriptionLines[1]}
                 </motion.span>
-                <motion.span custom={1.25} variants={subLineReveal} className="block">
+                <motion.span
+                  custom={1.25}
+                  variants={subLineReveal}
+                  className="block"
+                >
                   {descriptionLines[2]}
                 </motion.span>
               </p>
 
-              {boldLine && (
+              {/* {boldLine && (
                 <motion.p
                   custom={1.45}
                   variants={copyReveal}
@@ -220,7 +234,7 @@ export default function ProductsHero({
                 >
                   {boldLine}
                 </motion.p>
-              )}
+              )} */}
             </div>
 
             {/* CTA */}
@@ -229,6 +243,7 @@ export default function ProductsHero({
             </motion.div>
           </motion.div>
         </div>
+    
       </section>
     </MotionConfig>
   );

@@ -78,43 +78,41 @@ const CARDS: Card[] = [
 ];
 
 function FeatureCard({
-  text,
   icon,
-  index,
-}: Readonly<Card & { index: number }>) {
+  text,
+  delay,
+}: {
+  icon: string;
+  text: string;
+  delay: number;
+}) {
   return (
     <motion.div
-      variants={cardIn}
-      custom={0.15 + index * 0.1}
-      // 302.5 × 146 in Figma — width fills its grid column, height fixed.
-      className="relative z-10 flex h-[146px] flex-col gap-2.5 rounded-[20px] bg-[linear-gradient(180deg,rgba(255,255,255,0.6)_0%,rgba(255,255,255,0.25)_100%)] p-4 shadow-[0px_1px_2px_0px_rgba(10,75,110,0.06)] backdrop-blur-[2px]"
+      variants={fadeUp}
+      custom={delay}
+      className="h-full rounded-[20px]"
+      style={{
+        background: "#E5F4FE",
+      }}
     >
-      {/* 1px gradient border — white 0% (transparent) → white (Figma). */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[20px]"
+      {/* Inner card */}
+      <div
+        className="flex h-full flex-col gap-2.5 rounded-[20px] p-4"
         style={{
-          padding: "1px",
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%)",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
+          background: "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
+          border: "1px solid transparent",
+          boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
-      />
+      >
+        {/* Icon — Presentation*.png already contains the full icon graphic */}
+        <div className="relative max-h-[54px] max-w-[60px] h-full w-full shrink-0">
+          <Image src={icon} alt="" height={54} width={60} className="object-cover object-center h-full w-full" />
+        </div>
 
-      {/* Icon badge — 60 × 54 exactly. The asset already bakes in the blue
-          gradient circle + glow, so it's rendered directly (no wrapper pill). */}
-      <Image
-        src={icon}
-        alt=""
-        width={60}
-        height={54}
-        className="h-[54px] w-[60px] shrink-0 object-contain"
-      />
-
-      <p className="text-[18px] font-normal leading-6 text-[#1D293D]">{text}</p>
+        <p className="text-[18px] font-normal leading-6 text-[#1D293D]">
+          {text}
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -122,11 +120,11 @@ function FeatureCard({
 export default function SmarterWay() {
   return (
     <section
-      className="relative z-20 -mt-[60px] rounded-t-[48px] px-5 pt-10 pb-20 sm:px-8 lg:px-[60px]"
+      className="relative z-20 -mt-[60px] rounded-t-[48px] px-5 pt-10 lg:pb-15 sm:px-8 lg:px-[60px]"
       style={{ backgroundColor: "#EFF9FF" }}
     >
       <motion.div
-        className="mx-auto flex w-full max-w-[1280px] flex-col gap-[30px]"
+        className="flex w-full max-w-[1280px] flex-col gap-[30px]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
@@ -155,7 +153,7 @@ export default function SmarterWay() {
           {/* Left: 2×2 card grid (630 × 316) with the plus-glow behind it */}
           <div className="relative shrink-0 lg:w-[630px]">
             {/* Plus-glow — 356 × 356, centered in the cross-gap. Decorative. */}
-            <motion.div
+            {/* <motion.div
               aria-hidden
               variants={plusIn}
               custom={0.3}
@@ -166,11 +164,18 @@ export default function SmarterWay() {
                 background:
                   "radial-gradient(circle, #0585BE 0%, #84D7FD 22%, rgba(180,230,254,0.8) 48%, rgba(210,237,255,0.4) 72%, #F5FBFF 100%)",
               }}
-            />
+            /> */}
 
-            <div className="bg-[#E5F4FE] relative grid grid-cols-1 gap-[24px] sm:grid-cols-2">
-              {CARDS.map((card, i) => (
-                <FeatureCard key={card.text} {...card} index={i} />
+            <div
+                className="relative grid grid-cols-2 gap-3 lg:grid-rows-2 lg:gap-6 lg:flex-[630_1_0%] lg:h-[316px]"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
+                  borderRadius: 16,
+                }}
+              >
+              {CARDS.map((f, i) => (
+                <FeatureCard key={f.text} {...f} delay={0.25 + i * 0.1} />
               ))}
             </div>
           </div>
@@ -203,7 +208,7 @@ export default function SmarterWay() {
 
               {/* Caption pill (482 × 64) — semi-transparent black, near bottom */}
               <div className="max-h-[64px] h-full w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
-                <p className="w-[462px] text-center text-[18px] font-bold leading-none text-white">
+                <p className="w-[462px] text-center text-[18px] font-bold leading-[130%] text-white">
                   No manual logs, No guesswork,
                   <br />
                   No security gaps

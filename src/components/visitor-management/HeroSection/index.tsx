@@ -55,7 +55,7 @@ export default function HeroSection() {
       {/* Content — vertically centered */}
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] py-[80px] lg:py-0">
         <motion.div
-          className="flex flex-col gap-[20px] w-full max-w-[600px]"
+          className="flex flex-col w-full max-w-[600px]"
           initial="hidden"
           whileInView="show"
           viewport={viewportReveal}
@@ -72,7 +72,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.p
-            className="text-[15px] sm:text-[17px] lg:text-[20px] font-bold leading-[1.6] lg:leading-[32px] text-white"
+            className="text-[15px] mt-[10px] md:mt-[20px] sm:text-[17px] lg:text-[20px] font-bold leading-[1.6] lg:leading-[32px] text-white"
             style={{ textShadow: "0px 4px 104px black" }}
             variants={fadeUp}
           >
@@ -81,7 +81,7 @@ export default function HeroSection() {
             accountability without manual processes.
           </motion.p>
 
-          <motion.div variants={fadeUp}>
+          <motion.div variants={fadeUp} className="mt-[10px] md:mt-[30px]">
             <BookADemo />
           </motion.div>
         </motion.div>
