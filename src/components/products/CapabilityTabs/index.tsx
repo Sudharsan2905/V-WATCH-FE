@@ -35,7 +35,7 @@ const TABS: Tab[] = [
     tab: "Workforce",
     num: "01",
     subtitle: "Managing people, identity, access, and activity",
-    img: "/products/workforce.webp",
+    img: "/products/workforce.svg",
     items: [
       {
         title: "Person Management",

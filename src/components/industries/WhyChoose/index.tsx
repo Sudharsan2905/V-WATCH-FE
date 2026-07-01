@@ -162,9 +162,9 @@ function ConnectCard({
       <div className="relative z-10 flex h-full flex-col gap-4 p-4">
         {/* Title — left-padded to clear the badge notch */}
         <div className="relative pl-[84px] pt-1">
-          <p className="text-[18px] leading-[23px] text-[#1E3A52]">
-            <span className="block font-extrabold">{lead}</span>
-            {tail && <span className="block font-medium text-[#3890C0]">{tail}</span>}
+          <p className="leading-[23px]">
+            <span className="block text-[20px] font-bold text-[#0A4B6E]">{lead}</span>
+            {tail && <span className="block text-[18px] font-bold text-[#0A4B6E]">{tail}</span>}
           </p>
           {/* Blue connector line + end dot — mobile/tablet: right-anchored below title */}
           <span className="pointer-events-none absolute -right-4 -bottom-3 flex items-center lg:hidden">
@@ -271,8 +271,8 @@ function ValueRow({
       />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <p className="text-[16px] font-bold leading-[20px] text-[#0A4B6E]">{item.title}</p>
-        <p className="text-[14px] font-medium leading-[19px] text-[#0F172A]">{item.desc}</p>
+        <p className="text-[18px] font-medium leading-[20px] text-[#1D6C97]">{item.title}</p>
+        <p className="text-[16px] font-medium leading-[19px] text-[#0F172A]">{item.desc}</p>
       </div>
       <Image src={item.number} alt="" width={56} height={40} unoptimized className="h-9 w-auto shrink-0 object-contain" />
     </motion.div>
