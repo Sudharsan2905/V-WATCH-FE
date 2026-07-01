@@ -24,8 +24,6 @@ const fadeUp: Variants = {
   }),
 };
 
-// Connector buttons "pop" in between the cards so each one reads as its own
-// beat in the sequence: card → button → card → button → card.
 const popIn: Variants = {
   hidden: { opacity: 0, scale: 0.4 },
   show: (delay = 0) => ({
@@ -35,9 +33,6 @@ const popIn: Variants = {
   }),
 };
 
-// Wide stagger so the elements arrive one at a time instead of all at once.
-// Each card lands on a whole step; each connector lands on the half step in
-// between (handled at the call site with the `i - 0.5` offset).
 const CARDS_START  = 0.3;
 const CARD_STAGGER = 0.45;
 
@@ -85,61 +80,60 @@ const ICONS: Record<string, ReactNode> = {
   ),
 };
 
+// Per-icon CSS transform to compensate for differences in PNG content:
+// - control: circle is larger (occupies more of the image) and sits higher → scale down + shift down
+// - capture & prove: circle is smaller and roughly centered → no adjustment needed
+const ICON_TRANSFORM: Record<string, string> = {
+  control: "translateY(24px) scale(0.88)",
+};
+
 function Medallion({ icon }: Readonly<{ icon: string }>) {
   const iconSrc = icon.startsWith("/") ? icon : ICON_SRC[icon];
+  const transform = ICON_TRANSFORM[icon];
   if (iconSrc) {
     return (
       <Image
         src={iconSrc}
         alt=""
-        width={210}
-        height={210}
+        width={260}
+        height={260}
         unoptimized
-        className="size-[210px] object-contain"
+        className="size-[260px] object-contain"
+        style={transform ? { transform } : undefined}
       />
     );
   }
   return (
-    <div className="relative flex size-[128px] items-center justify-center">
+    <div
+      className="relative flex size-[260px] items-center justify-center"
+      style={transform ? { transform } : undefined}
+    >
       <Image src={`${ASSET}/circle.png`} alt="" width={128} height={128} unoptimized className="absolute inset-0 size-[128px] object-contain" />
       <span className="relative flex items-center justify-center">{ICONS[icon] ?? null}</span>
     </div>
   );
 }
 
-function StepCard({
-  step,
-  tilt = 0,
-  delay = 0,
-}: Readonly<{ step: Step; tilt?: number; delay?: number }>) {
+// Description card — rounded border at top corners, fades down the sides, none at bottom
+function DescCard({ step, delay = 0 }: Readonly<{ step: Step; delay?: number }>) {
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative flex w-full max-w-[380px] flex-col items-center justify-start gap-3 rounded-[26px] px-8 pb-6 pt-6 text-center lg:flex-1"
-      style={{
-        minHeight: 150,
-        // Real 3D tilt: side cards rotate around the vertical axis so their
-        // near edge comes forward and the far edge tapers away. Driven through
-        // motion's transform values so it composes with the fadeUp reveal.
-        transformPerspective: tilt ? 1100 : undefined,
-        rotateY: tilt || undefined,
-        transformOrigin: "center",
-        border: "1px solid rgba(255,255,255,0.9)",
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
-        boxShadow: "0 30px 60px -32px rgba(40,90,160,0.28), 0 4px 16px -6px rgba(40,90,160,0.08)",
-      }}
+      className="relative w-full rounded-[18px] bg-white px-6 py-5 text-center"
     >
+      {/* Border overlay: real border + border-radius gives proper rounded corners.
+          The mask fades it out downward so only top + partial sides are visible. */}
       <span
-        className="pointer-events-none absolute inset-x-0 top-0 h-[44%] rounded-t-[26px]"
-        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)" }}
+        className="pointer-events-none absolute inset-0 rounded-[18px]"
+        style={{
+          border: "2px solid rgb(106, 185, 222)",
+          maskImage: "linear-gradient(to bottom, black 0%, black 35%, transparent 68%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 35%, transparent 68%)",
+        }}
       />
-      <Medallion icon={step.icon} />
-      <div className="flex flex-col gap-2.5">
-        <p className="text-[19px] font-bold text-[#13476B]">{step.title}</p>
-        <p className="mx-auto max-w-[220px] font-['Lato'] text-[18px] font-normal leading-[24px] tracking-normal text-center text-[#005276]">{step.desc}</p>
-      </div>
+      <p className="relative text-[19px] font-bold text-[#13476B]">{step.title}</p>
+      <p className="relative mt-2 font-['Lato'] text-[16px] font-normal leading-[24px] tracking-normal text-[#005276]">{step.desc}</p>
     </motion.div>
   );
 }
@@ -149,35 +143,33 @@ function Connector({ delay = 0 }: Readonly<{ delay?: number }>) {
     <motion.div
       variants={popIn}
       custom={delay}
-      className="relative z-20 -mx-3 hidden shrink-0 items-center justify-center rounded-full lg:flex"
-      style={{
-        background: "rgba(255,255,255,0.9)",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
-        padding: "5px 7px",
-        boxShadow: "0 10px 26px -10px rgba(40,90,160,0.35), 0 2px 6px rgba(40,90,160,0.08)",
-      }}
+      className="relative z-20 hidden shrink-0 lg:flex"
+      style={{ width: 60, height: 32 }}
     >
-      <span
-        className="flex size-7 items-center justify-center rounded-full text-white"
-        style={{
-          backgroundImage: "linear-gradient(135deg, #3DA9F5 0%, #7A3BD0 130%)",
-          boxShadow: "0 4px 10px -3px rgba(80,60,180,0.45)",
-        }}
+      {/* Gradient pill — full width */}
+      <div
+        className="absolute inset-0 flex items-center rounded-full pl-3"
+        style={{ background: "linear-gradient(135deg, #6AADEE 0%, #9B85E8 100%)" }}
       >
-        <svg viewBox="0 0 14 14" fill="none" aria-hidden className="size-3">
-          <path d="M5 3l4 4-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 14 14" fill="none" aria-hidden className="size-[13px]">
+          <path d="M5 3l4 4-4 4" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      </span>
-      <svg viewBox="0 0 16 14" fill="none" aria-hidden className="ml-1 mr-0.5 w-[15px]">
-        <path d="M2 7h11m0 0-3.5-3.5M13 7l-3.5 3.5" stroke="#3DA9F5" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      </div>
+
+      {/* White circle — overlaps right side of pill */}
+      <div
+        className="absolute right-0 top-0 flex size-8 items-center justify-center rounded-full bg-white"
+        style={{ boxShadow: "0 2px 10px rgba(80,100,200,0.18)" }}
+      >
+        <svg viewBox="0 0 18 14" fill="none" aria-hidden className="w-[14px]">
+          <path d="M2 7h12m0 0L9.5 2.5M14 7l-4.5 4.5" stroke="#5B9FE8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
     </motion.div>
   );
 }
 
-// Mobile layout: an Embla carousel — one card per view (with a peek of the
-// next), no 3D tilt or connectors. Dots below let users page through.
+// Mobile layout: Embla carousel — one step per view with icon + desc card stacked
 function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
@@ -201,16 +193,17 @@ function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
           {steps.map((step, i) => (
             <div
               key={step.title}
-              className="flex min-w-0 flex-[0_0_100%] justify-center px-4"
+              className="flex min-w-0 flex-[0_0_100%] flex-col items-center gap-2 px-4"
             >
-              {/* tilt={0} — no rotation on mobile */}
-              <StepCard step={step} tilt={0} delay={CARDS_START + i * CARD_STAGGER} />
+              <motion.div variants={fadeUp} custom={CARDS_START + i * CARD_STAGGER}>
+                <Medallion icon={step.icon} />
+              </motion.div>
+              <DescCard step={step} delay={CARDS_START + i * CARD_STAGGER + 0.1} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Dots */}
       {steps.length > 1 && (
         <div className="mt-6 flex items-center justify-center gap-2">
           {steps.map((step, i) => (
@@ -241,29 +234,19 @@ export default function Connected({
     steps = [],
   } = connected;
 
-  const tiltFor = (i: number, total: number) => {
-    if (total < 2) return 0;
-    if (i === 0) return 16;
-    if (i === total - 1) return -16;
-    return 0;
-  };
-
   return (
     <MotionConfig reducedMotion="user">
       <section
         className="relative z-10 overflow-hidden px-6 py-20 lg:px-[60px]"
-        style={{ background: "linear-gradient(180deg, #F8FCFF 0%, #ECF5FE 55%, #F8FCFF 100%)" }}
+        style={{ background: "rgb(255, 255, 255)" }}
       >
-        <span className="pointer-events-none absolute -left-32 top-10 size-[420px] rounded-full" style={{ background: "radial-gradient(circle, rgba(61,169,245,0.16) 0%, rgba(61,169,245,0) 70%)", filter: "blur(20px)" }} />
-        <span className="pointer-events-none absolute -right-40 bottom-0 size-[460px] rounded-full" style={{ background: "radial-gradient(circle, rgba(122,59,208,0.10) 0%, rgba(122,59,208,0) 70%)", filter: "blur(20px)" }} />
-
         <motion.div
           className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-16"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {/* Header — wipeTop */}
+          {/* Header */}
           <header className="flex flex-col gap-2.5">
             <motion.h2
               variants={wipeDown}
@@ -281,24 +264,39 @@ export default function Connected({
             </motion.p>
           </header>
 
-          {/* Mobile: Embla carousel (no tilt) */}
+          {/* Mobile: Embla carousel */}
           <MobileCarousel steps={steps} />
 
-          {/* Desktop: tilted row with connectors */}
-          <div
-            className="hidden items-center justify-center gap-10 lg:flex"
-            style={{ perspective: 1400 }}
-          >
-            {steps.map((step, i) => (
-              <Fragment key={step.title}>
-                {i > 0 && <Connector delay={CARDS_START + (i - 0.5) * CARD_STAGGER} />}
-                <StepCard
-                  step={step}
-                  tilt={tiltFor(i, steps.length)}
-                  delay={CARDS_START + i * CARD_STAGGER}
-                />
-              </Fragment>
-            ))}
+          {/* Desktop: icons row + connectors, desc cards below */}
+          <div className="hidden flex-col gap-0 lg:flex">
+            {/* Top row: medallions with connectors between */}
+            <div className="flex items-center justify-center" style={{ height: 260 }}>
+              {steps.map((step, i) => (
+                <Fragment key={step.title}>
+                  {i > 0 && (
+                    <div className="shrink-0 self-center">
+                      <Connector delay={CARDS_START + (i - 0.5) * CARD_STAGGER} />
+                    </div>
+                  )}
+                  <motion.div
+                    variants={fadeUp}
+                    custom={CARDS_START + i * CARD_STAGGER}
+                    className="flex h-full flex-1 items-center justify-center"
+                  >
+                    <Medallion icon={step.icon} />
+                  </motion.div>
+                </Fragment>
+              ))}
+            </div>
+
+            {/* Bottom row: description cards aligned under each medallion */}
+            <div className="-mt-14 flex items-start justify-center gap-6">
+              {steps.map((step, i) => (
+                <div key={step.title} className="flex flex-1">
+                  <DescCard step={step} delay={CARDS_START + i * CARD_STAGGER + 0.15} />
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </section>

@@ -163,7 +163,7 @@ export default function UseCases({
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="relative z-10 -mt-8 overflow-hidden rounded-t-[38px] px-6 py-16 lg:-mt-12 lg:rounded-t-[50px] lg:px-[60px]"
+        className="relative z-10 mt-8 overflow-hidden rounded-t-[38px] px-6 py-16 lg:mt-12 lg:rounded-t-[50px] lg:px-[60px]"
         style={{ background: "linear-gradient(90deg, #E0F0FC 0%, #ECF6FE 45%, #EEF7E9 100%)" }}
       >
         <motion.div
