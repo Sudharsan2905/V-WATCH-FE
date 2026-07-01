@@ -34,11 +34,11 @@ export default function WorkforceManagementPage() {
         <ConnectedTo />
         <FeatureHighlight />
 
-        <div className="py-2 px-5 relative rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <div className="pt-2 py-5 px-5 relative rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             content={{
               title: "Built for teams managing large and dynamic workforces",
-              subtitle:
+              description:
                 "From construction sites to industrial operations, V-Watch Ai simplifies workforce administration and reduces manual workload.",
             }}
           />

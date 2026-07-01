@@ -66,7 +66,7 @@ function FeatureCard({
         style={{
           background:
             "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
-          border: "1px solid transparent",
+          border: "1px solid white",
           boxShadow:
             "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}

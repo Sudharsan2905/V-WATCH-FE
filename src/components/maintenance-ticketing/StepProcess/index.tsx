@@ -494,7 +494,7 @@ function StepCard({ active }: Readonly<{ active: number }>) {
       className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] shadow-[0_4px_14px_0_rgba(56,144,192,0.40),0_4px_14px_0_rgba(0,45,69,0.10)] lg:h-[345px]"
     >
       {/* Illustration */}
-      <div className="relative h-[260px] w-full lg:absolute lg:inset-0 lg:h-full">
+      <div className="relative aspect-video w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full">
         <AnimatePresence>
           <motion.div
             key={step.image}
@@ -509,7 +509,7 @@ function StepCard({ active }: Readonly<{ active: number }>) {
               alt=""
               fill
               sizes="(min-width: 1024px) 1410px, 100vw"
-              className="object-cover object-start"
+              className="object-cover object-right lg:object-start"
             />
           </motion.div>
         </AnimatePresence>

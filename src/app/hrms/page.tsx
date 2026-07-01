@@ -29,7 +29,7 @@ export default function HrmsPage() {
 
       <div className="relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">
         <HrmsOverview />
-        <HrmsFeatureAccordion />
+        {/* <HrmsFeatureAccordion /> */}
         <HrmsPlanStructure />
       </div>
 

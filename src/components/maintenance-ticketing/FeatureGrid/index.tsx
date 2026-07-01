@@ -59,7 +59,7 @@ function FeatureCard({
   return (
     <motion.div
       variants={scaleIn}
-      className="flex max-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
+      className="flex max-h-[240px] min-[1100]:max-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
       style={{ boxShadow: CARD_SHADOW }}
     >
       {/* Icon tile */}
@@ -118,6 +118,7 @@ export default function FeatureGrid() {
                 w-full
                 max-w-[360px]
                 self-center
+                aspect-352/424
                 overflow-hidden
                 rounded-[24px]
                 lg:h-[424px]

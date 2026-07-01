@@ -8,7 +8,6 @@ import {
   viewportReveal,
   wipeTop,
 } from "@/components/about/anim";
-import { div } from "motion/react-client";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -18,14 +17,14 @@ const PLANS = [
     tag: null,
     price: "USD 10",
     period: "/ User / Month",
-    image: "/hrms/CardBG.png",
+    image: "/hrms/Card1BG.png",
   },
   {
     role: "Managers",
     tag: "with payroll tools",
     price: "USD 20",
     period: "/ User / Month",
-    image: "/hrms/CardBG.png",
+    image: "/hrms/Card2BG.png",
   },
 ];
 
@@ -55,14 +54,14 @@ function PlanCard({
   return (
     <motion.div
       variants={scaleIn}
-      className="bg-[#edf7fd] relative max-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
+      className="bg-[#edf7fd] relative min-h-[300px] md:min-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
     >
       <div
-        className="pointer-events-none absolute inset-0 z-0"
+        className="pointer-events-none absolute inset-0 z-10"
         style={{
           background: `
       radial-gradient(
-        ellipse 90% 80% at 50% 60%,
+        ellipse 90% 80% at 50% 80%,
         rgba(255,255,255,1) 0%,
         rgba(255,255,255,1) 25%,
         rgba(180,215,250,0.75) 48%,
@@ -72,10 +71,7 @@ function PlanCard({
     `,
         }}
       />
-      <div
-        className="relative z-20 flex flex-col gap-1 px-6 pt-6 "
-        
-      >
+      <div className="relative z-20 flex flex-col gap-1 px-6 pt-6 ">
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
           <span className="font-lato text-[20px] font-bold text-[#0F172A]">
             {role}
@@ -97,7 +93,7 @@ function PlanCard({
       </div>
 
       {/* Illustration container */}
-      <div className="relative h-[200px] w-full sm:h-[220px]">
+      <div className="relative h-[200px] w-full sm:h-[250px]">
         {/* Glow layer — sits ABOVE white bg but BELOW the image */}
 
         <Image
@@ -105,7 +101,7 @@ function PlanCard({
           alt={role}
           fill
           sizes="(min-width: 768px) 30vw, 100vw"
-          className="relative z-10 object-contain object-bottom"
+          className="relative z-10 object-contain object-bottom-right"
         />
       </div>
     </motion.div>
@@ -116,37 +112,35 @@ function PlanCard({
 
 function InclusionList() {
   return (
-    <div className="flex items-center">
-      <motion.div
-        variants={scaleIn}
-        className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
-        style={{
-          maskImage:
-            "linear-gradient(to right, black 0%, black 50%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 0%, black 50%, transparent 100%)",
-        }}
-      >
-        <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
-          What&apos;s included
-        </h3>
-        <ul className="flex flex-col gap-5">
-          {INCLUSIONS.map((item) => (
-            <li key={item} className="flex items-center gap-3">
-              <Image
-                src={"/hrms/tick.svg"}
-                alt="tick-icon"
-                height={24}
-                width={24}
-              />
-              <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-    </div>
+    <motion.div
+      variants={scaleIn}
+      className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
+      style={{
+        maskImage:
+          "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
+      }}
+    >
+      <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
+        What&apos;s included
+      </h3>
+      <ul className="flex flex-col gap-5">
+        {INCLUSIONS.map((item) => (
+          <li key={item} className="flex items-center gap-3">
+            <Image
+              src={"/hrms/tick.svg"}
+              alt="tick-icon"
+              height={24}
+              width={24}
+            />
+            <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   );
 }
 
@@ -160,17 +154,17 @@ export default function HrmsPlanStructure() {
         style={{
           background: `
       radial-gradient(
-        ellipse 55% 40% at 50% 0%,
-        rgba(255,255,255,1) 0%,
-        rgba(255,255,255,0.7) 30%,
-        rgba(255,255,255,0) 70%
+        ellipse 120% 60% at 50% 0%,
+        rgba(255,255,255,0.55) 0%,
+        rgba(255,255,255,0.15) 40%,
+        rgba(255,255,255,0) 72%
       ),
       linear-gradient(
         180deg,
-        #ecf6fc 0%,
-        #E3F2FC 30%,
-        #D9EDFA 60%,
-        #f0f8ff 100%
+        #E1EFFB 0%,
+        #D8EBF9 30%,
+        #D0E7F7 60%,
+        #E8F4FF 100%
       )
     `,
         }}
@@ -196,7 +190,7 @@ export default function HrmsPlanStructure() {
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
-              className="h-[356px] grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
+              className="min-h-[356px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
               {PLANS.map((plan) => (
                 <PlanCard key={plan.role} {...plan} />

@@ -76,7 +76,7 @@ export default function PageHero({
           />
         </motion.div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[1410px] ">
+        <div className="relative z-10 mx-auto w-full max-w-[1280px] ">
           <motion.div
             className="flex flex-col justify-center pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"

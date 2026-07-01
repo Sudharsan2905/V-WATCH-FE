@@ -19,8 +19,7 @@ export const geofencingContent = {
     mapImage: "/geofencing/connected-system.jpg",
   },
   partners: {
-    title: "Built for environments",
-    subtitle: "where boundaries matter",
+    title: "Built for environments where boundaries matter",
     description:
       "Used across construction, industrial, and high-security operations to enforce zone control and prevent critical incidents.",
   },

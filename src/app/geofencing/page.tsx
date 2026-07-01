@@ -30,7 +30,7 @@ export default function GeofencingPage() {
           <TechnologyPartners
             content={{
               title: `${partners.title}`,
-              subtitle:`${partners.subtitle}`
+              description:`${partners.description}`
                 
             }}
           />
