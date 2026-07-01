@@ -30,11 +30,11 @@ export default function MaintenanceTicketingPage() {
         <WorkflowSection />
         <FeatureGrid />
         <StepProcess />
-        <div className="relative pt-2 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <div className="relative pt-2 pb-5 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             content={{
               title: "Built for operations that cannot afford downtime",
-              subtitle:
+              description:
                 "Used across construction, facilities, and industrial environments to manage maintenance workflows efficiently and reliably.",
             }}
           />

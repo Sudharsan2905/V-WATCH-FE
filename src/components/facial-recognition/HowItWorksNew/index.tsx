@@ -114,7 +114,7 @@ function StepRow({
         {label}
       </p>
       <span
-        className="shrink-0 text-[28px] font-bold tabular-nums"
+        className="shrink-0 text-[30px] font-bold tabular-nums"
         style={{ color: "rgba(10,140,200,0.15)" }}
       >
         {number}
@@ -249,7 +249,7 @@ export default function HowItWorksNew() {
         className="px-6 py-10 lg:px-15 lg:py-16"
         style={{ background: "linear-gradient(180deg, #EDF7FF 0%, #F5FBFF 100%)" }}
       >
-        <div className="mx-auto max-w-330">
+        <div className="mx-auto max-w-[1280px] w-full">
 
           {/* Heading */}
           <motion.h2

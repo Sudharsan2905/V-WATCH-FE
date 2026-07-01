@@ -41,10 +41,10 @@ export default function TechnologyPartners({
   content = {},
 }: Readonly<{ content?: TechnologyPartnersContent }> = {}) {
   const {
-    title = "Technology Partners",
-    subtitle = "Integrated with leading systems",
-    description = "V-Watch Ai integrates with industry-leading technologies to extend functionality and work within your existing ecosystem.",
-    note = "Designed to integrate not replace your existing systems.",
+    title,
+    subtitle,
+    description,
+    note,
   } = content;
 
   const mid = Math.ceil(TECH_PARTNER_LOGOS.length / 2);
@@ -61,22 +61,28 @@ export default function TechnologyPartners({
           viewport={{ once: true, amount: 0.2 }}
         >
           {/* Header: icon + title/subtitle + description */}
-          <motion.div variants={headerStagger} className="flex flex-col items-center gap-3.5">
-            <motion.div variants={fadeUp} className="flex w-full items-center gap-3.5">
+          <motion.div variants={headerStagger} className="flex flex-col gap-[10px]">
+            <motion.div variants={fadeUp} className="flex w-full items-center gap-[10px]">
               <span className="relative flex size-[54px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] border-2 border-white bg-[rgba(244,251,255,0.2)] shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
                 <Image src="/products/technology%20partner.png" alt="" fill className="object-contain scale-[5.3] translate-x-[35.5%] translate-y-[22%] p-1" />
               </span>
-              <p className="flex-1 font-lato text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
+              <p className="flex-1 font-lato text-[26px] font-bold leading-[26px] text-[#0A4B6E]">
                 {title}
-                <br />
-                {subtitle}
+                {subtitle && (
+                  <>
+                    <br />
+                    {subtitle}
+                  </>
+                )}
               </p>
             </motion.div>
-            <motion.div variants={fadeUp} className="w-full pl-[70px]">
-              <p className="font-lato text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
-                {description}
-              </p>
-            </motion.div>
+            {description && (
+              <motion.div variants={fadeUp} className="max-w-[964px] ml-[70px]">
+                <p className="font-lato text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
+                  {description}
+                </p>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Logo rows — infinite marquee */}
@@ -123,12 +129,14 @@ export default function TechnologyPartners({
           </div>
 
           {/* Bottom note */}
-          <motion.p
-            variants={fadeUp}
-            className="text-center font-lato text-[20px] font-bold leading-[26px] text-[#1d6c97]"
-          >
-            {note}
-          </motion.p>
+          {note && (
+            <motion.p
+              variants={fadeUp}
+              className="text-center font-lato text-[20px] font-bold leading-[26px] text-[#1d6c97]"
+            >
+              {note}
+            </motion.p>
+          )}
         </motion.div>
       </MotionConfig>
     );
@@ -147,25 +155,37 @@ export default function TechnologyPartners({
             variants={headerStagger}
             className="flex flex-col items-center gap-3.5"
           >
-            <motion.div variants={fadeUp} className="flex w-full items-center gap-3.5">
+            <motion.div
+              variants={fadeUp}
+              className="flex w-full items-center gap-3.5"
+            >
               <IconBox src="/products/eco/icon-partners.svg" />
               <p className="flex-1 text-[20px] font-bold leading-[26px] text-[#0A4B6E]">
                 {title}
-                <br />
-                {subtitle}
+                {subtitle && (
+                  <>
+                    <br />
+                    {subtitle}
+                  </>
+                )}
               </p>
             </motion.div>
-            <motion.div variants={fadeUp} className="w-full pl-[70px]">
-              <p className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
-                {description}
-              </p>
-            </motion.div>
+            {description && (
+              <motion.div variants={fadeUp} className="w-full pl-[70px]">
+                <p className="text-[20px] font-normal leading-[26px] text-[#0A4B6E]">
+                  {description}
+                </p>
+              </motion.div>
+            )}
           </motion.div>
 
           <div className="flex flex-col items-center gap-2.5">
             <div className="flex flex-col gap-5">
               {[row1, row2].map((row) => (
-                <div key={row[0]} className="flex flex-wrap justify-center gap-4 sm:gap-8 lg:gap-12">
+                <div
+                  key={row[0]}
+                  className="flex flex-wrap justify-center gap-4 sm:gap-8 lg:gap-12"
+                >
                   {row.map((src) => (
                     <motion.div
                       key={src}
@@ -188,16 +208,17 @@ export default function TechnologyPartners({
                 </div>
               ))}
             </div>
-            <motion.p
-              variants={fadeUp}
-              className="text-[20px] font-bold leading-[26px] text-[#1d6c97]"
-            >
-              {note}
-            </motion.p>
+            {note && (
+              <motion.p
+                variants={fadeUp}
+                className="text-[20px] font-bold leading-[26px] text-[#1d6c97]"
+              >
+                {note}
+              </motion.p>
+            )}
           </div>
         </motion.div>
       </div>
     </MotionConfig>
-
   );
 }

@@ -10,8 +10,8 @@ const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 function ChevronDownIcon() {
   return (
     <svg
-      width="14"
-      height="14"
+      width="20"
+      height="20"
       viewBox="0 0 14 14"
       fill="none"
       aria-hidden
@@ -20,7 +20,7 @@ function ChevronDownIcon() {
       <path
         d="M3.5 5.25 7 8.75l3.5-3.5"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -153,9 +153,9 @@ const EMPLOYEE_COUNTS = ["1–50", "51–200", "201–500", "501–1,000", "1,00
 // ─── Field styles ─────────────────────────────────────────────────────────────
 
 const FIELD_LABEL =
-  "mb-1.5 block text-[12px] font-normal text-[#21293A] lg:text-[16px]";
+  "mb-1.5 block text-[12px] font-normal text-[#0A4B6E] md:text-[16px]";
 const INPUT_BASE =
-  "h-11 ml-2 w-full rounded-[10px] border border-[#E9F8FF] bg-[#F5FBFF] pl-10 pr-4 text-[15px] font-normal text-[#19213D] placeholder:text-[#0A4B6E]/50 transition-colors focus:border-[#0a8ec8] focus:outline-none focus:ring-2 focus:ring-[#0a8ec8]/15";
+  "h-11 w-full rounded-[10px] border border-[#E9F8FF] bg-[#F5FBFF] pl-10 pr-4 text-[15px] font-normal text-[#19213D] placeholder:text-[#0A4B6E]/50 transition-colors focus:border-[#0a8ec8] focus:outline-none focus:ring-2 focus:ring-[#0a8ec8]/15";
 
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
@@ -214,7 +214,7 @@ function InputField({
           onChange={(e) => onChange(e.target.value)}
           required={required}
           autoComplete={autoComplete}
-          className={INPUT_BASE}
+           className={`${INPUT_BASE} pl-[45px]`}
         />
       </div>
     </FieldWrapper>
@@ -277,7 +277,7 @@ function SelectField({
           }`}
         >
           <span
-            className={`truncate ${value ? "text-[#19213D]" : "text-[#0A4B6E]/50"}`}
+            className={`pl-2 truncate ${value ? "text-[#19213D]" : "text-[#0A4B6E]/50"}`}
           >
             {value || placeholder}
           </span>
@@ -482,7 +482,7 @@ function TrialFormCard() {
         <div className="flex flex-col items-center gap-3 pt-2">
           <button
             type="submit"
-            className="w-[155px] inline-flex h-11 items-center justify-center gap-2.5 rounded-full font-bold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)]"
+            className="w-[155px] inline-flex h-11 items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)]"
             style={{
               background: `
                 linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)) padding-box,
@@ -495,7 +495,7 @@ function TrialFormCard() {
             Start Free Trial
           </button>
 
-          <p className="text-center text-[13px] text-[#3890C0]">
+          <p className="text-[12px] text-center md:text-[14px] text-[#3890C0]">
             No credit card required. Instant access.
           </p>
         </div>
@@ -508,7 +508,7 @@ function TrialFormCard() {
 
 export default function HrmsTrialForm() {
   return (
-    <section className="z-999 relative -mb-[220px] pt-4 md:pt-15">
+    <section className="z-30 relative -mb-[220px] pt-4 md:pt-15">
       <div className="relative mx-auto max-w-[540px]">
         {/* Stacked cards behind — visible peeking out above the main card */}
         <div className="absolute inset-x-10 -top-9 h-8 rounded-t-[24px] bg-[#e7f6ff]" />
@@ -518,7 +518,12 @@ export default function HrmsTrialForm() {
         <div
           className="relative rounded-[24px] bg-white px-7 py-8 sm:px-10 sm:py-10"
           style={{
-            boxShadow: "0 -30px 60px rgba(33, 177, 241, 0.5)",
+            boxShadow: `
+              0 0 60px 10px rgba(33, 177, 241, 0.35),
+              0 -20px 50px 0 rgba(33, 177, 241, 0.30),
+              0 20px 50px 0 rgba(33, 177, 241, 0.22),
+              0 0 100px 20px rgba(33, 177, 241, 0.18)
+            `,
           }}
         >
           <TrialFormCard />

@@ -66,7 +66,7 @@ function FeatureCard({
         style={{
           background:
             "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
-          border: "1px solid transparent",
+          border: "1px solid white",
           boxShadow:
             "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
@@ -165,10 +165,10 @@ export default function BiometricVerification() {
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 -mt-8 lg:-mt-16">
         <div
-          className="overflow-hidden rounded-t-[28px]"
+          className="overflow-hidden rounded-t-[28px] px-6 lg:px-15"
           style={{ background: "#EDF7FF" }}
         >
-          <div className="mx-auto max-w-[1280px] px-6 py-8 sm:px-8 sm:py-8 lg:px-15 lg:py-10">
+          <div className="mx-auto max-w-[1280px] w-full py-8 lg:py-10">
             {/* Section header */}
             <motion.div
               initial="hidden"

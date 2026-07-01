@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import {
-  wipeTop,
   fadeUp,
   staggerContainer,
   viewportReveal,
@@ -222,7 +221,7 @@ function AccordionItem({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className={`flex w-full items-center gap-4 rounded-2xl px-5 text-left transition-all duration-200 sm:px-7 sm:py-5 ${
+        className={`flex w-full items-center gap-4 rounded-2xl px-5 py-5 text-left transition-all duration-200 sm:px-7 sm:py-5 ${
           isOpen
             ? "bg-[linear-gradient(90deg,#e3f5ff_80%,#e2f4fe_10%,#ddf1fc_10%)] shadow-[0_2px_14px_0_rgba(0,117,180,0.15)]"
             : ""

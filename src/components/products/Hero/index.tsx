@@ -9,8 +9,8 @@ const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const CURVE_DEFAULT_FILL =
   "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
 const CURVE_DEFAULT_STROKE = "M0 84 C33.33 103 66.67 103 100 84";
-const CURVE_SMALL_FILL = "M0 84 C33.33 90 66.67 90 100 84 L100 100 L0 100 Z";
-const CURVE_SMALL_STROKE = "M0 84 C33.33 90 66.67 90 100 84";
+const CURVE_SMALL_FILL = "M0 90 C33.33 96 66.67 96 100 90 L100 100 L0 100 Z";
+const CURVE_SMALL_STROKE = "M0 90 C33.33 96 66.67 96 100 90";
 const CURVE_GLOWS = [
   { w: 6, o: 0.2 },
   { w: 3, o: 0.45 },
@@ -174,7 +174,7 @@ export default function ProductsHero({
           </svg>
         </div>
           
-        <div className="relative z-10 w-full px-[24px] lg:px-[60px] pt-[140px] pb-[110px] md:pb-[120px] lg:pb-[240px]">
+        <div className="relative z-10 w-full px-[24px] lg:px-[60px] pt-[140px] pb-[80px] md:pb-[90px] lg:pb-[240px]">
           <motion.div
             className="flex mx-auto max-w-[1410px] max-h-[754px] flex-col justify-center gap-[30px]"
             initial="hidden"

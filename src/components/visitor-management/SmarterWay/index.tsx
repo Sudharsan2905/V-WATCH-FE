@@ -100,7 +100,7 @@ function FeatureCard({
         className="flex h-full flex-col gap-2.5 rounded-[20px] p-4"
         style={{
           background: "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
-          border: "1px solid transparent",
+          border: "1px solid white",
           boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
@@ -120,11 +120,11 @@ function FeatureCard({
 export default function SmarterWay() {
   return (
     <section
-      className="relative z-20 -mt-[60px] rounded-t-[48px] px-5 pt-10 lg:pb-15 sm:px-8 lg:px-[60px]"
+      className="relative z-20 -mt-[60px] rounded-t-[48px]"
       style={{ backgroundColor: "#EFF9FF" }}
     >
       <motion.div
-        className="flex w-full max-w-[1280px] flex-col gap-[30px]"
+        className="flex w-full mx-auto max-w-[1440px] flex-col gap-[30px]  px-5 pt-10 lg:pb-15 sm:px-8 lg:px-[60px]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}

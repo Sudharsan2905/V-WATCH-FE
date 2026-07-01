@@ -185,8 +185,16 @@ export default function Ecosystem() {
               </motion.div>
             </div>
           </motion.div>
-
-          <TechnologyPartners />
+          
+          <TechnologyPartners
+            content={{
+              title:"Technology Partners",
+              subtitle:"Integrated with leading systems",
+              description:
+                "V-Watch AI integrates with industry-leading technologies to extend functionality and work within your existing ecosystem. ",
+              note: "Designed to integrate not replace your existing systems.",
+            }}
+          />
         </div>
       </section>
     </MotionConfig>

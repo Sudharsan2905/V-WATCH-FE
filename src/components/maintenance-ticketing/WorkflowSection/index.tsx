@@ -555,201 +555,192 @@ export default function WorkflowSection() {
   const cardContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
-  // ── Refs shared between both effects ──────────────────────────────────────
-  const pendingTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isAutoScrolling = useRef(false); // true while our own scrollTo() is running
-  const loopActive = useRef(false); // false ⇒ stop scheduling next step
-  const userScrolling = useRef(false); // true while user is dragging
-  const scrollEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // ── Refs shared between the auto-play loop and the drag handlers ───────────
+  const isAutoScrolling = useRef(false); // true while our own scrollTo() runs
+  const userScrolling = useRef(false); // true while the user is dragging
+  const stepRef = useRef(0); // next stage the auto-play will show
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-  // Scroll the container to centre card i; sets isAutoScrolling flag for 750 ms
-  function doScrollToCard(container: HTMLDivElement, index: number) {
-    const cards = container.querySelectorAll("[data-card]");
-    const card = cards[index] as HTMLElement;
+  // ── Helpers (pure — operate on the container passed in) ─────────────────────
+  // Smooth-scroll the container so card `index` sits in the centre.
+  function scrollCardIntoCenter(container: HTMLDivElement, index: number) {
+    const card = container.querySelectorAll<HTMLElement>("[data-card]")[index];
     if (!card) return;
-
-    isAutoScrolling.current = true;
-
     const containerRect = container.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
-
-    // Current scroll + how far card center is from container center
-    const containerCenter = containerRect.left + containerRect.width / 2;
-    const cardCenter = cardRect.left + cardRect.width / 2;
-    const diff = cardCenter - containerCenter;
-
-    const targetScroll = container.scrollLeft + diff;
-
-    container.scrollTo({
-      left: targetScroll,
-      behavior: "smooth",
-    });
-
-    setTimeout(() => {
-      isAutoScrolling.current = false;
-    }, 700);
+    const diff =
+      cardRect.left +
+      cardRect.width / 2 -
+      (containerRect.left + containerRect.width / 2);
+    container.scrollTo({ left: container.scrollLeft + diff, behavior: "smooth" });
   }
 
-  // Which card is closest to the viewport centre, with right-edge clamping so
-  // the last card (index 4) can always become active
+  // Which card is closest to the container centre (used when a drag settles).
   function getNearestCard(container: HTMLDivElement) {
-    const cards = [...container.querySelectorAll("[data-card]")];
-    const containerCenter =
-      container.getBoundingClientRect().left +
-      container.getBoundingClientRect().width / 2;
-
+    const cards = [...container.querySelectorAll<HTMLElement>("[data-card]")];
+    const center =
+      container.getBoundingClientRect().left + container.clientWidth / 2;
     let nearest = 0;
     let minDistance = Infinity;
-
     cards.forEach((card, index) => {
       const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
-      const distance = Math.abs(cardCenter - containerCenter);
-
+      const distance = Math.abs(rect.left + rect.width / 2 - center);
       if (distance < minDistance) {
         minDistance = distance;
         nearest = index;
       }
     });
-
     return nearest;
   }
-  // Schedule looping auto-play from `step`. Each call schedules only the next
-  // tick — the recursive pattern keeps pendingTimers current and stoppable.
-  function scheduleLoop(
-    container: HTMLDivElement,
-    step: number,
-    delay: number,
-  ) {
-    if (!loopActive.current) return;
 
-    const t = setTimeout(() => {
-      if (!loopActive.current || userScrolling.current) return;
-
-      if (step === CARD_COMPONENTS.length) {
-        // Instantly jump back to the beginning
-        container.scrollTo({
-          left: 0,
-          behavior: "auto",
-        });
-
-        setActiveStep(0);
-
-        scheduleLoop(container, 1, 1600);
-        return;
-      }
-
-      setActiveStep(step);
-      doScrollToCard(container, step);
-
-      scheduleLoop(container, step + 1, 1600);
-    }, delay);
-
-    pendingTimers.current.push(t);
-  }
-
-  // Cancel everything and mark the loop as stopped
-  function cancelLoop() {
-    loopActive.current = false;
-    pendingTimers.current.forEach(clearTimeout);
-    pendingTimers.current = [];
-    if (scrollEndTimer.current) {
-      clearTimeout(scrollEndTimer.current);
-      scrollEndTimer.current = null;
-    }
-  }
-
-  // ── Auto-play: section enters view ────────────────────────────────────────
+  // ── Auto-play — advance the active stage on a loop. Robust across every
+  //    viewport: overflow (carousel vs. static grid) is re-checked on each tick
+  //    and whenever the breakpoint changes, and the wrap snaps back instantly
+  //    so scroll-snap can't strand it on the last card. ───────────────────────
   useEffect(() => {
     if (!isInView) return;
     const container = cardContainerRef.current;
     if (!container) return;
-    const overflow = container.scrollWidth > container.clientWidth;
 
-    loopActive.current = true;
+    const N = CARD_COMPONENTS.length;
+    const STEP_MS = 1600;
 
-    if (overflow) {
-      // Mobile / carousel mode: loop forever, 500 ms initial delay
-      scheduleLoop(container, 0, 500);
-    } else {
-      // Desktop: single pass 0 → 4, no loop, no scroll
-      [0, 1, 2, 3, 4].forEach((_, i) => {
-        const t = setTimeout(
-          () => {
-            if (!loopActive.current) return;
-            setActiveStep(i);
-          },
-          500 + i * 1600,
-        );
-        pendingTimers.current.push(t);
-      });
-    }
+    let cancelled = false;
+    let stepTimer: ReturnType<typeof setTimeout> | null = null;
+    let flagTimer: ReturnType<typeof setTimeout> | null = null;
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
-    return cancelLoop;
+    const hasOverflow = () => container.scrollWidth > container.clientWidth + 4;
+
+    const markAutoScroll = () => {
+      isAutoScrolling.current = true;
+      if (flagTimer) clearTimeout(flagTimer);
+      flagTimer = setTimeout(() => {
+        isAutoScrolling.current = false;
+      }, 700);
+    };
+
+    // Jump to the first card with NO animation. Forcing scroll-behavior to
+    // "auto" bypasses the container's CSS `scroll-smooth`, so the wrap is
+    // instant instead of a slow rewind that scroll-snap could interrupt (which
+    // was leaving the carousel stuck on the last card).
+    const snapToStart = () => {
+      markAutoScroll();
+      container.style.scrollBehavior = "auto";
+      container.scrollLeft = 0;
+      container.style.scrollBehavior = "";
+    };
+
+    const advance = () => {
+      if (cancelled) return;
+      // Hold — but keep polling — while the user is dragging, so we never die.
+      if (userScrolling.current) {
+        stepTimer = setTimeout(advance, 400);
+        return;
+      }
+
+      const overflow = hasOverflow();
+      let step = stepRef.current;
+
+      if (step >= N) {
+        step = 0;
+        if (overflow) snapToStart();
+      }
+
+      setActiveStep(step);
+      if (overflow && step > 0) {
+        markAutoScroll();
+        scrollCardIntoCenter(container, step);
+      }
+
+      // Loop forever in every view: the carousel scrolls between cards, the
+      // static grid just cycles the active highlight — both wrap back to the
+      // first card instead of stopping on the last one.
+      stepRef.current = step + 1;
+      stepTimer = setTimeout(advance, STEP_MS);
+    };
+
+    const start = () => {
+      if (stepTimer) clearTimeout(stepTimer);
+      stepRef.current = 0;
+      setActiveStep(0);
+      if (hasOverflow()) snapToStart();
+      stepTimer = setTimeout(advance, 500);
+    };
+
+    start();
+
+    // Restart in the correct mode when the viewport crosses the carousel/grid
+    // breakpoint — this is what makes it behave in every view.
+    let lastOverflow = hasOverflow();
+    const ro = new ResizeObserver(() => {
+      const now = hasOverflow();
+      if (now === lastOverflow) return;
+      lastOverflow = now;
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(start, 150);
+    });
+    ro.observe(container);
+
+    return () => {
+      cancelled = true;
+      if (stepTimer) clearTimeout(stepTimer);
+      if (flagTimer) clearTimeout(flagTimer);
+      if (resizeTimer) clearTimeout(resizeTimer);
+      ro.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
 
-  // ── User interaction: pause loop, track scroll, snap + resume on end ───────
+  // ── User drag — pause the auto-play, keep the active dot in sync, then hand
+  //    control back once the swipe settles. ───────────────────────────────────
   useEffect(() => {
     const container = cardContainerRef.current;
     if (!container) return;
 
-    // After the user's scroll momentum settles: snap to nearest card, resume loop
-    function onScrollEnd() {
-      const scroller = cardContainerRef.current;
-      if (!scroller || !userScrolling.current) return;
-      userScrolling.current = false;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    const scrollable = () => container.scrollWidth > container.clientWidth + 4;
 
-      if (scroller.scrollWidth <= scroller.clientWidth) return;
-
-      const nearestCard = getNearestCard(scroller);
-      setActiveStep(nearestCard);
-      doScrollToCard(scroller, nearestCard);
-    }
+    // Release the pause a beat after the last scroll/lift so momentum settles;
+    // resume the loop from whichever card the user landed on.
+    const scheduleRelease = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (scrollable()) stepRef.current = getNearestCard(container);
+        userScrolling.current = false;
+      }, 400);
+    };
 
     function onPointerDown() {
-      const scroller = cardContainerRef.current;
-      if (!scroller || scroller.scrollWidth <= scroller.clientWidth) return; // desktop — no carousel
+      if (!scrollable()) return;
       userScrolling.current = true;
-      cancelLoop();
-    }
-
-    function onScroll() {
-      const scroller = cardContainerRef.current;
-
-      if (!scroller) return;
-
-      if (isAutoScrolling.current) return;
-
-      if (scroller.scrollWidth <= scroller.clientWidth) return;
-
-      const nearest = getNearestCard(scroller);
-
-      setActiveStep(nearest);
-
-      clearTimeout(scrollEndTimer.current!);
-
-      scrollEndTimer.current = setTimeout(() => {
-        if (!userScrolling.current) return;
-
-        onScrollEnd();
-      }, 250);
+      if (idleTimer) clearTimeout(idleTimer);
     }
 
     function onPointerUp() {
-      userScrolling.current = false;
+      if (userScrolling.current) scheduleRelease();
     }
 
-    window.addEventListener("pointerup", onPointerUp);
+    function onScroll() {
+      if (!container || isAutoScrolling.current || !userScrolling.current)
+        return;
+      setActiveStep(getNearestCard(container));
+      scheduleRelease();
+    }
 
+    container.addEventListener("pointerdown", onPointerDown);
+    container.addEventListener("touchstart", onPointerDown, { passive: true });
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("touchend", onPointerUp);
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("pointerup", onPointerUp);
       container.removeEventListener("pointerdown", onPointerDown);
+      container.removeEventListener("touchstart", onPointerDown);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("touchend", onPointerUp);
       container.removeEventListener("scroll", onScroll);
-      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
+      if (idleTimer) clearTimeout(idleTimer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getStatus = (idx: number): "completed" | "active" | "pending" => {
@@ -764,7 +755,7 @@ export default function WorkflowSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-10 px-6 lg:py-[40px] lg:pb-[80px] lg:px-[60px]"
+      className="relative py-6 px-6 lg:py-[40px] lg:pb-[50px] lg:px-[60px]"
     >
       <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-6 lg:gap-[40px]">
         {/* Header */}

@@ -160,8 +160,9 @@ function CardColumn({
 
 export default function HowItWorks() {
   return (
-    <section className="relative bg-[#F5FBFF] px-5 pt-10 pb-16 sm:px-8 min-[1140px]:px-[60px] xl:pb-0">
-      <motion.div
+     <section className="relative z-10 flex-1 flex items-center w-full max-w-[1440px] mx-auto px-4 py-6 sm:px-6 lg:px-[60px] lg:py-[40px]">
+        <motion.div
+          // className="flex flex-col w-full max-w-[600px]"
         className="flex w-full max-w-[1280px] flex-col gap-5 xl:h-[687px] xl:max-h-[687px]"
         initial="hidden"
         whileInView="show"
@@ -232,13 +233,30 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        {/* ── Mobile / tablet — labelled card groups, no diagram. 1 column on
-            mobile, 2 columns on tablet (md). Desktop (lg) uses the block above. */}
-        <div className="flex flex-col gap-10 min-[1140px]:hidden">
-          <div>
+        {/* ── Mobile / tablet — echoes the desktop diagram without the connector
+            roads: centered labels (Input top · Output bottom) with the V-WATCH
+            logo orb between the two groups, over a faint centered grid. 1 column
+            on mobile, 2 columns on tablet (md). Desktop (lg) uses the block above. */}
+        <div className="relative flex flex-col gap-10 md:gap-0 min-[1140px]:hidden">
+          {/* Faint grid backdrop — centered behind the groups (tablet+ only). */}
+          <motion.div
+            aria-hidden
+            variants={diagramIn}
+            className="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 md:block"
+          >
+            <Image
+              src="/visitor-management/how-it-works-grid.png"
+              alt=""
+              width={706}
+              height={520}
+              className="mx-auto h-auto w-full max-w-[706px] opacity-60"
+            />
+          </motion.div>
+
+          <div className="relative z-10">
             <motion.p
               variants={labelIn}
-              className="mb-5 text-[20px] font-bold tracking-[-0.6px] text-[#006F9F]"
+              className="mb-5 text-center text-[20px] font-bold tracking-[-0.6px] text-[#006F9F]"
             >
               System Input
             </motion.p>
@@ -249,10 +267,27 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          <div>
+          {/* V-WATCH logo orb — centered between the Input and Output groups.
+              Tablet+ only; on mobile the groups stack directly. */}
+          <motion.div
+            aria-hidden
+            variants={diagramIn}
+            className="relative z-10 mx-auto hidden md:block"
+          >
+            <Image
+              src="/visitor-management/vwatch-orb.png"
+              alt=""
+              width={130}
+              height={130}
+              className="h-[110px] w-[110px] object-contain sm:h-[130px] sm:w-[130px]"
+            />
+          </motion.div>
+
+          <div className="relative z-10 flex flex-col">
+            {/* Label sits above the cards on mobile, below them on tablet+. */}
             <motion.p
               variants={labelIn}
-              className="mb-5 text-[20px] font-bold tracking-[-0.6px] text-[#006F9F]"
+              className="order-first mb-5 text-center text-[20px] font-bold tracking-[-0.6px] text-[#006F9F] md:order-last md:mb-0 md:mt-5"
             >
               System Output
             </motion.p>

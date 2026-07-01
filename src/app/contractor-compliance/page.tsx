@@ -38,11 +38,11 @@ export default function ContractorCompliancePage() {
         trustText="From construction sites to industrial facilities, organisations rely on V-Watch AI to ensure every worker meets safety and regulatory requirements. "
       /> */}
 
-      <div className="relative pt-2 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+      <div className="relative pt-2 py-5 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             content={{
               title: "Trusted in environments where compliance is critical",
-              subtitle:
+              description:
                 "From construction sites to industrial facilities, organisations rely on V-Watch AI to ensure every worker meets safety and regulatory requirements.",
             }}
           />
