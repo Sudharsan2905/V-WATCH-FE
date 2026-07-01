@@ -226,16 +226,19 @@ export const commercialFacilitiesContent = {
         image: "/industries/commercial/use-case/emergencys.png",
         title: "Visitor Management System",
         desc: "Register, track, and manage visitors across your building with secure check-in.",
+        href: "/visitor-management",
       },
       {
         image: "/industries/commercial/use-case/restrictedzones.png",
         title: "Facial Recognition Access Control",
         desc: "Deploy touchless entry points across high-traffic and secure zones.",
+        href: "/facial-recognition",
       },
       {
         image: "/industries/commercial/use-case/ticketings.png",
         title: "Maintenance Ticketing & Service Orders",
         desc: "Manage maintenance requests and service orders from report to resolution.",
+        href: "/maintenance-ticketing",
       },
       {
         image: "/industries/commercial/use-case/trackings.png",
@@ -246,6 +249,7 @@ export const commercialFacilitiesContent = {
         image: "/industries/commercial/use-case/ticketings.png",
         title: "Payroll, Claims & Leave Automation",
         desc: "Automate payroll, claims, and leave workflows from real workforce activity.",
+        href: "/workforce-management",
       },
     ],
   },

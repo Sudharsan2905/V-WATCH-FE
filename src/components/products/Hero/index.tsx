@@ -202,7 +202,7 @@ export default function ProductsHero({
               </div>
 
               {/* Description */}
-              <p className="max-w-[561px] font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
+              <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
                 <motion.span
                   custom={0.8}
                   variants={copyReveal}
@@ -230,7 +230,7 @@ export default function ProductsHero({
                 <motion.p
                   custom={1.45}
                   variants={copyReveal}
-                  className="max-w-[561px] text-base leading-7 text-white lg:text-[20px] lg:leading-8"
+                  className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8"
                 >
                   {boldLine}
                 </motion.p>
