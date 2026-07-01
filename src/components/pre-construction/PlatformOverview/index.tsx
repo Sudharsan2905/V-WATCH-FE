@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { motion, MotionConfig, type Variants } from "motion/react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/react";
 
-// Shared ease — matches the rest of the site (≈ easeOutQuint).
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const CYCLE_MS = 4000; // auto-advance every 4 s
+const RESUME_MS = 6000; // resume auto-play 6 s after manual interaction
 
-// Header clip-wipe from the top — the site's signature heading reveal.
 const wipeDown: Variants = {
   hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
   show: (delay = 0) => ({
@@ -25,12 +26,9 @@ const fadeUp: Variants = {
   }),
 };
 
-// Placeholder art, used as a fallback when a block has no `image` of its own.
-// Space in the filename is URL-encoded for the asset request.
-const CAP_IMAGE = "/pre-construction/platform-overview/Rectangle%2034624111.png";
+const CAP_IMAGE =
+  "/pre-construction/platform-overview/Rectangle%2034624111.png";
 
-// Each capability carries its own `image` — set a per-block path here to give
-// every block a distinct visual. Falls back to CAP_IMAGE when omitted.
 type Capability = {
   number: string;
   title: string;
@@ -42,7 +40,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "01",
     title: "Workforce & Site Management",
-    image: "/pre-construction/platform-overview/Workforce_Site_Management_image.png",
+    image:
+      "/pre-construction/platform-overview/Workforce_Site_Management_image.png",
     points: [
       "Person management and profiles",
       "Access and attendance tracking",
@@ -53,7 +52,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "02",
     title: "Operations & Workflow Control",
-    image: "/pre-construction/platform-overview/Operations_Workflow_Control_image.png",
+    image:
+      "/pre-construction/platform-overview/Operations_Workflow_Control_image.png",
     points: [
       "Task and project management",
       "Work program tracking",
@@ -64,7 +64,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "03",
     title: "Vehicle, Fleet & Logistics",
-    image: "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.png",
+    image:
+      "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.png",
     points: [
       "Vehicle tracking and reporting",
       "Delivery and logistics coordination",
@@ -75,7 +76,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "04",
     title: "Assets & Quality Management",
-    image: "/pre-construction/platform-overview/Assets_Quality_Management_image.png",
+    image:
+      "/pre-construction/platform-overview/Assets_Quality_Management_image.png",
     points: [
       "Asset tracking and utilisation",
       "Audit and quality assurance",
@@ -85,7 +87,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "05",
     title: "Safety & Compliance",
-    image: "/pre-construction/platform-overview/Safety_Compliance_image.png",
+    image:
+      "/pre-construction/platform-overview/Safety_Compliance_image.png",
     points: [
       "Permit-to-work (PTW)",
       "LOTO and safety protocols",
@@ -96,7 +99,8 @@ const CAPABILITIES: Capability[] = [
   {
     number: "06",
     title: "Productivity & Intelligence",
-    image: "/pre-construction/platform-overview/Productivity_Intelligence_image.png",
+    image:
+      "/pre-construction/platform-overview/Productivity_Intelligence_image.png",
     points: [
       "Manhour tracking",
       "Time-lapse and progress tracking",
@@ -106,9 +110,6 @@ const CAPABILITIES: Capability[] = [
   },
 ];
 
-// Full-width pill that closes the capabilities list: centred tagline flanked by
-// thin connector lines ending in dots. Figma: 1140×60, radius 30, 1px gradient
-// border, soft translucent-purple fill, text Lato 700/18 tracking -0.6 #006F9F.
 function ConnectedBanner({
   text = "Every part of your project connected in one system.",
 }: Readonly<{ text?: string }>) {
@@ -118,36 +119,37 @@ function ConnectedBanner({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.4 }}
-      className="mx-auto mt-10 flex min-h-15 w-full max-w-[1140px] items-center justify-center gap-2.5 rounded-[30px] px-2.5 py-3 lg:py-0"
+      className="flex w-full min-h-[60px] items-center gap-2 overflow-hidden rounded-[30px] px-4 py-3"
       style={{
-        // Fill: centre 70% is light lavender (#CDCDFE), outer 30% fades to white.
-        // Border: vertical gradient — light blue (#C1ECFF) on top fading to white
-        // (#FFFFFF) at the bottom, so the heavier 2px bottom edge reads white.
-        // Inner shadow: X0 Y-4 Blur24 #FFFFFF.
         background:
           "linear-gradient(90deg,#FFFFFF 0%,#CDCDFE 15%,#CDCDFE 85%,#FFFFFF 100%) padding-box, linear-gradient(180deg,#C1ECFF 0%,#FFFFFF 100%) border-box",
-        // Border weight: 1px top, 2px bottom (heavier base reads as a soft
-        // shadow), 1px on the sides — the border-box gradient fills each side.
         borderStyle: "solid",
         borderColor: "transparent",
         borderWidth: "1px 1px 2px 1px",
         boxShadow: "inset 0 -4px 24px 0 #FFFFFF",
       }}
     >
-      {/* Left line fades from transparent (outer) to solid blue at the dot. */}
-      <span className="hidden items-center lg:flex">
-        <span className="h-0.5 w-44 bg-linear-to-r from-[#006F9F]/0 to-[#006F9F]" />
-        <span className="size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
+      {/* Left: line → dot — only on xl+ (1280px+) */}
+      <span className="hidden shrink-0 items-center xl:flex">
+        <span
+          className="h-0.5 flex-1 min-w-[24px] max-w-[80px]"
+          style={{ background: "linear-gradient(to right, transparent, #006F9F)" }}
+        />
+        <span className="ml-2 size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
       </span>
 
-      <span className="font-lato px-4 text-center text-[18px] font-bold leading-[26px] tracking-[-0.6px] text-[#006F9F] lg:shrink-0 lg:px-10">
+      {/* Text — 13px mobile, 14px sm, 15px lg (1024px), 18px xl+ */}
+      <span className="min-w-0 flex-1 text-center font-lato text-[13px] font-bold leading-snug tracking-[-0.4px] text-[#006F9F] sm:text-[14px] lg:text-[15px] xl:shrink-0 xl:flex-none xl:text-[18px] xl:leading-[26px] xl:tracking-[-0.6px]">
         {text}
       </span>
 
-      {/* Right line mirrors the left: solid at the dot, fading out to the edge. */}
-      <span className="hidden items-center lg:flex">
-        <span className="size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
-        <span className="h-0.5 w-44 bg-linear-to-l from-[#006F9F]/0 to-[#006F9F]" />
+      {/* Dot → line — only on xl+ (1280px+) */}
+      <span className="hidden shrink-0 items-center xl:flex">
+        <span className="mr-2 size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
+        <span
+          className="h-0.5 flex-1 min-w-[24px] max-w-[80px]"
+          style={{ background: "linear-gradient(to left, transparent, #006F9F)" }}
+        />
       </span>
     </motion.div>
   );
@@ -174,92 +176,6 @@ function CheckItem({ children }: Readonly<{ children: string }>) {
   );
 }
 
-function CapabilityRow({
-  cap,
-  index,
-}: Readonly<{ cap: Capability; index: number }>) {
-  // Alternate sides: even index → text left / image right; odd → reversed.
-  const reverse = index % 2 === 1;
-
-  return (
-    <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-      className={`flex flex-col gap-6 rounded-3xl bg-white p-5 shadow-[0_20px_50px_-25px_rgba(20,46,92,0.25)] lg:flex-row lg:items-center lg:gap-16 lg:rounded-none lg:bg-transparent lg:p-0 lg:shadow-none ${
-        reverse ? "lg:flex-row-reverse" : ""
-      } ${index > 0 ? "lg:-mt-2" : ""}`}
-    >
-      {/* Text — vertically centred against the image height (lg:items-center).
-          White card rounded 32px on its outer side (left for content-left, right
-          for content-right). The inner, non-rounded side fades the white out to
-          transparent so it melts into the page background instead of a hard edge. */}
-      <div
-        className={`flex-1 px-2 py-4 lg:w-136.75 lg:flex-none lg:p-8 ${
-          reverse
-            ? "lg:rounded-r-4xl lg:bg-[linear-gradient(to_left,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
-            : "lg:rounded-l-4xl lg:bg-[linear-gradient(to_right,#FFFFFF_60%,rgba(255,255,255,0)_100%)]"
-        }`}
-      >
-        <span className="block font-lato text-[36px] font-bold leading-none text-[#0A8EC880]">
-          {cap.number}
-        </span>
-        <h3 className="mt-3 font-lato text-[24px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]">
-          {cap.title}
-        </h3>
-        <ul className="mt-5 space-y-2.5">
-          {cap.points.map((p) => (
-            <CheckItem key={p}>{p}</CheckItem>
-          ))}
-        </ul>
-      </div>
-
-      {/* Image — per-block art, falls back to the shared placeholder. */}
-      <div className="flex w-full flex-1 justify-center">
-        <div className="relative w-full max-w-90">
-          {/* Light-purple circle behind the image — a soft round glow (radial
-              fill so its edge feathers cleanly instead of smearing). It sits low
-              on the image's own (outer) side, bleeding out past the bottom:
-              bottom-left when the image is on the left, bottom-right when it's on
-              the right. */}
-          <div
-            aria-hidden
-            className={`pointer-events-none absolute bottom-0 -z-10 aspect-square w-[110%] -translate-x-1/2 translate-y-1/3 rounded-full bg-[radial-gradient(circle,#E9E4FA_55%,rgba(233,228,250,0)_100%)] ${
-              reverse ? "left-0" : "left-full"
-            }`}
-          />
-          <div
-            className={`w-full rounded-[20px] p-2.5 shadow-[0_28px_55px_-28px_rgba(20,46,92,0.40)] [--gdir:to_bottom_right] ${
-              reverse ? "lg:[--gdir:to_bottom_right]" : "lg:[--gdir:to_bottom_left]"
-            }`}
-            style={{
-            // 2px blue→white gradient border (Figma: 1.98px, #0A8EC8 → #FFFFFF).
-            // Blue sits at the outer-top corner — but the image only has a real
-            // left/right side at lg (below that the layout stacks). So --gdir
-            // defaults to a single corner (top-left) when stacked, and only
-            // flips per row at lg: top-left when the image is on the left
-            // (reverse), top-right when it's on the right.
-            background:
-              "linear-gradient(#fff,#fff) padding-box, linear-gradient(var(--gdir),#0A8EC8,#FFFFFF) border-box",
-            border: "2px solid transparent",
-            }}
-          >
-            <Image
-              src={cap.image ?? CAP_IMAGE}
-              alt=""
-              width={340}
-              height={360}
-              unoptimized
-              className="max-w-[340px] h-[360px] w-full rounded-xl object-cover"
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 type PlatformOverviewContent = {
   heading?: string;
   capabilities?: Capability[];
@@ -275,11 +191,41 @@ export default function PlatformOverview({
     bannerText,
   } = content;
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-advance
+  useEffect(() => {
+    if (paused || capabilities.length <= 1) return;
+    const id = setInterval(
+      () => setActiveIndex((i) => (i + 1) % capabilities.length),
+      CYCLE_MS,
+    );
+    return () => clearInterval(id);
+  }, [paused, capabilities.length]);
+
+  // Clean up resume timer on unmount
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
+
+  const goTo = (i: number) => {
+    setActiveIndex(i);
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), RESUME_MS);
+  };
+
+  const activeCap = capabilities[activeIndex];
+
   return (
     <MotionConfig reducedMotion="user">
-      {/* Full-width band, 60px horizontal padding (px-6 on mobile). */}
-      <section className="relative z-10 w-full overflow-hidden bg-[#f5fbff] px-6 pb-8 pt-8 lg:px-[60px]">
-        {/* Soft decorative blobs, behind the content. */}
+      <section className="relative z-10 w-full overflow-hidden bg-[#f5fbff] px-6 pb-12 pt-10 lg:px-[60px]">
+        {/* Decorative blobs */}
         <div
           aria-hidden
           className="pointer-events-none absolute -left-24 top-1/4 size-[440px] rounded-full bg-[#E9E4FA] opacity-50 blur-[90px]"
@@ -290,25 +236,169 @@ export default function PlatformOverview({
         />
 
         <div className="relative z-10 mx-auto max-w-[1280px]">
-          {/* Heading — full width, sits at the section's 60px left padding. */}
+          {/* Heading */}
           <motion.h2
             variants={wipeDown}
             custom={0.05}
             initial="hidden"
             animate="show"
-            className="font-lato max-w-[1280px] text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
+            className="font-lato text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
           >
             {heading}
           </motion.h2>
 
-          {/* Blocks — 996px wide, centred. */}
-          <div className="mx-auto mt-14 flex max-w-[996px] flex-col gap-8 lg:mt-16 lg:gap-0">
-            {capabilities.map((cap, i) => (
-              <CapabilityRow key={cap.number} cap={cap} index={i} />
-            ))}
-          </div>
+          {/* Main two-column layout */}
+          <div className="mt-10 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-12">
 
-          <ConnectedBanner text={bannerText} />
+            {/* ── LEFT: progress bar + content card + banner ── */}
+            <div className="flex flex-col gap-5 lg:w-[45%] lg:flex-none">
+
+            {/* Inner row: progress bar + content card */}
+            <div className="flex flex-1 items-stretch gap-5">
+
+              {/* Vertical progress bar — hidden on mobile, shown on desktop */}
+              <div
+                className="relative hidden self-stretch lg:block"
+                style={{ width: 14, flexShrink: 0 }}
+              >
+                {/* White track (full bar background) */}
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: "#FFFFFF",
+                    boxShadow:
+                      "inset 0 2px 6px rgba(0,0,0,0.06), 0 2px 10px rgba(74,184,222,0.12)",
+                  }}
+                />
+
+                {/* Blue fill — grows from top to center of active dot using CSS calc */}
+                <div
+                  className="absolute inset-x-0 top-0 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    background: "linear-gradient(180deg, #5CC8E8 0%, #3AADD4 100%)",
+                    height:
+                      capabilities.length <= 1
+                        ? "100%"
+                        : `calc(14px + ${activeIndex} * (100% - 28px) / ${capabilities.length - 1})`,
+                  }}
+                />
+
+                {/* Dots evenly distributed along the bar */}
+                <div className="absolute inset-0 flex flex-col items-center justify-between py-[7px]">
+                  {capabilities.map((cap, i) => (
+                    <button
+                      key={cap.number}
+                      type="button"
+                      aria-label={`Go to ${cap.title}`}
+                      onClick={() => goTo(i)}
+                      className="relative z-10 shrink-0 rounded-full transition-all duration-300"
+                      style={{
+                        // Filled section (active + completed) → white dot
+                        // Unfilled section (upcoming) → blue dot
+                        width:  i === activeIndex ? 9 : 7,
+                        height: i === activeIndex ? 9 : 7,
+                        background: i <= activeIndex ? "#FFFFFF" : "#48B8DE",
+                        boxShadow:
+                          i === activeIndex
+                            ? "0 0 0 2px rgba(255,255,255,0.9), 0 0 0 4px rgba(74,184,222,0.35)"
+                            : i < activeIndex
+                            ? "0 1px 3px rgba(0,0,0,0.08)"
+                            : "none",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Content card — animates between capabilities */}
+              {/* Mobile: relative flow so height adapts to content (no clipping) */}
+              {/* Desktop: absolute inset-0 fills the fixed-height container */}
+              <div className="relative flex-1 lg:min-h-[300px]">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16 }}
+                    transition={{ duration: 0.38, ease: EASE }}
+                    className="w-full rounded-[28px] bg-white px-6 py-6 shadow-[0_16px_40px_-20px_rgba(20,46,92,0.18)] lg:absolute lg:inset-0 lg:px-7 lg:py-7"
+                  >
+                    <span className="block font-lato text-[32px] font-bold leading-none text-[#0A8EC8]/50 lg:text-[36px]">
+                      {activeCap.number}
+                    </span>
+                    <h3 className="mt-3 font-lato text-[20px] font-bold leading-tight tracking-[0] text-[#0A4B6E] lg:text-[22px]">
+                      {activeCap.title}
+                    </h3>
+                    <ul className="mt-4 space-y-2 lg:mt-5 lg:space-y-2.5">
+                      {activeCap.points.map((p) => (
+                        <CheckItem key={p}>{p}</CheckItem>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>{/* end inner row */}
+
+            {/* Mobile dot indicators — replaces the sidebar progress bar */}
+            <div className="flex items-center justify-center gap-2 lg:hidden">
+              {capabilities.map((cap, i) => (
+                <button
+                  key={cap.number}
+                  type="button"
+                  aria-label={`Go to ${cap.title}`}
+                  onClick={() => goTo(i)}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: i === activeIndex ? 20 : 8,
+                    height: 8,
+                    background: i === activeIndex ? "#0A8EC8" : "rgba(10,142,200,0.25)",
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Banner — inside left column, below the content card */}
+            <ConnectedBanner text={bannerText} />
+
+            </div>{/* end left column */}
+
+            {/* ── RIGHT: animated image ── */}
+            <div
+              className="relative flex-1 overflow-hidden rounded-[22px]"
+              style={{ minHeight: 260 }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.03 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="absolute inset-0"
+                >
+                  <div
+                    className="h-full w-full rounded-[22px] p-2.5 shadow-[0_28px_55px_-28px_rgba(20,46,92,0.38)]"
+                    style={{
+                      background:
+                        "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
+                      border: "2px solid transparent",
+                    }}
+                  >
+                    <div className="relative h-full w-full overflow-hidden rounded-[16px]">
+                      <Image
+                        src={activeCap.image ?? CAP_IMAGE}
+                        alt={activeCap.title}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 55vw"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
     </MotionConfig>
