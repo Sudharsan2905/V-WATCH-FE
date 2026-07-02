@@ -1,287 +1,32 @@
-// "use client";
-
-// import { useEffect, useRef, useState } from "react";
-// import Image from "next/image";
-// import {
-//   animate,
-//   AnimatePresence,
-//   motion,
-//   MotionConfig,
-//   useMotionValue,
-//   useScroll,
-//   useMotionValueEvent,
-//   useTransform,
-//   type Variants,
-// } from "motion/react";
-
-// const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-// // Whole-card scroll-in entrance.
-// const cardReveal: Variants = {
-//   hidden: { opacity: 0, y: 48, scale: 0.97 },
-//   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
-// };
-
-// // ─── Step data ────────────────────────────────────────────────────────────────
-// const STEPS = [
-//   {
-//     num: "01",
-//     title: "Issue Identification",
-//     body: "Maintenance requests are logged manually or triggered through system alerts.",
-//     image: "/maintenance/process-step-1.webp",
-//   },
-//   {
-//     num: "02",
-//     title: "Task Creation & Assignment",
-//     body: "Service orders are created and assigned based on priority, location, and expertise.",
-//     image: "/maintenance/process-step-2.webp",
-//   },
-//   {
-//     num: "03",
-//     title: "Execution & Updates",
-//     body: "Assigned personnel update progress, upload notes, and record actions taken.",
-//     image: "/maintenance/process-step-3.webp",
-//   },
-//   {
-//     num: "04",
-//     title: "Verification & Closure",
-//     body: "Completed work is verified before the request is closed ensuring quality and accountability.",
-//     image: "/maintenance/process-step-4.webp",
-//   },
-// ];
-
-// const ARC_CX = -30;
-// const ARC_CY = 150;
-// const ARC_R = 146; // on the bright part of the crescent band so dots sit on the line
-// const NODE_CENTER_ANGLE = 0; // active node at the card's vertical centre (step 1 dots below, step 4 above — exact mirrors)
-// const NODE_ANGLE_STEP = 25; // degrees between consecutive nodes along the arc
-// // Radius (viewBox units ≈ 24/20/16/12px) by distance from the active node.
-// const NODE_RADII = [10.4, 8.7, 7, 5.2];
-
-// const STEP_THRESHOLDS = [0.25, 0.5, 0.75];
-
-// function NodeCircle({ angleDeg, radius }: Readonly<{ angleDeg: number; radius: number }>) {
-//   const angle = useMotionValue(angleDeg);
-//   useEffect(() => {
-//     const controls = animate(angle, angleDeg, { duration: 0.6, ease: EASE });
-//     return () => controls.stop();
-//   }, [angleDeg, angle]);
-//   const cx = useTransform(angle, (degrees) => ARC_CX + ARC_R * Math.cos((degrees * Math.PI) / 180));
-//   const cy = useTransform(angle, (degrees) => ARC_CY + ARC_R * Math.sin((degrees * Math.PI) / 180));
-//   return (
-//     <motion.circle
-//       cx={cx}
-//       cy={cy}
-//       fill="white"
-//       animate={{ r: radius }}
-//       transition={{ duration: 0.6, ease: EASE }}
-//     />
-//   );
-// }
-
-// // ─── Section ──────────────────────────────────────────────────────────────────
-
-// // True below the lg breakpoint (1024px); defaults to false so SSR matches desktop, then corrects after mount.
-// function useBelowLg() {
-//   const [below, setBelow] = useState(false);
-//   useEffect(() => {
-//     const query = window.matchMedia("(max-width: 1023px)");
-//     const update = () => setBelow(query.matches);
-//     update();
-//     query.addEventListener("change", update);
-//     return () => query.removeEventListener("change", update);
-//   }, []);
-//   return below;
-// }
-
-// function progressToStep(progress: number) {
-//   const clamped = Math.min(1, Math.max(0, progress));
-//   return STEP_THRESHOLDS.filter((threshold) => clamped >= threshold).length;
-// }
-
-// // Below lg: the card pins while the user scrolls through the steps, then releases (scroll-jacking, mobile/tablet only).
-// function PinnedSteps({
-//   active,
-//   setActive,
-// }: Readonly<{ active: number; setActive: (index: number) => void }>) {
-//   const trackRef = useRef<HTMLDivElement>(null);
-//   const { scrollYProgress } = useScroll({
-//     target: trackRef,
-//     offset: ["start start", "end end"],
-//   });
-//   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-//     setActive(progressToStep(progress));
-//   });
-//   return (
-//     <div ref={trackRef} className="relative h-[200vh]">
-//       <div className="sticky top-[76px] px-6 pb-10">
-//         <StepCard active={active} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// // lg and up: the card stays in normal flow; steps advance from its scroll position.
-// function FlowSteps({
-//   active,
-//   setActive,
-// }: Readonly<{ active: number; setActive: (index: number) => void }>) {
-//   const sectionRef = useRef<HTMLElement>(null);
-//   const { scrollYProgress } = useScroll({
-//     target: sectionRef,
-//     offset: ["end end", "start start"],
-//   });
-//   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-//     setActive(progressToStep(progress));
-//   });
-//   return (
-//     <section ref={sectionRef} className="px-6 pb-16 pt-2 lg:px-[60px]">
-//       <StepCard active={active} />
-//     </section>
-//   );
-// }
-
-// export default function StepProcess() {
-//   const [active, setActive] = useState(0);
-//   const belowLg = useBelowLg();
-//   return (
-//     <MotionConfig reducedMotion="user">
-//       {belowLg ? (
-//         <PinnedSteps active={active} setActive={setActive} />
-//       ) : (
-//         <FlowSteps active={active} setActive={setActive} />
-//       )}
-//     </MotionConfig>
-//   );
-// }
-
-// // The visual card shared by both layouts; `active` drives the arc, copy and progress dots.
-// function StepCard({ active }: Readonly<{ active: number }>) {
-//   const step = STEPS[active];
-//   return (
-//     <motion.div
-//       initial="hidden"
-//       whileInView="show"
-//       viewport={{ once: true, amount: 0.3 }}
-//       variants={cardReveal}
-//       className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] shadow-[0_4px_14px_0_rgba(56,144,192,0.40),0_4px_14px_0_rgba(0,45,69,0.10)] lg:h-[345px]"
-//     >
-//       {/* Illustration: top banner on mobile, full-cover backdrop on desktop */}
-//       <div className="relative h-[260px] w-full lg:absolute lg:inset-0 lg:h-full">
-//         <AnimatePresence>
-//           <motion.div
-//             key={step.image}
-//             className="absolute inset-0"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             exit={{ opacity: 0 }}
-//             transition={{ duration: 0.6, ease: EASE }}
-//           >
-//             <Image
-//               src={step.image}
-//               alt=""
-//               fill
-//               sizes="(min-width: 1024px) 1410px, 100vw"
-//               className="object-cover object-right"
-//             />
-//           </motion.div>
-//         </AnimatePresence>
-//         {/* Left-to-right scrim keeps the copy legible over the artwork (desktop) */}
-//         <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,#081124_0%,#081124_28%,rgba(8,17,36,0.85)_45%,rgba(8,17,36,0)_70%)] lg:block" />
-//       </div>
-
-//       {/* Half-circle arc (saved SVG, stretched) + animated progress dots overlay */}
-//       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden h-full w-[155px] lg:block">
-//         <Image src="/maintenance/step-arc.svg" alt="" fill aria-hidden="true" className="object-fill" />
-//         <svg
-//           viewBox="0 0 135 300"
-//           fill="none"
-//           preserveAspectRatio="none"
-//           className="absolute inset-0 h-full w-full"
-//           aria-hidden
-//         >
-//           {STEPS.map((stepItem, index) => (
-//             <NodeCircle
-//               key={stepItem.num}
-//               angleDeg={NODE_CENTER_ANGLE + (index - active) * NODE_ANGLE_STEP}
-//               radius={NODE_RADII[Math.min(NODE_RADII.length - 1, Math.abs(index - active))]}
-//             />
-//           ))}
-//         </svg>
-//       </div>
-
-//       {/* Content */}
-//       <div className="relative z-10 px-6 pb-8 pt-7 lg:max-w-[66%] lg:py-[56px] lg:pl-[175px] lg:pr-[40px]">
-//         {/* Heading + underline */}
-//         <h2 className="text-[20px] font-bold text-white sm:text-[24px]">
-//           Simple, Step by Step Process
-//         </h2>
-//         <div className="mt-3 h-[8px] w-[321px] max-w-full rounded-[1111px] bg-[linear-gradient(90deg,#C1ECFF_0%,#11214C_100%)] opacity-[0.16]" />
-
-//         {/* Active step copy */}
-//         <div className="relative mt-8 min-h-[150px] lg:mt-10 lg:min-h-[120px]">
-//           <AnimatePresence mode="wait">
-//             <motion.div
-//               key={active}
-//               className="flex items-start gap-5"
-//               initial={{ opacity: 0, y: 18 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               exit={{ opacity: 0, y: -18 }}
-//               transition={{ duration: 0.45, ease: EASE }}
-//             >
-//               <span className="font-lato text-[44px] font-bold leading-normal text-[#EFF9FF] sm:text-[62px]">
-//                 {step.num}
-//               </span>
-//               <div className="flex flex-col gap-2 pt-1">
-//                 <h3 className="text-[22px] font-bold text-white sm:text-[26px] lg:whitespace-nowrap">
-//                   {step.title}
-//                 </h3>
-//                 <p className="max-w-[480px] text-[15px] leading-[24px] text-white/70 sm:text-[16px]">
-//                   {step.body}
-//                 </p>
-//               </div>
-//             </motion.div>
-//           </AnimatePresence>
-//         </div>
-
-//         <div className="mt-8 flex items-center gap-2 lg:hidden" aria-hidden>
-//           {STEPS.map((stepItem, index) => (
-//             <span
-//               key={stepItem.num}
-//               className={`h-[8px] rounded-full transition-all duration-300 ${
-//                 index === active ? "w-[24px] bg-white" : "w-[8px] bg-white/30"
-//               }`}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </motion.div>
-//   );
-// }
-
-
-
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  animate,
-  AnimatePresence,
-  motion,
-  MotionConfig,
-  useMotionValue,
-  useScroll,
-  useMotionValueEvent,
-  useTransform,
-  type Variants,
-} from "motion/react";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const cardReveal: Variants = {
-  hidden: { opacity: 0, y: 48, scale: 0.97 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE, delay },
+  }),
+};
+
+const slideFromLeft: Variants = {
+  hidden: { opacity: 0, x: -40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const slideFromRight: Variants = {
+  hidden: { opacity: 0, x: 40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const dotPop: Variants = {
+  hidden: { opacity: 0, scale: 0 },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE, delay: 0.15 } },
 };
 
 const STEPS = [
@@ -289,287 +34,218 @@ const STEPS = [
     num: "01",
     title: "Issue Identification",
     body: "Maintenance requests are logged manually or triggered through system alerts.",
-    image: "/maintenance/process-step-1.webp",
+    icon: "/maintenance/step-1.svg",
   },
   {
     num: "02",
     title: "Task Creation & Assignment",
     body: "Service orders are created and assigned based on priority, location, and expertise.",
-    image: "/maintenance/process-step-2.webp",
+    icon: "/maintenance/step-2.svg",
   },
   {
     num: "03",
     title: "Execution & Updates",
     body: "Assigned personnel update progress, upload notes, and record actions taken.",
-    image: "/maintenance/process-step-3.webp",
+    icon: "/maintenance/step-3.svg",
   },
   {
     num: "04",
     title: "Verification & Closure",
     body: "Completed work is verified before the request is closed ensuring quality and accountability.",
-    image: "/maintenance/process-step-4.webp",
+    icon: "/maintenance/step-4.svg",
   },
 ];
 
-const ARC_CX = -30;
-const ARC_CY = 150;
-const ARC_R = 146;
-const NODE_CENTER_ANGLE = 0;
-const NODE_ANGLE_STEP = 25;
-const NODE_RADII = [10.4, 8.7, 7, 5.2];
-const STEP_THRESHOLDS = [0.25, 0.5, 0.75];
-
-function NodeCircle({ angleDeg, radius }: Readonly<{ angleDeg: number; radius: number }>) {
-  const angle = useMotionValue(angleDeg);
-  useEffect(() => {
-    const controls = animate(angle, angleDeg, { duration: 0.6, ease: EASE });
-    return () => controls.stop();
-  }, [angleDeg, angle]);
-  const cx = useTransform(angle, (degrees) => ARC_CX + ARC_R * Math.cos((degrees * Math.PI) / 180));
-  const cy = useTransform(angle, (degrees) => ARC_CY + ARC_R * Math.sin((degrees * Math.PI) / 180));
+function IconBadge({ icon }: Readonly<{ icon: string }>) {
   return (
-    <motion.circle
-      cx={cx}
-      cy={cy}
-      fill="white"
-      animate={{ r: radius }}
-      transition={{ duration: 0.6, ease: EASE }}
-    />
-  );
-}
-
-function useBelowLg() {
-  const [below, setBelow] = useState(false);
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 1023px)");
-    const update = () => setBelow(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-  return below;
-}
-
-function progressToStep(progress: number) {
-  const clamped = Math.min(1, Math.max(0, progress));
-  return STEP_THRESHOLDS.filter((threshold) => clamped >= threshold).length;
-}
-
-// ─── Mobile carousel (replaces 200vh scroll-jacking) ─────────────────────────
-function CarouselSteps({
-  active,
-  setActive,
-}: Readonly<{ active: number; setActive: (index: number) => void }>) {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  // Touch / pointer drag state
-  const dragStartX = useRef(0);
-  const isDragging = useRef(false);
-
-  function goTo(index: number) {
-    const clamped = Math.max(0, Math.min(STEPS.length - 1, index));
-    setActive(clamped);
-  }
-
-  function onPointerDown(e: React.PointerEvent) {
-    dragStartX.current = e.clientX;
-    isDragging.current = true;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  }
-
-  function onPointerUp(e: React.PointerEvent) {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    const delta = dragStartX.current - e.clientX;
-    // Require at least 40px swipe to advance
-    if (Math.abs(delta) < 40) return;
-    goTo(active + (delta > 0 ? 1 : -1));
-  }
-
-  function onPointerCancel() {
-    isDragging.current = false;
-  }
-
-  return (
-    <div className="px-6 pb-10">
-      {/* Card — drag/swipe to change step */}
-      <div
-        ref={trackRef}
-        className="touch-pan-y select-none cursor-grab active:cursor-grabbing"
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerCancel}
-      >
-        <StepCard active={active} />
-      </div>
-
-      {/* Step indicator dots + prev/next arrows */}
-      <div className="mt-5 flex items-center justify-center gap-4">
-        {/* Prev */}
-        <button
-          onClick={() => goTo(active - 1)}
-          disabled={active === 0}
-          aria-label="Previous step"
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1E4D7B]/40 bg-[#0B1E3A] text-white disabled:opacity-30 transition-opacity"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-
-        {/* Dots */}
-        <div className="flex items-center gap-2" aria-hidden>
-          {STEPS.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goTo(index)}
-              aria-label={`Go to step ${index + 1}`}
-              className={`h-[8px] rounded-full transition-all duration-300 ${
-                index === active ? "w-[24px] bg-[#3890C0]" : "w-[8px] bg-[#1E4D7B]/50"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Next */}
-        <button
-          onClick={() => goTo(active + 1)}
-          disabled={active === STEPS.length - 1}
-          aria-label="Next step"
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1E4D7B]/40 bg-[#0B1E3A] text-white disabled:opacity-30 transition-opacity"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M5 2L10 7L5 12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
+    <div
+      className="flex size-[58px] shrink-0 items-center justify-center rounded-[14px]"
+      style={{
+        background: "rgba(58,175,212,0.12)",
+        border: "1px solid rgba(58,175,212,0.25)",
+      }}
+    >
+      <Image
+        src={icon}
+        alt=""
+        width={34}
+        height={34}
+        unoptimized
+        style={{ transform: "scale(2.4) translateX(4px) translateY(5.7px)" }}
+      />
     </div>
   );
 }
 
-// ─── Desktop scroll-driven ────────────────────────────────────────────────────
-function FlowSteps({
-  active,
-  setActive,
-}: Readonly<{ active: number; setActive: (index: number) => void }>) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["end end", "start start"],
-  });
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    setActive(progressToStep(progress));
-  });
+function StepContent({ step, flip = false }: Readonly<{ step: typeof STEPS[number]; flip?: boolean }>) {
+  const gradientDir = flip ? "225deg" : "135deg";
   return (
-    <section ref={sectionRef} className="px-6 pb-16 pt-2 lg:px-[60px]">
-      <StepCard active={active} />
-    </section>
+    <div className={`relative max-w-[300px] rounded-[16px] px-5 py-4 ${flip ? "text-right" : "text-left"}`}>
+      {/* Card background — invisible by default, fades in when parent row is hovered */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[16px] opacity-0 transition-all duration-300 group-hover:opacity-100"
+        style={{
+          background: `linear-gradient(${flip ? "270deg" : "90deg"}, rgba(30,77,123,0.5) 0%, rgba(20,50,90,0.6) 30%, rgba(10,22,50,0.82) 60%, rgba(10,22,50,0.82) 100%) padding-box, linear-gradient(${gradientDir}, rgba(126,207,250,0.20) 0%, rgba(239,249,255,0.08) 40%, rgba(239,249,255,0) 55%) border-box`,
+          border: "1.5px solid transparent",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
+        }}
+      />
+      <p className="relative font-['Lato'] text-[18px] font-bold leading-[100%] tracking-[-0.04px] text-white">{step.title}</p>
+      <p className="relative mt-2 font-['Lato'] text-[16px] font-normal leading-[24px] tracking-normal text-white">{step.body}</p>
+    </div>
   );
 }
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
 export default function StepProcess() {
-  const [active, setActive] = useState(0);
-  const belowLg = useBelowLg();
   return (
     <MotionConfig reducedMotion="user">
-      {belowLg ? (
-        <CarouselSteps active={active} setActive={setActive} />
-      ) : (
-        <FlowSteps active={active} setActive={setActive} />
-      )}
-    </MotionConfig>
-  );
-}
-
-// ─── Shared card ─────────────────────────────────────────────────────────────
-function StepCard({ active }: Readonly<{ active: number }>) {
-  const step = STEPS[active];
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={cardReveal}
-      className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] shadow-[0_4px_14px_0_rgba(56,144,192,0.40),0_4px_14px_0_rgba(0,45,69,0.10)] lg:h-[345px]"
-    >
-      {/* Illustration */}
-      <div className="relative aspect-video w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full">
-        <AnimatePresence>
-          <motion.div
-            key={step.image}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: EASE }}
-          >
-            <Image
-              src={step.image}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 1410px, 100vw"
-              className="object-cover object-right lg:object-start"
-            />
-          </motion.div>
-        </AnimatePresence>
-        <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,#081124_0%,#081124_28%,rgba(8,17,36,0.85)_45%,rgba(8,17,36,0)_70%)] lg:block" />
-      </div>
-
-      {/* Arc + dots */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden h-full w-[155px] lg:block">
-        <Image src="/maintenance/step-arc.svg" alt="" fill aria-hidden="true" className="object-fill" />
-        <svg
-          viewBox="0 0 135 300"
-          fill="none"
-          preserveAspectRatio="none"
-          className="absolute inset-0 h-full w-full"
-          aria-hidden
+      <section className="px-3 pb-16 pt-2 sm:px-6 lg:px-[60px]">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+          className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] px-4 py-10 sm:px-8 shadow-[0_4px_14px_0_rgba(56,144,192,0.40)]"
         >
-          {STEPS.map((stepItem, index) => (
-            <NodeCircle
-              key={stepItem.num}
-              angleDeg={NODE_CENTER_ANGLE + (index - active) * NODE_ANGLE_STEP}
-              radius={NODE_RADII[Math.min(NODE_RADII.length - 1, Math.abs(index - active))]}
-            />
-          ))}
-        </svg>
-      </div>
+          {/* Grid pattern — same technique as ai-platform ThreePillars */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
+              `,
+              backgroundSize: "32px 32px",
+              maskImage: "linear-gradient(to bottom, black 20%, transparent 50%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 20%, transparent 50%)",
+            }}
+          />
 
-      {/* Content */}
-      <div className="relative z-10 px-6 pb-8 pt-7 lg:max-w-[66%] lg:py-[56px] lg:pl-[175px] lg:pr-[40px]">
-        <h2 className="text-[20px] font-bold text-white sm:text-[24px]">
-          Simple, Step by Step Process
-        </h2>
-        <div className="mt-3 h-[8px] w-[321px] max-w-full rounded-[1111px] bg-[linear-gradient(90deg,#C1ECFF_0%,#11214C_100%)] opacity-[0.16]" />
+          <div className="relative z-10">
+            {/* Title with decorative lines */}
+            <div className="mb-10 flex items-center justify-center gap-0">
+              {/* Left line + dot */}
+              <div
+                className="h-[2px] w-full max-w-[200px]"
+                style={{
+                  background: "linear-gradient(to right, rgba(9,25,51,0) 0%, rgba(137,192,222,1) 100%)",
+                }}
+              />
+              <div className="size-[7px] shrink-0 rounded-full bg-[rgba(137,192,222,1)]" />
 
-        <div className="relative mt-8 min-h-[150px] lg:mt-10 lg:min-h-[120px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              className="flex items-start gap-5"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -18 }}
-              transition={{ duration: 0.45, ease: EASE }}
-            >
-              <span className="font-lato text-[44px] font-bold leading-normal text-[#EFF9FF] sm:text-[62px]">
-                {step.num}
-              </span>
-              <div className="flex flex-col gap-2 pt-1">
-                <h3 className="text-[22px] font-bold text-white sm:text-[26px] lg:whitespace-nowrap">
-                  {step.title}
-                </h3>
-                <p className="max-w-[480px] text-[15px] leading-[24px] text-white/70 sm:text-[16px]">
-                  {step.body}
-                </p>
+              <h2 className="whitespace-nowrap px-4 text-[18px] font-bold text-white sm:text-[22px]">
+                Simple, Step by Step Process
+              </h2>
+
+              {/* Right dot + line */}
+              <div className="size-[7px] shrink-0 rounded-full bg-[rgba(137,192,222,1)]" />
+              <div
+                className="h-[2px] w-full max-w-[200px]"
+                style={{
+                  background: "linear-gradient(to left, rgba(9,25,51,0) 0%, rgba(137,192,222,1) 100%)",
+                }}
+              />
+            </div>
+
+            {/* Mobile: vertical stack */}
+            <div className="flex flex-col gap-5 lg:hidden">
+              {STEPS.map((step, i) => (
+                <motion.div
+                  key={step.num}
+                  variants={fadeUp}
+                  custom={i * 0.1}
+                  className="flex items-start gap-4 rounded-[16px] p-4"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(58,175,212,0.18)" }}
+                >
+                  <span className="shrink-0 text-[40px] font-black leading-none text-[#3AAFD4]">{step.num}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 flex items-center gap-3">
+                      <IconBadge icon={step.icon} />
+                      <p className="min-w-0 flex-1 font-['Lato'] text-[15px] font-bold text-white">{step.title}</p>
+                    </div>
+                    <p className="font-['Lato'] text-[13px] leading-[21px] text-white">{step.body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Desktop: zigzag with centre line */}
+            <div className="relative hidden lg:block">
+              <div className="flex flex-col">
+                {STEPS.map((step, i) => {
+                  const isLeft = i % 2 === 0;
+                  const isLast = i === STEPS.length - 1;
+                  return (
+                    <motion.div
+                      key={step.num}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, amount: 0.5 }}
+                      className={`group relative flex min-h-[140px] ${isLast ? "items-start" : "items-center"}`}
+                    >
+                      {/* Centre dot — white bg, blue border, 7px padding, blue inner dot */}
+                      <motion.div
+                        variants={dotPop}
+                        aria-hidden
+                        className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center justify-center rounded-full bg-white ${isLast ? "top-12" : "top-1/2 -translate-y-1/2"}`}
+                        style={{
+                          width: 20,
+                          height: 20,
+                          border: "1.11px solid rgba(56, 144, 192, 1)",
+                          padding: 7,
+                        }}
+                      >
+                        <div className="size-full rounded-full bg-[rgba(56,144,192,1)]" />
+                      </motion.div>
+
+                      {/* Left cell */}
+                      <motion.div variants={slideFromLeft} className="flex w-1/2 justify-end pr-14">
+                        {isLeft ? (
+                          <div className="flex items-center gap-5">
+                            <span className="select-none font-black leading-none text-[#3AAFD4]" style={{ fontSize: 100 }} aria-hidden>
+                              {step.num}
+                            </span>
+                            <IconBadge icon={step.icon} />
+                          </div>
+                        ) : (
+                          <StepContent step={step} flip />
+                        )}
+                      </motion.div>
+
+                      {/* Right cell */}
+                      <motion.div variants={slideFromRight} className="flex w-1/2 justify-start pl-14">
+                        {isLeft ? (
+                          <StepContent step={step} />
+                        ) : (
+                          <div className="flex items-center gap-5">
+                            <IconBadge icon={step.icon} />
+                            <span className="select-none font-black leading-none text-[#3AAFD4]" style={{ fontSize: 100 }} aria-hidden>
+                              {step.num}
+                            </span>
+                          </div>
+                        )}
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* Mobile dots — hidden, now handled outside the card by CarouselSteps */}
-      </div>
-    </motion.div>
+              {/* Centre vertical line — 6px wide, 40px radius, 4px padding */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-0 bottom-14 w-[6px] -translate-x-1/2 rounded-[40px] p-[4px]"
+                style={{
+                  background: "rgba(184, 230, 255, 1)",
+                  boxShadow: "0 0 12px rgba(184,230,255,0.5), 0 0 24px rgba(184,230,255,0.2)",
+                }}
+              >
+                <div className="h-full w-full rounded-[40px] bg-[#0A1730]" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
