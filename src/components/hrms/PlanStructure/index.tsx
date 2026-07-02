@@ -9,6 +9,7 @@ import {
   wipeTop,
 } from "@/components/about/anim";
 
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const PLANS = [
@@ -112,6 +113,8 @@ function PlanCard({
 
 function InclusionList() {
   return (
+    <div className="flex items-center">
+
     <motion.div
       variants={scaleIn}
       className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
@@ -120,8 +123,8 @@ function InclusionList() {
           "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
         WebkitMaskImage:
           "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
-      }}
-    >
+        }}
+        >
       <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
         What&apos;s included
       </h3>
@@ -141,6 +144,7 @@ function InclusionList() {
         ))}
       </ul>
     </motion.div>
+        </div>
   );
 }
 

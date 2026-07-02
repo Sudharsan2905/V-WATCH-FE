@@ -86,28 +86,40 @@ function StepRow({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="flex flex-1 items-center gap-4 rounded-[16px] px-5 py-3 h-[78px] max-w-[636px] "
+      className="flex w-full flex-1 items-center gap-4 rounded-[16px] px-5 py-3 h-[78px] max-w-[636px] "
       style={{
         background: "rgb(242, 249, 255)",
         border: "1.5px solid #D6E8F5",
-        boxShadow: "0 4px 16px rgba(10,78,110,0.08), 0 1px 4px rgba(10,78,110,0.04)",
+        boxShadow:
+          "0 4px 16px rgba(10,78,110,0.08), 0 1px 4px rgba(10,78,110,0.04)",
       }}
     >
       {/* 254×254 PNG — icon content is ~80px centered. Scale so 80px fills 50px of the 56px box */}
       <div
         className="shrink-0 overflow-hidden"
-        style={{ width: 56, height: 56, borderRadius: 12, background: "#FFF3F0" }}
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 12,
+          background: "#FFF3F0",
+        }}
       >
-        <div style={{
-          width: 254,
-          height: 254,
-          transform: "scale(0.965)",
-          transformOrigin: "center center",
-          marginTop: `${(56 - 254) / 2}px`,
-          marginLeft: `${(56 - 254) / 2}px`,
-        }}>
+        <div
+          style={{
+            width: 254,
+            height: 254,
+            transform: "scale(0.965)",
+            transformOrigin: "center center",
+            marginTop: `${(56 - 254) / 2}px`,
+            marginLeft: `${(56 - 254) / 2}px`,
+          }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={icon} alt="" style={{ width: 254, height: 282, display: "block" }} />
+          <img
+            src={icon}
+            alt=""
+            style={{ width: 254, height: 282, display: "block" }}
+          />
         </div>
       </div>
       <p className="flex-1 text-[15px] font-semibold leading-6 text-[#1A2B4B]">
@@ -146,14 +158,16 @@ function FeatureCard({
       {/* Header: left piece + SVG notch + right piece */}
       <div className="flex" style={{ position: "relative", zIndex: 2 }}>
         {/* Left */}
-        <div style={{
-          flex: 1,
-          height: 48,
-          background: "rgb(240, 249, 255)",
-          borderTop: "1.5px solid #dce9f7",
-          borderLeft: "1.5px solid #dce9f7",
-          borderTopLeftRadius: 24,
-        }} />
+        <div
+          style={{
+            flex: 1,
+            height: 48,
+            background: "rgb(240, 249, 255)",
+            borderTop: "1.5px solid #dce9f7",
+            borderLeft: "1.5px solid #dce9f7",
+            borderTopLeftRadius: 24,
+          }}
+        />
         {/* Notch SVG — 160px wide, 48px deep to cradle the 86px badge */}
         <svg
           width="160"
@@ -175,14 +189,16 @@ function FeatureCard({
           />
         </svg>
         {/* Right */}
-        <div style={{
-          flex: 1,
-          height: 48,
-          background: "rgb(240, 249, 255)",
-          borderTop: "1.5px solid #dce9f7",
-          borderRight: "1.5px solid #dce9f7",
-          borderTopRightRadius: 24,
-        }} />
+        <div
+          style={{
+            flex: 1,
+            height: 48,
+            background: "rgb(240, 249, 255)",
+            borderTop: "1.5px solid #dce9f7",
+            borderRight: "1.5px solid #dce9f7",
+            borderTopRightRadius: 24,
+          }}
+        />
       </div>
 
       {/* Floating badge icon — large rounded-square, half above the notch */}
@@ -198,30 +214,51 @@ function FeatureCard({
           boxShadow: "0 6px 24px rgba(10,78,110,0.18)",
         }}
       >
-        <Image src={icon} alt={title} width={64} height={64} unoptimized className="w-[64px] h-[64px]" style={{ objectFit: "cover", transform: "scale(4.5) translateY(5%) translateX(0.2%)", transformOrigin: "center"}} />
+        <Image
+          src={icon}
+          alt={title}
+          width={64}
+          height={64}
+          unoptimized
+          className="w-[64px] h-[64px]"
+          style={{
+            objectFit: "cover",
+            transform: "scale(4.5) translateY(5%) translateX(0.2%)",
+            transformOrigin: "center",
+          }}
+        />
       </div>
 
       {/* Card body */}
-      <div style={{
-        marginTop: -1,
-        background: "rgb(240, 249, 255)",
-        borderLeft: "1.5px solid #dce9f7",
-        borderRight: "1.5px solid #dce9f7",
-        borderBottom: "1.5px solid #dce9f7",
-        borderBottomLeftRadius: 24,
-        borderBottomRightRadius: 24,
-        padding: "24px 10px 10px",
-        maxWidth: "367px",
-      }}>
+      <div
+        style={{
+          marginTop: -1,
+          background: "rgb(240, 249, 255)",
+          borderLeft: "1.5px solid #dce9f7",
+          borderRight: "1.5px solid #dce9f7",
+          borderBottom: "1.5px solid #dce9f7",
+          borderBottomLeftRadius: 24,
+          borderBottomRightRadius: 24,
+          padding: "24px 10px 10px",
+          maxWidth: "367px",
+        }}
+      >
         {/* Title */}
-        <p className="text-center mb-4 text-[17px] font-bold text-[#0A4B6E]">{title}</p>
+        <p className="text-center mb-4 text-[17px] font-bold text-[#0A4B6E]">
+          {title}
+        </p>
 
         {/* Image */}
-        <div className="relative w-auto overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
+        <div
+          className="relative w-auto overflow-hidden rounded-[14px]"
+          style={{ paddingBottom: "78%" }}
+        >
           <Image
             src={image}
             alt={title}
             fill
+            sizes="(max-width: 640px) 100vw, 367px"
+            className="object-cover"
           />
           <div
             className="absolute bottom-0 rounded-t-[16px] left-0 right-0 p-3 md:p-3 lg:p-3.5"
@@ -233,7 +270,9 @@ function FeatureCard({
               borderBottomRightRadius: 14,
             }}
           >
-            <p className="text-[12px] md:text-[14px] lg:text-[16px] leading-4.5 md:leading-5 lg:leading-5.5 text-white">{description}</p>
+            <p className="text-[12px] md:text-[14px] lg:text-[16px] leading-4.5 md:leading-5 lg:leading-5.5 text-white">
+              {description}
+            </p>
           </div>
         </div>
       </div>
@@ -241,16 +280,16 @@ function FeatureCard({
   );
 }
 
-
 export default function HowItWorksNew() {
   return (
     <MotionConfig reducedMotion="user">
       <section
         className="px-6 py-10 lg:px-15 lg:py-16"
-        style={{ background: "linear-gradient(180deg, #EDF7FF 0%, #F5FBFF 100%)" }}
+        style={{
+          background: "linear-gradient(180deg, #EDF7FF 0%, #F5FBFF 100%)",
+        }}
       >
         <div className="mx-auto max-w-[1280px] w-full">
-
           {/* Heading */}
           <motion.h2
             variants={fadeUp}
@@ -284,8 +323,8 @@ export default function HowItWorksNew() {
               />
             </motion.div>
 
-            {/* Right: 4 step rows — stretch to fill same height */}
-            <div className="flex flex-1 flex-col gap-4">
+            {/* Right: 4 step rows — centered on tablet/mobile, stretched beside the image on desktop */}
+            <div className="flex flex-1 flex-col items-center gap-4 lg:items-stretch">
               {STEPS.map((step, i) => (
                 <StepRow key={step.number} {...step} delay={0.2 + i * 0.1} />
               ))}
@@ -301,11 +340,16 @@ export default function HowItWorksNew() {
           >
             {CARDS.map(({ key, title, icon, image, description }, i) => (
               <div key={key} className="flex w-full justify-center sm:w-auto">
-                <FeatureCard title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />
+                <FeatureCard
+                  title={title}
+                  icon={icon}
+                  image={image}
+                  description={description}
+                  delay={0.2 + i * 0.12}
+                />
               </div>
             ))}
           </motion.div>
-
         </div>
       </section>
     </MotionConfig>

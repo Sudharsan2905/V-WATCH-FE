@@ -83,9 +83,12 @@ export default function GlobalTechnologiesSection() {
             className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-10 pb-28 pt-14"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
           >
-            <motion.header variants={fadeUp} className="relative z-30 flex flex-col gap-2.5">
+            <motion.header
+              variants={fadeUp}
+              className="relative z-30 flex flex-col gap-2.5"
+            >
               <h2 className="text-[26px] font-bold leading-none text-white">
                 {GLOBAL_TECH_HEADER.title}
               </h2>

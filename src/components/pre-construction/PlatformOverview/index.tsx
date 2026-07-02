@@ -118,7 +118,7 @@ function ConnectedBanner({
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.4 }}
+      viewport={{ once: true, amount: 0.2 }}
       className="flex w-full min-h-[60px] items-center gap-2 overflow-hidden rounded-[30px] px-4 py-3"
       style={{
         background:

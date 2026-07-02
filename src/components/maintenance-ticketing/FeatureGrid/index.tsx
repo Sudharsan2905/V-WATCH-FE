@@ -132,6 +132,7 @@ export default function FeatureGrid() {
               src="/maintenance/maintenance-features.webp"
               alt="V-Watch Ai maintenance operations overview"
               fill
+              sizes="(min-width: 1024px) 352px, 100vw"
               className="object-cover"
             />
           </motion.div>

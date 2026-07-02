@@ -32,7 +32,7 @@ export default function ProductsPage() {
     <div className="relative bg-[#030515]">
       <Navbar active="Platform" />
       <ProductsHero />
-      <SectionHeader {...IMPLEMENTATION_HEADER} className="!pt-0 md:!pt-15 lg:!pt-20" />
+      <SectionHeader {...IMPLEMENTATION_HEADER} className="!pt-0 md:!pt-15" />
 
       <RealTimeImplementationSection />
       <SectionHeader {...NETWORK_HEADER} background="bg-[#eaf7fa]" className="max-md:pb-4 max-lg:pt-0" />

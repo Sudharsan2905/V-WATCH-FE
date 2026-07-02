@@ -158,7 +158,7 @@ export default function UnifiedSystem() {
           whileInView="visible"
           viewport={{
             once: true,
-            amount: 0.4,
+            amount: 0.2,
           }}
         >
           <motion.h2
@@ -186,7 +186,7 @@ export default function UnifiedSystem() {
           whileInView="visible"
           viewport={{
             once: true,
-            amount: 0.3,
+            amount: 0.2,
           }}
         >
           {/* Left */}

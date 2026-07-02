@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/react";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const AUTO_ADVANCE_MS = 1500;
+const AUTO_ADVANCE_MS = 1800;
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -15,12 +15,20 @@ const fadeUp: Variants = {
 
 const slideFromLeft: Variants = {
   hidden: { opacity: 0, x: -48 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE, delay: 0.2 } },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.2 },
+  },
 };
 
 const slideFromRight: Variants = {
   hidden: { opacity: 0, x: 48 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE, delay: 0.25 } },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: EASE, delay: 0.25 },
+  },
 };
 
 type Module = {
@@ -48,7 +56,7 @@ const MODULES: Module[] = [
       "Attendance and workforce tracking",
       "Fatigue monitoring and safety compliance",
     ],
-    image: "/ai-platform/connected-operation.svg",
+    image: "/ai-platform/connected-operation.webp",
   },
   {
     key: "Operations & Workflows",
@@ -62,7 +70,7 @@ const MODULES: Module[] = [
       "Scheduling and execution tracking",
       "Work program and site coordination",
     ],
-    image: "/ai-platform/operations-worklows.svg",
+    image: "/ai-platform/operations-worklows.webp",
   },
   {
     key: "Movement, Vehicles & Logistics",
@@ -76,7 +84,7 @@ const MODULES: Module[] = [
       "Inventory and shipment visibility",
       "Global goods tracking across locations",
     ],
-    image: "/ai-platform/movement-vehicle.svg",
+    image: "/ai-platform/movement-vehicle.webp",
   },
   {
     key: "Assets & Equipment",
@@ -89,7 +97,7 @@ const MODULES: Module[] = [
       "Equipment monitoring and auditing",
       "Leasing and lifecycle management",
     ],
-    image: "/ai-platform/assets-equipment.svg",
+    image: "/ai-platform/assets-equipment.webp",
   },
   {
     key: "Safety & Compliance",
@@ -103,7 +111,7 @@ const MODULES: Module[] = [
       "Real-time alerts and monitoring",
       "Incident and risk detection",
     ],
-    image: "/ai-platform/safety-compliance.svg",
+    image: "/ai-platform/safety-compliance.webp",
   },
   {
     key: "Productivity & Intelligence",
@@ -117,7 +125,7 @@ const MODULES: Module[] = [
       "BI dashboards and analytics",
       "Real-time operational reporting",
     ],
-    image: "/ai-platform/productivity-intelligence.svg",
+    image: "/ai-platform/productivity-intelligence.webp",
   },
 ];
 
@@ -125,7 +133,6 @@ const MODULES: Module[] = [
 
 export default function ConnectedOperations() {
   const [active, setActive] = useState(0);
-  const current = MODULES[active]!;
 
   // Refs that the RAF loop reads without triggering re-renders
   const pausedRef = useRef(false);
@@ -245,9 +252,7 @@ export default function ConnectedOperations() {
     const dy = Math.abs(touchStartY.current - e.changedTouches[0].clientY);
     if (Math.abs(dx) > 40 && Math.abs(dx) > dy) {
       setActive((prev) =>
-        dx > 0
-          ? Math.min(prev + 1, MODULES.length - 1)
-          : Math.max(prev - 1, 0)
+        dx > 0 ? Math.min(prev + 1, MODULES.length - 1) : Math.max(prev - 1, 0),
       );
     }
     touchStartX.current = null;
@@ -297,25 +302,31 @@ export default function ConnectedOperations() {
                     "0px 13px 110px 0px rgba(199,199,199,0.25), 6px 10px 33px 0px rgba(217,226,255,0.65), -6px -20px 33px 0px rgba(217,226,255,0.65), 9px 7px 60px 0px rgba(255,255,255,0.40)",
                 }}
               >
-                <AnimatePresence mode="wait">
+                {/* All images are mounted and crossfaded via opacity so every
+                    slide is fetched once up front and stays cached — this avoids
+                    the blank card that appeared when each ~MB image only started
+                    loading at the moment it became active. */}
+                {MODULES.map((mod, i) => (
                   <motion.div
-                    key={current.key}
+                    key={mod.key}
                     className="absolute inset-0"
-                    initial={{ opacity: 0, scale: 1.04 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
+                    initial={false}
+                    animate={{
+                      opacity: i === active ? 1 : 0,
+                      scale: i === active ? 1 : 1.04,
+                    }}
                     transition={{ duration: 0.55, ease: EASE }}
                   >
                     <Image
-                      src={current.image}
-                      alt={current.title}
+                      src={mod.image}
+                      alt={mod.title}
                       fill
                       sizes="600px"
                       className="object-cover object-center"
-                      priority={active === 0}
+                      priority={i === 0}
                     />
                   </motion.div>
-                </AnimatePresence>
+                ))}
 
                 <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-[51px] bg-gradient-to-r from-[#F3F8FC] to-transparent" />
                 <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-[51px] bg-gradient-to-l from-[#F3F8FC] to-transparent" />
@@ -362,7 +373,7 @@ export default function ConnectedOperations() {
               }}
             >
               {/* Subtle sky-blue background grid */}
-              <div 
+              <div
                 className="pointer-events-none absolute inset-0 opacity-[0.25]"
                 style={{
                   backgroundImage: `

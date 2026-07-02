@@ -58,13 +58,39 @@ const loadIn: Variants = {
 type Frag = { text: string; iconSrc: string; iconW: number; iconH: number };
 
 const FRAG_CARDS: Frag[] = [
-  { text: "Workforce is tracked in one place",        iconSrc: "/frag-icons/workforce.svg",   iconW: 21, iconH: 23 },
-  { text: "Tasks and workflows in another",           iconSrc: "/frag-icons/workflows.svg",   iconW: 19, iconH: 24 },
-  { text: "Assets and vehicles somewhere else",       iconSrc: "/frag-icons/assets.svg",      iconW: 23, iconH: 23 },
-  { text: "Compliance and safety managed separately", iconSrc: "/frag-icons/compliance.svg",  iconW: 21, iconH: 19 },
+  {
+    text: "Workforce is tracked in one place",
+    iconSrc: "/frag-icons/workforce.svg",
+    iconW: 21,
+    iconH: 23,
+  },
+  {
+    text: "Tasks and workflows in another",
+    iconSrc: "/frag-icons/workflows.svg",
+    iconW: 19,
+    iconH: 24,
+  },
+  {
+    text: "Assets and vehicles somewhere else",
+    iconSrc: "/frag-icons/assets.svg",
+    iconW: 23,
+    iconH: 23,
+  },
+  {
+    text: "Compliance and safety managed separately",
+    iconSrc: "/frag-icons/compliance.svg",
+    iconW: 21,
+    iconH: 19,
+  },
 ];
 
-function FragCard({ text, iconSrc, iconW, iconH, index }: Readonly<Frag & { index: number }>) {
+function FragCard({
+  text,
+  iconSrc,
+  iconW,
+  iconH,
+  index,
+}: Readonly<Frag & { index: number }>) {
   return (
     // Transparent wrapper carries the wipe; pt/-mt expand the clip region to
     // include the icon badge that overhangs the card top by 17px (no layout shift).
@@ -91,7 +117,9 @@ function FragCard({ text, iconSrc, iconW, iconH, index }: Readonly<Frag & { inde
         <div className="absolute -top-[17px] left-5 flex h-10 w-10 items-center justify-center rounded-[10px] bg-white shadow-[2.5px_5.8px_25px_-2.5px_rgba(56,144,192,0.40)]">
           <Image src={iconSrc} alt="" width={iconW} height={iconH} />
         </div>
-        <p className="text-[18px] font-normal leading-6 text-[#202020]">{text}</p>
+        <p className="text-[18px] font-normal leading-6 text-[#202020]">
+          {text}
+        </p>
       </div>
     </motion.div>
   );
@@ -101,8 +129,14 @@ function FragCard({ text, iconSrc, iconW, iconH, index }: Readonly<Frag & { inde
 const RESULTS: { text: string; icon: string }[] = [
   { text: "Limited visibility", icon: "/hero/icons/res-visibility.svg" },
   { text: "Slower decision-making", icon: "/hero/icons/res-decisions.svg" },
-  { text: "Gaps in security and compliance", icon: "/hero/icons/res-security.svg" },
-  { text: "Lost productivity across the board", icon: "/hero/icons/res-productivity.svg" },
+  {
+    text: "Gaps in security and compliance",
+    icon: "/hero/icons/res-security.svg",
+  },
+  {
+    text: "Lost productivity across the board",
+    icon: "/hero/icons/res-productivity.svg",
+  },
 ];
 
 function ResultsCard() {
@@ -110,9 +144,15 @@ function ResultsCard() {
     <motion.div
       variants={wipeBottom}
       custom={RESULTS_START}
-      className="relative max-w-[380px] min-h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] md:w-[440px] md:max-w-[520px] md:self-center lg:w-auto lg:max-w-none lg:self-stretch lg:flex-1"
+      className="relative max-w-[380px] min-h-[404px] self-stretch overflow-hidden rounded-[32px] bg-[#FBFEFF] p-5 shadow-[0_13px_100px_rgba(219,219,219,0.25),6px_10px_23px_rgba(219,228,255,0.85),9px_7px_60px_rgba(255,255,255,0.40)] md:w-[440px] md:max-w-[520px] min-[0px]:self-center lg:w-auto lg:max-w-none lg:self-stretch lg:flex-1"
     >
-      <motion.h3 variants={wipeTop} custom={RESULTS_START + 0.1} className="text-[20px] font-bold text-[#0A4B6E]">The Results?</motion.h3>
+      <motion.h3
+        variants={wipeTop}
+        custom={RESULTS_START + 0.1}
+        className="text-[20px] font-bold text-[#0A4B6E]"
+      >
+        The Results?
+      </motion.h3>
       <ul className="mt-[14px] flex flex-col gap-4">
         {RESULTS.map((r, i) => (
           <motion.li
@@ -122,9 +162,17 @@ function ResultsCard() {
             className="flex items-center gap-[14px]"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[11px] bg-[#F4FBFF]/70 shadow-[0_10px_48px_rgba(199,199,199,0.25),5px_8px_19px_rgba(217,226,255,0.85)] outline outline-[1.6px] -outline-offset-[1.6px] outline-white/60">
-              <Image src={r.icon} alt="" width={24} height={24} className="h-6 w-6" />
+              <Image
+                src={r.icon}
+                alt=""
+                width={24}
+                height={24}
+                className="h-6 w-6"
+              />
             </span>
-            <span className="text-[18px] font-normal text-[#0F172A]">{r.text}</span>
+            <span className="text-[18px] font-normal text-[#0F172A]">
+              {r.text}
+            </span>
           </motion.li>
         ))}
       </ul>
@@ -139,8 +187,18 @@ function ResultsCard() {
           <br />
           You&apos;re lacking connection.
         </motion.p>
-        <motion.div variants={riseItem} custom={RESULTS_FOOTER_START + 0.15} className="shrink-0">
-          <Image src="/home/results-illustration.svg" alt="" width={76.45} height={108.44} style={{ width: "76.45px", height: "108.44px" }} />
+        <motion.div
+          variants={riseItem}
+          custom={RESULTS_FOOTER_START + 0.15}
+          className="shrink-0"
+        >
+          <Image
+            src="/home/results-illustration.svg"
+            alt=""
+            width={76.45}
+            height={108.44}
+            style={{ width: "76.45px", height: "108.44px" }}
+          />
         </motion.div>
       </div>
     </motion.div>
@@ -170,7 +228,8 @@ export default function FragmentedOps() {
             custom={TEXT_DELAY + 0.15}
             className="mt-2.5 text-[20px] font-normal leading-[26px] text-[#0A4B6E]"
           >
-            Most organizations manage their operations across multiple systems, teams, and manual processes.
+            Most organizations manage their operations across multiple systems,
+            teams, and manual processes.
           </motion.p>
         </div>
 
@@ -187,7 +246,13 @@ export default function FragmentedOps() {
             variants={loadIn}
             className="relative mx-auto aspect-square w-full max-w-[440px] shrink-0 overflow-hidden rounded-[20px] max-h-[338px] lg:mx-0 lg:w-[340px] lg:max-w-none"
           >
-            <Image src="/hero/connected-core.png" alt="Connected operations core" fill sizes="340px" className="object-cover" />
+            <Image
+              src="/hero/connected-core.png"
+              alt="Connected operations core"
+              fill
+              sizes="340px"
+              className="object-cover"
+            />
           </motion.div>
 
           {/* Right: results */}

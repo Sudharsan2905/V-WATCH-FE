@@ -54,7 +54,7 @@ const CARDS: Card[] = [
 
 function Arrow() {
   return (
-    <span className="flex size-6 items-center justify-center rounded-[12.5px] bg-white/10 transition-colors duration-200 group-hover/link:bg-white/25">
+    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/10 transition-colors duration-200 group-hover/link:bg-white/25">
       <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden>
         <path
           d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9"

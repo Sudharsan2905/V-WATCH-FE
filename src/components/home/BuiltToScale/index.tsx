@@ -201,9 +201,13 @@ export default function BuiltToScale() {
             className="max-w-[860px]"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.6 }}
+            viewport={{ once: true, amount: 0.2 }}
           >
-            <motion.h2 variants={wipeTop} custom={0} className="text-[22px] font-bold text-[#0A4B6E] sm:text-[26px]">
+            <motion.h2
+              variants={wipeTop}
+              custom={0}
+              className="text-[22px] font-bold text-[#0A4B6E] sm:text-[26px]"
+            >
               Built to perform at scale
             </motion.h2>
             <motion.p
@@ -211,8 +215,8 @@ export default function BuiltToScale() {
               custom={0.15}
               className="mt-2.5 text-base font-normal leading-[24px] text-[#0A4B6E] sm:text-[20px] sm:leading-[26px]"
             >
-              V-Watch Ai is designed for high-volume, high-complexity environments delivering
-              real-time performance without compromise.
+              V-Watch Ai is designed for high-volume, high-complexity
+              environments delivering real-time performance without compromise.
             </motion.p>
           </motion.div>
 
@@ -222,12 +226,18 @@ export default function BuiltToScale() {
             style={{ aspectRatio: "1221 / 392" }}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
           >
             {/* Left cluster: 3 concentric glow ellipses (group 1) + rocket (group 2) */}
             <div
               className="absolute"
-              style={{ left: "5%", top: "50%", width: "43%", aspectRatio: "563 / 459", transform: "translateY(-50%)" }}
+              style={{
+                left: "5%",
+                top: "50%",
+                width: "43%",
+                aspectRatio: "563 / 459",
+                transform: "translateY(-50%)",
+              }}
             >
               <RocketCluster />
             </div>
@@ -237,9 +247,21 @@ export default function BuiltToScale() {
               variants={loadIn}
               custom={DOTS_DELAY}
               className="absolute"
-              style={{ left: "4%", top: "50%", width: "17%", aspectRatio: "239 / 313", transform: "translateY(-50%)" }}
+              style={{
+                left: "4%",
+                top: "50%",
+                width: "17%",
+                aspectRatio: "239 / 313",
+                transform: "translateY(-50%)",
+              }}
             >
-              <Image src="/home/dots.png" alt="" fill className="object-contain" sizes="200px" />
+              <Image
+                src="/home/dots.png"
+                alt=""
+                fill
+                className="object-contain"
+                sizes="200px"
+              />
             </motion.div>
 
             {/* Centre command-centre image — after the ellipses */}
@@ -247,7 +269,13 @@ export default function BuiltToScale() {
               variants={loadIn}
               custom={BULLET_DELAY}
               className="absolute"
-              style={{ left: "20%", top: "50%", width: "40%", aspectRatio: "516 / 271", transform: "translateY(-50%)" }}
+              style={{
+                left: "20%",
+                top: "50%",
+                width: "40%",
+                aspectRatio: "516 / 271",
+                transform: "translateY(-50%)",
+              }}
             >
               <Image
                 src="/home/bullet.png"
@@ -264,9 +292,21 @@ export default function BuiltToScale() {
               variants={loadIn}
               custom={BOW_DELAY}
               className="absolute"
-              style={{ left: "48%", top: "52%", width: "22%", aspectRatio: "291 / 459", transform: "translateY(-50%)" }}
+              style={{
+                left: "48%",
+                top: "52%",
+                width: "22%",
+                aspectRatio: "291 / 459",
+                transform: "translateY(-50%)",
+              }}
             >
-              <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="260px" />
+              <Image
+                src="/home/bow.png"
+                alt=""
+                fill
+                className="object-contain"
+                sizes="260px"
+              />
             </motion.div>
 
             {/* Capability cards — revealed one by one, bottom → top, after the bow */}
@@ -291,7 +331,7 @@ export default function BuiltToScale() {
             className="mt-6 lg:mt-10 flex flex-col gap-9 md:hidden"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
           >
             {/* Command-centre image */}
             <motion.div
@@ -317,9 +357,21 @@ export default function BuiltToScale() {
                   variants={loadIn}
                   custom={DOTS_DELAY}
                   className="absolute"
-                  style={{ left: "-2%", top: "50%", width: "40%", aspectRatio: "239 / 313", transform: "translateY(-50%)" }}
+                  style={{
+                    left: "-2%",
+                    top: "50%",
+                    width: "40%",
+                    aspectRatio: "239 / 313",
+                    transform: "translateY(-50%)",
+                  }}
                 >
-                  <Image src="/home/dots.png" alt="" fill className="object-contain" sizes="120px" />
+                  <Image
+                    src="/home/dots.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                    sizes="120px"
+                  />
                 </motion.div>
               </div>
 
@@ -331,16 +383,29 @@ export default function BuiltToScale() {
                   className="pointer-events-none absolute left-[-35px] lg:left-[-24px] top-[0%] h-[110%] lg:top-[-12%] lg:h-[135%] -translate-x-1/2"
                   style={{ aspectRatio: "291 / 459" }}
                 >
-                  <Image src="/home/bow.png" alt="" fill className="object-contain" sizes="200px" />
+                  <Image
+                    src="/home/bow.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                    sizes="200px"
+                  />
                 </motion.div>
                 <div className="relative z-10 flex flex-col gap-2">
                   {CARDS.map((c, i) => (
                     <motion.div
                       key={c.text}
                       variants={riseUp}
-                      custom={CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER}
+                      custom={
+                        CARDS_START + (CARDS.length - 1 - i) * CARD_STAGGER
+                      }
                     >
-                      <CardBody icon={c.icon} text={c.text} highlight={c.highlight} mCls={c.mCls} />
+                      <CardBody
+                        icon={c.icon}
+                        text={c.text}
+                        highlight={c.highlight}
+                        mCls={c.mCls}
+                      />
                     </motion.div>
                   ))}
                 </div>

@@ -283,6 +283,7 @@ export default function ThreePillars() {
                 alt=""
                 fill
                 aria-hidden
+                sizes="50vw"
                 className="object-fill"
               />
             </div>
@@ -293,6 +294,7 @@ export default function ThreePillars() {
                 alt=""
                 fill
                 aria-hidden
+                sizes="50vw"
                 className="object-cover object-left"
               />
             </div>
