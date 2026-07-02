@@ -122,32 +122,32 @@ function ConnectedBanner({
       className="flex w-full min-h-[60px] items-center gap-2 overflow-hidden rounded-[30px] px-4 py-3"
       style={{
         background:
-          "linear-gradient(90deg,#FFFFFF 0%,#CDCDFE 15%,#CDCDFE 85%,#FFFFFF 100%) padding-box, linear-gradient(180deg,#C1ECFF 0%,#FFFFFF 100%) border-box",
+          "linear-gradient(to right, rgb(240, 244, 255) 0%, rgb(245, 250, 255) 100%)",
         borderStyle: "solid",
         borderColor: "transparent",
         borderWidth: "1px 1px 2px 1px",
         boxShadow: "inset 0 -4px 24px 0 #FFFFFF",
       }}
     >
-      {/* Left: line → dot — only on xl+ (1280px+) */}
+      {/* Left: line → dot */}
       <span className="hidden shrink-0 items-center xl:flex">
         <span
-          className="h-0.5 flex-1 min-w-[24px] max-w-[80px]"
+          className="h-0.5 min-w-[24px] max-w-[80px] w-full"
           style={{ background: "linear-gradient(to right, transparent, #006F9F)" }}
         />
-        <span className="ml-2 size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
+        <span className="size-2.5 shrink-0 rounded-full bg-[#006F9F]" />
       </span>
 
-      {/* Text — 13px mobile, 14px sm, 15px lg (1024px), 18px xl+ */}
-      <span className="min-w-0 flex-1 text-center font-lato text-[13px] font-bold leading-snug tracking-[-0.4px] text-[#006F9F] sm:text-[14px] lg:text-[15px] xl:shrink-0 xl:flex-none xl:text-[18px] xl:leading-[26px] xl:tracking-[-0.6px]">
+      {/* Text — centered */}
+      <span className="min-w-0 flex-1 text-center font-lato text-[13px] font-bold leading-snug tracking-[-0.4px] text-[#006F9F] sm:text-[14px] lg:text-[15px] xl:text-[18px] xl:leading-[26px] xl:tracking-[-0.6px]">
         {text}
       </span>
 
-      {/* Dot → line — only on xl+ (1280px+) */}
+      {/* Dot → line */}
       <span className="hidden shrink-0 items-center xl:flex">
-        <span className="mr-2 size-2.25 shrink-0 rounded-full bg-[#006F9F]" />
+        <span className="size-2.5 shrink-0 rounded-full bg-[#006F9F]" />
         <span
-          className="h-0.5 flex-1 min-w-[24px] max-w-[80px]"
+          className="h-0.5 min-w-[24px] max-w-[80px] w-full"
           style={{ background: "linear-gradient(to left, transparent, #006F9F)" }}
         />
       </span>
@@ -228,11 +228,11 @@ export default function PlatformOverview({
         {/* Decorative blobs */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -left-24 top-1/4 size-[440px] rounded-full bg-[#E9E4FA] opacity-50 blur-[90px]"
+          className="pointer-events-none absolute -left-34 top-40 w-[530px] h-[785px] rounded-full bg-[#E9E4FA] opacity-30 blur-[-20px]"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-28 top-2/3 size-[480px] rounded-full bg-[#E2ECFB] opacity-60 blur-[100px]"
+          className="pointer-events-none absolute -right-28 top-40 w-[447px] h-[785px] rounded-full bg-[#E2ECFB] opacity-30 blur-[-20px]"
         />
 
         <div className="relative z-10 mx-auto max-w-[1280px]">

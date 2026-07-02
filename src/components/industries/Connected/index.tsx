@@ -120,7 +120,8 @@ function DescCard({ step, delay = 0 }: Readonly<{ step: Step; delay?: number }>)
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative w-full rounded-[18px] bg-white px-6 py-5 text-center"
+      className="relative w-full rounded-[18px] px-6 py-5 text-center"
+      style={{ background: "linear-gradient(to bottom, rgb(250, 252, 255) 0%, rgb(255, 255, 255) 100%)" }}
     >
       {/* Border overlay: real border + border-radius gives proper rounded corners.
           The mask fades it out downward so only top + partial sides are visible. */}
