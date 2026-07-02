@@ -106,6 +106,7 @@ function FeatureCard({
             src="/home/feature-icon-bg.svg"
             alt=""
             fill
+            sizes="60px"
             className="object-fill"
           />
         </div>
@@ -123,8 +124,12 @@ function FeatureCard({
 
         {/* Text content */}
         <div className="flex h-full flex-col justify-center pl-[90px] pr-2.5 py-2.5">
-          <p className="text-[16px] lg:text-[20px] font-bold text-[#0A4B6E]">{title}</p>
-          <p className="mt-2.5 text-[14px] lg:text-[18px] leading-5 lg:leading-6 text-[#202020]">{desc}</p>
+          <p className="text-[16px] lg:text-[20px] font-bold text-[#0A4B6E]">
+            {title}
+          </p>
+          <p className="mt-2.5 text-[14px] lg:text-[18px] leading-5 lg:leading-6 text-[#202020]">
+            {desc}
+          </p>
         </div>
       </div>
     </motion.div>
@@ -168,7 +173,7 @@ export default function FeatureGrid() {
           className="flex max-w-[807px] flex-col gap-2.5"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
           <motion.h2
             variants={wipeTop}

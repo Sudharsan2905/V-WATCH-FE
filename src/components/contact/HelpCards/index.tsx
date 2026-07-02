@@ -168,7 +168,7 @@ export default function HelpCards() {
 
         {/* Card grid with decorative background */}
         <div className="relative w-full max-w-[1160px]">
-          {/* Decorative blurred ellipses behind cards */}
+          Decorative blurred ellipses behind cards
           <div
             aria-hidden
             className="pointer-events-none absolute left-[-68px] top-[206px] hidden h-[148px] w-[610px] rounded-full lg:block"

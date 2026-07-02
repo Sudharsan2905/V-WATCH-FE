@@ -196,7 +196,7 @@ export default function Footer({
                 variants={stagger}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.5 }}
+                viewport={{ once: true, amount: 0.2 }}
                 className="flex items-center gap-2.5"
               >
                 {SOCIALS.map((s) => (

@@ -553,7 +553,7 @@ export default function WorkflowSection() {
   const [activeStep, setActiveStep] = useState(-1);
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // ── Refs shared between the auto-play loop and the drag handlers ───────────
   const isAutoScrolling = useRef(false); // true while our own scrollTo() runs

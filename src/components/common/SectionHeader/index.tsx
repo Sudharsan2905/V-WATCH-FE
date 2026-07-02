@@ -39,8 +39,8 @@ export default function SectionHeader({
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.5 }}
-          className="mx-auto flex w-full max-w-[1160px] flex-col gap-2.5 text-[#0A4B6E]"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto flex w-full max-w-[1410px] flex-col gap-2.5 text-[#0A4B6E]"
         >
           <h2 className={`text-[26px] font-bold leading-none ${titleClassName}`}>
             {title}

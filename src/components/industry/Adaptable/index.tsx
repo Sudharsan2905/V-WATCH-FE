@@ -170,7 +170,7 @@ export default function Adaptable() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.2 }}
           className="flex max-w-[804px] flex-col gap-2.5 text-white"
         >
           <h2 className="text-[26px] font-extrabold">
@@ -190,7 +190,7 @@ export default function Adaptable() {
               key={row[0].title}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.2 }}
               className="flex flex-col gap-6 sm:flex-row"
             >
               {row.map((c, i) => (

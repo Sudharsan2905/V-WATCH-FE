@@ -2,12 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import {
-  AnimatePresence,
-  motion,
-  MotionConfig,
-  type Variants,
-} from "motion/react";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -194,8 +189,10 @@ function OpsVisual({ caption }: Readonly<{ caption: string }>) {
       </div>
 
       {/* glass caption card — overflows the image bottom */}
-      <div className="absolute w-full bottom-0 rounded-[16px] border border-white/25 bg-[rgba(249,251,255,0.11)] px-4 py-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_20px_44px_-16px_rgba(0,0,0,0.7)] backdrop-blur-md">
-        <p className="text-[15px] font-bold leading-[20px] text-white">{caption}</p>
+      <div className="text-center absolute w-full bottom-0 rounded-[16px] border border-white/25 bg-[rgba(249,251,255,0.11)] px-4 py-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_20px_44px_-16px_rgba(0,0,0,0.7)] backdrop-blur-md">
+        <p className="text-[15px] font-bold leading-[20px] text-white">
+          {caption}
+        </p>
       </div>
     </div>
   );
@@ -300,147 +297,168 @@ export default function IntegratorNetwork() {
     setActive(Math.min(STEPS.length - 1, Math.floor(rel * STEPS.length)));
   }, []);
 
-  const onThumbPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-    isDragging.current = true;
-  }, []);
+  const onThumbPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+      isDragging.current = true;
+    },
+    [],
+  );
 
-  const onThumbPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging.current) yToStep(e.clientY);
-  }, [yToStep]);
+  const onThumbPointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (isDragging.current) yToStep(e.clientY);
+    },
+    [yToStep],
+  );
 
   const onThumbPointerUp = useCallback(() => {
     isDragging.current = false;
   }, []);
 
-  const onTrackClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    yToStep(e.clientY);
-  }, [yToStep]);
+  const onTrackClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      yToStep(e.clientY);
+    },
+    [yToStep],
+  );
 
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden px-6 pb-20 pt-16 lg:px-[60px]">
-      {/* Soft bottom glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(253_255_254/5%)_72%)]"
-      />
+      <section className="relative overflow-hidden px-6 py-6 md:py-16 lg:px-[60px]">
+        {/* Soft bottom glow */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(253_255_254/5%)_72%)]"
+        />
 
-      <motion.div
-        className="relative mx-auto w-full max-w-[1410px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {/* Header */}
-        <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
-          <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
-            How V-Watch Ai Turns Operational Data Into Control
-          </h2>
-        </motion.header>
+        <motion.div
+          className="relative mx-auto w-full max-w-[1410px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {/* Header */}
+          <motion.header
+            variants={fadeUp}
+            className="flex max-w-[760px] flex-col gap-2.5"
+          >
+            <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
+              How V-Watch Ai Turns Operational Data Into Control
+            </h2>
+          </motion.header>
 
-        <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
-          {/* Left: step list + section pointer */}
-          <motion.div variants={slideFromLeft} className="lg:w-[400px] lg:shrink-0">
-            {/* Wrapper sizes to the step list so the pointer track tracks the
+          <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
+            {/* Left: step list + section pointer */}
+            <motion.div
+              variants={slideFromLeft}
+              className="lg:w-[400px] lg:shrink-0"
+            >
+              {/* Wrapper sizes to the step list so the pointer track tracks the
                 list height — not the stretched column (which grows to match the
                 taller right panel and would otherwise inflate the thumb). */}
-            <div className="relative">
-            <ul className="flex flex-col gap-1.5 rounded-[20px] border border-[#E1EFF9] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(244,250,255,0.7))] p-3">
-              {STEPS.map((step, i) => {
-                const isActive = i === active;
-                return (
-                  <li key={step.num}>
-                    <button
-                      type="button"
-                      onClick={() => setActive(i)}
-                      aria-current={isActive ? "true" : undefined}
-                      className={`flex w-full items-center gap-4 rounded-[14px] border-[1.11px] px-4 py-3 text-left backdrop-blur-[18px] transition-all duration-200 ${isActive
-                          ? "border-[#FFFFFFB2] shadow-[0px_20px_50px_15px_#0A8EC81A,-6px_-10px_8px_0px_#FFFFFFB2_inset]"
-                          : "border-[#FFFFFF1A] shadow-[0px_1px_2px_0px_#B8E6FF0A,-6px_-10px_8px_0px_#FFFFFF66_inset] hover:bg-white/40"
-                        }`}
-                    >
-                      <span
-                        className={`flex size-[40px] shrink-0 items-center justify-center rounded-[12px] text-[15px] font-extrabold transition-colors ${isActive
-                            ? "bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-white shadow-[0_8px_18px_-8px_rgba(33,177,241,0.8)]"
-                            : "bg-[#EEF6FC] text-[#9DB6CC]"
+              <div className="relative">
+                <ul className="flex flex-col gap-1.5 rounded-[20px] border border-[#E1EFF9] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(244,250,255,0.7))] p-3">
+                  {STEPS.map((step, i) => {
+                    const isActive = i === active;
+                    return (
+                      <li key={step.num}>
+                        <button
+                          type="button"
+                          onClick={() => setActive(i)}
+                          aria-current={isActive ? "true" : undefined}
+                          className={`flex w-full items-center gap-4 rounded-[14px] border-[1.11px] px-4 py-3 text-left transition-all duration-200 ${
+                            isActive
+                              ? "border-[#FFFFFFB2] shadow-[0px_20px_50px_15px_#0A8EC81A,-6px_-10px_8px_0px_#FFFFFFB2_inset]"
+                              : "border-[#FFFFFF1A] shadow-[0px_1px_2px_0px_#B8E6FF0A,-6px_-10px_8px_0px_#FFFFFF66_inset] hover:bg-white/40"
                           }`}
-                      >
-                        {isActive ? (
-                          <Image
-                            src={step.icon}
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="size-6 object-contain"
-                          />
-                        ) : (
-                          step.num
-                        )}
-                      </span>
-                      <span
-                        className={`text-[17px] font-bold ${isActive ? "text-[#0A8EC8]" : "text-[#002D45CC]"
-                          }`}
-                      >
-                        {step.label}
-                      </span>
-                    </button>
-
-                    {/* Mobile: detail panel renders inline directly beneath the
-                        selected step. Hidden on desktop in favor of the right
-                        column. */}
-                    <AnimatePresence initial={false}>
-                      {isActive && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.35, ease: EASE }}
-                          className="overflow-hidden lg:hidden"
                         >
-                          <div className={`${PANEL_CLASS} mt-2`}>
-                            <DetailContent current={current} />
+                          <span
+                            className={`flex size-[40px] shrink-0 items-center justify-center rounded-[12px] text-[15px] font-extrabold transition-colors ${
+                              isActive
+                                ? "bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] text-white shadow-[0_8px_18px_-8px_rgba(33,177,241,0.8)]"
+                                : "bg-[#EEF6FC] text-[#9DB6CC]"
+                            }`}
+                          >
+                            {isActive ? (
+                              <Image
+                                src={step.icon}
+                                alt=""
+                                width={24}
+                                height={24}
+                                className="size-6 object-contain"
+                              />
+                            ) : (
+                              step.num
+                            )}
+                          </span>
+                          <span
+                            className={`text-[17px] font-bold ${
+                              isActive ? "text-[#0A8EC8]" : "text-[#002D45]/80"
+                            }`}
+                          >
+                            {step.label}
+                          </span>
+                        </button>
+
+                        {/* Mobile: detail panel opens inline directly beneath the
+                        selected step (accordion). Expand/collapse uses a CSS
+                        grid-rows (0fr↔1fr) transition — no JS height measurement
+                        and no mount/unmount, and the buttons no longer use
+                        backdrop-blur, so a shifting button can't be dropped from
+                        paint. Hidden on desktop in favor of the right column. */}
+                        <div
+                          className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out lg:hidden ${
+                            isActive ? "opacity-100" : "opacity-0"
+                          }`}
+                          style={{ gridTemplateRows: isActive ? "1fr" : "0fr" }}
+                        >
+                          <div className="min-h-0 overflow-hidden">
+                            <div className={`${PANEL_CLASS} mt-2`}>
+                              <DetailContent current={STEPS[i]!} />
+                            </div>
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </li>
-                );
-              })}
-            </ul>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-            {/* Vertical divider with draggable section pointer (desktop) */}
-            <div
-              ref={trackRef}
-              aria-hidden
-              onClick={onTrackClick}
-              className="absolute -right-6 top-3 bottom-3 hidden w-6 cursor-pointer lg:block"
+                {/* Vertical divider with draggable section pointer (desktop) */}
+                <div
+                  ref={trackRef}
+                  aria-hidden
+                  onClick={onTrackClick}
+                  className="absolute -right-6 top-3 bottom-3 hidden w-6 cursor-pointer lg:block"
+                >
+                  <div className="absolute inset-y-0 left-1/2 w-[6px] -translate-x-1/2 rounded-full bg-white" />
+                  <div
+                    onPointerDown={onThumbPointerDown}
+                    onPointerMove={onThumbPointerMove}
+                    onPointerUp={onThumbPointerUp}
+                    onPointerCancel={onThumbPointerUp}
+                    className="absolute left-1/2 w-2 -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] shadow-[0_0_10px_rgba(33,177,241,0.65)] cursor-grab active:cursor-grabbing select-none transition-[top,height] duration-300"
+                    style={{
+                      top: `calc(${active * 20}% + 10px)`,
+                      height: "calc(20% - 20px)",
+                    }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right: detail panel — desktop only; on mobile it renders below
+              the step list (see the mobile panel above). */}
+            <motion.div
+              variants={slideFromRight}
+              className={`${PANEL_CLASS} hidden lg:flex`}
             >
-              <div className="absolute inset-y-0 left-1/2 w-[6px] -translate-x-1/2 rounded-full bg-white" />
-              <div
-                onPointerDown={onThumbPointerDown}
-                onPointerMove={onThumbPointerMove}
-                onPointerUp={onThumbPointerUp}
-                onPointerCancel={onThumbPointerUp}
-                className="absolute left-1/2 w-2 -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,#21B1F1,#0A8EC8)] shadow-[0_0_10px_rgba(33,177,241,0.65)] cursor-grab active:cursor-grabbing select-none transition-[top,height] duration-300"
-                style={{ top: `calc(${active * 20}% + 10px)`, height: "calc(20% - 20px)" }}
-              />
-            </div>
-            </div>
-          </motion.div>
-
-          {/* Right: detail panel — desktop only; on mobile it renders inline
-              beneath the selected step (see the list above). */}
-          <motion.div
-            variants={slideFromRight}
-            className={`${PANEL_CLASS} hidden lg:flex`}
-          >
-            <DetailContent current={current} />
-          </motion.div>
-        </div>
-      </motion.div>
-    </section>
+              <DetailContent current={current} />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
     </MotionConfig>
   );
 }

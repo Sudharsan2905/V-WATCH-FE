@@ -174,7 +174,7 @@ function StepContent({ step, flip = false }: Readonly<{ step: DecisionStep; flip
 export default function DataToDecisions() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-16 py-16 lg:px-[60px]">
+    <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-16 py-6 md:py-16 lg:px-[60px]">
       {/* Bright panel behind the timeline */}
       <svg
         aria-hidden
@@ -237,7 +237,7 @@ export default function DataToDecisions() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.2 }}
           className="flex max-w-[500px] flex-col gap-2.5"
         >
           <h2 className="text-[26px] font-black text-[#0A4B6E]">From data to decisions</h2>
@@ -255,12 +255,12 @@ export default function DataToDecisions() {
               custom={i * 0.1}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.4 }}
+              viewport={{ once: true, amount: 0.2 }}
               className="flex items-start gap-5 rounded-[20px] border border-[#B8E6FF] bg-white p-5 shadow-[0_4px_20px_rgba(156,220,255,0.15)]"
             >
               {/* Large number */}
               <span
-                className="shrink-0 text-[60px] font-black leading-none"
+                className="shrink-0 text-[35px] md:text-[60px] font-black leading-none pt-[8px]"
                 style={{ color: "#7ECFFA" }}
                 aria-hidden
               >
@@ -290,7 +290,7 @@ export default function DataToDecisions() {
                   className={`relative flex min-h-40 ${isLast ? "items-start" : "items-center"}`}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: true, amount: 0.6 }}
+                  viewport={{ once: true, amount: 0.2 }}
                 >
                   {/* Centre target dot — last row: at top (line end); others: centred */}
                   <motion.div

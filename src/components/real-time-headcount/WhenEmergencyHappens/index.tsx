@@ -41,7 +41,6 @@ export default function WhenEmergencyHappens() {
       <section className="relative z-10 -mt-12 lg:-mt-16 ">
         <div className="overflow-hidden rounded-t-[28px] bg-[#EDF7FF] min-h-[320px]  px-6 py-10 sm:px-8 sm:py-12 lg:px-[60px] lg:py-10">
           <div className="mx-auto max-w-[1410px]">
-
             {/* Header */}
             <motion.div
               initial="hidden"
@@ -61,7 +60,9 @@ export default function WhenEmergencyHappens() {
                 custom={0.2}
                 className="mt-2 text-[16px] md:text-[20px] font-normal leading-[28px] text-[#0A4B6E]"
               >
-                During an emergency, teams need immediate visibility into workforce status because every second lost can directly impact safety and response effectiveness.
+                During an emergency, teams need immediate visibility into
+                workforce status because every second lost can directly impact
+                safety and response effectiveness.
               </motion.p>
             </motion.div>
 
@@ -90,7 +91,13 @@ export default function WhenEmergencyHappens() {
                       className="flex items-center gap-4"
                     >
                       <div className="relative h-[54px] w-[54px] shrink-0">
-                        <Image src={item.icon} alt="" fill className="object-contain" />
+                        <Image
+                          src={item.icon}
+                          alt=""
+                          fill
+                          sizes="54px"
+                          className="object-contain"
+                        />
                       </div>
                       <span className="text-[18px] font-normal leading-[24px] text-[#0F172A]">
                         {item.label}
@@ -137,6 +144,7 @@ export default function WhenEmergencyHappens() {
                           src={item.icon}
                           alt=""
                           fill
+                          sizes="54px"
                           className="object-contain scale-[4] -translate-y-[-30%]"
                         />
                       </div>
@@ -148,7 +156,6 @@ export default function WhenEmergencyHappens() {
                 </div>
               </div>
             </motion.div>
-
           </div>
         </div>
       </section>

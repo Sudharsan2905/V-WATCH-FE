@@ -64,7 +64,7 @@ export default function TechnologyPartners({
           <motion.div variants={headerStagger} className="flex flex-col gap-[10px]">
             <motion.div variants={fadeUp} className="flex w-full items-center gap-[10px]">
               <span className="relative flex size-[54px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] border-2 border-white bg-[rgba(244,251,255,0.2)] shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
-                <Image src="/products/technology%20partner.png" alt="" fill className="object-contain scale-[5.3] translate-x-[35.5%] translate-y-[22%] p-1" />
+                <Image src="/products/technology%20partner.png" alt="" fill sizes="54px" className="object-contain scale-[5.3] translate-x-[35.5%] translate-y-[22%] p-1" />
               </span>
               <p className="flex-1 font-lato text-[26px] font-bold leading-[26px] text-[#0A4B6E]">
                 {title}

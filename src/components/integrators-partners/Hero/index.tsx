@@ -131,7 +131,7 @@ export default function IntegratorsHero() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px] xl:px-[10px]">
+      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
         <motion.div
           className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]"
           initial="hidden"

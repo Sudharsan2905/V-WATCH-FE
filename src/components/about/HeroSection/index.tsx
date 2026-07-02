@@ -7,7 +7,6 @@ import {
   wipeTop,
   staggerFast,
   staggerContainer,
-  viewportReveal,
   EASE_SOFT,
 } from "../anim";
 
@@ -27,8 +26,7 @@ export default function HeroSection() {
       <motion.div
         className="absolute inset-0 pointer-events-none"
         initial="hidden"
-        whileInView="show"
-        viewport={viewportReveal}
+        animate="show"
         variants={heroBg}
       >
         <Image
@@ -87,8 +85,7 @@ export default function HeroSection() {
         <motion.div
           className="flex flex-col gap-[20px] w-full max-w-[600px]"
           initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
+          animate="show"
           variants={staggerContainer}
         >
           {/* Badge + Heading sub-group — gap-[14px] per Figma 1043:1905.
