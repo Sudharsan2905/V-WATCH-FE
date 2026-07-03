@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -67,6 +68,44 @@ function ValueRow({
         className="h-9 w-auto shrink-0 object-contain"
       />
     </motion.div>
+  );
+}
+
+function ImageCardWithOverlay({
+  cardImage,
+  cardContent,
+}: Readonly<{ cardImage: string; cardContent: string }>) {
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  return (
+    <div
+      className="group relative flex-1 overflow-hidden rounded-[16px] min-h-[280px] cursor-pointer"
+      onMouseEnter={() => setShowOverlay(true)}
+      onMouseLeave={() => setShowOverlay(false)}
+      onClick={() => setShowOverlay((prev) => !prev)}
+    >
+      <Image
+        src={cardImage}
+        alt=""
+        fill
+        unoptimized
+        className="object-cover"
+        sizes="(max-width: 1024px) 100vw, 50vw"
+      />
+      {cardContent && (
+        <div
+          className={`absolute inset-x-0 bottom-0 bg-black/55 px-6 py-4 backdrop-blur-sm transition-all duration-300 ${
+            showOverlay
+              ? "translate-y-0 opacity-100"
+              : "translate-y-full opacity-0"
+          }`}
+        >
+          <p className="text-center text-[15px] font-medium leading-[22px] text-white">
+            {cardContent}
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -137,23 +176,7 @@ export default function WhyChoose({
                 boxShadow: "6px 6px 28px rgba(10, 75, 110, 0.15)",
               }}
             >
-              <div className="relative flex-1 overflow-hidden rounded-[16px] min-h-[280px]">
-                <Image
-                  src={cardImage}
-                  alt=""
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                {cardContent && (
-                  <div className="absolute inset-x-0 bottom-0 bg-black/55 px-6 py-4 backdrop-blur-sm">
-                    <p className="text-center text-[15px] font-medium leading-[22px] text-white">
-                      {cardContent}
-                    </p>
-                  </div>
-                )}
-              </div>
+              <ImageCardWithOverlay cardImage={cardImage} cardContent={cardContent} />
             </motion.div>
           </div>
         </motion.div>

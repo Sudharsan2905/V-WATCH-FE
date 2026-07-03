@@ -41,7 +41,7 @@ const CAPABILITIES: Capability[] = [
     number: "01",
     title: "Workforce & Site Management",
     image:
-      "/pre-construction/platform-overview/Workforce_Site_Management_image.png",
+      "/pre-construction/platform-overview/Workforce_Site_Management_image.svg",
     points: [
       "Person management and profiles",
       "Access and attendance tracking",
@@ -53,7 +53,7 @@ const CAPABILITIES: Capability[] = [
     number: "02",
     title: "Operations & Workflow Control",
     image:
-      "/pre-construction/platform-overview/Operations_Workflow_Control_image.png",
+      "/pre-construction/platform-overview/Operations_Workflow_Control_image.svg",
     points: [
       "Task and project management",
       "Work program tracking",
@@ -65,7 +65,7 @@ const CAPABILITIES: Capability[] = [
     number: "03",
     title: "Vehicle, Fleet & Logistics",
     image:
-      "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.png",
+      "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.svg",
     points: [
       "Vehicle tracking and reporting",
       "Delivery and logistics coordination",
@@ -77,7 +77,7 @@ const CAPABILITIES: Capability[] = [
     number: "04",
     title: "Assets & Quality Management",
     image:
-      "/pre-construction/platform-overview/Assets_Quality_Management_image.png",
+      "/pre-construction/platform-overview/Assets_Quality_Management_image.svg",
     points: [
       "Asset tracking and utilisation",
       "Audit and quality assurance",
@@ -88,7 +88,7 @@ const CAPABILITIES: Capability[] = [
     number: "05",
     title: "Safety & Compliance",
     image:
-      "/pre-construction/platform-overview/Safety_Compliance_image.png",
+      "/pre-construction/platform-overview/Safety_Compliance_image.svg",
     points: [
       "Permit-to-work (PTW)",
       "LOTO and safety protocols",
@@ -100,7 +100,7 @@ const CAPABILITIES: Capability[] = [
     number: "06",
     title: "Productivity & Intelligence",
     image:
-      "/pre-construction/platform-overview/Productivity_Intelligence_image.png",
+      "/pre-construction/platform-overview/Productivity_Intelligence_image.svg",
     points: [
       "Manhour tracking",
       "Time-lapse and progress tracking",
@@ -334,50 +334,39 @@ export default function PlatformOverview({
                         <CheckItem key={p}>{p}</CheckItem>
                       ))}
                     </ul>
+
+                    {/* Mobile/tab image — inside the card, hidden on desktop */}
+                    <div
+                      className="relative mt-5 overflow-hidden rounded-[16px] lg:hidden"
+                      style={{ minHeight: 200 }}
+                    >
+                      <div
+                        className="absolute inset-0 rounded-[16px] p-2"
+                        style={{
+                          background:
+                            "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
+                          border: "2px solid transparent",
+                        }}
+                      >
+                        <div className="relative h-full w-full overflow-hidden rounded-[12px]">
+                          <Image
+                            src={activeCap.image ?? CAP_IMAGE}
+                            alt={activeCap.title}
+                            fill
+                            unoptimized
+                            className="object-cover"
+                            sizes="100vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
             </div>{/* end inner row */}
 
-            {/* Mobile/tab image — shown below content card, hidden on desktop */}
-            <div
-              className="relative order-2 overflow-hidden rounded-[22px] lg:hidden"
-              style={{ minHeight: 260 }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.03 }}
-                  transition={{ duration: 0.45, ease: EASE }}
-                  className="absolute inset-0"
-                >
-                  <div
-                    className="h-full w-full rounded-[22px] p-2.5 shadow-[0_28px_55px_-28px_rgba(20,46,92,0.38)]"
-                    style={{
-                      background:
-                        "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
-                      border: "2px solid transparent",
-                    }}
-                  >
-                    <div className="relative h-full w-full overflow-hidden rounded-[16px]">
-                      <Image
-                        src={activeCap.image ?? CAP_IMAGE}
-                        alt={activeCap.title}
-                        fill
-                        unoptimized
-                        className="object-cover"
-                        sizes="100vw"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
             {/* Mobile dot indicators — replaces the sidebar progress bar */}
-            <div className="order-3 flex items-center justify-center gap-2 lg:hidden">
+            <div className="order-2 flex items-center justify-center gap-2 lg:hidden">
               {capabilities.map((cap, i) => (
                 <button
                   key={cap.number}
@@ -395,7 +384,7 @@ export default function PlatformOverview({
             </div>
 
             {/* Banner — inside left column, below the content card */}
-            <div className="order-4 lg:order-none">
+            <div className="order-3 lg:order-none">
               <ConnectedBanner text={bannerText} />
             </div>
 

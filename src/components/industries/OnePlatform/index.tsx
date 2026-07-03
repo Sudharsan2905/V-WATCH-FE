@@ -321,15 +321,19 @@ export default function OnePlatform({
             </motion.p>
           </header>
 
-          {/* Two columns */}
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-14">
-            {/* Left column — skyline image then auto-scroll feature list */}
-            <div className="flex w-full flex-col gap-8 lg:w-[44%]">
+          {/* Two columns — on mobile, all 4 blocks stack with CSS order;
+              on lg they group back into left/right columns. */}
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14">
+
+            {/* Left column wrapper (lg only) */}
+            <div className="contents lg:flex lg:w-[44%] lg:flex-none lg:flex-col lg:gap-8">
+
+              {/* 1) Skyline image — order-1 on mobile */}
               {skylineImage && (
                 <motion.div
                   variants={fromLeft}
                   custom={SKYLINE}
-                  className="relative flex items-center justify-center"
+                  className="relative order-1 flex items-center justify-center lg:order-none"
                 >
                   <div
                     className="pointer-events-none absolute inset-0 -z-0"
@@ -346,9 +350,8 @@ export default function OnePlatform({
                 </motion.div>
               )}
 
-              {/* Fixed-height window: always shows ~3 rows, scrolls automatically.
-                  Scrollbar is hidden; smooth scroll is driven by the activeIndex effect. */}
-              <div className="relative">
+              {/* 3) Feature list — order-3 on mobile */}
+              <div className="relative order-3 lg:order-none">
                 {/* Top fade hint */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-[#f5fbff] to-transparent" />
 
@@ -377,11 +380,14 @@ export default function OnePlatform({
                 {/* Bottom fade hint */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-[#f5fbff] to-transparent" />
               </div>
-            </div>
 
-            {/* Right column — allows cards (in order) then platform image (wipebottom) */}
-            <div className="flex w-full flex-col gap-7 lg:flex-1">
-              <div className="flex flex-col gap-4">
+            </div>{/* end left column wrapper */}
+
+            {/* Right column wrapper (lg only) */}
+            <div className="contents lg:flex lg:flex-1 lg:flex-col lg:gap-7 lg:pt-20">
+
+              {/* 2) "You can" cards — order-2 on mobile */}
+              <div className="order-2 flex flex-col gap-4 lg:order-none">
                 <motion.p
                   variants={fadeUp}
                   custom={ALLOWS_LABEL}
@@ -402,9 +408,9 @@ export default function OnePlatform({
                 )}
               </div>
 
-              {/* Platform image — wipebottom */}
+              {/* 4) Platform image — order-4 on mobile */}
               {platformImage && (
-                <motion.div variants={wipeUp} custom={PLATFORM_IMG}>
+                <motion.div variants={wipeUp} custom={PLATFORM_IMG} className="order-4 lg:order-none">
                   <Image
                     src={platformImage}
                     alt=""
@@ -415,7 +421,9 @@ export default function OnePlatform({
                   />
                 </motion.div>
               )}
-            </div>
+
+            </div>{/* end right column wrapper */}
+
           </div>
         </motion.div>
       </section>
