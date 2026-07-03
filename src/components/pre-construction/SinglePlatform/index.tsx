@@ -327,7 +327,7 @@ export default function SinglePlatform({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 overflow-hidden bg-[#f2f6fb] pb-12 px-6 lg:pb-0 lg:max-h-175 lg:px-15">
+      <section className="relative z-10 overflow-hidden bg-[#f2f6fb] pb-12 px-6 md:pb-[10px] lg:pb-[20px] xl:pb-0 lg:max-h-175 lg:px-15">
         <div className="mx-auto max-w-[1280px]">
           <motion.h2
             variants={wipeDown}
@@ -489,23 +489,18 @@ export default function SinglePlatform({
                   width={254}
                   height={254}
                   unoptimized
-                  className="pointer-events-none absolute z-20 h-[200px] w-auto -translate-x-[35%] -translate-y-1/2 left-[5px] top-[60px] sm:left-0 sm:top-[35px]"
+                  className="pointer-events-none absolute z-20 h-[306px] w-274 -translate-x-[45%] -translate-y-[47%] left-[5px] top-[60px] sm:left-0 sm:top-[35px]"
                 />
               )}
               <span
                 className={`
                   relative z-10
                   inline-flex items-center justify-center
-                  rounded-2xl
                   px-8 py-4
-                  text-[18px] font-bold leading-[26px]
+                  text-[17px] font-bold leading-[26px]
                   text-[#006F9F]
-                  bg-white/60
-                  backdrop-blur-3xl
-                  border border-white
-                  shadow-[0_8px_32px_rgba(255,255,255,0.6),0_2px_10px_rgba(0,111,159,0.08)]
                   ${variant === "checklist" ? "text-center" : "sm:whitespace-nowrap"}
-                  ${pillBadge ? "pl-20 sm:pl-24" : ""}
+                  ${pillBadge ? "pl-20 sm:pl-17" : ""}
                 `}
               >
                 {pill}
