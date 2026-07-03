@@ -130,7 +130,7 @@ function ConnectedBanner({
       }}
     >
       {/* Left: line → dot */}
-      <span className="hidden shrink-0 items-center xl:flex">
+      <span className="hidden shrink-0 items-center lg:flex">
         <span
           className="h-0.5 min-w-[24px] max-w-[80px] w-full"
           style={{ background: "linear-gradient(to right, transparent, #006F9F)" }}
@@ -139,12 +139,12 @@ function ConnectedBanner({
       </span>
 
       {/* Text — centered */}
-      <span className="min-w-0 flex-1 text-center font-lato text-[13px] font-bold leading-snug tracking-[-0.4px] text-[#006F9F] sm:text-[14px] lg:text-[15px] xl:text-[18px] xl:leading-[26px] xl:tracking-[-0.6px]">
+      <span className="min-w-0 flex-1 text-center font-lato text-[13px] font-bold leading-snug tracking-[-0.4px] text-[#006F9F] sm:text-[14px] lg:text-[18px] lg:leading-[26px] lg:tracking-[-0.6px]">
         {text}
       </span>
 
       {/* Dot → line */}
-      <span className="hidden shrink-0 items-center xl:flex">
+      <span className="hidden shrink-0 items-center lg:flex">
         <span className="size-2.5 shrink-0 rounded-full bg-[#006F9F]" />
         <span
           className="h-0.5 min-w-[24px] max-w-[80px] w-full"
@@ -251,10 +251,10 @@ export default function PlatformOverview({
           <div className="mt-10 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-12">
 
             {/* ── LEFT: progress bar + content card + banner ── */}
-            <div className="flex flex-col gap-5 lg:w-[45%] lg:flex-none">
+            <div className="flex flex-col gap-5 lg:w-[45%] lg:flex-none lg:overflow-visible">
 
             {/* Inner row: progress bar + content card */}
-            <div className="flex flex-1 items-stretch gap-5">
+            <div className="order-1 flex flex-1 items-stretch gap-5 lg:order-none lg:overflow-visible">
 
               {/* Vertical progress bar — hidden on mobile, shown on desktop */}
               <div
@@ -313,7 +313,7 @@ export default function PlatformOverview({
               {/* Content card — animates between capabilities */}
               {/* Mobile: relative flow so height adapts to content (no clipping) */}
               {/* Desktop: absolute inset-0 fills the fixed-height container */}
-              <div className="relative flex-1 lg:min-h-[300px]">
+              <div className="relative flex-1 lg:min-h-[300px] lg:overflow-visible">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activeIndex}
@@ -321,7 +321,7 @@ export default function PlatformOverview({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -16 }}
                     transition={{ duration: 0.38, ease: EASE }}
-                    className="w-full rounded-[28px] bg-white px-6 py-6 shadow-[0_16px_40px_-20px_rgba(20,46,92,0.18)] lg:absolute lg:inset-0 lg:px-7 lg:py-7"
+                    className="w-full rounded-[28px] bg-white px-6 py-6 shadow-[0_16px_40px_-20px_rgba(20,46,92,0.18)] lg:absolute lg:inset-0 lg:rounded-r-none lg:shadow-none lg:px-7 lg:py-7 lg:[mask-image:linear-gradient(to_right,#000_85%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_right,#000_85%,transparent_100%)]"
                   >
                     <span className="block font-lato text-[32px] font-bold leading-none text-[#0A8EC8]/50 lg:text-[36px]">
                       {activeCap.number}
@@ -339,8 +339,45 @@ export default function PlatformOverview({
               </div>
             </div>{/* end inner row */}
 
+            {/* Mobile/tab image — shown below content card, hidden on desktop */}
+            <div
+              className="relative order-2 overflow-hidden rounded-[22px] lg:hidden"
+              style={{ minHeight: 260 }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.03 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="absolute inset-0"
+                >
+                  <div
+                    className="h-full w-full rounded-[22px] p-2.5 shadow-[0_28px_55px_-28px_rgba(20,46,92,0.38)]"
+                    style={{
+                      background:
+                        "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
+                      border: "2px solid transparent",
+                    }}
+                  >
+                    <div className="relative h-full w-full overflow-hidden rounded-[16px]">
+                      <Image
+                        src={activeCap.image ?? CAP_IMAGE}
+                        alt={activeCap.title}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        sizes="100vw"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
             {/* Mobile dot indicators — replaces the sidebar progress bar */}
-            <div className="flex items-center justify-center gap-2 lg:hidden">
+            <div className="order-3 flex items-center justify-center gap-2 lg:hidden">
               {capabilities.map((cap, i) => (
                 <button
                   key={cap.number}
@@ -358,13 +395,15 @@ export default function PlatformOverview({
             </div>
 
             {/* Banner — inside left column, below the content card */}
-            <ConnectedBanner text={bannerText} />
+            <div className="order-4 lg:order-none">
+              <ConnectedBanner text={bannerText} />
+            </div>
 
             </div>{/* end left column */}
 
-            {/* ── RIGHT: animated image ── */}
+            {/* ── RIGHT: animated image (desktop only) ── */}
             <div
-              className="relative flex-1 overflow-hidden rounded-[22px]"
+              className="relative hidden flex-1 overflow-hidden rounded-[22px] lg:block"
               style={{ minHeight: 260 }}
             >
               <AnimatePresence mode="wait" initial={false}>

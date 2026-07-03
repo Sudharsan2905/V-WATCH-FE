@@ -3,20 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowBadge } from "@/components/common/BookADemo";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
 // Shared ease — matches the rest of the site (≈ easeOutQuint).
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-// Header clip-wipe from the top — the site's signature heading reveal.
-const wipeDown: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
-  show: (delay = 0) => ({
-    clipPath: "inset(0 0 0% 0)",
-    opacity: 1,
-    transition: { delay, duration: 0.6, ease: EASE },
-  }),
-};
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -175,7 +166,7 @@ function FeatureCard({
             unoptimized
             sizes="(max-width: 1024px) 40vw, 200px"
             className="object-contain object-bottom mix-blend-multiply"
-            style={{ transform: "scale(1.3) translateX(0px) translateY(10px)" }}
+            style={{ transform: "scale(0.9) translateX(0px) translateY(10px)" }}
           />
         </div>
       </div>
@@ -189,8 +180,6 @@ export default function PostConstructionTransition({
   content = {},
 }: Readonly<{ content?: PostConstructionTransitionContent }> = {}) {
   const {
-    heading = "",
-    intro = "",
     features = DEFAULT_FEATURES,
     panelTitle = "With V-Watch AI, everything transitions seamlessly into post-construction operations",
     ctaLabel,
@@ -222,41 +211,19 @@ export default function PostConstructionTransition({
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {/* Header row — heading + intro on the left, CTA button on the right. */}
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-            <div className="max-w-[733px]">
-              <motion.h2
-                variants={wipeDown}
-                custom={0.05}
-                className="font-lato text-[26px] font-bold leading-none text-[#0A4B6E]"
-              >
-                {heading || "No Re-onboarding, No data loss, Just continuity."}
-              </motion.h2>
-              <motion.p
-                variants={fadeUp}
-                custom={0.2}
-                className="mt-2 font-lato text-[20px] font-normal leading-7 tracking-normal text-[#0A4B6E]"
-              >
-                {intro || "Data collected during construction doesn\u2019t disappear it becomes the foundation for long-term operational control."}
-              </motion.p>
-            </div>
-
-            {/* CTA button — gradient pill matching the site's demo button style */}
-            <motion.div variants={fadeUp} custom={0.3} className="shrink-0 self-start lg:self-center">
+          {/* CTA button — gradient pill matching the site's demo button style */}
+          <div className="flex justify-center lg:justify-end">
+            <motion.div variants={fadeUp} custom={0.3} className="shrink-0">
               <Link
                 href={ctaTarget}
-                className="inline-flex h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] transition-transform hover:-translate-y-0.5"
+                className="group inline-flex h-11 items-center justify-center gap-[10px] rounded-full px-4 text-base font-bold text-white shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)] transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110"
                 style={{
-                  backgroundImage:
-                    "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+                  background:
+                    "linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)) padding-box, linear-gradient(180deg, #21B1F1 -20.69%, #A6C936 151.72%) padding-box, linear-gradient(180deg, rgba(33, 177, 241, 0.4) -20.69%, rgba(197, 235, 76, 0.4) 151.72%) border-box",
+                  border: "1.24px solid transparent",
                 }}
               >
-                {/* Arrow icon */}
-                <span className="flex size-8 items-center justify-center rounded-full bg-white">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M5 11l6-6M5 5h6v6" stroke="#21B1F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowBadge />
                 <span className="font-lato text-[16px] font-bold leading-none">
                   {resolvedLabel}
                 </span>
@@ -298,7 +265,7 @@ export default function PostConstructionTransition({
                       left: 0,
                       right: -17,
                       bottom: 0,
-                      background: "rgb(235, 241, 247)",
+                      background: "rgb(242, 249, 255)",
                       borderBottomLeftRadius: 24,
                       maskImage: CHAMFER_MASK_TR,
                       WebkitMaskImage: CHAMFER_MASK_TR,
@@ -311,7 +278,7 @@ export default function PostConstructionTransition({
                       left: 5,
                       width: 85,
                       height: 50,
-                      background: "rgb(235, 241, 247)",
+                      background: "rgb(242, 249, 255)",
                       borderRadius: "25px 25px 0 0",
                     }}
                   />
@@ -327,7 +294,7 @@ export default function PostConstructionTransition({
               variants={fromRight}
               custom={0.5}
               className="relative mt-6 flex w-full flex-col md:min-h-[500px] lg:absolute lg:inset-y-0 lg:left-145 lg:right-[-1.5%] lg:z-0 lg:mt-0 lg:min-h-0 lg:w-auto"
-              style={{ filter: "drop-shadow(0 26px 50px rgba(20,46,92,0.20))" }}
+              // style={{ filter: "drop-shadow(0 26px 50px rgba(20,46,92,0.20))" }}
             >
               {/* Inner glass */}
               <div
@@ -372,7 +339,7 @@ export default function PostConstructionTransition({
                       left: 0,
                       right: -15,
                       bottom: 0,
-                      background: "rgb(235, 241, 247)",
+                      background: "rgb(245, 251, 255)",
                       borderBottomLeftRadius: 24,
                       maskImage: CHAMFER_MASK_TR,
                       WebkitMaskImage: CHAMFER_MASK_TR,
@@ -386,7 +353,7 @@ export default function PostConstructionTransition({
                       left: 5,
                       width: 85,
                       height: 50,
-                      background: "rgb(235, 241, 247)",
+                      background: "rgb(245, 251, 255)",
                       borderRadius: "25px 25px 0 0",
                     }}
                   />
