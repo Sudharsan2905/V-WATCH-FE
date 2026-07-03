@@ -71,7 +71,7 @@ export default function IndustryHero() {
           transition={{ duration: 0.4, ease: HERO_EASE }}
         >
           <Image
-            src="/industry/hero-bg.png"
+            src="/industry/hero-bg.webp"
             alt=""
             fill
             priority

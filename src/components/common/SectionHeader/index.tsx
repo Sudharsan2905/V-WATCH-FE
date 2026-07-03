@@ -34,7 +34,9 @@ export default function SectionHeader({
 }: Readonly<Props>) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className={`${background} px-6 py-0 pt-12 md:pb-10 lg:pt-0 lg:px-[60px] ${className}`}>
+      <div
+        className={`${background} px-6 py-0 pt-12 md:pb-10 lg:pt-0 lg:px-[60px] ${className}`}
+      >
         <motion.header
           variants={fadeUp}
           initial="hidden"
@@ -42,11 +44,15 @@ export default function SectionHeader({
           viewport={{ once: true, amount: 0.2 }}
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-2.5 text-[#0A4B6E]"
         >
-          <h2 className={`text-[26px] font-bold leading-none ${titleClassName}`}>
+          <h2
+            className={`text-[26px] font-bold leading-none ${titleClassName}`}
+          >
             {title}
           </h2>
           {subtitle && (
-            <p className={`text-[20px] font-normal leading-7 w-full md:w-[775px] ${subtitleClassName}`}>
+            <p
+              className={`text-[20px] font-normal leading-7 w-full md:w-[775px] ${subtitleClassName}`}
+            >
               {subtitle}
             </p>
           )}

@@ -45,7 +45,7 @@ const ROWS: Card[][] = [
   [
     {
       title: "Data Centers",
-      img: "/industry/adapt-datacenter.png",
+      img: "/industry/adapt-datacenter.webp",
       icon: "/industries/industries-hub/datacenters.svg",
       size: "sm",
       borderStyle: {
@@ -55,7 +55,7 @@ const ROWS: Card[][] = [
     },
     {
       title: "Manufacturing",
-      img: "/industry/adapt-manufacturing.png",
+      img: "/industry/adapt-manufacturing.webp",
       icon: "/industries/industries-hub/manufacturing.svg",
       size: "lg",
       borderStyle: {
@@ -67,7 +67,7 @@ const ROWS: Card[][] = [
   [
     {
       title: "Healthcare Facilities",
-      img: "/industry/adapt-healthcare.png",
+      img: "/industry/adapt-healthcare.webp",
       icon: "/industries/industries-hub/healthcare.svg",
       size: "lg",
       borderStyle: {
@@ -77,7 +77,7 @@ const ROWS: Card[][] = [
     },
     {
       title: "Infrastructure & Utilities",
-      img: "/industry/adapt-infrastructure.png",
+      img: "/industry/adapt-infrastructure.webp",
       icon: "/industries/industries-hub/infrastructure.svg",
       size: "sm",
       borderStyle: {
@@ -89,7 +89,7 @@ const ROWS: Card[][] = [
   [
     {
       title: "Logistics & Warehousing",
-      img: "/industry/adapt-logistics.png",
+      img: "/industry/adapt-logistics.webp",
       icon: "/industries/industries-hub/logistics.svg",
       size: "sm",
       borderStyle: {
@@ -99,7 +99,7 @@ const ROWS: Card[][] = [
     },
     {
       title: "Transportation Hubs (airports, ports, rail)",
-      img: "/industry/adapt-transport.png",
+      img: "/industry/adapt-transport.webp",
       icon: "/industries/industries-hub/transport.svg",
       size: "lg",
       borderStyle: {
