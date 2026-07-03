@@ -441,7 +441,7 @@ export default function SinglePlatform({
                 gradient border over a semi-transparent #F4FBFF (20%) fill so the
                 map shows softly through, plus a soft drop shadow. Single line
                 from sm up; wraps on the narrowest screens where 505px can't fit. */}
-            <motion.div
+            {pill && <motion.div
               variants={fadeUp}
               custom={1}
               className={`relative flex w-fit max-w-full items-center rounded-[14px] pl-2 ${
@@ -510,7 +510,7 @@ export default function SinglePlatform({
               >
                 {pill}
               </span>
-            </motion.div>
+            </motion.div>}
           </div>
 
           {/* MAP — right-anchored; bleeds left beneath the content from lg up.
@@ -530,14 +530,12 @@ export default function SinglePlatform({
               unoptimized
               sizes="(max-width: 1024px) 100vw, 70vw"
               className="h-auto w-full"
-              // style={{
-              //   maskImage:
-              //     "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 0%), linear-gradient(to right, #000 92%, transparent 100%)",
-              //   maskComposite: "intersect",
-              //   WebkitMaskImage:
-              //     "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(to right, #000 92%, transparent 100%)",
-              //   WebkitMaskComposite: "source-in",
-              // }}
+              style={{
+                maskImage:
+                  "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+              }}
             />
             {/* Left readability scrim — lg only; keeps the detail copy legible while
                 still letting the map show softly through the glass cards */}
