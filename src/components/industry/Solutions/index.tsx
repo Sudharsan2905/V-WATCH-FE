@@ -44,14 +44,14 @@ const CARDS: Card[] = [
   {
     title: "Workforce automation",
     desc: "Manage payroll, leave, and workforce activity centrally.",
-    img: "/industry/sol-1.png",
+    img: "/industry/sol-1.webp",
     descColor: "#EFF9FF",
     descWeight: 500,
   },
   {
     title: "Emergency headcount and muster",
     desc: "Ensure every third-party worker meets safety requirements.",
-    img: "/industry/sol-3.png",
+    img: "/industry/sol-3.webp",
     descColor: "#D4F0FF",
     descWeight: 500,
     href: "/real-time-headcount",
@@ -59,7 +59,7 @@ const CARDS: Card[] = [
   {
     title: "Compliance tracking",
     desc: "Track safety, missing, and onsite personnel during emergencies.",
-    img: "/industry/sol-2.png",
+    img: "/industry/sol-2.webp",
     descColor: "#D4F0FF",
     descWeight: 400,
     href: "/contractor-compliance",
@@ -67,7 +67,7 @@ const CARDS: Card[] = [
   {
     title: "Facial recognition access control",
     desc: "Deploy touchless entry points across high-traffic zones.",
-    img: "/industry/sol-4.png",
+    img: "/industry/sol-4.webp",
     descColor: "#D4F0FF",
     descWeight: 500,
     href: "/facial-recognition",

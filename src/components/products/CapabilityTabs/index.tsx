@@ -22,8 +22,6 @@ import {
 } from "../motionPresets";
 
 const ITEM_DURATION = 5000;
-const IMAGE_BLUR =
-  "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAACQAQCdASoQAAsAA4BaJQ4ABYgDgwAA/vDkTH8gHqVybLxW4UavS/+YNsu0pDMpq96KUY0BGt8Q89p7ONGGRd3U4AA=";
 
 type Item = { title: string; desc?: string };
 type Tab = { key: string; tab: string; num: string; subtitle: string; img: string; items: Item[] };
@@ -35,7 +33,7 @@ const TABS: Tab[] = [
     tab: "Workforce",
     num: "01",
     subtitle: "Managing people, identity, access, and activity",
-    img: "/products/workforce.svg",
+    img: "/products/workforce.webp",
     items: [
       {
         title: "Person Management",
@@ -318,8 +316,7 @@ export default function CapabilityTabs() {
                     fill
                     className="object-cover"
                     sizes="585px"
-                    placeholder="blur"
-                    blurDataURL={IMAGE_BLUR}
+                    priority
                   />
                 </motion.div>
               </AnimatePresence>

@@ -60,8 +60,7 @@ function CheckIcon() {
 }
 
 // Figma: label Lato 400 / 16px / 100% line-height; asterisk Lato 900 / 16px.
-const labelClass =
-  "text-[16px] font-normal leading-none text-[#1D293D]";
+const labelClass = "text-[16px] font-normal leading-none text-[#1D293D]";
 
 function RequiredMark() {
   return (
@@ -83,7 +82,10 @@ function CompanyTypeSelect() {
   useEffect(() => {
     if (!open) return;
     function handleOutside(e: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     }
@@ -166,7 +168,9 @@ export default function BecomeIntegratorSection() {
 
   function validateName(value: string) {
     if (value && !NAME_REGEX.test(value)) {
-      setNameError("Only letters, spaces, hyphens, and apostrophes are allowed.");
+      setNameError(
+        "Only letters, spaces, hyphens, and apostrophes are allowed.",
+      );
     } else {
       setNameError("");
     }
@@ -200,7 +204,10 @@ export default function BecomeIntegratorSection() {
           <div className="grid gap-10 lg:grid-cols-[1fr_600px] lg:gap-[70px]">
             {/* Left column — header */}
             <div className="flex flex-col gap-8">
-              <motion.header variants={fadeUp} className="flex flex-col gap-2.5">
+              <motion.header
+                variants={fadeUp}
+                className="flex flex-col gap-2.5"
+              >
                 <h2 className="text-[26px] font-bold leading-tight text-[#0A4B6E]">
                   {BECOME_INTEGRATOR_HEADER.title}
                 </h2>
@@ -214,117 +221,130 @@ export default function BecomeIntegratorSection() {
                 container */}
             <motion.div variants={formReveal} className="relative">
               <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const data = new FormData(e.currentTarget);
-                const nameValue = (data.get("fullName") as string) ?? "";
-                if (nameValue && !NAME_REGEX.test(nameValue)) {
-                  setNameError("Only letters, spaces, hyphens, and apostrophes are allowed.");
-                  return;
-                }
-              }}
-              className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
-            >
-              <h3 className="text-center text-[20px] font-bold text-[#0A4B6E]">
-                {PARTNERSHIP_FORM_TITLE}
-              </h3>
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const data = new FormData(e.currentTarget);
+                  const nameValue = (data.get("fullName") as string) ?? "";
+                  if (nameValue && !NAME_REGEX.test(nameValue)) {
+                    setNameError(
+                      "Only letters, spaces, hyphens, and apostrophes are allowed.",
+                    );
+                    return;
+                  }
+                }}
+                className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
+              >
+                <h3 className="text-center text-[20px] font-bold text-[#0A4B6E]">
+                  {PARTNERSHIP_FORM_TITLE}
+                </h3>
 
-              {/* Name / email / company / country — two columns */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                {PARTNERSHIP_FIELDS.map((field) => (
-                  <label key={field.name} className="flex flex-col gap-1.5">
-                    <span className={labelClass}>
-                      {field.label}
-                      <RequiredMark />
-                    </span>
-                    <span className="relative">
-                      <Image
-                        src={field.icon}
-                        alt=""
-                        width={18}
-                        height={18}
-                        className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-auto -translate-y-1/2"
-                      />
-                      <input
-                        name={field.name}
-                        type={field.type}
-                        required
-                        placeholder={field.placeholder}
-                        onChange={field.name === "fullName" ? (e) => validateName(e.target.value) : undefined}
-                        onBlur={field.name === "fullName" ? (e) => validateName(e.target.value) : undefined}
-                        className={`pl-10 pr-3 h-11 w-full rounded-[10px] bg-[#EFF8FE] text-[14px] text-[#1D293D] outline-none ring-1 transition placeholder:text-[#8AB6D6] ${
-                          field.name === "fullName" && nameError
-                            ? "ring-[#E11D48]"
-                            : "ring-transparent focus:ring-[#9ED3F2]"
-                        }`}
-                      />
-                    </span>
-                    {field.name === "fullName" && nameError && (
-                      <span role="alert" className="text-[12px] leading-none text-[#E11D48]">
-                        {nameError}
+                {/* Name / email / company / country — two columns */}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {PARTNERSHIP_FIELDS.map((field) => (
+                    <label key={field.name} className="flex flex-col gap-1.5">
+                      <span className={labelClass}>
+                        {field.label}
+                        <RequiredMark />
                       </span>
-                    )}
-                  </label>
-                ))}
-              </div>
-
-              {/* Company type — full-width custom select */}
-              <label className="flex flex-col gap-1.5">
-                <span className={labelClass}>Company Type</span>
-                <CompanyTypeSelect />
-              </label>
-
-              {/* Focus areas — two-column checkbox pills */}
-              <fieldset className="flex flex-col gap-1.5">
-                <legend className={`${labelClass} mb-1.5`}>
-                  Experience / Focus Areas
-                </legend>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {FOCUS_AREAS.map((area) => (
-                    <label
-                      key={area}
-                      className="flex h-10 cursor-pointer items-center justify-between rounded-[10px] bg-[#EFF8FE] px-3.5"
-                    >
-                      <span className="text-[13px] font-medium text-[#1D293D]">
-                        {area}
+                      <span className="relative">
+                        <Image
+                          src={field.icon}
+                          alt=""
+                          width={18}
+                          height={18}
+                          className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-auto -translate-y-1/2"
+                        />
+                        <input
+                          name={field.name}
+                          type={field.type}
+                          required
+                          placeholder={field.placeholder}
+                          onChange={
+                            field.name === "fullName"
+                              ? (e) => validateName(e.target.value)
+                              : undefined
+                          }
+                          onBlur={
+                            field.name === "fullName"
+                              ? (e) => validateName(e.target.value)
+                              : undefined
+                          }
+                          className={`pl-10 pr-3 h-11 w-full rounded-[10px] bg-[#EFF8FE] text-[14px] text-[#1D293D] outline-none ring-1 transition placeholder:text-[#8AB6D6] ${
+                            field.name === "fullName" && nameError
+                              ? "ring-[#E11D48]"
+                              : "ring-transparent focus:ring-[#9ED3F2]"
+                          }`}
+                        />
                       </span>
-                      <input
-                        type="checkbox"
-                        name="focusAreas"
-                        value={area}
-                        className="peer sr-only"
-                      />
-                      <span className="flex size-5 items-center justify-center rounded-md bg-[#DCEFFB] text-transparent transition peer-checked:bg-[#14B8C4] peer-checked:text-white">
-                        <CheckIcon />
-                      </span>
+                      {field.name === "fullName" && nameError && (
+                        <span
+                          role="alert"
+                          className="text-[12px] leading-none text-[#E11D48]"
+                        >
+                          {nameError}
+                        </span>
+                      )}
                     </label>
                   ))}
                 </div>
-              </fieldset>
 
-              {/* Additional details */}
-              <label className="flex flex-col gap-1.5">
-                <span className={labelClass}>Additional Details</span>
-                <textarea
-                  name="additionalDetails"
-                  placeholder="Tell us about your company and how you'd like to collaborate..."
-                  className="min-h-[96px] w-full resize-none rounded-[10px] bg-[#EFF8FE] p-3.5 text-[14px] text-[#1D293D] outline-none ring-1 ring-transparent transition placeholder:text-[#8AB6D6] focus:ring-[#9ED3F2]"
-                />
-              </label>
+                {/* Company type — full-width custom select */}
+                <label className="flex flex-col gap-1.5">
+                  <span className={labelClass}>Company Type</span>
+                  <CompanyTypeSelect />
+                </label>
 
-              {/* Submit */}
-              {/* Figma: fill 21B1F1→A6C936, 1.24px gradient border
+                {/* Focus areas — two-column checkbox pills */}
+                <fieldset className="flex flex-col gap-1.5">
+                  <legend className={`${labelClass} mb-1.5`}>
+                    Experience / Focus Areas
+                  </legend>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {FOCUS_AREAS.map((area) => (
+                      <label
+                        key={area}
+                        className="flex h-10 cursor-pointer items-center justify-between rounded-[10px] bg-[#EFF8FE] px-3.5"
+                      >
+                        <span className="text-[13px] font-medium text-[#1D293D]">
+                          {area}
+                        </span>
+                        <input
+                          type="checkbox"
+                          name="focusAreas"
+                          value={area}
+                          className="peer sr-only"
+                        />
+                        <span className="flex size-5 items-center justify-center rounded-md bg-[#DCEFFB] text-transparent transition peer-checked:bg-[#14B8C4] peer-checked:text-white">
+                          <CheckIcon />
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                {/* Additional details */}
+                <label className="flex flex-col gap-1.5">
+                  <span className={labelClass}>Additional Details</span>
+                  <textarea
+                    name="additionalDetails"
+                    placeholder="Tell us about your company and how you'd like to collaborate..."
+                    className="min-h-[96px] w-full resize-none rounded-[10px] bg-[#EFF8FE] p-3.5 text-[14px] text-[#1D293D] outline-none ring-1 ring-transparent transition placeholder:text-[#8AB6D6] focus:ring-[#9ED3F2]"
+                  />
+                </label>
+
+                {/* Submit */}
+                {/* Figma: fill 21B1F1→A6C936, 1.24px gradient border
                   21B1F1→C5EB4C, drop shadow 0 6 42 rgba(38,124,153,0.1) */}
-              <button
-                type="submit"
-                className="mx-auto mt-1 h-11 rounded-full border-[1.24px] border-transparent px-7 text-[14px] font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.1)] transition [background:linear-gradient(90deg,#21B1F1_0%,#A6C936_100%)_padding-box,linear-gradient(90deg,#21B1F1_0%,#C5EB4C_100%)_border-box] hover:brightness-105"
-              >
-                Submit Partnership Enquiry
-              </button>
+                <button
+                  type="submit"
+                  className="mx-auto mt-1 h-11 rounded-full border-[1.24px] border-transparent px-7 text-[14px] font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.1)] transition [background:linear-gradient(90deg,#21B1F1_0%,#A6C936_100%)_padding-box,linear-gradient(90deg,#21B1F1_0%,#C5EB4C_100%)_border-box] hover:brightness-105"
+                >
+                  Submit Partnership Enquiry
+                </button>
 
-              <p className="mx-auto max-w-[320px] text-center text-[12px] leading-[17px] text-[#2B9CD8]">
-                {PARTNERSHIP_FORM_NOTE}
-              </p>
+                <p className="mx-auto max-w-[320px] text-center text-[12px] leading-[17px] text-[#2B9CD8]">
+                  {PARTNERSHIP_FORM_NOTE}
+                </p>
               </form>
             </motion.div>
           </div>

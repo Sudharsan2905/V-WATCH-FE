@@ -11,8 +11,8 @@ export const postConstructionContent = {
     heading: "V-Watch Aegis",
     subtitle:
       "Operational security, monitoring, and compliance unified into one platform that protects your facility long after construction ends.",
-    // ADD → /public/post-construction/hero.png  (full-bleed dark isometric scene)
-    bgImage: "/post-construction/hero.png",
+    // ADD → /public/post-construction/hero.webp  (full-bleed dark isometric scene)
+    bgImage: "/post-construction/hero.webp",
   },
 
   // ── "A unified platform for operational security and control" (SinglePlatform)
@@ -50,8 +50,8 @@ export const postConstructionContent = {
           "Real-time threat detection",
           "Incident monitoring and alerts",
         ],
-        // ADD → /public/post-construction/platform-overview/security-monitoring.png
-        image: "/post-construction/platform-overview/security-monitoring.png",
+        // ADD → /public/post-construction/platform-overview/security-monitoring.webp
+        image: "/post-construction/platform-overview/security-monitoring.webp",
       },
       {
         number: "02",
@@ -61,7 +61,7 @@ export const postConstructionContent = {
           "Access policy enforcement",
           "Continuous monitoring of entry and activity",
         ],
-        image: "/post-construction/platform-overview/identity-access.png",
+        image: "/post-construction/platform-overview/identity-access.webp",
       },
       {
         number: "03",
@@ -71,7 +71,7 @@ export const postConstructionContent = {
           "Infrastructure protection",
           "Integration with facility systems",
         ],
-        image: "/post-construction/platform-overview/ot-infrastructure.png",
+        image: "/post-construction/platform-overview/ot-infrastructure.webp",
       },
       {
         number: "04",
@@ -81,7 +81,7 @@ export const postConstructionContent = {
           "Audit and risk reporting",
           "ISO 27001 / IEC alignment support",
         ],
-        image: "/post-construction/platform-overview/compliance-risk.png",
+        image: "/post-construction/platform-overview/compliance-risk.webp",
       },
       {
         number: "05",
@@ -91,7 +91,7 @@ export const postConstructionContent = {
           "Coordinated response workflows",
           "Escalation and resolution tracking",
         ],
-        image: "/post-construction/platform-overview/incident-response.png",
+        image: "/post-construction/platform-overview/incident-response.webp",
       },
       {
         number: "06",
@@ -101,7 +101,7 @@ export const postConstructionContent = {
           "Incident investigation support",
           "Full operational traceability",
         ],
-        image: "/post-construction/platform-overview/audit-forensics.png",
+        image: "/post-construction/platform-overview/audit-forensics.webp",
       },
     ],
   },
@@ -114,7 +114,7 @@ export const postConstructionContent = {
         title: "Data Centers",
         description:
           "Ensure maximum uptime, strict access control, and continuous monitoring for mission-critical infrastructure.",
-        image: "/post-construction/critical-environments/data-centers.jpg",
+        image: "/post-construction/critical-environments/data-centers.webp",
       },
       {
         title: "Industrial & Energy Facilities",
@@ -140,7 +140,7 @@ export const postConstructionContent = {
         title: "Infrastructure & Utilities",
         description:
           "Ensure long-term operational continuity across large-scale infrastructure networks.",
-        image: "/post-construction/critical-environments/infrastructure-utilities.png",
+        image: "/post-construction/critical-environments/infrastructure-utilities.webp",
       },
     ],
   },

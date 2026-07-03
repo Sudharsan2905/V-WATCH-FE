@@ -38,19 +38,19 @@ const TOP_CARDS: EnvCard[] = [
     title: "Construction & Infrastructure",
     description:
       "Manage large-scale developments, civil works, and infrastructure projects with full visibility and coordination.",
-    image: "/pre-construction/complex-environments/Construction_Infrastructure_image.png",
+    image: "/pre-construction/complex-environments/Construction_Infrastructure_image.webp",
   },
   {
     title: "Data Centre Construction",
     description:
       "Ensure high-security access control, precise coordination, and strict compliance for mission-critical builds.",
-    image: "/pre-construction/complex-environments/Data_Centre_Construction_image.png",
+    image: "/pre-construction/complex-environments/Data_Centre_Construction_image.webp",
   },
   {
     title: "Industrial & Energy Projects",
     description:
       "Handle complex construction environments with high safety requirements and operational risk.",
-    image: "/pre-construction/complex-environments/Industrial_EnergyProjects_image.png",
+    image: "/pre-construction/complex-environments/Industrial_EnergyProjects_image.webp",
   },
 ];
 
@@ -59,7 +59,7 @@ const BOTTOM_CARDS: EnvCard[] = [
     title: "Commercial Developments",
     description:
       "Coordinate multi-stakeholder projects across office, retail, and mixed-use developments.",
-    image: "/pre-construction/complex-environments/Commercial_Developments_image.jpg",
+    image: "/pre-construction/complex-environments/Commercial_Developments_image.webp",
   },
   {
     title: "Residential Projects",
@@ -67,7 +67,7 @@ const BOTTOM_CARDS: EnvCard[] = [
       "Manage multi-phase developments with better workforce tracking and operational efficiency.",
     // No dedicated residential photo in /public yet — reusing the construction
     // shot as the closest stand-in. Swap for a residential image when available.
-    image: "/pre-construction/complex-environments/Residential_Projects_image.jpg",
+    image: "/pre-construction/complex-environments/Residential_Projects_image.webp",
   },
 ];
 

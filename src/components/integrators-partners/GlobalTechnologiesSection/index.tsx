@@ -30,9 +30,16 @@ function LogoCard({ src }: { src: string }) {
   );
 }
 
-function MarqueeRow({ logos, direction }: { logos: string[]; direction: "left" | "right" }) {
+function MarqueeRow({
+  logos,
+  direction,
+}: {
+  logos: string[];
+  direction: "left" | "right";
+}) {
   const doubled = [...logos, ...logos];
-  const animClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
+  const animClass =
+    direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
   return (
     <div className="flex overflow-hidden">
       <div className={`flex gap-5 ${animClass}`}>

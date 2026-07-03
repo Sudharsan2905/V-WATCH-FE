@@ -10,7 +10,7 @@ export const constructionContent = {
     heading: "Take Control of Complex Construction Sites",
     subtitle:
       "Manage workers, contractors, compliance, and site operations in real time — with complete visibility across every phase of your project.",
-    bgImage: "/industries/construction/construction.png"
+    bgImage: "/industries/construction/construction.webp"
   },
   challenges: {
     heading: "Construction sites are complex and difficult to control",

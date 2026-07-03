@@ -41,7 +41,7 @@ export default function IndustryHubPage() {
           // (not min-h:vh) keeps the dark buffer consistent across screen sizes.
           backgroundColor: "#19213d",
           backgroundImage:
-            "linear-gradient(180deg, rgba(25,33,61,0) 78%, #19213d 92%), url('/industry/explore-adaptable-bg.png')",
+            "linear-gradient(180deg, rgba(25,33,61,0) 78%, #19213d 92%), url('/industry/explore-adaptable-bg.webp')",
           backgroundSize: "cover, cover",
           backgroundPosition: "center top, center top",
           backgroundRepeat: "no-repeat, no-repeat",
