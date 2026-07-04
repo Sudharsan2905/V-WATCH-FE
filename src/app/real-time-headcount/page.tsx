@@ -3,7 +3,6 @@ import PageHero from "@/components/common/PageHero";
 import WhenEmergencyHappens from "@/components/real-time-headcount/WhenEmergencyHappens";
 import HeadcountFeatureGrid from "@/components/real-time-headcount/HeadcountFeatureGrid";
 import PoweredByData from "@/components/real-time-headcount/PoweredByData";
-import UsedInEnvironments from "@/components/real-time-headcount/UsedInEnvironments";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 

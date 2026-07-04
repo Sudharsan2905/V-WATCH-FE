@@ -344,7 +344,6 @@ export default function OnePlatform({
                     alt=""
                     width={548}
                     height={330}
-                    unoptimized
                     className="relative z-10 h-auto w-full max-w-[520px]"
                   />
                 </motion.div>
@@ -416,7 +415,6 @@ export default function OnePlatform({
                     alt=""
                     width={703}
                     height={510}
-                    unoptimized
                     className="h-auto w-full rounded-[20px]"
                   />
                 </motion.div>

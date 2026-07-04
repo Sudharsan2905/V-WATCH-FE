@@ -3,7 +3,6 @@ import Navbar from "@/components/layout/Navbar";
 import HeroSection from "@/components/visitor-management/HeroSection";
 import SmarterWay from "@/components/visitor-management/SmarterWay";
 import HowItWorks from "@/components/visitor-management/HowItWorks";
-import TrustedBy from "@/components/visitor-management/TrustedBy";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 

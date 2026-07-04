@@ -15,7 +15,7 @@ export const commercialFacilitiesContent = {
     heading: "Run Smarter, More Secure Facilities With Full Visibility",
     subtitle:
       "Manage access, operations, and workforce across your buildings in real time improving efficiency, strengthening security, and ensuring nothing is overlooked.",
-    bgImage: "/industries/commercial/commercial-bg.png",
+    bgImage: "/industries/commercial/commercial-bg.webp",
   },
   challenges: {
     heading: "Managing facilities shouldn't be this fragmented",
@@ -115,7 +115,7 @@ export const commercialFacilitiesContent = {
         title: "Maintain a clear, real-time overview of operations",
       },
     ],
-    platformImage: "/industries/commercial/facility/office.png",
+    platformImage: "/industries/commercial/facility/office.webp",
   },
   whyChoose: {
     heading: "Why facility managers choose V-Watch Ai",
@@ -124,7 +124,8 @@ export const commercialFacilitiesContent = {
     cardTitle: "V-Watch AI connects them all.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
     cardImage: "/industries/construction/v-watch-ai/commerical.webp",
-    cardContent: "This allows you to move from fragmented management to fully connected operations. ",
+    cardContent:
+      "This allows you to move from fragmented management to fully connected operations. ",
     items: [
       {
         icon: "/industries/commercial/v-watch-ai/access.svg",
@@ -190,8 +191,14 @@ export const commercialFacilitiesContent = {
       },
     ],
     footerPanels: [
-      { image: "/industries/industrial&energy/single-buildings.png", label: "Single Buildings" },
-      { image: "/industries/industrial&energy/multi-site-portfolio.png", label: "Multi-site Portfolio" },
+      {
+        image: "/industries/industrial&energy/single-buildings.png",
+        label: "Single Buildings",
+      },
+      {
+        image: "/industries/industrial&energy/multi-site-portfolio.png",
+        label: "Multi-site Portfolio",
+      },
     ],
     footerKeywords: ["Visibility", "Control", "Efficiency"],
   },
@@ -260,7 +267,12 @@ export const commercialFacilitiesContent = {
     linkColumns: [
       {
         heading: "Platform",
-        links: ["DVA Access", "RTLS Tracking", "SMS Workflow", "HRMS Management"],
+        links: [
+          "DVA Access",
+          "RTLS Tracking",
+          "SMS Workflow",
+          "HRMS Management",
+        ],
       },
       {
         heading: "Industries",

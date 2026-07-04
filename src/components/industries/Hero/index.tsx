@@ -6,14 +6,6 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: EASE },
-  },
-};
 
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
@@ -56,7 +48,6 @@ export default function IndustriesHero({
   hero = {},
 }: Readonly<{ hero?: HeroContent }> = {}) {
   const {
-    badge = "What V-Watch Ai",
     heading = "Built for Any Environment That Demands Control",
     subtitle = "V-Watch Ai is designed for complex, high-activity environments where visibility, safety, and operational control are critical from construction sites to data centers and beyond.",
     bgImage = "/industry/hero-bg.png",
@@ -65,18 +56,16 @@ export default function IndustriesHero({
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative min-h-[650px] overflow-hidden bg-[#030515] lg:min-h-[96vh]">
-        {/* Background image */}
-        <motion.div
-          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[828px] overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: EASE }}
-        >
+        {/* Background image — rendered statically (no opacity fade) so the LCP
+            paints on the first frame instead of waiting for JS hydration; the
+            fade was defeating `priority` and inflating LCP. */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[828px] overflow-hidden">
           <Image
             src={bgImage}
             alt=""
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover sm:object-fill"
           />
@@ -100,7 +89,7 @@ export default function IndustriesHero({
               </mask>
             </defs>
           </svg>
-        </motion.div>
+        </div>
 
         {/* White wave curve — section-level so it is never inside the fading bg div
             and cannot flash. Mirrors the Industry Hub hero pattern. */}

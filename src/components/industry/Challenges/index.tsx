@@ -11,7 +11,6 @@ const CARDS_START = 0.25;
 const CARD_STAGGER = 0.15;
 const TOGGLE_DELAY = 1.05;
 const RINGS_DELAY = 1.15;
-const CALLOUT_DELAY = 1.25;
 const RAILS_DELAY = 1.5;
 
 // `custom` is the per-element delay in seconds.
@@ -329,45 +328,6 @@ function ToggleRings({ className }: { className?: string }) {
   );
 }
 
-const CALLOUT_WIDTH = 376;
-
-function CalloutCard({ className }: { className?: string }) {
-  const mobileScale = Math.min(1, 270 / CALLOUT_WIDTH);
-  const mobileMargin = -(CALLOUT_WIDTH * (1 - mobileScale)) / 2;
-
-  return (
-    <div
-      className={`relative h-[111px] origin-center scale-(--pill-scale) mx-(--pill-mx) sm:mx-0 sm:scale-100 ${className ?? ""}`}
-      style={
-        {
-          width: CALLOUT_WIDTH,
-          "--pill-scale": mobileScale,
-          "--pill-mx": `${mobileMargin}px`,
-        } as Record<string, string | number>
-      }
-    >
-      <Image
-        src="/industry/challenges/callout-card.svg"
-        alt=""
-        aria-hidden="true"
-        width={876}
-        height={611}
-        unoptimized
-        className="pointer-events-none absolute"
-        style={{ left: -282, top: -236, maxWidth: "none" }}
-      />
-
-      <Image
-        src="/industry/callout-logo.svg"
-        alt=""
-        width={55}
-        height={95}
-        unoptimized
-        className="absolute bottom-1.5 left-4 drop-shadow-[0_10px_22px_rgba(120,170,205,0.35)]"
-      />
-    </div>
-  );
-}
 
 export default function Challenges() {
   return (

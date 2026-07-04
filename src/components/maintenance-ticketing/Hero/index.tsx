@@ -6,15 +6,6 @@ import BookADemo from "@/components/common/BookADemo";
 
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
-
 // Each heading line slides up from below its clipping parent — same as
 // integrators-partners Hero. The overflow-hidden wrapper is on the outer span.
 const lineReveal: Variants = {

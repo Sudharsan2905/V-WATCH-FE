@@ -522,7 +522,6 @@ export default function SinglePlatform({
               width={708}
               height={528}
               priority
-              unoptimized
               sizes="(max-width: 1024px) 100vw, 70vw"
               className="h-auto w-full"
               style={{

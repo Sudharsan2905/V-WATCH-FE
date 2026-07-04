@@ -124,7 +124,6 @@ export default function PlatformVisibility() {
               width={593}
               height={453}
               className="h-[453px] max-w-[593px] object-contain"
-              quality={100}
             />
           </motion.div>
         </div>

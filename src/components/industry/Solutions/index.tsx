@@ -1,6 +1,6 @@
 "use client";
 
-import ViewAllUseCases from "@/components/common/ViewAllUseCases";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -75,7 +75,7 @@ const CARDS: Card[] = [
   {
     title: "Maintenance and task management",
     desc: "Streamline task assignment, tracking, and completion across teams.",
-    img: "/industries/industrial&energy/critical-usecase/maintenance.svg",
+    img: "/industries/industrial&energy/critical-usecase/maintenances.png",
     descColor: "#D4F0FF",
     descWeight: 500,
   },

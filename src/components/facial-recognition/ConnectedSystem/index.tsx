@@ -33,11 +33,26 @@ const scaleIn: Variants = {
 };
 
 const CHIPS = [
-  { icon: "/contractor-complaince/icons/workforce.svg", label: "Workforce tracking and attendance" },
-  { icon: "/contractor-complaince/icons/safety.svg", label: "Safety monitoring and compliance" },
-  { icon: "/contractor-complaince/icons/restrict.svg", label: "Zone-based access restrictions" },
-  { icon: "/contractor-complaince/icons/geofencing.svg", label: "Geofencing and restricted zones" },
-  { icon: "/contractor-complaince/icons/powerbi.svg", label: "Power BI dashboards and reporting" },
+  {
+    icon: "/contractor-complaince/icons/workforce.svg",
+    label: "Workforce tracking and attendance",
+  },
+  {
+    icon: "/contractor-complaince/icons/safety.svg",
+    label: "Safety monitoring and compliance",
+  },
+  {
+    icon: "/contractor-complaince/icons/restrict.svg",
+    label: "Zone-based access restrictions",
+  },
+  {
+    icon: "/contractor-complaince/icons/geofencing.svg",
+    label: "Geofencing and restricted zones",
+  },
+  {
+    icon: "/contractor-complaince/icons/powerbi.svg",
+    label: "Power BI dashboards and reporting",
+  },
 ];
 
 function IconBox({ icon }: { icon: string }) {
@@ -45,10 +60,17 @@ function IconBox({ icon }: { icon: string }) {
     <div
       className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white"
       style={{
-        boxShadow: "0 4px 20px rgba(10,78,110,0.10), 0 1px 4px rgba(10,78,110,0.06)",
+        boxShadow:
+          "0 4px 20px rgba(10,78,110,0.10), 0 1px 4px rgba(10,78,110,0.06)",
       }}
     >
-      <Image src={icon} alt="" width={34} height={34} className="object-contain" />
+      <Image
+        src={icon}
+        alt=""
+        width={34}
+        height={34}
+        className="object-contain"
+      />
     </div>
   );
 }
@@ -72,7 +94,10 @@ function Chip({
     >
       <div
         className="rounded-[14px] bg-white px-5 py-3"
-        style={{ boxShadow: "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)" }}
+        style={{
+          boxShadow:
+            "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)",
+        }}
       >
         <p className="text-[13px] font-semibold text-[#0A3D62] sm:text-[14px]">
           {label}
@@ -83,7 +108,15 @@ function Chip({
   );
 }
 
-function BottomChip({ icon, label, delay }: { icon: string; label: string; delay: number }) {
+function BottomChip({
+  icon,
+  label,
+  delay,
+}: {
+  icon: string;
+  label: string;
+  delay: number;
+}) {
   return (
     <motion.div
       variants={fadeUp}
@@ -93,7 +126,10 @@ function BottomChip({ icon, label, delay }: { icon: string; label: string; delay
       <IconBox icon={icon} />
       <div
         className="rounded-[14px] bg-white px-6 py-3"
-        style={{ boxShadow: "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)" }}
+        style={{
+          boxShadow:
+            "0 4px 20px rgba(10,78,110,0.08), 0 1px 3px rgba(10,78,110,0.04)",
+        }}
       >
         <p className="text-[13px] font-semibold text-[#0A3D62] sm:text-[14px]">
           {label}
@@ -108,7 +144,9 @@ export default function ConnectedSystem() {
     <MotionConfig reducedMotion="user">
       <section
         className="overflow-x-hidden px-6 py-10 lg:px-15 lg:py-16"
-        style={{ background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)" }}
+        style={{
+          background: "linear-gradient(to bottom, #EDF7FF 75%, #ffffff 100%)",
+        }}
       >
         <div className="mx-auto max-w-[1320px]">
           <motion.div

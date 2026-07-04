@@ -11,7 +11,10 @@ const FOOTER_COLUMNS = [
     heading: "Platform",
     links: ["Dashboard", "BI Reporting", "System Integrators"],
   },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
+  {
+    heading: "Industries",
+    links: ["Construction", "Industrial", "Commercial"],
+  },
   { heading: "Company", links: ["About Us", "Contact", "Career"] },
 ];
 

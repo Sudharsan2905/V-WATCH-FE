@@ -97,7 +97,6 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
         alt=""
         width={260}
         height={260}
-        unoptimized
         className="size-[260px] object-contain"
         style={transform ? { transform } : undefined}
       />

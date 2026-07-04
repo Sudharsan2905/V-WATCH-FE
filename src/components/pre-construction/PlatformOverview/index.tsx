@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -41,7 +41,7 @@ const CAPABILITIES: Capability[] = [
     number: "01",
     title: "Workforce & Site Management",
     image:
-      "/pre-construction/platform-overview/Workforce_Site_Management_image.svg",
+      "/pre-construction/platform-overview/Workforce_Site_Management_image.webp",
     points: [
       "Person management and profiles",
       "Access and attendance tracking",
@@ -53,7 +53,7 @@ const CAPABILITIES: Capability[] = [
     number: "02",
     title: "Operations & Workflow Control",
     image:
-      "/pre-construction/platform-overview/Operations_Workflow_Control_image.svg",
+      "/pre-construction/platform-overview/Operations_Workflow_Control_image.webp",
     points: [
       "Task and project management",
       "Work program tracking",
@@ -65,7 +65,7 @@ const CAPABILITIES: Capability[] = [
     number: "03",
     title: "Vehicle, Fleet & Logistics",
     image:
-      "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.svg",
+      "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.webp",
     points: [
       "Vehicle tracking and reporting",
       "Delivery and logistics coordination",
@@ -77,7 +77,7 @@ const CAPABILITIES: Capability[] = [
     number: "04",
     title: "Assets & Quality Management",
     image:
-      "/pre-construction/platform-overview/Assets_Quality_Management_image.svg",
+      "/pre-construction/platform-overview/Assets_Quality_Management_image.webp",
     points: [
       "Asset tracking and utilisation",
       "Audit and quality assurance",
@@ -88,7 +88,7 @@ const CAPABILITIES: Capability[] = [
     number: "05",
     title: "Safety & Compliance",
     image:
-      "/pre-construction/platform-overview/Safety_Compliance_image.svg",
+      "/pre-construction/platform-overview/Safety_Compliance_image.webp",
     points: [
       "Permit-to-work (PTW)",
       "LOTO and safety protocols",
@@ -100,7 +100,7 @@ const CAPABILITIES: Capability[] = [
     number: "06",
     title: "Productivity & Intelligence",
     image:
-      "/pre-construction/platform-overview/Productivity_Intelligence_image.svg",
+      "/pre-construction/platform-overview/Productivity_Intelligence_image.webp",
     points: [
       "Manhour tracking",
       "Time-lapse and progress tracking",
@@ -353,7 +353,6 @@ export default function PlatformOverview({
                             src={activeCap.image ?? CAP_IMAGE}
                             alt={activeCap.title}
                             fill
-                            unoptimized
                             className="object-cover"
                             sizes="100vw"
                           />
@@ -417,7 +416,6 @@ export default function PlatformOverview({
                         src={activeCap.image ?? CAP_IMAGE}
                         alt={activeCap.title}
                         fill
-                        unoptimized
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 55vw"
                       />

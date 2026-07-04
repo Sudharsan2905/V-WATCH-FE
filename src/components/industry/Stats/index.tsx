@@ -64,7 +64,7 @@ export default function Stats() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
-        className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[24px] bg-[#0a3f5c] px-6 py-10 sm:rounded-none sm:bg-transparent sm:bg-[url(/industry/stats-bg.png)] sm:bg-[length:100%_100%] sm:bg-center sm:bg-no-repeat sm:px-8 sm:py-12 lg:px-20 lg:py-16"
+        className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[24px] bg-[#0a3f5c] px-6 py-10 sm:rounded-none sm:bg-transparent sm:bg-[url(/industry/stats-bg.webp)] sm:bg-[length:100%_100%] sm:bg-center sm:bg-no-repeat sm:px-8 sm:py-12 lg:px-20 lg:py-16"
       >
         <motion.div
           variants={fadeUp}

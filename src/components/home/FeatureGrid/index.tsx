@@ -15,17 +15,6 @@ const wipeTop: Variants = {
   }),
 };
 
-// Soft fade + scale, used for the circuit visual "loading" in.
-// `custom` is the per-element delay in seconds.
-const loadIn: Variants = {
-  hidden: { opacity: 0, scale: 0.92 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
-
 const FEATURES: Feature[] = [
   {
     icon: "/home/icons/people.svg",

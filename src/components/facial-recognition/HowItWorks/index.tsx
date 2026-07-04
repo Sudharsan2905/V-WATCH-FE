@@ -6,15 +6,6 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const wipeDown: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
-  show: (delay = 0) => ({
-    clipPath: "inset(0 0 0% 0)",
-    opacity: 1,
-    transition: { delay, duration: 0.6, ease: EASE },
-  }),
-};
-
 const slideLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
   show: (delay = 0) => ({

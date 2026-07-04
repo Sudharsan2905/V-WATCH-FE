@@ -212,7 +212,7 @@ function AccordionItem({
   module: (typeof MODULES)[number];
   isOpen: boolean;
   onToggle: () => void;
-  isLast: boolean;
+  isLast?: boolean;
 }) {
   return (
     <div>

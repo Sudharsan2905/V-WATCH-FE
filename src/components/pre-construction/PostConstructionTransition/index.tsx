@@ -66,27 +66,27 @@ const DEFAULT_FEATURES: Feature[] = [
   {
     icon: `${ICON_BASE}/worker-identities.png`,
     label: "Worker identities",
-    image: `${SCENE_BASE}/worker-identities.svg`,
+    image: `${SCENE_BASE}/worker-identities.webp`,
   },
   {
     icon: `${ICON_BASE}/asset-registry.png`,
     label: "Asset registry",
-    image: `${SCENE_BASE}/asset-registry.svg`,
+    image: `${SCENE_BASE}/asset-registry.webp`,
   },
   {
     icon: `${ICON_BASE}/vendor-records.png`,
     label: "Vendor records",
-    image: `${SCENE_BASE}/vendor-records.svg`,
+    image: `${SCENE_BASE}/vendor-records.webp`,
   },
   {
     icon: `${ICON_BASE}/as-built-data.png`,
     label: "As-built data",
-    image: `${SCENE_BASE}/as-built-data.svg`,
+    image: `${SCENE_BASE}/as-built-data.webp`,
   },
   {
     icon: `${ICON_BASE}/access-security.png`,
     label: "Access and security policies",
-    image: `${SCENE_BASE}/access-security.svg`,
+    image: `${SCENE_BASE}/access-security.webp`,
   },
 ];
 
@@ -163,7 +163,6 @@ function FeatureCard({
             src={image}
             alt={label}
             fill
-            unoptimized
             sizes="(max-width: 1024px) 40vw, 200px"
             className="object-contain object-bottom mix-blend-multiply"
             style={{ transform: "scale(0.9) translateX(0px) translateY(10px)" }}
@@ -184,7 +183,7 @@ export default function PostConstructionTransition({
     panelTitle = "With V-Watch AI, everything transitions seamlessly into post-construction operations",
     ctaLabel,
     ctaHref,
-    panelImage = "/pre-construction/post-construction/transition-tower.svg",
+    panelImage = "/pre-construction/post-construction/transition-tower.webp",
   } = content;
 
   // Toggle target + label: from the post-construction page link back to
@@ -311,7 +310,6 @@ export default function PostConstructionTransition({
                     src={panelImage}
                     alt="Post-construction operations tower"
                     fill
-                    unoptimized
                     sizes="(max-width: 1024px) 70vw, 460px"
                     className="object-cover object-center"
                     style={{ transform: "scale(1.1)" }}

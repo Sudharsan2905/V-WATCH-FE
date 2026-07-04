@@ -6,15 +6,6 @@ import BookADemo from "@/components/common/BookADemo";
 
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
-
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
   show: (delay: number) => ({
@@ -63,22 +54,21 @@ export default function IndustryHero() {
     <MotionConfig reducedMotion="user">
       <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
         {/* Background: industrial night scene, full-bleed cover (no distortion at
-            any width — replaces the old object-fill stretch). */}
-        <motion.div
-          className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: HERO_EASE }}
-        >
+            any width — replaces the old object-fill stretch).
+            Rendered statically (no opacity fade) so the LCP element paints on the
+            first frame instead of waiting for JS hydration + a fade-in — the fade
+            was defeating `priority` and inflating LCP. */}
+        <div className="pointer-events-none absolute inset-0">
           <Image
             src="/industry/hero-bg.webp"
             alt=""
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover object-center"
           />
-        </motion.div>
+        </div>
 
         {/* Glow circles — desktop only, clipped to hero bounds.
             Positions derived from Figma container+inset values converted to direct px coords. */}

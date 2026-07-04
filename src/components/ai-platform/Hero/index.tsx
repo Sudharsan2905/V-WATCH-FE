@@ -40,22 +40,21 @@ export default function AIPlatformHero() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[755px]">
-        {/* Background: dark city night scene */}
-        <motion.div
-          className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: HERO_EASE }}
-        >
+        {/* Background: dark city night scene.
+            Rendered statically (no opacity/scale fade) so the LCP element paints
+            on the first frame instead of waiting for JS hydration + a fade-in —
+            the fade was defeating `priority` and inflating LCP. */}
+        <div className="pointer-events-none absolute inset-0">
           <Image
             src="/ai-platform/ai-platform-hero.png"
             alt=""
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover object-center"
           />
-        </motion.div>
+        </div>
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
@@ -64,7 +63,7 @@ export default function AIPlatformHero() {
             initial="hidden"
             animate="show"
           >
-            {/* Heading */}
+            {/* Heading */} 
             <h1 className="text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
               <span className="block overflow-hidden">
                 <motion.span custom={0.3} variants={lineReveal} className="block">

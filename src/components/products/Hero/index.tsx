@@ -17,14 +17,6 @@ const CURVE_GLOWS = [
   { w: 1.5, o: 1 },
 ];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
 
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },

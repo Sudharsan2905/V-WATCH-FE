@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { fadeUp, wipeTop, zoomIn, staggerContainer, viewportReveal } from "../anim";
+import { fadeUp, zoomIn, staggerContainer, viewportReveal } from "../anim";
 
 // The center illustration is composed at a fixed 407×455 design size with
 // absolutely-positioned px children, so it can't reflow. To show it on every

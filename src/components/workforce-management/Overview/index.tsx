@@ -12,11 +12,6 @@ import {
 // ─── Decorative blade fan ─────────────────────────────────────────────────────
 // Identical flat 35×555 radial-glow fins behind the dashboard, masked top/bottom.
 const BLADE_COUNT = 40; // plenty to span any desktop width; clipped by the section
-const BLADE_GRADIENT =
-  "radial-gradient(101.76% 69.46% at 50% 50%, #F5FBFF 36.61%, rgba(255,255,255,0) 67.79%)";
-// Blue wash behind the fan so the translucent white fins read blue-tinted.
-const BLADE_BLUE_WASH =
-  "radial-gradient(70% 50% at 50% 50%, rgba(91,184,245,0.40) 0%, rgba(91,184,245,0.12) 45%, rgba(91,184,245,0.00) 75%)";
 
 function BladeFan() {
   const center = (BLADE_COUNT - 1) / 2;
