@@ -65,7 +65,6 @@ const STEPS: {
 
 const AUTO_ADVANCE_MS = 3500;
 // Container height in px (matches lg:h-110 = 520px)
-const PANEL_H = 440;
 
 /** Absolute Y position of an element inside a scroll container */
 function getOffsetTop(el: HTMLElement, container: HTMLElement): number {

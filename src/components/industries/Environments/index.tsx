@@ -24,14 +24,6 @@ const fadeUp: Variants = {
   }),
 };
 
-const wipeUp: Variants = {
-  hidden: { clipPath: "inset(100% 0 0 0)" },
-  show: (delay = 0) => ({
-    clipPath: "inset(0% 0 0 0)",
-    transition: { delay, duration: 0.75, ease: EASE },
-  }),
-};
-
 const CARDS_START  = 0.5;
 const CARD_STAGGER = 0.12;
 
@@ -110,7 +102,6 @@ function EnvCard({
             alt=""
             aria-hidden
             fill
-            unoptimized
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
             className={`object-cover transition-opacity duration-300 ease-out group-hover:opacity-100 ${selected ? "opacity-100" : "opacity-0"}`}
           />

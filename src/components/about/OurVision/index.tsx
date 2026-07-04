@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { fadeUp, fadeIn, wipeTop, zoomIn, staggerContainer, viewportReveal, EASE } from "../anim";
+import { fadeUp, wipeTop, zoomIn, staggerContainer, viewportReveal, EASE } from "../anim";
 
 const slideFromLeft: import("motion/react").Variants = {
   hidden: { opacity: 0, x: -60 },

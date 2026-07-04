@@ -2,7 +2,6 @@ import Navbar from "@/components/layout/Navbar";
 import PageHero from "@/components/common/PageHero";
 import BiometricVerification from "@/components/facial-recognition/BiometricVerification";
 import HowItWorksNew from "@/components/facial-recognition/HowItWorksNew";
-import TrustedBy from "@/components/visitor-management/TrustedBy";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 

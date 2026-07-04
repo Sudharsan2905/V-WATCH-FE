@@ -92,10 +92,6 @@ const MODULES = [
 
 // Blade fan decoration
 const BLADE_COUNT = 40;
-const BLADE_GRADIENT =
-  "radial-gradient(101.76% 69.46% at 50% 50%, rgba(245,251,255,0.40) 36.61%, rgba(255,255,255,0.00) 67.79%)";
-const BLADE_BLUE_WASH =
-  "radial-gradient(70% 50% at 50% 50%, rgba(91,184,245,0.40) 0%, rgba(91,184,245,0.12) 45%, rgba(91,184,245,0.00) 75%)";
 
 function BladeFan() {
   const center = (BLADE_COUNT - 1) / 2;

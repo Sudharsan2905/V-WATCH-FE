@@ -24,16 +24,6 @@ const fadeUp: Variants = {
   }),
 };
 
-// Card reveal — rise + subtle scale so shadows stay intact.
-const cardIn: Variants = {
-  hidden: { opacity: 0, y: 22, scale: 0.96 },
-  show: (d = 0) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: EASE, delay: d },
-  }),
-};
 
 // Soft scale + fade for the focal render on the right.
 const imageIn: Variants = {
@@ -46,15 +36,6 @@ const imageIn: Variants = {
 };
 
 // The decorative plus-glow that sits in the cross-gap between the four cards.
-// Settles to 50% opacity to match the Figma (Union, opacity 50%).
-const plusIn: Variants = {
-  hidden: { opacity: 0, scale: 0.6 },
-  show: (d = 0) => ({
-    opacity: 0.5,
-    scale: 1,
-    transition: { duration: 0.7, ease: EASE, delay: d },
-  }),
-};
 
 type Card = { text: string; icon: string };
 

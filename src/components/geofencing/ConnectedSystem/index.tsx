@@ -48,7 +48,7 @@ const rowIn: Variants = {
 
 // ─── The geofencing illustration ─────────────────────────────────────────────
 // Geofencing zone map → public/geofencing/connected-system.jpg
-const CONNECTED_SYSTEM_MAP = "/geofencing/connected-system.jpg";
+const CONNECTED_SYSTEM_MAP = "/geofencing/connected-system.webp";
 
 // ─── Feature data ────────────────────────────────────────────────────────────
 type Feature = {
@@ -185,7 +185,6 @@ export default function ConnectedSystem({
                 src={mapImage}
                 alt="Isometric site map with restricted, controlled and high-risk zones outlined"
                 fill
-                unoptimized
                 sizes="(max-width: 1024px) 100vw, 65vw"
                 className="object-cover"
               />

@@ -14,7 +14,7 @@ export const industrialEnergyContent = {
     heading: "Operate Safely in High-Risk Environments — With Full Visibility ",
     subtitle:
       "Monitor people, movement, and operations in real time across industrial sites — reducing risk, improving response time, and always ensuring strict compliance.",
-    bgImage: "/industries/industrial&energy/industrial.png",
+    bgImage: "/industries/industrial&energy/industrial.webp",
   },
   challenges: {
     heading: "In high-risk environments, visibility is not optional",
@@ -113,7 +113,7 @@ export const industrialEnergyContent = {
         title: "Maintain compliance with accurate, real-time data",
       },
     ],
-    platformImage: "/industries/industrial&energy/real-time/factory-image.png",
+    platformImage: "/industries/industrial&energy/real-time/factory-image.webp",
   },
   whyChoose: {
     heading: "Why industrial and energy operators choose V-Watch AI",

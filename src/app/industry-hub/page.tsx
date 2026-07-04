@@ -52,7 +52,6 @@ export default function IndustryHubPage() {
       <Solutions />
       <Stats />
       <Footer
-       
         ctaTitle="Find the right solution for your environment"
         ctaText="Explore how V-Watch Ai can help you improve visibility, strengthen compliance, and take full control of your operations."
         linkColumns={INDUSTRY_COLUMNS}

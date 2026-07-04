@@ -47,10 +47,10 @@ export const constructionContent = {
     calloutIcon: "/industries/construction/sites/grow-light.svg",
     // Order: [top-left aerial, worker/hologram, lower-left, crane].
     images: [
-      "/industries/construction/sites/multiple-moving-part-1.svg",
-      "/industries/construction/sites/mutiple-moving-part-2.svg",
-      "/industries/construction/sites/mutiple-moving-part-3.svg",
-      "/industries/construction/sites/mutiple-moving-part-4.svg",
+      "/industries/construction/sites/multiple-moving-part-1.webp",
+      "/industries/construction/sites/mutiple-moving-part-2.webp",
+      "/industries/construction/sites/mutiple-moving-part-3.webp",
+      "/industries/construction/sites/mutiple-moving-part-4.webp",
     ],
   },
   onePlatform: {

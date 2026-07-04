@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, MotionConfig, type Variants } from "motion/react";
 import BookADemo from "@/components/common/BookADemo";
 
@@ -11,14 +10,6 @@ import BookADemo from "@/components/common/BookADemo";
 
 const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
 
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },

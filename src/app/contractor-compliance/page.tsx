@@ -1,7 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
-import TrustedBy from "@/components/visitor-management/TrustedBy";
 import HowItWorks from "@/components/contractor-compliance/HowItWorks";
 import ConnectedSystem from "@/components/contractor-compliance/ConnectedSystem";
 import ComplianceControl from "@/components/contractor-compliance/ComplianceControl";

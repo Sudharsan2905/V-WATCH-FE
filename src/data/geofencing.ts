@@ -10,13 +10,13 @@ export const geofencingContent = {
     heading: "Set Boundaries. Enforce Them Instantly.",
     subtitle:
       "Define restricted zones, monitor movement in real time, and prevent unauthorized access before it becomes a safety or operational risk.",
-    bgImage: "/geofencing/hero.png",
+    bgImage: "/geofencing/hero.webp",
   },
   connectedSystem: {
     heading: "Part of a connected workforce and safety system",
     intro:
       "Contractor compliance is fully integrated within the V-Watch Ai platform linking identity, access, safety, and workforce management.",
-    mapImage: "/geofencing/connected-system.jpg",
+    mapImage: "/geofencing/connected-system.webp",
   },
   partners: {
     title: "Built for environments where boundaries matter",

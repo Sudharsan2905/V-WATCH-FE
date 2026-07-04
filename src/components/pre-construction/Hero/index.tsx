@@ -58,21 +58,21 @@ export default function PreConstructionHero({
         {/* Background image — full-bleed construction visualisation. On small
             screens the scene is anchored to the right so the left copy stays
             over the darker area; on large screens it covers the full hero. */}
-        <motion.div
-          className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: EASE }}
-        >
+        {/* Rendered statically (no opacity fade) so the LCP background paints on
+            the first frame instead of waiting for JS hydration — the fade was
+            defeating `priority` and inflating LCP. The heading/copy animations
+            below are unchanged. */}
+        <div className="pointer-events-none absolute inset-0">
           <Image
             src={bgImage}
             alt=""
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover object-right sm:object-fill"
           />
-        </motion.div>
+        </div>
 
         {/* White wave curve — section-level so it is never inside the fading bg
             div and cannot flash. Mirrors the Industries hero pattern. Omitted on

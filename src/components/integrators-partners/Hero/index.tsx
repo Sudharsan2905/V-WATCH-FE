@@ -1,9 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { motion, MotionConfig, type Variants } from "motion/react";
-
-const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Bottom bezier divider. The curve enters both edges at y=84; the control-point
 // depth sets how deep the belly dips. Default (>=425px) keeps the current deep
@@ -19,68 +14,27 @@ const CURVE_GLOWS = [
   { w: 1.5, o: 1 },
 ];
 
-const badgeReveal: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15, duration: 0.3, ease: HERO_EASE },
-  },
-};
-
-const lineReveal: Variants = {
-  hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
-  show: (delay: number) => ({
-    opacity: 1,
-    y: "0%",
-    filter: "blur(0px)",
-    transition: { delay, duration: 0.3, ease: HERO_EASE },
-  }),
-};
-
-const copyReveal: Variants = {
-  hidden: {
-    opacity: 0,
-    clipPath: "inset(0 100% 0 0)",
-    filter: "blur(3px)",
-  },
-  show: (delay: number) => ({
-    opacity: 1,
-    clipPath: "inset(0 0% 0 0)",
-    filter: "blur(0px)",
-    transition: { delay, duration: 0.3, ease: HERO_EASE },
-  }),
-};
-
-const subLineReveal: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay, duration: 0.2, ease: HERO_EASE },
-  }),
-};
-
+// Server component (no "use client"): the hero paints entirely from SSR HTML.
+// The background image renders statically with `priority`, and the headline /
+// copy animate in via CSS keyframes (motion-safe:animate-[...] — same pattern as
+// common/Hero). This keeps the LCP text visible on the first frame instead of
+// gating it behind a framer-motion hydration, and ships zero client JS for the
+// hero — both the previous fade-in wrapper and framer-motion were inflating LCP.
 export default function IntegratorsHero() {
   return (
-    <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden bg-[#030515]">
-        <div className="pointer-events-none absolute inset-0">
-          <motion.div
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: HERO_EASE }}
-          >
-            <Image
-              src="/integrators-partners/integratorsHero.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[68%_center] sm:object-center"
-            />
-          </motion.div>
+    <section className="relative overflow-hidden bg-[#030515]">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0">
+          <Image
+            src="/integrators-partners/integratorsHero.webp"
+            alt=""
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover object-[68%_center] sm:object-center"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" />
 
         <svg
@@ -132,43 +86,35 @@ export default function IntegratorsHero() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
-        <motion.div
-          className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]"
-          initial="hidden"
-          animate="show"
-        >
+        <div className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
-
+              {/* Line 1 wipes left -> right; line 2 wipes top -> bottom, staggered
+                  after it — same cascade language as common/Hero. */}
               <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
-                <span className="block overflow-hidden">
-                  <motion.span custom={0.3} variants={lineReveal} className="block">
-                    Delivered Through Trusted
-                  </motion.span>
+                <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_both]">
+                  Delivered Through Trusted
                 </span>
-                <span className="block overflow-hidden">
-                  <motion.span custom={0.45} variants={lineReveal} className="block">
-                    System Integrators
-                  </motion.span>
+                <span className="block motion-safe:animate-[wipeInTop_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
+                  System Integrators
                 </span>
               </h1>
             </div>
 
             <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
-              <motion.span custom={0.65} variants={copyReveal} className="block">
+              <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
                 V-Watch Ai works with certified system integrators across
-              </motion.span>
-              <motion.span custom={0.85} variants={subLineReveal} className="block">
+              </span>
+              <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_1.8s_both]">
                 regions to deploy, implement, and support our platform
-              </motion.span>
-              <motion.span custom={1.05} variants={subLineReveal} className="block">
+              </span>
+              <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_2.05s_both]">
                 ensuring reliable execution in every environment.
-              </motion.span>
+              </span>
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
-      </section>
-    </MotionConfig>
+    </section>
   );
 }

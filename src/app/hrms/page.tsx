@@ -1,7 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import HrmsHero from "@/components/hrms/Hero";
 import HrmsOverview from "@/components/hrms/Overview";
-import HrmsFeatureAccordion from "@/components/hrms/FeatureAccordion";
 import HrmsPlanStructure from "@/components/hrms/PlanStructure";
 import HrmsTrialForm from "@/components/hrms/TrialForm";
 import Footer from "@/components/layout/Footer";
