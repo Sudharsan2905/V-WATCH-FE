@@ -17,7 +17,6 @@ const CURVE_GLOWS = [
   { w: 1.5, o: 1 },
 ];
 
-
 const lineReveal: Variants = {
   hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
   show: (delay: number) => ({
@@ -74,7 +73,6 @@ export default function ProductsHero({
   ],
   // boldLine = "Start with what you need. Scale as you grow.",
   imageSrc = "/products/hero.png",
-  imageObjectPosition = "bottom",
   ctaSlot,
   ctaDelay = 1.7,
 }: Readonly<Partial<ProductsHeroProps>>) {
@@ -102,7 +100,7 @@ export default function ProductsHero({
           >
             <Image
               src={imageSrc}
-              alt=""
+              alt="Products Hero"
               fill
               priority
               sizes="100vw"
@@ -165,7 +163,7 @@ export default function ProductsHero({
             </g>
           </svg>
         </div>
-          
+
         <div className="relative z-10 w-full px-[24px] lg:px-[60px] pt-[140px] pb-[80px] md:pb-[90px] lg:pb-[240px]">
           <motion.div
             className="flex mx-auto max-w-[1410px] max-h-[754px] flex-col justify-center gap-[30px]"
@@ -235,7 +233,6 @@ export default function ProductsHero({
             </motion.div>
           </motion.div>
         </div>
-    
       </section>
     </MotionConfig>
   );

@@ -51,7 +51,7 @@ const STEPS: Step[] = [
 export default function PlatformVisibility() {
   return (
     <MotionConfig reducedMotion="user">
-    <section className="relative z-10 px-6 pt-8 lg:pt-16 lg:pb-20 lg:px-[60px]">
+    <section className="relative z-10 px-6 py-8 lg:px-[60px]">
       {/* Curved top — carves the dark hero into a downward dip above this section.
           Anchored to the section's top edge (bottom-full) so the curve position is
           independent of section height — otherwise tall mobile layouts push the dip
@@ -78,13 +78,13 @@ export default function PlatformVisibility() {
           </h2>
           <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">
             Most organizations rely on multiple systems to manage different parts of their
-            operations – access control, workforce, tracking, safety, maintenance, and reporting.
+            operations - access control, workforce, tracking, safety, maintenance, and reporting.
           </p>
         </motion.header>
 
         {/* Two-column layout */}
         <div className="mt-5 flex flex-col gap-[60px] justify-between lg:flex-row lg:items-center lg:gap-6">
-          {/* Left: numbered steps */}
+
           <div className="flex flex-1 flex-col gap-6 lg:max-w-[560px] min-w-[300px]">
             <motion.p variants={fadeUp} custom={0.2} className="text-[20px] font-bold text-[#006F9F]">
               It acts as a central operational layer
@@ -97,7 +97,7 @@ export default function PlatformVisibility() {
                     key={step.num}
                     variants={stepItem}
                     custom={STEPS_START + i * STEP_STAGGER}
-                    className="relative flex items-center gap-5 py-2 pl-[68px] pr-6 rounded-2xl bg-white shadow-[0_14px_34px_-12px_rgba(150,190,230,0.55)] lg:-mr-16 lg:rounded-none lg:[background:linear-gradient(to_right,#ffffff_0%,#ffffff_75%,rgba(255,255,255,0)_100%)]"
+                    className="relative flex items-center gap-5 py-2 pl-17 pr-6 rounded-2xl bg-white shadow-[0_14px_34px_-12px_rgba(150,190,230,0.55)] lg:-mr-16 lg:rounded-none lg:[background:linear-gradient(to_right,#ffffff_0%,#ffffff_75%,rgba(255,255,255,0)_100%)]"
                   >
                     {/* Number badge — overhangs the card's left edge */}
                     <span className="absolute left-0 top-1/2 flex h-14 w-10 -translate-x-[38%] -translate-y-1/2 items-center justify-center rounded-full border border-white bg-white text-[20px] font-extrabold text-[#0A4B6E] shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_30px_0px_#FFFFFF33_inset,4px_1px_6px_0px_#21B1F133]">
@@ -113,7 +113,6 @@ export default function PlatformVisibility() {
             </div>
           </div>
 
-          {/* Right: funnel diagram */}
           <motion.div
             variants={slideFromRight}
             className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0"

@@ -74,7 +74,7 @@ function EnvCard({
       variants={fadeUp}
       custom={delay}
       onClick={onSelect}
-      className={`group flex flex-col gap-4 transition-all duration-300 ${
+      className={`group flex flex-col gap-4 transition-all duration-700 ${
         selected
           ? "rounded-[30px] px-[10px] pt-[10px] pb-[20px]"
           : "rounded-[20px] border border-transparent p-3 hover:border-white/10 hover:bg-gradient-to-br hover:from-[#21B1F1] hover:via-[#5CB7E8] hover:to-[#EFF9FF] hover:shadow-[0_24px_60px_rgba(0,0,0,0.4)]"
@@ -103,7 +103,7 @@ function EnvCard({
             aria-hidden
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 424px"
-            className={`object-cover transition-opacity duration-300 ease-out group-hover:opacity-100 ${selected ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-100 ${selected ? "opacity-100" : "opacity-0"}`}
           />
         )}
       </div>

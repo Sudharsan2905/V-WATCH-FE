@@ -241,8 +241,7 @@ export default function Solutions() {
                 <div className="relative flex h-full flex-col items-start justify-end">
                   {/* Image: inset -10px so it sits 10px from each card edge.
                     Its own borderRadius(20px) + position(10px) stays within card(30px) radius — no overflow:hidden needed. */}
-                  <div
-                    className="absolute overflow-hidden rounded-[20px]"
+                  <div className="absolute overflow-hidden rounded-[20px]"
                     style={{ inset: -10 }}
                   >
                     <Image
@@ -293,7 +292,7 @@ export default function Solutions() {
                           <span className="text-[16px] font-medium text-white">
                             Learn More
                           </span>
-                          <svg
+                           <svg
                             width="14"
                             height="14"
                             viewBox="0 0 14 14"

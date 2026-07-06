@@ -18,14 +18,14 @@ const PLANS = [
     tag: null,
     price: "USD 10",
     period: "/ User / Month",
-    image: "/hrms/Card1BG.png",
+    image: "/hrms/Card1BG.svg",
   },
   {
     role: "Managers",
     tag: "with payroll tools",
     price: "USD 20",
     period: "/ User / Month",
-    image: "/hrms/Card2BG.png",
+    image: "/hrms/Card2BG.svg",
   },
 ];
 
@@ -55,7 +55,7 @@ function PlanCard({
   return (
     <motion.div
       variants={scaleIn}
-      className="bg-[#edf7fd] relative min-h-[300px] md:min-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
+      className="bg-[#edf7fd] relative max-h-[356px] md:max-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
     >
       <div
         className="pointer-events-none absolute inset-0 z-10"
@@ -93,8 +93,9 @@ function PlanCard({
         </p>
       </div>
 
-      {/* Illustration container */}
-      <div className="relative h-[200px] w-full sm:h-[250px]">
+      {/* Illustration container — grows to fill the card so the image stays
+          anchored to the bottom instead of leaving a gap below it. */}
+      <div className="relative w-full flex-1 min-h-[200px] sm:min-h-[250px]">
         {/* Glow layer — sits ABOVE white bg but BELOW the image */}
 
         <Image
@@ -114,37 +115,36 @@ function PlanCard({
 function InclusionList() {
   return (
     <div className="flex items-center">
-
-    <motion.div
-      variants={scaleIn}
-      className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
-      style={{
-        maskImage:
-          "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
-        WebkitMaskImage:
-          "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
+      <motion.div
+        variants={scaleIn}
+        className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
+        style={{
+          maskImage:
+            "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
         }}
-        >
-      <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
-        What&apos;s included
-      </h3>
-      <ul className="flex flex-col gap-5">
-        {INCLUSIONS.map((item) => (
-          <li key={item} className="flex items-center gap-3">
-            <Image
-              src={"/hrms/tick.svg"}
-              alt="tick-icon"
-              height={24}
-              width={24}
-            />
-            <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
-              {item}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </motion.div>
-        </div>
+      >
+        <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
+          What&apos;s included
+        </h3>
+        <ul className="flex flex-col gap-5">
+          {INCLUSIONS.map((item) => (
+            <li key={item} className="flex items-center gap-3">
+              <Image
+                src={"/hrms/tick.svg"}
+                alt="tick-icon"
+                height={24}
+                width={24}
+              />
+              <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </div>
   );
 }
 
@@ -194,7 +194,7 @@ export default function HrmsPlanStructure() {
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
-              className="min-h-[356px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              className="min-h-[356px] grid grid-cols-1 gap-4 md:gap-[35px] sm:grid-cols-2 lg:grid-cols-3 max-w-[1160px] mx-auto"
             >
               {PLANS.map((plan) => (
                 <PlanCard key={plan.role} {...plan} />
