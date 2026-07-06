@@ -96,12 +96,14 @@ export const WHY_PARTNER_POINTS = [
   {
     num: "3",
     title: "Flexible Integration Capabilities",
-    description: "Easily integrate with existing infrastructure, systems, and technologies.",
+    description:
+      "Easily integrate with existing infrastructure, systems, and technologies.",
   },
   {
     num: "4",
     title: "Ongoing Support & Collaboration",
-    description: "Work alongside our team for implementation, customization, and growth.",
+    description:
+      "Work alongside our team for implementation, customization, and growth.",
   },
 ];
 
@@ -157,7 +159,7 @@ export const COMPANY_TYPES = [
   "Technology Provider",
   "Security / Surveillance Provider",
   "Infrastructure Provider",
-  "Other",
+  "Other"
 ];
 
 export const FOCUS_AREAS = [
@@ -166,11 +168,11 @@ export const FOCUS_AREAS = [
   "Industrial Solutions",
   "Facilities Management",
   "IoT Systems",
-  "Other",
+  "Other"
 ];
 
 export const PARTNERSHIP_FORM_NOTE =
-  "Our team will review your application and get back to you within 3–5 working days.";
+  "Our team will review your application and get back to you within 3-5 working days.";
 
 // Technology partner logos, ordered per the Figma rows (first half = row 1,
 // second half = row 2).

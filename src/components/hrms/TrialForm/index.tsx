@@ -81,6 +81,7 @@ function InputField({
   icon,
   required,
   autoComplete,
+  error,
 }: {
   id: string;
   label: string;
@@ -91,6 +92,7 @@ function InputField({
   icon: React.ReactNode;
   required?: boolean;
   autoComplete?: string;
+  error?: string;
 }) {
   return (
     <FieldWrapper label={label} id={id}>
@@ -106,9 +108,20 @@ function InputField({
           onChange={(e) => onChange(e.target.value)}
           required={required}
           autoComplete={autoComplete}
-           className={`${INPUT_BASE} pl-[45px]`}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className={`${INPUT_BASE} pl-[45px] ${
+            error
+              ? "border-[#E5484D] focus:border-[#E5484D] focus:ring-[#E5484D]/15"
+              : ""
+          }`}
         />
       </div>
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-[12px] text-[#E5484D]">
+          {error}
+        </p>
+      )}
     </FieldWrapper>
   );
 }
@@ -259,14 +272,62 @@ const INITIAL: FormState = {
   employeeCount: "",
 };
 
+type FieldErrors = Partial<Record<keyof FormState, string>>;
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(form: FormState): FieldErrors {
+  const errors: FieldErrors = {};
+
+  if (!form.fullName.trim()) {
+    errors.fullName = "Full name is required.";
+  } else if (form.fullName.trim().length < 2) {
+    errors.fullName = "Please enter your full name.";
+  }
+
+  if (!form.workEmail.trim()) {
+    errors.workEmail = "Work email is required.";
+  } else if (!EMAIL_RE.test(form.workEmail.trim())) {
+    errors.workEmail = "Enter a valid email address.";
+  }
+
+  if (!form.companyName.trim()) {
+    errors.companyName = "Company name is required.";
+  }
+
+  return errors;
+}
+
 import Image from "next/image";
 
 function TrialFormCard() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  // Clear a field's error as soon as the user edits it.
+  function clearError(field: keyof FormState) {
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    const nextErrors = validate(form);
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      // Focus the first field with an error.
+      const firstField = Object.keys(nextErrors)[0];
+      if (typeof document !== "undefined") {
+        document.getElementById(`trial-${firstField}`)?.focus();
+      }
+      return;
+    }
+    setErrors({});
     console.log("Trial request:", form);
     setSubmitted(true);
   }
@@ -319,7 +380,11 @@ function TrialFormCard() {
           label="Full Name *"
           placeholder="Enter Full Name"
           value={form.fullName}
-          onChange={(v) => setForm((p) => ({ ...p, fullName: v }))}
+          onChange={(v) => {
+            clearError("fullName");
+            setForm((p) => ({ ...p, fullName: v }));
+          }}
+          error={errors.fullName}
           icon={
             <Image src="/hrms/person_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />
           }
@@ -333,7 +398,11 @@ function TrialFormCard() {
           type="email"
           placeholder="Enter Work Email"
           value={form.workEmail}
-          onChange={(v) => setForm((p) => ({ ...p, workEmail: v }))}
+          onChange={(v) => {
+            clearError("workEmail");
+            setForm((p) => ({ ...p, workEmail: v }));
+          }}
+          error={errors.workEmail}
           icon={<Image src="/hrms/mail_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
           required
           autoComplete="email"
@@ -344,7 +413,11 @@ function TrialFormCard() {
           label="Company Name *"
           placeholder="Enter Company Name"
           value={form.companyName}
-          onChange={(v) => setForm((p) => ({ ...p, companyName: v }))}
+          onChange={(v) => {
+            clearError("companyName");
+            setForm((p) => ({ ...p, companyName: v }));
+          }}
+          error={errors.companyName}
           icon={<Image src="/hrms/company_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
           required
           autoComplete="organization"

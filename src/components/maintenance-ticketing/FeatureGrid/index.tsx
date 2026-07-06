@@ -120,9 +120,9 @@ export default function FeatureGrid() {
                 self-center
                 aspect-352/424
                 overflow-hidden
-                rounded-[24px]
+                rounded-3xl
                 lg:h-[424px]
-                lg:w-[352px]
+                lg:w-88
                 lg:aspect-auto
                 lg:max-w-none
                 lg:shrink-0
@@ -143,7 +143,7 @@ export default function FeatureGrid() {
             initial="hidden"
             whileInView="show"
             viewport={viewportReveal}
-            className="grid flex-1 grid-cols-1 gap-[24px] sm:grid-cols-2"
+            className="grid flex-1 grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2"
           >
             {FEATURES.map((feature) => (
               <FeatureCard key={feature.title} {...feature} />

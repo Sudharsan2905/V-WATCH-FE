@@ -55,11 +55,14 @@ export default function IndustriesHero({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[650px] overflow-hidden bg-[#030515] lg:min-h-[96vh]">
-        {/* Background image — rendered statically (no opacity fade) so the LCP
-            paints on the first frame instead of waiting for JS hydration; the
-            fade was defeating `priority` and inflating LCP. */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[828px] overflow-hidden">
+      <section className="relative min-h-[650px] overflow-hidden bg-[#030515] lg:min-h-[754px]">
+        {/* Background image */}
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[828px] overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: EASE }}
+        >
           <Image
             src={bgImage}
             alt=""
@@ -89,7 +92,7 @@ export default function IndustriesHero({
               </mask>
             </defs>
           </svg>
-        </div>
+        </motion.div>
 
         {/* White wave curve — section-level so it is never inside the fading bg div
             and cannot flash. Mirrors the Industry Hub hero pattern. */}

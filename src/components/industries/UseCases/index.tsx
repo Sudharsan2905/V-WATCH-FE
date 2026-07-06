@@ -53,9 +53,11 @@ function Card({
         <p className="text-[13px] leading-[18px] text-white/85">{desc}</p>
         {/* Learn More — hidden by default, slides in on hover */}
         <div className="overflow-hidden max-h-0 opacity-0 group-hover:max-h-[40px] group-hover:opacity-100 transition-all duration-400 ease-out">
-          <div className="pt-2 flex items-center gap-1.5 text-[14px] font-semibold text-white">
-            Learn More
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden className="size-4">
+          <div className="group/learn pt-2 inline-flex w-fit cursor-pointer items-center gap-1.5 text-[14px] font-semibold text-white transition-colors duration-300 hover:text-[#7ECFFA]">
+            <span className="bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat bg-[linear-gradient(currentColor,currentColor)] transition-[background-size] duration-300 ease-out group-hover/learn:bg-[length:100%_1.5px]">
+              Learn More
+            </span>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden className="size-4 transition-transform duration-300 ease-out group-hover/learn:translate-x-0.5 group-hover/learn:-translate-y-0.5">
               <path d="M3 13 13 3M13 3H6M13 3v7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
@@ -125,12 +127,15 @@ export default function UseCases({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const updateArrows = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
+    // Whether the row actually overflows — when all cards fit, arrows are hidden.
+    setCanScroll(scrollWidth > clientWidth + 1);
     setAtStart(scrollLeft <= 1);
     // -1 tolerance for sub-pixel rounding; also true when content fits (no overflow).
     setAtEnd(scrollLeft >= scrollWidth - clientWidth - 1);
@@ -195,17 +200,21 @@ export default function UseCases({
           {/* Cards — scroll row with arrows placed before & after, not over the images */}
           {cards.length > 0 && (
             <div className="flex items-center gap-3 lg:gap-4">
-              {/* Front (previous) arrow */}
-              <ScrollArrow
-                direction="left"
-                onClick={() => scrollByCards("left")}
-                disabled={atStart}
-                className="hidden shrink-0 sm:flex"
-              />
+              {/* Front (previous) arrow — only when the row overflows */}
+              {canScroll && (
+                <ScrollArrow
+                  direction="left"
+                  onClick={() => scrollByCards("left")}
+                  disabled={atStart}
+                  className="hidden shrink-0 sm:flex"
+                />
+              )}
 
               <div
                 ref={scrollRef}
-                className="grid min-w-0 flex-1 snap-x snap-mandatory grid-flow-col auto-cols-max gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className={`grid min-w-0 flex-1 snap-x snap-mandatory grid-flow-col auto-cols-max gap-5 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+                  canScroll ? "" : "justify-center"
+                }`}
               >
                 {cards.map((c, i) => (
                   <Card
@@ -216,13 +225,15 @@ export default function UseCases({
                 ))}
               </div>
 
-              {/* Rear (next) arrow */}
-              <ScrollArrow
-                direction="right"
-                onClick={() => scrollByCards("right")}
-                disabled={atEnd}
-                className="hidden shrink-0 sm:flex"
-              />
+              {/* Rear (next) arrow — only when the row overflows */}
+              {canScroll && (
+                <ScrollArrow
+                  direction="right"
+                  onClick={() => scrollByCards("right")}
+                  disabled={atEnd}
+                  className="hidden shrink-0 sm:flex"
+                />
+              )}
             </div>
           )}
 

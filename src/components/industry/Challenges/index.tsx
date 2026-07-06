@@ -381,21 +381,30 @@ export default function Challenges() {
               column, so the brackets land in the gaps between cards (xl only) */}
           <ChallengeConnectors className="pointer-events-none absolute left-[165px] top-[171px] z-0 hidden xl:block" />
 
-          {/* Card rows */}
-          <div className="flex flex-col">
+          {/* Card rows — xl only: keeps the exact 3-over-2 geometry that the
+              absolute connector/toggle diagram is aligned to. */}
+          <div className="hidden flex-col xl:flex">
             {/* Row 1 — 3 cards */}
-            <div className="flex flex-wrap gap-[30px] xl:flex-nowrap xl:gap-[44px]">
+            <div className="flex gap-[44px]">
               {CHALLENGES.slice(0, 3).map((c, i) => (
                 <ChallengeCard key={c.title} {...c} index={i} />
               ))}
             </div>
 
             {/* Row 2 — 2 cards */}
-            <div className="mt-[30px] flex flex-wrap gap-[30px] xl:mt-[49px] xl:flex-nowrap xl:gap-[44px]">
+            <div className="mt-[49px] flex gap-[44px]">
               {CHALLENGES.slice(3).map((c, i) => (
                 <ChallengeCard key={c.title} {...c} index={3 + i} />
               ))}
             </div>
+          </div>
+
+          {/* Below xl — no room for the connector diagram, so lay all five
+              cards out in one centered, wrapping grid (1 / 2 / 3 per row). */}
+          <div className="flex flex-wrap justify-center gap-[30px] xl:hidden">
+            {CHALLENGES.map((c, i) => (
+              <ChallengeCard key={c.title} {...c} index={i} />
+            ))}
           </div>
 
           {/* Toggle dial — sits where the trunk lines converge (xl only) */}

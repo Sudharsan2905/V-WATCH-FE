@@ -1,11 +1,35 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import BookADemo from "@/components/common/BookADemo";
 import { useRef } from "react";
 import { motion, MotionConfig, useInView, type Variants } from "motion/react";
 
-type LinkColumn = { heading: string; links: string[] };
+// A link is either a plain label (route resolved from FOOTER_ROUTES below) or an
+// explicit { label, href } for pages that want to override the default mapping.
+type FooterLink = string | { label: string; href?: string };
+type LinkColumn = { heading: string; links: FooterLink[] };
+
+// Only labels whose page actually exists in the app get navigation. Labels not
+// listed here (e.g. "Career", "Terms of Service", the platform product names
+// that have no page yet) render as plain, non-navigating text. Keep this in one
+// place so every page using <Footer> gets the links automatically.
+const FOOTER_ROUTES: Record<string, string> = {
+  "HRMS Management": "/hrms",
+  "BI Reporting": "/bi-dashboards",
+  "System Integrators": "/integrators-partners",
+  Construction: "/industries/construction",
+  Industrial: "/industries/industrial-energy",
+  Commercial: "/industries/commercial-facilities",
+  "About Us": "/about",
+  Contact: "/contact-us",
+};
+
+function resolveLink(link: FooterLink): { label: string; href?: string } {
+  if (typeof link === "string") return { label: link, href: FOOTER_ROUTES[link] };
+  return { label: link.label, href: link.href ?? FOOTER_ROUTES[link.label] };
+}
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -171,16 +195,26 @@ export default function Footer({
                       {col.heading}
                     </h3>
                     <ul className="flex flex-col gap-1.5">
-                      {col.links.map((link) => (
-                        <li key={link}>
-                          <a
-                            href="#"
-                            className="text-[14px] font-normal text-white/90 transition-colors hover:text-white"
-                          >
-                            {link}
-                          </a>
-                        </li>
-                      ))}
+                      {col.links.map((link) => {
+                        const { label, href } = resolveLink(link);
+                        return (
+                          <li key={label}>
+                            {href ? (
+                              <Link
+                                href={href}
+                                prefetch={false}
+                                className="text-[14px] font-normal text-white/90 transition-colors hover:text-white"
+                              >
+                                {label}
+                              </Link>
+                            ) : (
+                              <span className="cursor-default text-[14px] font-normal text-white/90">
+                                {label}
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </motion.div>
                 ))}
