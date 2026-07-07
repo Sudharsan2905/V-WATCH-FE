@@ -11,21 +11,21 @@ const TILES: Tile[] = [
   {
     icon: "/contact/direct/icons/mail.svg",
     label: "Email",
-    value: "support@vwatch.ai",
-    href: "mailto:support@vwatch.ai",
+    value: "sales@vwatch.ai",
+    href: "mailto:sales@vwatch.ai",
   },
   {
     icon: "/contact/direct/icons/phone.svg",
     label: "Phone",
-    value: "+60 XX-XXXX XXX",
-    href: "tel:+60",
+    value: "+60127499018 ",
+    href: "tel:+60127499018",
   },
   {
     icon: "/contact/direct/icons/location.svg",
     label: "Office",
     value: (
       <>
-        Surveillance &amp; Communication Sdn Bhd),
+        V-Watch Ai Sdn Bhd,
         <br />
         No 17, Jalan Ekoperniagaan, 2/6Taman
         <br />
@@ -33,7 +33,7 @@ const TILES: Tile[] = [
       </>
     ),
     href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      "Surveillance & Communication Sdn Bhd, No 17, Jalan Ekoperniagaan, 2/6 Taman Ekoperniagaan, Johor Bahru, Malaysia - 81100",
+      " V-Watch Ai Sdn Bhd, No 17, Jalan Ekoperniagaan, 2/6 Taman Ekoperniagaan, Johor Bahru, Malaysia - 81100",
     )}`,
   },
 ];

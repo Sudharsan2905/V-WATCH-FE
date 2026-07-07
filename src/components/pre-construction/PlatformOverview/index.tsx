@@ -155,6 +155,58 @@ function ConnectedBanner({
   );
 }
 
+// Brand gradient chevron (#21B1F1 → #C5EB4C), matching the arrows elsewhere.
+function Chevron({ dir }: Readonly<{ dir: "up" | "down" }>) {
+  const gid = `po-chev-${dir}`;
+  return (
+    <svg
+      width="12"
+      height="7"
+      viewBox="0 0 12 7"
+      fill="none"
+      aria-hidden
+      className={dir === "up" ? "" : "rotate-180"}
+    >
+      <defs>
+        <linearGradient
+          id={gid}
+          x1="0"
+          y1="0"
+          x2="12"
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#21B1F1" />
+          <stop offset="1" stopColor="#C5EB4C" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M1 6l5-5 5 5"
+        stroke={`url(#${gid})`}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );  
+}
+
+function ArrowButton({
+  dir,
+  onClick,
+}: Readonly<{ dir: "up" | "down"; onClick: () => void }>) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={dir === "up" ? "Previous capability" : "Next capability"}
+      className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+    >
+      <Chevron dir={dir} />
+    </button>
+  );
+}
+
 function CheckItem({ children }: Readonly<{ children: string }>) {
   return (
     <li className="flex items-center gap-3">
@@ -256,11 +308,21 @@ export default function PlatformOverview({
             {/* Inner row: progress bar + content card */}
             <div className="order-1 flex flex-1 items-stretch gap-5 lg:order-none lg:overflow-visible">
 
-              {/* Vertical progress bar — hidden on mobile, shown on desktop */}
-              <div
-                className="relative hidden self-stretch lg:block"
-                style={{ width: 14, flexShrink: 0 }}
-              >
+              {/* Vertical nav — up arrow + progress rail + down arrow (desktop).
+                  Arrows step through capabilities, wrapping at the ends. */}
+              <div className="hidden shrink-0 flex-col items-center gap-2 self-stretch lg:flex">
+                <ArrowButton
+                  dir="up"
+                  onClick={() =>
+                    goTo(
+                      (activeIndex - 1 + capabilities.length) %
+                        capabilities.length,
+                    )
+                  }
+                />
+
+                {/* Progress rail */}
+                <div className="relative w-[14px] flex-1">
                 {/* White track (full bar background) */}
                 <div
                   className="absolute inset-0 rounded-full"
@@ -308,6 +370,14 @@ export default function PlatformOverview({
                     />
                   ))}
                 </div>
+                </div>{/* end progress rail */}
+
+                <ArrowButton
+                  dir="down"
+                  onClick={() =>
+                    goTo((activeIndex + 1) % capabilities.length)
+                  }
+                />
               </div>
 
               {/* Content card — animates between capabilities */}

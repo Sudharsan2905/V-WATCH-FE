@@ -118,7 +118,8 @@ export default function PlatformVisibility() {
             className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0"
           >
             <Image
-              src="/ai-platform/funnel-diagram.png"
+              src="/ai-platform/funnel-diagram1.svg"
+              // src="/ai-platform/funnel-diagram.png"
               alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
               width={593}
               height={453}

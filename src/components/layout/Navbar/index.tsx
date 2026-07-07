@@ -155,6 +155,21 @@ const DROPDOWNS: Record<string, DropdownData> = {
   },
 };
 
+// Resolve which top-level nav label owns the current route: a direct match on a
+// nav item's href, or a match on any dropdown item (or its case-study child).
+// Returns null when the current page isn't represented in the nav.
+function findActiveLabel(pathname: string): string | null {
+  const direct = NAV_ITEMS.find((i) => i.href !== "#" && i.href === pathname);
+  if (direct) return direct.label;
+  for (const [label, data] of Object.entries(DROPDOWNS)) {
+    for (const item of data.items) {
+      if (item.href === pathname) return label;
+      if (item.children?.some((c) => c.href === pathname)) return label;
+    }
+  }
+  return null;
+}
+
 // ─── Sub-components ────────────────────────────────────────────────────────
 
 function ChevronDown({
@@ -228,9 +243,15 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
 // state is the light white→grey pill; on card hover it becomes the brand
 // blue→green gradient with a white arrow (Figma hovered state). currentColor
 // drives the arrow so group-hover:text-white flips it.
-function ChevronRightButton() {
+function ChevronRightButton({ active = false }: Readonly<{ active?: boolean }>) {
   return (
-    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border border-[#EFF0F6] bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F2F9_100%)] text-[#556394] shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)] transition-colors group-hover:border-transparent group-hover:bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] group-hover:text-white">
+    <div
+      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)] transition-colors ${
+        active
+          ? "border-transparent bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] text-white"
+          : "border-[#EFF0F6] bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F2F9_100%)] text-[#556394] group-hover:border-transparent group-hover:bg-[linear-gradient(180deg,#21B1F1_-20.69%,#C5EB4C_151.72%)] group-hover:text-white"
+      }`}
+    >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
         <path
           d="M4.5 2.5 8 6l-3.5 3.5"
@@ -255,6 +276,9 @@ function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
       </div>
     );
   }
+  // The row for the page we're on stays in its "hover" look — white card,
+  // elevated shadow, and a green chevron — so the active case study is obvious.
+  const active = href === pathname;
   return (
     <Link
       href={href}
@@ -264,10 +288,14 @@ function CaseStudyRow({ label, href }: Readonly<CaseStudyLink>) {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }}
-      className="group flex h-12 items-center justify-between gap-2 rounded-[10px] border border-transparent p-2.5 text-[14px] font-medium text-[#3E4B77] transition duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      className={`group flex h-12 items-center justify-between gap-2 rounded-[10px] border p-2.5 text-[14px] font-medium text-[#3E4B77] transition duration-300 ${
+        active
+          ? "-translate-y-0.5 border-white bg-white shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+          : "border-transparent hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      }`}
     >
       <span className="truncate">{label}</span>
-      <ChevronRightButton />
+      <ChevronRightButton active={active} />
     </Link>
   );
 }
@@ -280,8 +308,11 @@ function CaseStudiesAccordion({
   desc,
   children,
 }: Readonly<DropdownLink>) {
-  // Closed by default — opens only when the user clicks the header.
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  // Auto-expand when the current page is one of these case studies, so its
+  // active row is revealed without a click; otherwise closed until clicked.
+  const hasActiveChild = children?.some((c) => c.href === pathname) ?? false;
+  const [open, setOpen] = useState(hasActiveChild);
   return (
     // Teal border wrapping the whole block (header + expanded items).
     <div className="rounded-[14px] border border-white bg-white/[0.06] shadow-[0px_10px_7px_rgba(184,230,255,0.14)]">
@@ -339,6 +370,9 @@ function DropdownItem({ icon, title, desc, href, children }: Readonly<DropdownLi
       />
     );
   }
+  // The card for the page we're currently on stays in its "hover" look — white
+  // fill, elevated shadow, and a green chevron — so the active item is obvious.
+  const active = href === pathname;
   return (
     <Link
       href={href}
@@ -350,7 +384,11 @@ function DropdownItem({ icon, title, desc, href, children }: Readonly<DropdownLi
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }}
-      className="group flex h-[62px] items-center gap-3 rounded-[14px] border border-white bg-white/[0.06] py-2.5 pl-2.5 pr-4 shadow-[0px_10px_7px_rgba(184,230,255,0.14)] transition duration-400 hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      className={`group flex h-[62px] items-center gap-3 rounded-[14px] border border-white py-2.5 pl-2.5 pr-4 transition duration-400 ${
+        active
+          ? "bg-white shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+          : "bg-white/[0.06] shadow-[0px_10px_7px_rgba(184,230,255,0.14)] hover:bg-white hover:shadow-[0px_10px_20px_rgba(10,78,110,0.12),0px_20px_40px_rgba(10,78,110,0.10)]"
+      }`}
     >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center">
         <Image
@@ -370,7 +408,7 @@ function DropdownItem({ icon, title, desc, href, children }: Readonly<DropdownLi
           {desc}
         </p>
       </div>
-      <ChevronRightButton />
+      <ChevronRightButton active={active} />
     </Link>
   );
 }
@@ -439,6 +477,13 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Which top-level item is highlighted. The current route is the source of
+  // truth — derived during render so it's correct on first paint and after a
+  // refresh (usePathname resolves on the server too, so there's no flash). The
+  // explicit `active` prop is only a fallback for routes not represented in the
+  // nav (e.g. /book-demo).
+  const activeLabel = findActiveLabel(pathname) ?? active ?? null;
+
   // Keep the open dropdown inside the viewport: measure it and shift
   // horizontally if it overflows either edge. Re-runs on open + on resize.
   useEffect(() => {
@@ -496,7 +541,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
             >
               <Link
                 href={item.href}
-                aria-current={item.label === active ? "page" : undefined}
+                aria-current={item.label === activeLabel ? "page" : undefined}
                 onClick={(e) => {
                   // Already on the target page: scroll to the top instead of a
                   // no-op same-route navigation.
@@ -506,7 +551,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                   }
                 }}
                 className={`mt-0.5 flex h-8 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-white transition-colors hover:bg-white/[0.14] ${
-                  item.label === active
+                  item.label === activeLabel
                     ? "border-b border-white bg-white/[0.14]"
                     : openDropdown === item.label
                       ? "bg-white/[0.14]"
@@ -599,7 +644,11 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                         type="button"
                         onClick={() => setMobileSub(expanded ? null : item.label)}
                         aria-expanded={expanded}
-                        className="flex w-full items-center justify-between py-3 text-left text-sm font-bold text-white"
+                        className={`flex w-full items-center justify-between py-3 text-left text-sm font-bold ${
+                          item.label === activeLabel
+                            ? "text-[#5FD0F2]"
+                            : "text-white"
+                        }`}
                       >
                         {item.label}
                         <ChevronDown open={expanded} className="text-white/80" />
@@ -700,7 +749,14 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                         }
                         setMobileOpen(false);
                       }}
-                      className="flex items-center justify-between py-3 text-sm font-bold text-white"
+                      aria-current={
+                        item.label === activeLabel ? "page" : undefined
+                      }
+                      className={`flex items-center justify-between py-3 text-sm font-bold ${
+                        item.label === activeLabel
+                          ? "text-[#5FD0F2]"
+                          : "text-white"
+                      }`}
                     >
                       {item.label}
                     </Link>

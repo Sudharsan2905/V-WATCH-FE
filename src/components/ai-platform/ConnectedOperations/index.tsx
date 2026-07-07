@@ -135,38 +135,59 @@ export default function ConnectedOperations() {
   const [active, setActive] = useState(0);
 
   // Refs that the RAF loop reads without triggering re-renders
-  const pausedRef = useRef(false);
   const activeRef = useRef(active);
-  const progressBarRef = useRef<HTMLSpanElement | null>(null);
+  // The RAF loop writes the active segment's fill percentage to this CSS var on
+  // the panel root; the active progress segment reads it (height on the desktop
+  // side rail, width on the mobile bar) so one loop feeds both without a ref.
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
+  const lastTsRef = useRef<number | null>(null);
+  // Whether the device actually supports hovering (desktop). On touch devices
+  // there is no hover, so the auto-advance never pauses.
+  const canHoverRef = useRef(false);
 
   // Keep activeRef in sync
   useEffect(() => {
     activeRef.current = active;
   }, [active]);
 
+  useEffect(() => {
+    canHoverRef.current = window.matchMedia("(hover: hover)").matches;
+  }, []);
+
   // RAF-based progress loop — drives both the visual fill and the auto-advance.
   // Using requestAnimationFrame instead of CSS animations or setTimeout avoids
   // the CSS keyframe / onAnimationEnd reliability issues on mobile and in
   // React dev-mode Strict Mode (which double-invokes effects).
+  //
+  // Pause-on-hover is done by checking the panel's live :hover state each frame
+  // rather than pointer enter/leave events. :hover is true whenever the cursor
+  // is over the panel OR any descendant — including the arrow buttons and the
+  // progress segments — so hovering a control reliably freezes progress, with no
+  // pointerType guesswork. On touch devices (no hover) it simply never pauses.
   const startLoop = () => {
     startTimeRef.current = null;
+    lastTsRef.current = null;
+    rootRef.current?.style.setProperty("--seg-progress", "0%");
 
     const tick = (ts: number) => {
-      if (pausedRef.current) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
-      }
-
       if (startTimeRef.current === null) startTimeRef.current = ts;
+      if (lastTsRef.current === null) lastTsRef.current = ts;
+
+      const dt = ts - lastTsRef.current;
+      lastTsRef.current = ts;
+
+      const hovered =
+        canHoverRef.current && !!rootRef.current?.matches(":hover");
+      // While hovered, push the virtual start time forward by this frame's delta
+      // so elapsed (and thus progress) stays frozen at its current value.
+      if (hovered) startTimeRef.current += dt;
 
       const elapsed = ts - startTimeRef.current;
       const pct = Math.min((elapsed / AUTO_ADVANCE_MS) * 100, 100);
 
-      if (progressBarRef.current) {
-        progressBarRef.current.style.width = `${pct}%`;
-      }
+      rootRef.current?.style.setProperty("--seg-progress", `${pct}%`);
 
       if (pct >= 100) {
         // Advance to the next module; the new active triggers a new loop via useEffect
@@ -193,29 +214,6 @@ export default function ConnectedOperations() {
     return stopLoop;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
-
-  // Pause/resume on mouse hover — desktop only.
-  // Must check pointerType because mobile browsers fire a synthetic mouseenter
-  // after every tap/swipe, which would permanently freeze the RAF loop since
-  // mouseleave never fires on touch devices.
-  const pausedAtMsRef = useRef<number | null>(null);
-
-  const handlePointerEnter = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse") return;
-    pausedAtMsRef.current = performance.now();
-    pausedRef.current = true;
-  };
-
-  const handlePointerLeave = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse") return;
-    // Shift the virtual start time forward by the pause duration so the RAF
-    // loop resumes from the exact same progress percentage instead of restarting.
-    if (startTimeRef.current !== null && pausedAtMsRef.current !== null) {
-      startTimeRef.current += performance.now() - pausedAtMsRef.current;
-    }
-    pausedAtMsRef.current = null;
-    pausedRef.current = false;
-  };
 
   // Vertical card-roll track position
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
@@ -282,11 +280,12 @@ export default function ConnectedOperations() {
             </p>
           </motion.header>
 
-          {/* Two-column panel */}
+          {/* Two-column panel. Hover-pause is read from this element's live
+              :hover state in the RAF loop (covers the arrow buttons too), so no
+              pointer handlers are needed here. */}
           <div
+            ref={rootRef}
             className="mt-10 flex flex-col gap-[30px] lg:flex-row lg:items-start"
-            onPointerEnter={handlePointerEnter}
-            onPointerLeave={handlePointerLeave}
           >
             {/* Left: image carousel + pagination dots */}
             <motion.div
@@ -334,30 +333,54 @@ export default function ConnectedOperations() {
                 <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[51px] w-full bg-gradient-to-t from-[#F3F8FC] to-transparent" />
               </div>
 
-              {/* Segmented progress — width is driven by the RAF loop above via
-                  a direct DOM ref, so no re-renders and no CSS keyframe dependency. */}
-              <div className="flex w-full items-center gap-2">
-                {MODULES.map((mod, i) => (
-                  <button
-                    key={mod.key}
-                    type="button"
-                    aria-label={`View ${mod.key}`}
-                    onClick={() => setActive(i)}
-                    className="relative h-[6px] flex-1 cursor-pointer overflow-hidden rounded-full bg-[#CDE9FA]"
-                  >
-                    {/* Completed segments stay fully filled */}
-                    {i < active && (
-                      <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />
-                    )}
-                    {/* Active segment: ref-driven so RAF can update width directly */}
-                    {i === active && (
-                      <span
-                        ref={progressBarRef}
-                        className="absolute inset-y-0 left-0 w-0 rounded-full bg-[#0A8EC8]"
-                      />
-                    )}
-                  </button>
-                ))}
+              {/* Segmented progress — tablet & mobile only; on desktop this
+                  lives in the vertical side rail. Prev/next arrows flank the bar
+                  (wrapping), and the active-segment width is driven by the RAF
+                  loop via the --seg-progress CSS var (no re-renders). */}
+              <div className="flex w-full items-center gap-3 lg:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActive((p) => (p - 1 + MODULES.length) % MODULES.length)
+                  }
+                  aria-label="Previous module"
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+                >
+                  <Chevron dir="left" />
+                </button>
+
+                <div className="flex flex-1 items-center gap-2">
+                  {MODULES.map((mod, i) => (
+                    <button
+                      key={mod.key}
+                      type="button"
+                      aria-label={`View ${mod.key}`}
+                      onClick={() => setActive(i)}
+                      className="relative h-[6px] flex-1 cursor-pointer overflow-hidden rounded-full bg-[#CDE9FA]"
+                    >
+                      {/* Completed segments stay fully filled */}
+                      {i < active && (
+                        <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />
+                      )}
+                      {/* Active segment: RAF-driven width via CSS var */}
+                      {i === active && (
+                        <span
+                          className="absolute inset-y-0 left-0 rounded-full bg-[#0A8EC8]"
+                          style={{ width: "var(--seg-progress, 0%)" }}
+                        />
+                      )}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setActive((p) => (p + 1) % MODULES.length)}
+                  aria-label="Next module"
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+                >
+                  <Chevron dir="right" />
+                </button>
               </div>
             </motion.div>
 
@@ -457,9 +480,105 @@ export default function ConnectedOperations() {
                 ))}
               </motion.div>
             </motion.div>
+
+            {/* Right-edge vertical nav: up / down arrows + progress track.
+                Clamps at the ends (matching the touch-swipe behaviour) and, like
+                the dots, changing active restarts the auto-advance loop. */}
+            <div className="hidden shrink-0 flex-col items-center gap-3 self-stretch lg:flex lg:h-[480px]">
+              <button
+                type="button"
+                onClick={() =>
+                  setActive((p) => (p - 1 + MODULES.length) % MODULES.length)
+                }
+                aria-label="Previous module"
+                className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+              >
+                <Chevron dir="up" />
+              </button>
+
+              {/* Vertical segmented progress — one segment per module. Completed
+                  segments stay filled; the active one fills top→bottom via the
+                  RAF-driven --seg-progress CSS var. Click a segment to jump. */}
+              <div className="flex w-[5px] flex-1 flex-col items-stretch gap-2">
+                {MODULES.map((mod, i) => (
+                  <button
+                    key={mod.key}
+                    type="button"
+                    aria-label={`View ${mod.key}`}
+                    onClick={() => setActive(i)}
+                    className="relative w-full flex-1 cursor-pointer overflow-hidden rounded-full bg-[#CDE9FA]"
+                  >
+                    {i < active && (
+                      <span className="absolute inset-0 rounded-full bg-[#0A8EC8]" />
+                    )}
+                    {i === active && (
+                      <span
+                        className="absolute inset-x-0 top-0 rounded-full bg-[#0A8EC8]"
+                        style={{ height: "var(--seg-progress, 0%)" }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActive((p) => (p + 1) % MODULES.length)}
+                aria-label="Next module"
+                className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+              >
+                <Chevron dir="down" />
+              </button>
+            </div>
           </div>
         </motion.div>
       </section>
     </MotionConfig>
+  );
+}
+
+const CHEVRON_ROTATION = {
+  up: "",
+  down: "rotate-180",
+  left: "-rotate-90",
+  right: "rotate-90",
+} as const;
+
+function Chevron({
+  dir,
+}: Readonly<{ dir: keyof typeof CHEVRON_ROTATION }>) {
+  // Brand linear-gradient stroke (#21B1F1 → #C5EB4C), matching the Figma vector
+  // spec. Unique gradient id per direction so every instance can render.
+  const gid = `chev-grad-${dir}`;
+  return (
+    <svg
+      width="12"
+      height="7"
+      viewBox="0 0 12 7"
+      fill="none"
+      aria-hidden
+      className={CHEVRON_ROTATION[dir]}
+    >
+      <defs>
+        <linearGradient
+          id={gid}
+          x1="0"
+          y1="0"
+          x2="12"
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#21B1F1" />
+          <stop offset="1" stopColor="#C5EB4C" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M1 6l5-5 5 5"
+        stroke={`url(#${gid})`}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

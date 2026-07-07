@@ -187,6 +187,58 @@ function AllowCard({
   );
 }
 
+// Brand gradient chevron (#21B1F1 → #C5EB4C), matching the arrows elsewhere.
+function Chevron({ dir }: Readonly<{ dir: "up" | "down" }>) {
+  const gid = `op-chev-${dir}`;
+  return (
+    <svg
+      width="12"
+      height="7"
+      viewBox="0 0 12 7"
+      fill="none"
+      aria-hidden
+      className={dir === "up" ? "" : "rotate-180"}
+    >
+      <defs>
+        <linearGradient
+          id={gid}
+          x1="0"
+          y1="0"
+          x2="12"
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#21B1F1" />
+          <stop offset="1" stopColor="#C5EB4C" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M1 6l5-5 5 5"
+        stroke={`url(#${gid})`}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowButton({
+  dir,
+  onClick,
+}: Readonly<{ dir: "up" | "down"; onClick: () => void }>) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={dir === "up" ? "Previous capability" : "Next capability"}
+      className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+    >
+      <Chevron dir={dir} />
+    </button>
+  );
+}
+
 // ─── Section ─────────────────────────────────────────────────────────────────
 
 export default function OnePlatform({
@@ -246,6 +298,18 @@ export default function OnePlatform({
       userDriving.current = false;
       setPaused(false); // resume auto-cycle from the current row
     }, RESUME_MS);
+  };
+
+  // Up / down arrow buttons: move to the previous/next capability (wrapping).
+  // We leave skipAutoScroll false so the scroll-into-view effect brings the new
+  // active row into the focal line, and pause the auto-cycle briefly like a
+  // manual scroll so it doesn't fight the user.
+  const step = (dir: -1 | 1) => {
+    if (features.length <= 1) return;
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), RESUME_MS);
+    setActiveIndex((i) => (i + dir + features.length) % features.length);
   };
 
   // On every scroll, if the user is driving, activate the row whose centre is
@@ -349,35 +413,46 @@ export default function OnePlatform({
                 </motion.div>
               )}
 
-              {/* 3) Feature list — order-3 on mobile */}
-              <div className="relative order-3 lg:order-none">
-                {/* Top fade hint */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-[#f5fbff] to-transparent" />
+              {/* 3) Feature list — order-3 on mobile. Centered up/down arrows
+                  step through the capabilities (wrapping). */}
+              <div className="order-3 flex flex-col items-center gap-3 lg:order-none">
+                {features.length > 1 && (
+                  <ArrowButton dir="up" onClick={() => step(-1)} />
+                )}
 
-                <div
-                  ref={scrollRef}
-                  onWheel={onUserScrollIntent}
-                  onTouchMove={onUserScrollIntent}
-                  onScroll={onScroll}
-                  className="flex flex-col gap-2 overflow-y-auto outline-none [&::-webkit-scrollbar]:hidden"
-                  style={{ maxHeight: 420, scrollbarWidth: "none" }}
-                >
-                  {features.map((f, i) => (
-                    <div
-                      key={f.title}
-                      ref={el => { rowRefs.current[i] = el; }}
-                    >
-                      <FeatureRow
-                        {...f}
-                        isActive={i === activeIndex}
-                        delay={FEATURES_START + i * FEATURES_STAGGER}
-                      />
-                    </div>
-                  ))}
+                <div className="relative w-full">
+                  {/* Top fade hint */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-[#f5fbff] to-transparent" />
+
+                  <div
+                    ref={scrollRef}
+                    onWheel={onUserScrollIntent}
+                    onTouchMove={onUserScrollIntent}
+                    onScroll={onScroll}
+                    className="flex flex-col gap-2 overflow-y-auto outline-none [&::-webkit-scrollbar]:hidden"
+                    style={{ maxHeight: 420, scrollbarWidth: "none" }}
+                  >
+                    {features.map((f, i) => (
+                      <div
+                        key={f.title}
+                        ref={el => { rowRefs.current[i] = el; }}
+                      >
+                        <FeatureRow
+                          {...f}
+                          isActive={i === activeIndex}
+                          delay={FEATURES_START + i * FEATURES_STAGGER}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Bottom fade hint */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-[#f5fbff] to-transparent" />
                 </div>
 
-                {/* Bottom fade hint */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-[#f5fbff] to-transparent" />
+                {features.length > 1 && (
+                  <ArrowButton dir="down" onClick={() => step(1)} />
+                )}
               </div>
 
             </div>{/* end left column wrapper */}
