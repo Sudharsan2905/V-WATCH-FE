@@ -83,8 +83,9 @@ const ICONS: Record<string, ReactNode> = {
 // Per-icon CSS transform to compensate for differences in PNG content:
 // - control: circle is larger (occupies more of the image) and sits higher → scale down + shift down
 // - capture & prove: circle is smaller and roughly centered → no adjustment needed
+// translateY is expressed as a % of the element so it holds at any rendered size.
 const ICON_TRANSFORM: Record<string, string> = {
-  control: "translateY(24px) scale(0.88)",
+  control: "translateY(9.2%) scale(0.88)",
 };
 
 function Medallion({ icon }: Readonly<{ icon: string }>) {
@@ -95,16 +96,16 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
       <Image
         src={iconSrc}
         alt=""
-        width={260}
-        height={260}
-        className="size-[260px] object-contain"
+        width={220}
+        height={220}
+        className="size-[220px] object-contain"
         style={transform ? { transform } : undefined}
       />
     );
   }
   return (
     <div
-      className="relative flex size-[260px] items-center justify-center"
+      className="relative flex size-[220px] items-center justify-center"
       style={transform ? { transform } : undefined}
     >
       <Image src={`${ASSET}/circle.png`} alt="" width={128} height={128} unoptimized className="absolute inset-0 size-[128px] object-contain" />
@@ -113,27 +114,18 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
   );
 }
 
-// Description card — rounded border at top corners, fades down the sides, none at bottom
+// Description card — full 2px #0A8EC8 border, 16px radius, gradient fill.
+// Figma: width 288 (fill), min-height 135, padding 16, gap 6.
 function DescCard({ step, delay = 0 }: Readonly<{ step: Step; delay?: number }>) {
   return (
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="relative w-full rounded-[18px] px-6 py-5 text-center"
-      style={{ background: "linear-gradient(to bottom, rgb(250, 252, 255) 0%, rgb(255, 255, 255) 100%)" }}
+      className="flex w-full min-h-[135px] flex-col items-center justify-center gap-1.5 rounded-[16px] border-2 border-[#0A8EC8] p-4 text-center"
+      style={{ background: "linear-gradient(to bottom, #F4FBFF 0%, #FFFFFF 100%)" }}
     >
-      {/* Border overlay: real border + border-radius gives proper rounded corners.
-          The mask fades it out downward so only top + partial sides are visible. */}
-      <span
-        className="pointer-events-none absolute inset-0 rounded-[18px]"
-        style={{
-          border: "2px solid rgb(106, 185, 222)",
-          maskImage: "linear-gradient(to bottom, black 0%, black 35%, transparent 68%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 35%, transparent 68%)",
-        }}
-      />
-      <p className="relative text-[19px] font-bold text-[#13476B]">{step.title}</p>
-      <p className="relative mt-2 font-['Lato'] text-[16px] font-normal leading-[24px] tracking-normal text-[#005276]">{step.desc}</p>
+      <p className="text-[19px] font-bold leading-[24px] text-[#13476B]">{step.title}</p>
+      <p className="font-['Lato'] text-[16px] font-normal leading-[24px] tracking-normal text-[#005276]">{step.desc}</p>
     </motion.div>
   );
 }
@@ -144,25 +136,25 @@ function Connector({ delay = 0 }: Readonly<{ delay?: number }>) {
       variants={popIn}
       custom={delay}
       className="relative z-20 hidden shrink-0 lg:flex"
-      style={{ width: 60, height: 32 }}
+      style={{ width: 67.83, height: 40 }}
     >
       {/* Gradient pill — full width */}
       <div
-        className="absolute inset-0 flex items-center rounded-full pl-3"
-        style={{ background: "linear-gradient(135deg, #6AADEE 0%, #9B85E8 100%)" }}
+        className="absolute inset-x-0 top-1/2 flex h-[30px] -translate-y-1/2 items-center justify-center rounded-full pr-10"
+        style={{ background: "linear-gradient(135deg, #21B1F1 0%, #9B85E8 100%)" }}
       >
-        <svg viewBox="0 0 14 14" fill="none" aria-hidden className="size-[13px]">
+        <svg viewBox="0 0 14 14" fill="none" aria-hidden className="size-4 translate-x-[2px]">
           <path d="M5 3l4 4-4 4" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 
       {/* White circle — overlaps right side of pill */}
       <div
-        className="absolute right-0 top-0 flex size-8 items-center justify-center rounded-full bg-white"
-        style={{ boxShadow: "0 2px 10px rgba(80,100,200,0.18)" }}
+        className="absolute right-0 top-0 flex size-10 items-center justify-center rounded-full bg-white"
+        style={{ boxShadow: "0 3.48px 3.48px 0 rgba(92,183,232,0.2)" }}
       >
-        <svg viewBox="0 0 18 14" fill="none" aria-hidden className="w-[14px]">
-          <path d="M2 7h12m0 0L9.5 2.5M14 7l-4.5 4.5" stroke="#5B9FE8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 21 21" fill="none" aria-hidden className="size-[21px]">
+          <path d="M4 10.5h11m0 0l-4.5-4.5M15 10.5l-4.5 4.5" stroke="#1E8FD6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
     </motion.div>
@@ -237,11 +229,11 @@ export default function Connected({
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="relative z-10 overflow-hidden px-6 py-20 lg:px-[60px]"
+        className="relative z-10 overflow-hidden px-6 py-6 md:py-10 lg:px-[60px]"
         style={{ background: "rgb(255, 255, 255)" }}
       >
         <motion.div
-          className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-16"
+          className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-2"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
@@ -267,36 +259,25 @@ export default function Connected({
           {/* Mobile: Embla carousel */}
           <MobileCarousel steps={steps} />
 
-          {/* Desktop: icons row + connectors, desc cards below */}
-          <div className="hidden flex-col gap-0 lg:flex">
-            {/* Top row: medallions with connectors between */}
-            <div className="flex items-center justify-center" style={{ height: 260 }}>
-              {steps.map((step, i) => (
-                <Fragment key={step.title}>
-                  {i > 0 && (
-                    <div className="shrink-0 self-center">
-                      <Connector delay={CARDS_START + (i - 0.5) * CARD_STAGGER} />
-                    </div>
-                  )}
-                  <motion.div
-                    variants={fadeUp}
-                    custom={CARDS_START + i * CARD_STAGGER}
-                    className="flex h-full flex-1 items-center justify-center"
-                  >
+          {/* Desktop: each step is one 320px column (medallion + card stacked,
+              16px gap — Figma frame), with connectors between columns aligned
+              to the medallion centre. */}
+          <div className="hidden items-start justify-center lg:flex">
+            {steps.map((step, i) => (
+              <Fragment key={step.title}>
+                {i > 0 && (
+                  <div className="z-20 -mx-[34px] mt-[90px] shrink-0">
+                    <Connector delay={CARDS_START + (i - 0.5) * CARD_STAGGER} />
+                  </div>
+                )}
+                <div className="flex w-full max-w-[320px] flex-1 flex-col items-center gap-4 px-4">
+                  <motion.div variants={fadeUp} custom={CARDS_START + i * CARD_STAGGER}>
                     <Medallion icon={step.icon} />
                   </motion.div>
-                </Fragment>
-              ))}
-            </div>
-
-            {/* Bottom row: description cards aligned under each medallion */}
-            <div className="-mt-14 flex items-start justify-center gap-6">
-              {steps.map((step, i) => (
-                <div key={step.title} className="flex flex-1">
                   <DescCard step={step} delay={CARDS_START + i * CARD_STAGGER + 0.15} />
                 </div>
-              ))}
-            </div>
+              </Fragment>
+            ))}
           </div>
         </motion.div>
       </section>

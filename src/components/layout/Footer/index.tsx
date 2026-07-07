@@ -12,22 +12,24 @@ type FooterLink = string | { label: string; href?: string };
 type LinkColumn = { heading: string; links: FooterLink[] };
 
 // Only labels whose page actually exists in the app get navigation. Labels not
-// listed here (e.g. "Career", "Terms of Service", the platform product names
-// that have no page yet) render as plain, non-navigating text. Keep this in one
+// listed here (e.g. "Case Studies", "Terms of Service", any product name that
+// has no page yet) render as plain, non-navigating text. Keep this in one
 // place so every page using <Footer> gets the links automatically.
 const FOOTER_ROUTES: Record<string, string> = {
   "HRMS Management": "/hrms",
-  "BI Reporting": "/bi-dashboards",
+  "V-Watch AI Dashboard": "/ai-platform",
   "System Integrators": "/integrators-partners",
+  "Power BI Reports": "/bi-dashboards",
   Construction: "/industries/construction",
-  Industrial: "/industries/industrial-energy",
-  Commercial: "/industries/commercial-facilities",
+  "Industrial & Energy": "/industries/industrial-energy",
+  "Commercial & Facilities": "/industries/commercial-facilities",
   "About Us": "/about",
-  Contact: "/contact-us",
+  "Contact Us": "/contact-us",
 };
 
 function resolveLink(link: FooterLink): { label: string; href?: string } {
-  if (typeof link === "string") return { label: link, href: FOOTER_ROUTES[link] };
+  if (typeof link === "string")
+    return { label: link, href: FOOTER_ROUTES[link] };
   return { label: link.label, href: link.href ?? FOOTER_ROUTES[link.label] };
 }
 
@@ -46,19 +48,31 @@ const stagger: Variants = {
 const DEFAULT_COLUMNS: LinkColumn[] = [
   {
     heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
+    links: ["V-Watch AI Dashboard", "System Integrators", "Power BI Reports"],
   },
   {
     heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
+    links: ["Construction", "Industrial & Energy", "Commercial & Facilities"],
   },
-  { heading: "Company", links: ["About Us", "Contact", "Career"] },
+  { heading: "Company", links: ["About Us", "Case Studies", "Contact Us"] },
 ];
 
-const SOCIALS: { name: string; icon: string }[] = [
-  { name: "LinkedIn", icon: "/footer/linkedin.svg" },
-  { name: "Facebook", icon: "/footer/facebook.svg" },
-  { name: "Instagram", icon: "/footer/instagram.svg" },
+const SOCIALS: { name: string; icon: string; href: string }[] = [
+  {
+    name: "LinkedIn",
+    icon: "/footer/linkedin.svg",
+    href: "https://www.linkedin.com/company/v-watch-ai/posts/?feedView=all",
+  },
+  {
+    name: "Facebook",
+    icon: "/footer/facebook.svg",
+    href: "https://www.facebook.com/vwatchai.official/ ",
+  },
+  {
+    name: "Instagram",
+    icon: "/footer/instagram.svg",
+    href: "https://www.instagram.com/v_watchai/ ",
+  },
 ];
 
 type FooterProps = {
@@ -68,7 +82,7 @@ type FooterProps = {
   ctaVariant?: "light" | "dark";
   isBookADemoVisible?: boolean;
   showCta?: boolean;
-  showHeader ?: boolean
+  showHeader?: boolean;
 };
 
 const CTA_BG = {
@@ -83,11 +97,14 @@ export default function Footer({
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
   isBookADemoVisible = true,
-  showHeader = true
+  showHeader = true,
 }: Readonly<FooterProps>) {
   // Trigger point: when the footer enters the viewport, start the CTA slide-up.
   const triggerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(triggerRef, { once: true, margin: "0px 0px -80px 0px" });
+  const inView = useInView(triggerRef, {
+    once: true,
+    margin: "0px 0px -80px 0px",
+  });
 
   return (
     <MotionConfig reducedMotion="user">
@@ -98,7 +115,6 @@ export default function Footer({
         to reveal the content beneath — no translateY on the content itself.
       */}
       <div ref={triggerRef} className="relative overflow-hidden bg-[#19213D]">
-
         {/* ── Dark curtain — covers content at start, slides down out on trigger */}
         <motion.div
           initial={{ y: "0%" }}
@@ -118,35 +134,36 @@ export default function Footer({
               backgroundImage: "url('/footer/bg-grid.svg')",
               backgroundSize: "cover",
               width: "100%",
-              maskImage: "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
-              WebkitMaskImage: "radial-gradient(75% 85% at 50% 22%, #000 135%, transparent 78%)",
+              maskImage:
+                "radial-gradient(75% 85% at 50% 22%, #000 0%, transparent 78%)",
+              WebkitMaskImage:
+                "radial-gradient(75% 85% at 50% 22%, #000 135%, transparent 78%)",
             }}
           />
           {/* soft cyan glow blobs */}
           <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#0DBFC4] opacity-40 blur-[170px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-[26rem] rounded-full bg-[#4DAFE0] opacity-30 blur-[200px]" />
 
-          {showHeader ? 
-
+          {showHeader ? (
             <motion.div
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            initial={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.55 }}
-            className="relative mx-auto flex max-w-[991px] flex-col items-center gap-6"
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.55 }}
+              className="relative mx-auto flex max-w-[991px] flex-col items-center gap-6"
             >
-            <div className="flex flex-col items-center gap-4">
-              <h2 className="text-[28px] font-bold text-white sm:text-[32px]">
-                {ctaTitle}
-              </h2>
-              <p className="max-w-[814px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
-                {ctaText}
-              </p>
-            </div>
-            {isBookADemoVisible && <BookADemo />}
-          </motion.div>
-          :(
-  <div className="h-[220px]" />
-)}
+              <div className="flex flex-col items-center gap-4">
+                <h2 className="text-[28px] font-bold text-white sm:text-[32px]">
+                  {ctaTitle}
+                </h2>
+                <p className="max-w-[814px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
+                  {ctaText}
+                </p>
+              </div>
+              {isBookADemoVisible && <BookADemo />}
+            </motion.div>
+          ) : (
+            <div className="h-[220px]" />
+          )}
         </div>
 
         {/* ── Footer card — sits on top of CTA via z-10 */}
@@ -237,13 +254,14 @@ export default function Footer({
                   <motion.a
                     key={s.name}
                     variants={fadeUp}
-                    href="#"
+                    href={s.href}
                     aria-label={s.name}
+                    target="_blank"
                     className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-[inset_-2.5px_-3.3px_4.4px_rgba(128,211,146,0.25),inset_0_0_12px_rgba(60,187,214,0.49),0_3.3px_3.3px_rgba(15,87,138,0.20)]"
                   >
                     <Image
                       src={s.icon}
-                      alt=""
+                      alt={s.name}
                       width={22}
                       height={22}
                       className="h-[22px] w-[22px]"
@@ -254,7 +272,6 @@ export default function Footer({
             </div>
           </div>
         </div>
-
       </div>
     </MotionConfig>
   );

@@ -135,7 +135,7 @@ export default function FeatureGrid() {
   return (
     <section
       id="how-it-works"
-      className="relative scroll-mt-24 overflow-hidden bg-white px-6 pb-20 lg:px-[60px]"
+      className="relative scroll-mt-24 overflow-hidden bg-white px-6 py-20 lg:px-[60px]"
     >
       {/* Bottom half of one-system.svg. UnifiedSystem above pins the same image's
           centre to the seam and shows the top half; this mirrors it (top:-half)

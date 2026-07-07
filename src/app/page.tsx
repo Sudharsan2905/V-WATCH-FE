@@ -92,8 +92,8 @@ export default function Home() {
         </ul>
       </section>
 
-      <FragmentedOps />
-      <UnifiedSystem />
+      {/* <FragmentedOps /> */}
+      {/* <UnifiedSystem /> */}
       <FeatureGrid />
       <Industries />
       <BuiltToScale />
