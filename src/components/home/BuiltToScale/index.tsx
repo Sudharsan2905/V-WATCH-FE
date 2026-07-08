@@ -53,7 +53,8 @@ const BOW_DELAY = 1.75; // the arc connecting the cards — last
 //   • glow-outer / glow-mid / glow-bulb.png — left rocket backdrop (3 ellipses)
 //   • rocket.png  — rocket, centred on the bulb
 //   • dots.png    — accent dots around the cluster
-//   • bullet.png  — centre command-centre image (caption baked in)
+//   • bulletBG.svg + command-center.webp — centre command-centre banner
+//     (frame + scene; caption rendered as real text, see <CommandCentre>)
 //   • bow.png     — concentric arc that the cards' nodes sit on
 //   • card-1/2/3.png — the three capability icons
 // (Figma node 215:8382)
@@ -64,13 +65,18 @@ const BOW_DELAY = 1.75; // the arc connecting the cards — last
 type Card = {
   icon: string;
   text: string;
-  cls: string;   // desktop: absolute positioning
-  mCls: string;  // mobile: per-card left padding to follow the bow curve
+  cls: string; // desktop: absolute positioning
+  mCls: string; // mobile: per-card left padding to follow the bow curve
   highlight?: boolean;
 };
 
 const CARDS: Card[] = [
-  { icon: "/home/card-1.png", text: "Monitor up to 100,000 profiles per site", cls: "top-[8%] left-[60%] w-[37%]", mCls: "right-[50px]" },
+  {
+    icon: "/home/card-1.png",
+    text: "Monitor up to 100,000 profiles per site",
+    cls: "top-[8%] left-[60%] w-[37%]",
+    mCls: "right-[50px]",
+  },
   {
     icon: "/home/card-2.png",
     text: "Real-time data processing across multiple operations",
@@ -171,7 +177,12 @@ function RocketCluster() {
 
 // The visual card itself (node + icon + text). Positioning/width is controlled
 // by the parent so it can be reused in both the absolute stage and the stack.
-function CardBody({ icon, text, highlight, mCls = "" }: Readonly<Pick<Card, "icon" | "text" | "highlight"> & { mCls?: string }>) {
+function CardBody({
+  icon,
+  text,
+  highlight,
+  mCls = "",
+}: Readonly<Pick<Card, "icon" | "text" | "highlight"> & { mCls?: string }>) {
   return (
     <div
       className={`relative flex items-center gap-3.5 rounded-[18px] px-4 py-3.5 backdrop-blur-md ${mCls} ${
@@ -186,7 +197,53 @@ function CardBody({ icon, text, highlight, mCls = "" }: Readonly<Pick<Card, "ico
       <span className="relative size-7 shrink-0">
         <Image src={icon} alt="" fill className="object-contain" sizes="28px" />
       </span>
-      <p className="text-[clamp(13px,1.15vw,16px)] font-semibold leading-tight text-[#0A4B6E]">{text}</p>
+      <p className="text-[clamp(13px,1.15vw,16px)] font-semibold leading-tight text-[#0A4B6E]">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+// Command-centre banner (Figma frame 215:8382 → 2147230371). The rounded frame
+// with its 1px gradient border and 4% white fill comes from bulletBG.svg; the
+// control-room scene is clipped inside it (30px-left / stadium-right corners),
+// and the caption is real text laid over a dark legibility gradient — so it
+// stays crisp and translatable instead of being baked into the artwork.
+function CommandCentre({ priority = false }: Readonly<{ priority?: boolean }>) {
+  return (
+    <div className="relative h-full w-full">
+      {/* Frame: rounded shape + gradient border + subtle fill */}
+      <Image src="/home/bulletBG.svg" alt="" fill className="object-fill" />
+
+      {/* Scene, inset to sit within the frame's ~10px padding and clipped to
+          the inner rounded shape (20px left, stadium right). */}
+      <div
+        className="absolute inset-x-[1.9%] inset-y-[3.7%] overflow-hidden"
+        style={{
+          borderTopLeftRadius: "40px",
+          borderTopRightRadius: "400px",
+          borderBottomLeftRadius: "40px",
+          borderBottomRightRadius: "400px",
+        }}
+      >
+        <Image
+          src="/home/command-center.webp"
+          alt=""
+          fill
+          className="object-cover" 
+          sizes="(max-width: 768px) 100vw, 520px"
+          priority={priority}
+        />
+        {/* Dark gradient so the caption stays legible over the artwork */}
+        {/* Glass Overlay */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] border-t border-white/10 bg-white/10 backdrop-blur-md" />
+
+        {/* Caption */}
+        <p className="absolute inset-x-0 bottom-[9%] mx-auto max-w-[82%] text-center text-[clamp(11px,2.55vw,17px)] font-bold leading-[1.4] text-white">
+          When operations scale, V-Watch AI scales with you, without loss of
+          visibility or control.
+        </p>
+      </div>
     </div>
   );
 }
@@ -277,14 +334,7 @@ export default function BuiltToScale() {
                 transform: "translateY(-50%)",
               }}
             >
-              <Image
-                src="/home/bullet.png"
-                alt="When operations scale, V-Watch Ai scales with you, without loss of visibility or control."
-                fill
-                className="object-contain"
-                sizes="600px"
-                priority
-              />
+              <CommandCentre priority />
             </motion.div>
 
             {/* Bow — concentric arc the card nodes rest on */}
@@ -339,13 +389,7 @@ export default function BuiltToScale() {
               custom={0}
               className="relative mx-auto aspect-[516/271] w-full max-w-[480px]"
             >
-              <Image
-                src="/home/bullet.png"
-                alt="When operations scale, V-Watch Ai scales with you, without loss of visibility or control."
-                fill
-                className="object-contain"
-                sizes="(max-width: 480px) 100vw, 480px"
-              />
+              <CommandCentre />
             </motion.div>
 
             {/* Rocket cluster (left) + the three point cards (right) */}

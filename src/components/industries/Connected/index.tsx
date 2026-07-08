@@ -229,7 +229,7 @@ export default function Connected({
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="relative z-10 overflow-hidden px-6 py-6 md:py-10 lg:px-[60px]"
+        className="relative z-10 overflow-hidden px-6 py-10 md:py-20 lg:px-[60px]"
         style={{ background: "rgb(255, 255, 255)" }}
       >
         <motion.div

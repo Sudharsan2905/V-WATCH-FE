@@ -207,6 +207,58 @@ function ArrowButton({
   );
 }
 
+// Horizontal chevron for the mobile prev/next arrows (left / right).
+function ChevronH({ dir }: Readonly<{ dir: "left" | "right" }>) {
+  const gid = `po-chevh-${dir}`;
+  return (
+    <svg
+      width="7"
+      height="12"
+      viewBox="0 0 7 12"
+      fill="none"
+      aria-hidden
+      className={dir === "left" ? "" : "rotate-180"}
+    >
+      <defs>
+        <linearGradient
+          id={gid}
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="12"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#21B1F1" />
+          <stop offset="1" stopColor="#C5EB4C" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M6 1 1 6l5 5"
+        stroke={`url(#${gid})`}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowButtonH({
+  dir,
+  onClick,
+}: Readonly<{ dir: "left" | "right"; onClick: () => void }>) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={dir === "left" ? "Previous capability" : "Next capability"}
+      className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+    >
+      <ChevronH dir={dir} />
+    </button>
+  );
+}
+
 function CheckItem({ children }: Readonly<{ children: string }>) {
   return (
     <li className="flex items-center gap-3">
@@ -264,6 +316,17 @@ export default function PlatformOverview({
     },
     [],
   );
+
+  // Preload every slide image up-front so the carousel never flashes an empty
+  // card when it advances (the images are served static via `unoptimized`, so
+  // these cached fetches are the exact URLs the <Image>s request).
+  useEffect(() => {
+    capabilities.forEach((c) => {
+      if (!c.image) return;
+      const img = new window.Image();
+      img.src = c.image;
+    });
+  }, [capabilities]);
 
   const goTo = (i: number) => {
     setActiveIndex(i);
@@ -423,6 +486,7 @@ export default function PlatformOverview({
                             src={activeCap.image ?? CAP_IMAGE}
                             alt={activeCap.title}
                             fill
+                            unoptimized
                             className="object-cover"
                             sizes="100vw"
                           />
@@ -434,22 +498,38 @@ export default function PlatformOverview({
               </div>
             </div>{/* end inner row */}
 
-            {/* Mobile dot indicators — replaces the sidebar progress bar */}
-            <div className="order-2 flex items-center justify-center gap-2 lg:hidden">
-              {capabilities.map((cap, i) => (
-                <button
-                  key={cap.number}
-                  type="button"
-                  aria-label={`Go to ${cap.title}`}
-                  onClick={() => goTo(i)}
-                  className="rounded-full transition-all duration-300"
-                  style={{
-                    width: i === activeIndex ? 20 : 8,
-                    height: 8,
-                    background: i === activeIndex ? "#0A8EC8" : "rgba(10,142,200,0.25)",
-                  }}
-                />
-              ))}
+            {/* Mobile controls — prev arrow · dot indicators · next arrow
+                (replaces the desktop sidebar progress bar) */}
+            <div className="order-2 flex items-center justify-center gap-3 lg:hidden">
+              <ArrowButtonH
+                dir="left"
+                onClick={() =>
+                  goTo(
+                    (activeIndex - 1 + capabilities.length) %
+                      capabilities.length,
+                  )
+                }
+              />
+              <div className="flex items-center justify-center gap-2">
+                {capabilities.map((cap, i) => (
+                  <button
+                    key={cap.number}
+                    type="button"
+                    aria-label={`Go to ${cap.title}`}
+                    onClick={() => goTo(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: i === activeIndex ? 20 : 8,
+                      height: 8,
+                      background: i === activeIndex ? "#0A8EC8" : "rgba(10,142,200,0.25)",
+                    }}
+                  />
+                ))}
+              </div>
+              <ArrowButtonH
+                dir="right"
+                onClick={() => goTo((activeIndex + 1) % capabilities.length)}
+              />
             </div>
 
             {/* Banner — inside left column, below the content card */}
@@ -486,6 +566,7 @@ export default function PlatformOverview({
                         src={activeCap.image ?? CAP_IMAGE}
                         alt={activeCap.title}
                         fill
+                        unoptimized
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 55vw"
                       />

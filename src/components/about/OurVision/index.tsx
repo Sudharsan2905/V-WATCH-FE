@@ -15,11 +15,12 @@ const slideFromRight: import("motion/react").Variants = {
   show: (delay = 0) => ({ opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE, delay } }),
 };
 
+// Shared with the pre-construction "single platform" section — same SVG icons.
 const ICONS = [
-  { src: "/about/vision-icon-people.webp", label: "People" },
-  { src: "/about/vision-icon-movement.webp", label: "Movement" },
-  { src: "/about/vision-icon-operations.webp", label: "Operations" },
-  { src: "/about/vision-icon-workforce.webp", label: "Workforce" },
+  { src: "/pre-construction/single-platform/icons/people.svg", label: "People" },
+  { src: "/pre-construction/single-platform/icons/movement.svg", label: "Movement" },
+  { src: "/pre-construction/single-platform/icons/operations.svg", label: "Operations" },
+  { src: "/pre-construction/single-platform/icons/workforce.svg", label: "Workforce" },
 ];
 
 // Desktop illustration is laid out at this native design width (Figma frame),

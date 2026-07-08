@@ -30,7 +30,7 @@ export default function DirectContact() {
     <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden bg-[#F2F8FE] px-6 pt-8 pb-12 lg:px-[60px] lg:pt-10 lg:pb-[120px]">
       <motion.div
-        className="mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]"
+        className="mx-auto flex w-full max-w-[1280px] flex-col gap-[30px]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}
@@ -47,7 +47,7 @@ export default function DirectContact() {
         </motion.header>
 
         {/* Body: blue panel + form. Form overlaps on lg, stacks on mobile. */}
-        <div className="relative">
+        <div className="relative w-full max-w-[1160px]">
           <motion.div variants={panelLeft}>
             <ContactInfoPanel />
           </motion.div>

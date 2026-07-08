@@ -77,7 +77,7 @@ const ROWS: Card[][] = [
     },
     {
       title: "Infrastructure & Utilities",
-      img: "/industry/adapt-infrastructure.webp",
+      img: "/industry/adapt-infrastructure1.svg",
       icon: "/industries/industries-hub/infrastructure.svg",
       size: "sm",
       borderStyle: {

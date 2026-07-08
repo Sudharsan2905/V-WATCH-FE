@@ -115,15 +115,18 @@ export default function PlatformVisibility() {
 
           <motion.div
             variants={slideFromRight}
-            className="flex w-full items-start justify-center lg:w-[670px] lg:shrink-0"
+            className="flex w-full justify-center lg:w-167.5 lg:shrink-0"
           >
             <Image
               src="/ai-platform/funnel-diagram1.svg"
               // src="/ai-platform/funnel-diagram.png"
               alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
-              width={593}
-              height={453}
-              className="h-[453px] max-w-[593px] object-contain"
+              width={592}
+              height={484}
+              // Dimensions match the SVG's cropped viewBox (592×484) so the box
+              // aspect equals the artwork — no letterbox gaps. Scales down with
+              // the column (w-full) and stays centred (mx-auto).
+              className="mx-auto h-auto w-full max-w-148.25 object-contain"
             />
           </motion.div>
         </div>

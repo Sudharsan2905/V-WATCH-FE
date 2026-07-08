@@ -257,7 +257,7 @@ function Orbital({ className = "" }: { className?: string }) {
 export default function VWatchAIPlatform() {
   return (
     <section
-      className="relative z-10 -mt-[46px] bg-[#19213d] py-[60px] lg:py-[80px] overflow-hidden"
+      className="relative z-10 bg-[#19213d] py-[60px] lg:py-[80px] overflow-hidden"
       // Convex curved top edge (the light section above shows through at the corners).
       style={{ borderRadius: "50% 50% 0 0 / 52px 52px 0 0" }}
     >

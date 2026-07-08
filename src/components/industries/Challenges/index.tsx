@@ -108,7 +108,7 @@ function CollageImg({
       alt=""
       width={w}
       height={h}
-      className={`h-auto ${className ?? ""}`}
+      className={`h-auto rounded-2xl ${className ?? ""}`}
       style={{ maxWidth: w, maxHeight: h }}
     />
   );
