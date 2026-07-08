@@ -65,20 +65,20 @@ type SinglePlatformContent = {
 
 const DEFAULT_FEATURES: Feature[] = [
   {
-    icon: "/pre-construction/single-platform/icons/people.png",
+    icon: "/pre-construction/single-platform/icons/people.svg",
     label: "People",
   },
   {
-    icon: "/pre-construction/single-platform/icons/operations.png",
+    icon: "/pre-construction/single-platform/icons/operations.svg",
     label: "Operations",
   },
   {
-    icon: "/pre-construction/single-platform/icons/movement.png",
+    icon: "/pre-construction/single-platform/icons/movement.svg",
     label: "Movement",
   },
   {
-    icon: "/pre-construction/single-platform/icons/workforce.png",
-    label: "Workforce",
+    icon: "/pre-construction/single-platform/icons/workforce.svg",
+    label: "Workforce"
   },
 ];
 

@@ -64,27 +64,27 @@ const SCENE_BASE = "/pre-construction/post-construction/icons";
 
 const DEFAULT_FEATURES: Feature[] = [
   {
-    icon: `${ICON_BASE}/worker-identities.png`,
+    icon: `${ICON_BASE}/worker-identities.svg`,
     label: "Worker identities",
     image: `${SCENE_BASE}/worker-identities.webp`,
   },
   {
-    icon: `${ICON_BASE}/asset-registry.png`,
+    icon: `${ICON_BASE}/asset-registry.svg`,
     label: "Asset registry",
     image: `${SCENE_BASE}/asset-registry.webp`,
   },
   {
-    icon: `${ICON_BASE}/vendor-records.png`,
+    icon: `${ICON_BASE}/vendor-records.svg`,
     label: "Vendor records",
     image: `${SCENE_BASE}/vendor-records.webp`,
   },
   {
-    icon: `${ICON_BASE}/as-built-data.png`,
+    icon: `${ICON_BASE}/as-built-data.svg`,
     label: "As-built data",
     image: `${SCENE_BASE}/as-built-data.webp`,
   },
   {
-    icon: `${ICON_BASE}/access-security.png`,
+    icon: `${ICON_BASE}/access-security.svg`,
     label: "Access and security policies",
     image: `${SCENE_BASE}/access-security.webp`,
   },

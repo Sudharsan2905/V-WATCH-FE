@@ -150,7 +150,7 @@ export default function HelpCards() {
     <MotionConfig reducedMotion="user">
     <section className="relative -mt-6 overflow-hidden rounded-t-[40px] bg-[#F2F8FE] px-6 py-8 lg:-mt-16 lg:rounded-t-[60px] lg:px-[60px] lg:py-10">
       <motion.div
-        className="relative mx-auto flex w-full max-w-[1280px] flex-col items-center gap-[30px]"
+        className="relative mx-auto flex w-full max-w-[1280px] flex-col items-start gap-[30px]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}

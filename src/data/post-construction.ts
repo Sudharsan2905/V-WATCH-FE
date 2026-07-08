@@ -27,10 +27,10 @@ export const postConstructionContent = {
     variant: "checklist" as const,
     pillBadge: false,
     features: [
-      { icon: "/pre-construction/single-platform/icons/icon-1.png", label: "Monitor and secure your operations in real time" },
-      { icon: "/pre-construction/single-platform/icons/icon-2.png", label: "Detect and respond to threats early" },
-      { icon: "/pre-construction/single-platform/icons/icon-3.png", label: "Maintain compliance across systems and processes" },
-      { icon: "/pre-construction/single-platform/icons/icon-4.png", label: "Ensure continuous uptime and operational stability" },
+      { icon: "/pre-construction/single-platform/icons/icon-1.svg", label: "Monitor and secure your operations in real time" },
+      { icon: "/pre-construction/single-platform/icons/icon-2.svg", label: "Detect and respond to threats early" },
+      { icon: "/pre-construction/single-platform/icons/icon-3.svg", label: "Maintain compliance across systems and processes" },
+      { icon: "/pre-construction/single-platform/icons/icon-4.svg", label: "Ensure continuous uptime and operational stability" },
     ],
     pill: "",
     // ADD → /public/post-construction/single-platform/map.png

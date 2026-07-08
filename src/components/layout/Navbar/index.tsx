@@ -710,6 +710,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                               <li key={sub.title}>
                                 <Link
                                   href={sub.href}
+                                  aria-current={sub.href === pathname ? "page" : undefined}
                                   onClick={(e) => {
                                     // Already on the target page: scroll to top
                                     // instead of a no-op same-route navigation.
@@ -720,16 +721,22 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                     setMobileOpen(false);
                                     setMobileSub(null);
                                   }}
-                                  className="group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.06]"
+                                  className={`group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors ${
+                                    sub.href === pathname
+                                      ? "bg-white/12"
+                                      : "hover:bg-white/6"
+                                  }`}
                                 >
                                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
                                     <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
                                   </span>
                                   <span className="flex min-w-0 flex-1 flex-col">
-                                    <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
+                                    <span className={`text-[13px] font-semibold leading-tight ${
+                                      sub.href === pathname ? "text-[#5FD0F2]" : "text-white"
+                                    }`}>{sub.title}</span>
                                     <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
                                   </span>
-                                  <ChevronRightButton />
+                                  <ChevronRightButton active={sub.href === pathname} />
                                 </Link>
                               </li>
                             )

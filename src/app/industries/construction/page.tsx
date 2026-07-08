@@ -9,7 +9,7 @@ import UseCases from "@/components/industries/UseCases";
 import Footer from "@/components/layout/Footer";
 import { constructionContent } from "@/data/industries/construction";
 
-export default function ConstructionPage() {
+export default function ConstructionPage() {                                                   
   const {
     hero,
     challenges,
