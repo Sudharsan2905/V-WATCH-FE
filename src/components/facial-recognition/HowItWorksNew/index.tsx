@@ -23,26 +23,25 @@ const slideLeft: Variants = {
   }),
 };
 
-
 const STEPS = [
   {
     number: "01",
-    icon: "/facial-recognition/icon-01.png",
+    icon: "/facial-recognition/icon-01.svg",
     label: "Verified access logs know exactly who entered",
   },
   {
     number: "02",
-    icon: "/facial-recognition/icon-02.png",
+    icon: "/facial-recognition/icon-02.svg",
     label: "Real-time alerts for unauthorized attempts",
   },
   {
     number: "03",
-    icon: "/facial-recognition/icon-03.png",
+    icon: "/facial-recognition/icon-03.svg",
     label: "Integrated compliance and audit tracking",
   },
   {
     number: "04",
-    icon: "/facial-recognition/icon-04.png",
+    icon: "/facial-recognition/icon-04.svg",
     label: "Complete activity history for investigation",
   },
 ];
@@ -51,23 +50,26 @@ const CARDS = [
   {
     key: "accuracy",
     title: "Accuracy",
-    icon: "/facial-recognition/icon-accuracy.png",
+    icon: "/facial-recognition/icon-accuracy.svg",
     image: "/facial-recognition/accuracy.png",
-    description: "Designed to perform reliably across real-world conditions including varied lighting, PPE, and high-traffic environments.",
+    description:
+      "Designed to perform reliably across real-world conditions including varied lighting, PPE, and high-traffic environments.",
   },
   {
     key: "privacy",
     title: "Privacy",
-    icon: "/facial-recognition/icon-privacy.png",
+    icon: "/facial-recognition/icon-privacy.svg",
     image: "/facial-recognition/privacy.png",
-    description: "Biometric data is securely stored and managed with strict access controls and compliance standards.",
+    description:
+      "Biometric data is securely stored and managed with strict access controls and compliance standards.",
   },
   {
     key: "speed",
     title: "Speed",
-    icon: "/facial-recognition/icon-speed.png",
+    icon: "/facial-recognition/icon-speed.svg",
     image: "/facial-recognition/speed.png",
-    description: "Verification happens instantly enabling high-volume entry without delays.",
+    description:
+      "Verification happens instantly enabling high-volume entry without delays.",
   },
 ];
 
@@ -257,6 +259,7 @@ function FeatureCard({
             src={image}
             alt={title}
             fill
+            unoptimized
             sizes="(max-width: 640px) 100vw, 367px"
             className="object-cover"
           />
@@ -316,10 +319,11 @@ export default function HowItWorksNew() {
               className="flex items-center justify-center overflow-hidden rounded-[20px] lg:w-[44%] lg:shrink-0"
             >
               <Image
-                src="/facial-recognition/how-it-works.webp"
+                src="/facial-recognition/how-it-works1.webp"
                 alt="Facial recognition scan"
                 width={500}
                 height={354}
+                className="object-cover"
               />
             </motion.div>
 

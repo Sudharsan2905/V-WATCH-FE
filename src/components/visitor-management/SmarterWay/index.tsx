@@ -42,19 +42,19 @@ type Card = { text: string; icon: string };
 const CARDS: Card[] = [
   {
     text: "Pre-register and approve visitors before arrival",
-    icon: "/visitor-management/pre-registration-icon.png",
+    icon: "/visitor-management/pre-registration-icon.svg",
   },
   {
     text: "Real-time visitor tracking and entry logs",
-    icon: "/visitor-management/realtime-tracking-icon.png",
+    icon: "/visitor-management/realtime-tracking-icon.svg",
   },
   {
     text: "Faster check-ins with digital or biometric verification",
-    icon: "/visitor-management/fast-checkin-icon.png",
+    icon: "/visitor-management/fast-checkin-icon.svg",
   },
   {
     text: "Full visibility of who is on-site at any time",
-    icon: "/visitor-management/onsite-visibility-icon.png",
+    icon: "/visitor-management/onsite-visibility-icon.svg",
   },
 ];
 
@@ -85,9 +85,85 @@ function FeatureCard({
           boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
-        {/* Icon — Presentation*.png already contains the full icon graphic */}
-        <div className="relative max-h-[54px] max-w-[60px] h-full w-full shrink-0">
-          <Image src={icon} alt="" height={54} width={60} className="object-cover object-center h-full w-full" />
+        {/* Icon badge — Figma spec: 60×54 pill, blue circle, frosted icon
+            square. All sizes/positions read from the Figma inspector. */}
+        <div className="relative shrink-0 flex justify-center items-center" style={{ width: 60, height: 54 }}>
+          {/* 1. Outer pill — radius 82.4, gradient fill #B8E6FF→#C1ECFF,
+              1.25px white→transparent gradient border (masked ring). */}
+          <div
+            className="absolute inset-0"
+            style={{
+              borderRadius: 82.4,
+              background: "linear-gradient(180deg, #B8E6FF 0%, #C1ECFF 100%)",
+            }}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                borderRadius: 82.4,
+                padding: 1.25,
+                background:
+                  "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0) 100%)",
+                WebkitMask:
+                  "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                WebkitMaskComposite: "xor",
+                mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                maskComposite: "exclude",
+              }}
+            />
+          </div>
+          {/* 2. Blue circle — centred in the pill */}
+          <div
+            className="absolute"
+            style={{
+              width: '29px',
+              height: '29px',
+              borderRadius: 9999,
+              background:
+                "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
+              boxShadow: "0 4px 14px rgba(26,143,206,0.32)",
+            }}
+          >
+            {/* 3. Frosted icon square — 0.4px white(40%)→transparent
+                gradient border (masked ring). */}
+            <div
+              className="absolute flex items-center justify-center"
+              style={{
+                width: 28.55,
+                height: 28.55,
+                left: '7.08px',
+                top: '5px',
+                borderRadius: 9,
+                background: "rgba(255,255,255,0.18)",
+                backdropFilter: "blur(4px)",
+                WebkitBackdropFilter: "blur(4px)",
+              }}
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  borderRadius: 9,
+                  padding: 0.4,
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)",
+                  WebkitMask:
+                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                  WebkitMaskComposite: "xor",
+                  mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                  maskComposite: "exclude",
+                }}
+              />
+              <Image
+                src={icon}
+                alt=""
+                width={19}
+                height={19}
+                className="object-contain"
+              />
+            </div>
+          </div>
         </div>
 
         <p className="text-[18px] font-normal leading-6 text-[#1D293D]">

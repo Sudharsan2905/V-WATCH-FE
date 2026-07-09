@@ -18,21 +18,21 @@ const CARDS = [
   {
     key: "speed",
     title: "Speed",
-    icon: "/facial-recognition/icon-speed.png",
+    icon: "/facial-recognition/icon-speed.svg",
     image: "/facial-recognition/speed.png",
     description: "Real-time updates ensure decisions can be made immediately during emergencies",
   },
   {
     key: "accuracy",
     title: "Accuracy",
-    icon: "/facial-recognition/icon-accuracy.png",
+    icon: "/facial-recognition/icon-accuracy.svg",
     image: "/real-time-headcount/accuracy.png",
     description: "Headcount is based on actual on-site data not assumptions or manual checks.",
   },
   {
     key: "reliability",
     title: "Reliability",
-    icon: "/real-time-headcount/reliability-icon.png",
+    icon: "/real-time-headcount/reliability-icon.svg",
     image: "/real-time-headcount/reliability.png",
     description: "Designed to perform under pressure in high-volume, high-risk environments.",
   },
@@ -142,6 +142,7 @@ function FeatureCard({
             src={image}
             alt={title}
             fill
+            unoptimized
             sizes="(max-width: 640px) 100vw, 33vw"
             className="object-cover h-[284px]"
           />

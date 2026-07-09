@@ -47,7 +47,7 @@ export default function DirectContact() {
         </motion.header>
 
         {/* Body: blue panel + form. Form overlaps on lg, stacks on mobile. */}
-        <div className="relative w-full max-w-[1160px]">
+        <div className="relative  w-full max-w-[1160px]">
           <motion.div variants={panelLeft}>
             <ContactInfoPanel />
           </motion.div>
