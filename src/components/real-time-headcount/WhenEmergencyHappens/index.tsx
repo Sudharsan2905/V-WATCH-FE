@@ -24,15 +24,15 @@ const fadeUp: Variants = {
 };
 
 const NEED_TO_KNOW = [
-  { icon: "/real-time-headcount/emergency-icon-1.png", label: "Who is still on-site" },
-  { icon: "/real-time-headcount/emergency-icon-2.png", label: "Who has exited safely" },
-  { icon: "/real-time-headcount/emergency-icon-3.png", label: "Who is unaccounted for" },
+  { icon: "/real-time-headcount/emergency-icon-1.svg", label: "Who is still on-site" },
+  { icon: "/real-time-headcount/emergency-icon-2.svg", label: "Who has exited safely" },
+  { icon: "/real-time-headcount/emergency-icon-3.svg", label: "Who is unaccounted for" },
 ];
 
 const CANNOT_RELY_ON = [
-  { icon: "/real-time-headcount/emergency-icon-4.png", label: "Manual roll calls" },
-  { icon: "/real-time-headcount/emergency-icon-5.png", label: "Incomplete attendance records" },
-  { icon: "/real-time-headcount/emergency-icon-6.png", label: "Delayed information" },
+  { icon: "/real-time-headcount/emergency-icon-4.svg", label: "Manual roll calls" },
+  { icon: "/real-time-headcount/emergency-icon-5.svg", label: "Incomplete attendance records" },
+  { icon: "/real-time-headcount/emergency-icon-6.svg", label: "Delayed information" },
 ];
 
 export default function WhenEmergencyHappens() {
@@ -114,7 +114,7 @@ export default function WhenEmergencyHappens() {
                 className="relative mx-auto w-full h-full max-w-[400px] shrink-0 lg:mx-0 lg:w-[416px] lg:max-w-none"
               >
                 <Image
-                  src="/real-time-headcount/emergency-floor-plan.png"
+                  src="/real-time-headcount/emergency-floor-plan.svg"
                   alt="Emergency floor plan showing occupant locations"
                   width={416}
                   height={320}

@@ -97,7 +97,7 @@ export default function ConnectedTo() {
           >
             {/* Replace src with your actual hub image */}
             <Image
-              src="/workforce/connected-hub.webp"
+              src="/workforce/connected-hub1.svg"
               alt="V-Watch Ai connected to workforce systems"
               width={480}
               height={300}

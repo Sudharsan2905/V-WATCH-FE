@@ -42,7 +42,7 @@ type Side = "left" | "right";
 
 // Card glyphs live in /public/visitor-management/how-to-work/ — each is mapped
 // to the step it best represents.
-const ICON = (file: string) => `/visitor-management/how-to-work/${file}.png`;
+const ICON = (file: string) => `/visitor-management/how-to-work/${file}.svg`;
 
 // System Input — top row (registration → access → identity → entry).
 const INPUT_LEFT: Item[] = [
@@ -122,8 +122,8 @@ function HiwCard({
           // Below lg the badge tucks inside the card; on desktop (lg) it sits
           // half-outside on the inner edge, where the connector meets it.
           iconRight
-            ? "right-2 min-[1140px]:right-0 min-[1140px]:translate-x-1/2"
-            : "left-2 min-[1140px]:left-0 min-[1140px]:-translate-x-1/2"
+            ? "right-3 min-[1140px]:right-0 min-[1140px]:translate-x-1/2"
+            : "left-3 min-[1140px]:left-0 min-[1140px]:-translate-x-1/2"
         }`}
       >
         <Image

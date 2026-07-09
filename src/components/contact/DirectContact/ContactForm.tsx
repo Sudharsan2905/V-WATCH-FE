@@ -121,7 +121,8 @@ function EnquirySelect({
   useEffect(() => {
     if (!open) return;
     function onPointer(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -266,7 +267,10 @@ export default function ContactForm() {
 
       <div className="flex w-full flex-col gap-4">
         {PAIRED_FIELDS.map((row) => (
-          <div key={row[0].name} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div
+            key={row[0].name}
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+          >
             {row.map((f) => (
               <div key={f.name} className="flex flex-col gap-1.5">
                 <FieldLabel required={f.required}>{f.label}</FieldLabel>
@@ -305,7 +309,7 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div className="flex w-full flex-col items-center gap-2.5">
+      <div className=" flex w-full flex-col items-center gap-2.5">
         <button
           type="submit"
           className="inline-flex h-11 items-center justify-center gap-2.5 rounded-[31px] px-6 text-[16px] font-bold leading-[16px] text-white shadow-[2px_5px_14px_rgba(79,148,104,0.2),0_6px_42px_rgba(38,124,153,0.1)]"

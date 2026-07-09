@@ -59,22 +59,22 @@ type Feature = {
 
 const DEFAULT_FEATURES: Feature[] = [
   {
-    icon: "/geofencing/define_zone.png",
+    icon: "/geofencing/define_zone.svg",
     title: "Define Zones",
     desc: "Mark restricted, controlled, or high-risk areas across your site.",
   },
   {
-    icon: "/geofencing/track_movement.png",
+    icon: "/geofencing/track_movement.svg",
     title: "Track Movement",
     desc: "Monitor the live location of workers, vehicles, and assets.",
   },
   {
-    icon: "/geofencing/detect_breaches.png",
+    icon: "/geofencing/detect_breaches.svg",
     title: "Detect Breaches",
     desc: "Instantly identify when someone enters a restricted zone.",
   },
   {
-    icon: "/geofencing/trigger_alerts.png",
+    icon: "/geofencing/trigger_alerts.svg",
     title: "Trigger Alerts",
     desc: "Notify teams immediately or activate automated responses.",
   },

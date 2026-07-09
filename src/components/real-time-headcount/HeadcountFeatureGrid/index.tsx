@@ -12,22 +12,22 @@ import {
 
 const FEATURES = [
   {
-    icon: "/real-time-headcount/track.png",
+    icon: "/real-time-headcount/track.svg",
     title: "Track",
     body: "Workforce presence is continuously tracked through access control and RTLS.",
   },
   {
-    icon: "/real-time-headcount/detect.png",
+    icon: "/real-time-headcount/detect.svg",
     title: "Detect",
     body: "System identifies real-time status during an incident.",
   },
   {
-    icon: "/real-time-headcount/display.png",
+    icon: "/real-time-headcount/display.svg",
     title: "Display",
     body: "Live dashboard shows headcount and evacuation progress.",
   },
   {
-    icon: "/real-time-headcount/respond.png",
+    icon: "/real-time-headcount/respond.svg",
     title: "Respond",
     body: "Teams act immediately with accurate, complete information.",
   },

@@ -25,19 +25,19 @@ const fadeUp: Variants = {
 
 const FEATURES = [
   {
-    icon: "/facial-recognition/Presentation1.png",
+    icon: "/facial-recognition/Presentation1.svg",
     label: "Instant identity verification",
   },
   {
-    icon: "/facial-recognition/Presentation2.png",
+    icon: "/facial-recognition/Presentation2.svg",
     label: "Fraud prevention and full accountability",
   },
   {
-    icon: "/facial-recognition/Presentation3.png",
+    icon: "/facial-recognition/Presentation3.svg",
     label: "Faster entry with no physical touchpoints",
   },
   {
-    icon: "/facial-recognition/Presentation4.png",
+    icon: "/facial-recognition/Presentation4.svg",
     label: "Real-time access control across locations",
   },
 ];
@@ -144,8 +144,8 @@ function FeatureCard({
             <Image
               src={icon}
               alt=""
-              width={18}
-              height={18}
+              width={19}
+              height={19}
               className="object-contain"
             />
           </div>

@@ -16,7 +16,7 @@ const FEATURES = [
     title: "Attendance & Time Tracking",
     description:
       "Automatically capture working hours, shifts, and attendance using real-time data.",
-    image: "/workforce/featureCard.webp",
+    image: "/workforce/featureCard1.svg",
   },
 ];
 
@@ -46,13 +46,13 @@ export default function FeatureHighlight() {
           viewport={viewportReveal}
         >
           <div
-  aria-hidden
-  className="pointer-events-none absolute bottom-0 left-0 right-0 h-[100px]"
-  style={{
-    background:
-      "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 75%, #ffffff 100%)",
-  }}
-/>
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[100px]"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 75%, #ffffff 100%)",
+            }}
+          />
           {FEATURES.map(({ number, title, description, image }, i) => (
             <motion.div
               key={number}
