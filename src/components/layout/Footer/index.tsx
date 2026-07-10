@@ -182,7 +182,7 @@ export default function Footer({
               {/* Brand */}
               <div className="flex w-full flex-col gap-5 md:w-[268px] md:shrink-0">
                 <Image
-                  src="/vwatch-logo.png"
+                  src="/vwatch-logo.svg"
                   alt="V-WATCH"
                   width={169}
                   height={40}

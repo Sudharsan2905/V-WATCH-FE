@@ -5,18 +5,6 @@ import HowItWorksNew from "@/components/facial-recognition/HowItWorksNew";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function FacialRecognitionPage() {
   return (
     <div className="relative overflow-x-hidden bg-[#F2F8FE]">
@@ -45,9 +33,7 @@ export default function FacialRecognitionPage() {
         </div>
       <Footer
         ctaTitle="Secure your site with verified identity"
-        ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."
-        linkColumns={FOOTER_COLUMNS}
-      />
+        ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."      />
     </div>
   );
 }

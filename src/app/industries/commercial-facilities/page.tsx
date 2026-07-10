@@ -34,7 +34,6 @@ export default function CommercialFacilitiesPage() {
       <Footer
         ctaTitle={footer.ctaTitle}
         ctaText={footer.ctaText}
-        linkColumns={footer.linkColumns}
       />
     </div>
   );

@@ -6,18 +6,6 @@ import ConnectedSystem from "@/components/contractor-compliance/ConnectedSystem"
 import ComplianceControl from "@/components/contractor-compliance/ComplianceControl";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function ContractorCompliancePage() {
   return (
     <div className="relative overflow-x-hidden bg-[#F2F8FE]">
@@ -48,9 +36,7 @@ export default function ContractorCompliancePage() {
         </div>
       <Footer
         ctaTitle="Stay compliant. Stay in control."
-        ctaText="See how V-Watch Ai helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."
-        linkColumns={FOOTER_COLUMNS}
-      />
+        ctaText="See how V-Watch Ai helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."      />
     </div>
   );
 }

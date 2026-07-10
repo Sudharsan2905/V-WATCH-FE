@@ -4,12 +4,6 @@ import HelpCards from "@/components/contact/HelpCards";
 import DirectContact from "@/components/contact/DirectContact";
 import Footer from "@/components/layout/Footer";
 
-const CONTACT_COLUMNS = [
-  { heading: "Platform", links: ["Dashboard", "BI Reporting", "System Integrators"] },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function ContactUsPage() {
   return (
     <div className="relative bg-[#F2F8FE]">
@@ -23,9 +17,7 @@ export default function ContactUsPage() {
       <DirectContact />
       <Footer
         ctaTitle="Looking for a full walkthrough?"
-        ctaText="If you're evaluating solutions or ready to explore implementation, we recommend booking a demo for a more detailed session."
-        linkColumns={CONTACT_COLUMNS}
-        ctaVariant="light"
+        ctaText="If you're evaluating solutions or ready to explore implementation, we recommend booking a demo for a more detailed session."        ctaVariant="light"
       />
     </div>
   );

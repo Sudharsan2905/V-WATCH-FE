@@ -7,15 +7,6 @@ import FeatureHighlight from "@/components/workforce-management/FeatureHighlight
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
-  { heading: "Company", links: ["About Us", "Contact", "Career"] },
-];
-
 export const metadata = {
   title: "Workforce Management | V-Watch Ai",
   description:
@@ -46,9 +37,7 @@ export default function WorkforceManagementPage() {
       </div>
       <Footer
         ctaTitle="Bring your workforce operations into one system"
-        ctaText="V-Watch Ai unifies attendance, claims, leave, and payroll — so your team spends less time on admin and more on the work that matters."
-        linkColumns={FOOTER_COLUMNS}
-      />
+        ctaText="V-Watch Ai unifies attendance, claims, leave, and payroll — so your team spends less time on admin and more on the work that matters."      />
     </div>
   );
 }

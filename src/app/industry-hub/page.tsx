@@ -7,21 +7,6 @@ import Solutions from "@/components/industry/Solutions";
 import Stats from "@/components/industry/Stats";
 import Footer from "@/components/layout/Footer";
 
-const INDUSTRY_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["DVA Access", "RTLS Tracking", "SMS Workflow", "HRMS Management"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  {
-    heading: "Company",
-    links: ["About Us", "Contact", "Career", "Terms of Service"],
-  },
-];
-
 export default function IndustryHubPage() {
   return (
     <div className="relative">
@@ -53,9 +38,7 @@ export default function IndustryHubPage() {
       <Stats />
       <Footer
         ctaTitle="Find the right solution for your environment"
-        ctaText="Explore how V-Watch Ai can help you improve visibility, strengthen compliance, and take full control of your operations."
-        linkColumns={INDUSTRY_COLUMNS}
-      />
+        ctaText="Explore how V-Watch Ai can help you improve visibility, strengthen compliance, and take full control of your operations."      />
     </div>
   );
 }

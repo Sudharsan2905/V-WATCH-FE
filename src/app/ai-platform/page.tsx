@@ -6,12 +6,6 @@ import DataToDecisions from "@/components/ai-platform/DataToDecisions";
 import ThreePillars from "@/components/ai-platform/ThreePillars";
 import Footer from "@/components/layout/Footer";
 
-const AI_PLATFORM_COLUMNS = [
-  { heading: "Platform", links: ["Dashboard", "BI Reporting", "System Integrators"] },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
-  { heading: "Company", links: ["About Us", "Contact", "Career"] },
-];
-
 export default function AIPlatformPage() {
   return (
     <div className="relative bg-[#F2F8FE]">
@@ -23,9 +17,7 @@ export default function AIPlatformPage() {
       <ThreePillars />
       <Footer
         ctaTitle="See how the platform works for your business"
-        ctaText="Discover how V-Watch Ai can transform how your operations run with automation, security, and real-time intelligence."
-        linkColumns={AI_PLATFORM_COLUMNS}
-        ctaVariant="light"
+        ctaText="Discover how V-Watch Ai can transform how your operations run with automation, security, and real-time intelligence."        ctaVariant="light"
       />
     </div>
   );

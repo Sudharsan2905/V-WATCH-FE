@@ -234,15 +234,16 @@ function CommandCentre({ priority = false }: Readonly<{ priority?: boolean }>) {
           sizes="(max-width: 768px) 100vw, 520px"
           priority={priority}
         />
-        {/* Dark gradient so the caption stays legible over the artwork */}
-        {/* Glass Overlay */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] border-t border-white/10 bg-white/10 backdrop-blur-md" />
-
-        {/* Caption */}
-        <p className="absolute inset-x-0 bottom-[9%] mx-auto max-w-[82%] text-center text-[clamp(11px,2.55vw,17px)] font-bold leading-[1.4] text-white">
-          When operations scale, V-Watch AI scales with you, without loss of
-          visibility or control.
-        </p>
+        {/* Glass fade panel — anchored to the bottom and holding the caption
+            inside it (with padding). min-h keeps the design's ~34% fade band,
+            but the panel grows upward with the text, so the caption can never
+            spill above the fade or past the frame's rounded right edge. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[34%] items-center justify-center border-t border-white/10 bg-white/10 px-[7%] py-2 backdrop-blur-md">
+          <p className="text-center text-[11px] font-bold leading-[1.35] text-white sm:text-[12px] lg:text-[15px]">
+            When operations scale, V-Watch AI scales with you, without loss of
+            visibility or control.
+          </p>
+        </div>
       </div>
     </div>
   );

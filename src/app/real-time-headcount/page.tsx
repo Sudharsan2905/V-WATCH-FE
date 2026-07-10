@@ -6,18 +6,6 @@ import PoweredByData from "@/components/real-time-headcount/PoweredByData";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function RealTimeHeadcountPage() {
   return (
     <div className="relative overflow-x-hidden bg-[#F2F8FE]">
@@ -42,9 +30,7 @@ export default function RealTimeHeadcountPage() {
       </div>
       <Footer
         ctaTitle="Be prepared when it matters most"
-        ctaText="See how V-Watch AI helps you respond faster, act smarter, and protect your workforce during critical situations."
-        linkColumns={FOOTER_COLUMNS}
-      />
+        ctaText="See how V-Watch AI helps you respond faster, act smarter, and protect your workforce during critical situations."      />
     </div>
   );
 }
