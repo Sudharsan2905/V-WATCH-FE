@@ -213,7 +213,7 @@ function Logo() {
       className="flex h-10 shrink-0 items-center px-2 sm:px-3.5"
     >
       <Image
-        src="/vwatch-logo.png"
+        src="/vwatch-logo.svg"
         alt="V-WATCH"
         width={135}
         height={32}

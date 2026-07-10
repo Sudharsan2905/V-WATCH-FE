@@ -12,21 +12,6 @@ import {
   NETWORK_HEADER,
 } from "@/constants/integrators-partners";
 
-const PRODUCTS_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["DVA Access", "RTLS Tracking", "BMS Worker", "HRMS Management"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  {
-    heading: "Company",
-    links: ["About Us", "Contact", "Career", "Terms of Service"],
-  },
-];
-
 export default function ProductsPage() {
   return (
     <div className="relative bg-[#030515]">
@@ -42,9 +27,7 @@ export default function ProductsPage() {
       <BecomeIntegratorSection />
       <Footer
         ctaTitle="Expand Your Business with a Global Operations Platform"
-        ctaText="Join our expanding network of system integrators delivering enterprise-grade operational, security, and workforce solutions across industries and regions"
-        linkColumns={PRODUCTS_COLUMNS}
-        isBookADemoVisible={false}
+        ctaText="Join our expanding network of system integrators delivering enterprise-grade operational, security, and workforce solutions across industries and regions"        isBookADemoVisible={false}
       />
     </div>
   );

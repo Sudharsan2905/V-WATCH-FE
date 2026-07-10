@@ -13,18 +13,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/visitor-management" },
 };
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function VisitorManagementPage() {
   return (
     <div className="relative bg-[#F5FBFF] overflow-x-hidden">
@@ -47,9 +35,7 @@ export default function VisitorManagementPage() {
 
       <Footer
         ctaTitle="Take control of your visitor access"
-        ctaText="See how V-Watch Ai helps you streamline visitor management, improve security, and maintain full visibility across your operations."
-        linkColumns={FOOTER_COLUMNS}
-        ctaVariant="dark"
+        ctaText="See how V-Watch Ai helps you streamline visitor management, improve security, and maintain full visibility across your operations."        ctaVariant="dark"
       />
     </div>
   );

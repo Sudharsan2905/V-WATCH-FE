@@ -8,18 +8,6 @@ import WhyWeBuilt from "@/components/about/WhyWeBuilt";
 import WhatMakesUsDifferent from "@/components/about/WhatMakesUsDifferent";
 import Footer from "@/components/layout/Footer";
 
-const ABOUT_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact", "Career"] },
-];
-
 export default function AboutPage() {
   return (
     <div className="relative bg-[#F5FBFF] overflow-x-hidden">
@@ -33,9 +21,7 @@ export default function AboutPage() {
       <WhatMakesUsDifferent />
       <Footer
         ctaTitle="See how V-Watch Ai works for your operations"
-        ctaText="Discover how a connected platform can give you full visibility, stronger control, and better decision-making across your organization."
-        linkColumns={ABOUT_COLUMNS}
-        ctaVariant="light"
+        ctaText="Discover how a connected platform can give you full visibility, stronger control, and better decision-making across your organization."        ctaVariant="light"
       />
     </div>
   );

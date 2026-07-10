@@ -34,7 +34,6 @@ export default function IndustrialEnergyPage() {
       <Footer
         ctaTitle={footer.ctaTitle}
         ctaText={footer.ctaText}
-        linkColumns={footer.linkColumns}
       />
     </div>
   );

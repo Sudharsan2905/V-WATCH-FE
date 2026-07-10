@@ -6,18 +6,6 @@ import StepProcess from "@/components/maintenance-ticketing/StepProcess";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
-const FOOTER_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact", "Career"] },
-];
-
 export const metadata = {
   title: "Maintenance & Ticketing | V-Watch Ai",
   description:
@@ -45,9 +33,7 @@ export default function MaintenanceTicketingPage() {
       </div>
       <Footer
         ctaTitle="Resolve every issue before it becomes a breakdown"
-        ctaText="V-Watch Ai centralizes your maintenance workflow — from ticket creation to resolution — so nothing falls through the cracks."
-        linkColumns={FOOTER_COLUMNS}
-      />
+        ctaText="V-Watch Ai centralizes your maintenance workflow — from ticket creation to resolution — so nothing falls through the cracks."      />
     </div>
   );
 }

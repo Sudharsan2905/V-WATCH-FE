@@ -245,14 +245,17 @@ export default function PostConstructionTransition({
             {/* lg: let clicks in the empty card area fall through to the panel
                 CTA behind it (the cards re-enable their own pointer events). */}
             <div className="relative z-10 flex flex-col gap-15 lg:pointer-events-none">
-              {/* Row 1 — two cards */}
-              <div className="flex flex-wrap justify-center gap-7.5 lg:justify-start">
+              {/* Row 1 — two cards. Horizontal gap stays 30px (gap-x-7.5) for
+                  the side-by-side layout; when the cards stack (mobile) the
+                  vertical gap is 60px (gap-y-15) so the next card's floating
+                  badge still clears the card above by 30px. lg restores 30px. */}
+              <div className="flex flex-wrap justify-center gap-x-7.5 gap-y-15 lg:justify-start lg:gap-7.5">
                 <FeatureCard {...features[0]} delay={0.45} />
                 <FeatureCard {...features[1]} delay={0.55} />
               </div>
               {/* Row 2 — on mobile & desktop shows 3 cards; on tablet the
                   5th card is hidden here (shown with the panel instead). */}
-              <div className="flex flex-wrap justify-center gap-7.5 lg:justify-start">
+              <div className="flex flex-wrap justify-center gap-x-7.5 gap-y-15 lg:justify-start lg:gap-7.5">
                 <FeatureCard {...features[2]} delay={0.65} />
                 <FeatureCard {...features[3]} delay={0.75} />
                 {/* 5th card in grid — hidden on tablet (md), visible on mobile & lg+ */}
@@ -304,23 +307,29 @@ export default function PostConstructionTransition({
                   border: "1px solid rgba(255,255,255,0.6)",
                 }}
               >
-                {/* Glowing tower — fills the entire panel. */}
-                <div className="pointer-events-none absolute inset-0 z-0">
+                {/* Copy — on mobile this is a normal block that sits ABOVE the
+                    image (text and image separated, both fully readable); on
+                    md+ it's anchored top-left over the full-bleed image. */}
+                <div className="relative z-10 max-w-full p-6 md:max-w-[88%] lg:max-w-135 lg:p-8">
+                  <p className="font-lato text-[20px] font-bold leading-8 tracking-normal text-[#0A4B6E]">
+                    {panelTitle}
+                  </p>
+                </div>
+
+                {/* Glowing tower — on mobile it's in-flow below the text with its
+                    own space, so it's shown at full size and never covered by the
+                    copy; on md+ it fills the entire panel behind the copy. */}
+                <div className="pointer-events-none relative z-0 aspect-[16/11] w-full md:absolute md:inset-0 md:aspect-auto">
                   <Image
                     src={panelImage}
                     alt="Post-construction operations tower"
                     fill
-                    sizes="(max-width: 1024px) 70vw, 460px"
-                    className="object-cover object-center"
-                    style={{ transform: "scale(1.1)" }}
+                    sizes="(max-width: 1024px) 90vw, 460px"
+                    // mix-blend-multiply drops the image's light background into
+                    // the panel's glass gradient so the image area matches the
+                    // text area seamlessly on mobile; normal (full-bleed) on md+.
+                    className="object-cover object-center mix-blend-multiply md:mix-blend-normal md:transform-[scale(1.1)]"
                   />
-                </div>
-
-                {/* Copy — anchored top-left of the panel. */}
-                <div className="relative z-10 max-w-[88%] p-6 lg:max-w-135 lg:p-8">
-                  <p className="font-lato text-[20px] font-bold leading-8 tracking-normal text-[#0A4B6E]">
-                    {panelTitle}
-                  </p>
                 </div>
 
                 {/* 5th card — inside the panel on tablet only.

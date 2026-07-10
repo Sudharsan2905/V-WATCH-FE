@@ -265,7 +265,7 @@ export default function SmarterWay() {
 
               {/* Caption pill (482 × 64) — semi-transparent black, near bottom */}
               <div className="max-h-[64px] h-full w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
-                <p className="w-[462px] text-center text-[18px] font-bold leading-[130%] text-white">
+                <p className="w-[462px] text-center text-[14px] md:text-[18px] font-bold leading-[130%] text-white">
                   No manual logs, No guesswork,
                   <br />
                   No security gaps

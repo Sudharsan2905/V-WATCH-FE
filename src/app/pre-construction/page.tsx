@@ -6,18 +6,6 @@ import PlatformOverview from "@/components/pre-construction/PlatformOverview";
 import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironments";
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
 
-const PRODUCTS_COLUMNS = [
-  {
-    heading: "Platform",
-    links: ["Dashboard", "BI Reporting", "System Integrators"],
-  },
-  {
-    heading: "Industries",
-    links: ["Construction", "Industrial", "Commercial"],
-  },
-  { heading: "Company", links: ["About Us", "Contact"] },
-];
-
 export default function PreConstructionPage() {
   return (
     <div className="relative">
@@ -30,9 +18,7 @@ export default function PreConstructionPage() {
 
       <Footer
         ctaTitle="Take control of your project from day one"
-        ctaText="See how V-Watch Atlas helps you improve visibility, coordination, and performance across your construction operations."
-        linkColumns={PRODUCTS_COLUMNS}
-      />
+        ctaText="See how V-Watch Atlas helps you improve visibility, coordination, and performance across your construction operations."      />
     </div>
   );
 }
