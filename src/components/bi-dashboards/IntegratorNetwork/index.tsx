@@ -254,19 +254,19 @@ function DetailContent({ current }: Readonly<{ current: Step }>) {
         )}
 
         {current.roles && current.roles.length > 0 && (
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-5 sm:gap-3">
             {current.roles.map((r) => (
               <li
                 key={r.role}
-                className="grid grid-cols-[auto_auto_1fr] items-start gap-x-3"
+                className="grid grid-cols-[auto_auto_1fr] items-start gap-x-1.5 sm:gap-x-3"
               >
-                <span className="text-[15px] font-bold leading-[22px] text-[#0A4B6E]">
+                <span className="text-[13px] sm:text-[15px] font-bold leading-[19px] text-[#0A4B6E]">
                   {r.role}
                 </span>
                 <span className="mt-[3px]">
                   <ArrowIcon />
                 </span>
-                <span className="text-[15px] font-normal leading-[22px] text-[#1D293D]">
+                <span className="text-[13px] sm:text-[15px] font-normal leading-[18px] text-[#1D293D]">
                   {r.items}
                 </span>
               </li>
