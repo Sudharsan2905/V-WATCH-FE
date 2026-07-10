@@ -134,7 +134,7 @@ export default function ConnectedSystem({
 }: Readonly<{ content?: ConnectedSystemContent }> = {}) {
   const {
     heading = "Part of a connected workforce and safety system",
-    intro = "Contractor compliance is fully integrated within the V-Watch Ai platform linking identity, access, safety, and workforce management.",
+    intro = "Contractor compliance is fully integrated within the V-Watch AI platform linking identity, access, safety, and workforce management.",
     features = DEFAULT_FEATURES,
     mapImage = CONNECTED_SYSTEM_MAP,
   } = content;

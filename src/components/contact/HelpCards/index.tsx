@@ -193,7 +193,7 @@ export default function HelpCards() {
             <HelpCard
               iconSrc="/contact/icons/sales.svg"
               title="Sales & Product Enquiries"
-              desc="Learn how V-Watch Ai can work for your operations"
+              desc="Learn how V-Watch AI can work for your operations"
               illustration={
                 <>
                   <Image

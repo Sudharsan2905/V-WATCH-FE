@@ -174,7 +174,7 @@ export default function UnifiedSystem() {
             custom={0.15}
             className="text-[20px] font-normal leading-[26px]"
           >
-            V-Watch Ai brings your entire operation into a single, connected
+            V-Watch AI brings your entire operation into a single, connected
             platform where everything is tracked, managed and automated in real
             time.
           </motion.p>

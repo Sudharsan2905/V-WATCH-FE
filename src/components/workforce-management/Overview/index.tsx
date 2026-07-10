@@ -80,7 +80,7 @@ export default function Overview() {
               custom={0.15}
               className="max-w-[760px] font-lato text-[16px] font-normal leading-[24px] sm:text-[20px] sm:leading-[28px]"
             >
-              V-Watch Ai brings together attendance, workforce activity, and
+              V-Watch AI brings together attendance, workforce activity, and
               administrative processes into a single dashboard giving you a
               clear, real-time overview of your operation.
             </motion.p>
@@ -132,7 +132,7 @@ export default function Overview() {
             >
               <Image
                 src="/workforce/dashboard-mockup.svg"
-                alt="V-Watch Ai workforce dashboard overview"
+                alt="V-Watch AI workforce dashboard overview"
                 width={615}
                 height={407}
                 sizes="(min-width: 1024px) 614px, 100vw"

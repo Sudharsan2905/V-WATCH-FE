@@ -15,7 +15,7 @@ export const geofencingContent = {
   connectedSystem: {
     heading: "Part of a connected workforce and safety system",
     intro:
-      "Contractor compliance is fully integrated within the V-Watch Ai platform linking identity, access, safety, and workforce management.",
+      "Contractor compliance is fully integrated within the V-Watch AI platform linking identity, access, safety, and workforce management.",
     mapImage: "/geofencing/connected-system.webp",
   },
   partners: {
@@ -26,7 +26,7 @@ export const geofencingContent = {
   footer: {
     ctaTitle: "Take control of your operational boundaries",
     ctaText:
-      "See how V-Watch Ai helps you monitor movement, enforce restricted zones, and prevent risks in real time.",
+      "See how V-Watch AI helps you monitor movement, enforce restricted zones, and prevent risks in real time.",
     linkColumns: [
       { heading: "Platform", links: ["Dashboard", "BI Reporting", "System Integrators"] },
       { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },

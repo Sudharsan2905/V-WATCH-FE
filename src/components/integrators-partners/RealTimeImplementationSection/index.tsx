@@ -274,7 +274,7 @@ export default function RealTimeImplementationSection() {
             variants={fadeUp}
             className="mx-auto max-w-[892px] text-center text-[18px] font-medium leading-[26px] text-[#1d6c97]"
           >
-            V-Watch Ai partners with experienced system integrators who understand local
+            V-Watch AI partners with experienced system integrators who understand local
             environments, infrastructure, and operational requirements ensuring smooth
             implementation from day one.
           </motion.p>

@@ -56,7 +56,7 @@ export const constructionContent = {
   onePlatform: {
     heading: "One platform to manage your entire site",
     subtitle:
-      "V-Watch Ai brings together access control, real-time tracking, operations management, and workforce intelligence into a single system designed specifically for complex construction environments.",
+      "V-Watch AI brings together access control, real-time tracking, operations management, and workforce intelligence into a single system designed specifically for complex construction environments.",
     skylineImage: "/industries/construction/one-platform/buildings.png",
     // The `active` item is highlighted; the others render muted.
     features: [
@@ -129,7 +129,7 @@ export const constructionContent = {
     platformImage: "/industries/construction/one-platform/platform.png",
   },
   whyChoose: {
-    heading: "Why construction teams choose V-Watch Ai",
+    heading: "Why construction teams choose V-Watch AI",
     subheading: "Most solutions address only one part of the problem.",
     cardTitle: "V-Watch AI connects everything.",
     cardLogo: "/industries/construction/v-watch-ai/vwatch.png",
@@ -159,7 +159,7 @@ export const constructionContent = {
   environments: {
     heading: "Designed for a wide range of construction environments",
     subtitle:
-      "V-Watch Ai adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
+      "V-Watch AI adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
     cards: [
       {
         image: "/industries/construction/designed-environment/env-6.png",
@@ -290,7 +290,7 @@ export const constructionContent = {
   footer: {
     ctaTitle: "Take control of your construction site",
     ctaText:
-      "See how V-Watch Ai can help you improve visibility, strengthen compliance, and manage your entire site more effectively.",
+      "See how V-Watch AI can help you improve visibility, strengthen compliance, and manage your entire site more effectively.",
     linkColumns: [
       {
         heading: "Platform",

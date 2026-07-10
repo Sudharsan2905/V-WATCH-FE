@@ -49,7 +49,7 @@ export default function IndustriesHero({
 }: Readonly<{ hero?: HeroContent }> = {}) {
   const {
     heading = "Built for Any Environment That Demands Control",
-    subtitle = "V-Watch Ai is designed for complex, high-activity environments where visibility, safety, and operational control are critical from construction sites to data centers and beyond.",
+    subtitle = "V-Watch AI is designed for complex, high-activity environments where visibility, safety, and operational control are critical from construction sites to data centers and beyond.",
     bgImage = "/industry/hero-bg.png",
   } = hero;
 

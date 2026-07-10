@@ -82,7 +82,7 @@ export default function BookDemoHero() {
               custom={0.5}
               className="mb-4 text-[14px] font-lato font-[700] font-bold leading-[1.7] text-white sm:text-[20px] sm:leading-[1.75]"
             >
-              Get a personalized walkthrough of how V-Watch Ai can help you
+              Get a personalized walkthrough of how V-Watch AI can help you
               improve visibility, strengthen compliance, and take full control of
               your operations.
             </motion.p>

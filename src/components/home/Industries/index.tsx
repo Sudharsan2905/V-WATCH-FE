@@ -187,7 +187,7 @@ export default function Industries() {
                 Built for complex operational environments
               </h2>
               <p className="text-[20px] font-normal leading-[30px]">
-                V-Watch Ai is designed to adapt across industries where visibility, security, and
+                V-Watch AI is designed to adapt across industries where visibility, security, and
                 operational efficiency are critical. While each environment is different, the need for
                 real-time control and automation remains the same.
               </p>
@@ -217,7 +217,7 @@ export default function Industries() {
               <span className="size-1.5 shrink-0 rounded-full bg-white" />
             </span>
             <p className="text-center text-[16px] font-normal leading-[23px] text-white lg:whitespace-nowrap lg:text-[20px]">
-              No matter the industry, V-Watch Ai brings visibility, automation, and control into one
+              No matter the industry, V-Watch AI brings visibility, automation, and control into one
               unified system.
             </p>
               <span className="hidden flex-1 items-center lg:flex">

@@ -166,7 +166,7 @@ export default function ConnectedSystem() {
               custom={0.2}
               className="mt-3 max-w-[680px] text-[16px] leading-[26px] text-[#314158] sm:text-[18px] sm:leading-[28px]"
             >
-              Facial recognition is fully integrated within the V-Watch Ai
+              Facial recognition is fully integrated within the V-Watch AI
               platform — linking identity, access control, workforce management,
               and safety into one unified system.
             </motion.p>
@@ -193,7 +193,7 @@ export default function ConnectedSystem() {
                 >
                   <Image
                     src="/contractor-complaince/v-watch.webp"
-                    alt="V-Watch Ai connected platform hub"
+                    alt="V-Watch AI connected platform hub"
                     fill
                     sizes="520px"
                     priority
@@ -227,7 +227,7 @@ export default function ConnectedSystem() {
               >
                 <Image
                   src="/contractor-complaince/v-watch.webp"
-                  alt="V-Watch Ai connected platform hub"
+                  alt="V-Watch AI connected platform hub"
                   fill
                   sizes="360px"
                   className="object-contain"

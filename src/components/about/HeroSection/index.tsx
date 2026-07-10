@@ -106,7 +106,7 @@ export default function HeroSection() {
             style={{ textShadow: "0px 4px 104px black" }}
             variants={fadeUp}
           >
-            V-Watch Ai exists to help organizations gain complete visibility,
+            V-Watch AI exists to help organizations gain complete visibility,
             control, and accountability across their operations from access and
             safety to workforce and execution.
           </motion.p>

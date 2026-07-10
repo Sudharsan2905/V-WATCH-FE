@@ -330,7 +330,7 @@ export default function VWatchAIPlatform() {
           }}
         >
           <p className="text-[13px] sm:text-[15px] lg:text-[18px] font-bold text-white leading-[22px] sm:leading-[24px]">
-            V-Watch Ai is not just an access system, a tracking tool, or a
+            V-Watch AI is not just an access system, a tracking tool, or a
             workforce solution.{" "}
           </p>
           <p className="text-[13px] sm:text-[15px] lg:text-[18px] font-bold text-[#67d0ff] leading-[22px] sm:leading-[24px]">

@@ -165,7 +165,7 @@ function RocketCluster() {
       >
         <Image
           src="/home/rocket.png"
-          alt="V-Watch Ai rocket"
+          alt="V-Watch AI rocket"
           fill
           className="object-contain"
           sizes="120px"
@@ -237,9 +237,24 @@ function CommandCentre({ priority = false }: Readonly<{ priority?: boolean }>) {
         {/* Glass fade panel — anchored to the bottom and holding the caption
             inside it (with padding). min-h keeps the design's ~34% fade band,
             but the panel grows upward with the text, so the caption can never
-            spill above the fade or past the frame's rounded right edge. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[34%] items-center justify-center border-t border-white/10 bg-white/10 px-[7%] py-2 backdrop-blur-md">
-          <p className="text-center text-[11px] font-bold leading-[1.35] text-white sm:text-[12px] lg:text-[15px]">
+            spill above the fade.
+            The scrim darkens toward the bottom edge so the white caption stays
+            readable regardless of how bright the underlying photo is there
+            (previously a light `bg-white/10` tint, which let the scene's
+            bright areas wash out the text on mobile).
+            Right padding is intentionally much larger than left: the frame's
+            right corners use a 400px "stadium" radius (bulletBG.svg's shape),
+            which — being a fixed px value against a box that's only a few
+            hundred px at most breakpoints — gets scaled up by the browser's
+            overlapping-corner rules into a genuinely large curve cutting into
+            the bottom-right area where this caption sits. Measured empirically
+            across 390–1440px: with only symmetric padding, text in the ~768–
+            1050px range (tablet, and just past the lg font bump) visibly ran
+            under that curve and got clipped; 20% right padding keeps every
+            width clear of it while 7% on the left (where the radius is only
+            40px, so there's no equivalent risk) stays close to the original. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[34%] items-center justify-center border-t border-white/10 bg-gradient-to-t from-black/75 via-black/45 to-black/10 pl-[7%] pr-[20%] py-2 backdrop-blur-md">
+          <p className="text-center text-[11px] font-bold leading-[1.35] text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] sm:text-[12px] lg:text-[15px]">
             When operations scale, V-Watch AI scales with you, without loss of
             visibility or control.
           </p>
@@ -273,7 +288,7 @@ export default function BuiltToScale() {
               custom={0.15}
               className="mt-2.5 text-base font-normal leading-[24px] text-[#0A4B6E] sm:text-[20px] sm:leading-[26px]"
             >
-              V-Watch Ai is designed for high-volume, high-complexity
+              V-Watch AI is designed for high-volume, high-complexity
               environments delivering real-time performance without compromise.
             </motion.p>
           </motion.div>

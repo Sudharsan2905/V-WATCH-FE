@@ -55,7 +55,7 @@ const STEPS: Step[] = [
     icon: "/bi-dashboards/bi-report-icons/unified-operational.svg",
     title: "Everything happening across your operations captured in one system",
     body: [
-      "V-Watch Ai collects real-time data from across your entire operational environment including workforce activity, access events, tasks, vehicle movement, asset usage, and safety systems.",
+      "V-Watch AI collects real-time data from across your entire operational environment including workforce activity, access events, tasks, vehicle movement, asset usage, and safety systems.",
       "Instead of scattered data across multiple tools, everything is structured and connected within one platform.",
     ],
     caption: "No gaps. No silos. No manual consolidation.",
@@ -84,7 +84,7 @@ const STEPS: Step[] = [
     title: "The right information for the right people",
     body: [
       "Different roles require different insights.",
-      "V-Watch Ai allows you to configure dashboards based on operational responsibilities:",
+      "V-Watch AI allows you to configure dashboards based on operational responsibilities:",
     ],
     roles: [
       { role: "Management", items: "Performance, Trends, Reporting" },
@@ -116,7 +116,7 @@ const STEPS: Step[] = [
     icon: "/bi-dashboards/bi-report-icons/actionable-intelligence-icon.svg",
     title: "Data that tells you what to fix and where to act",
     body: [
-      "V-Watch Ai transforms operational data into insights you can act on immediately.",
+      "V-Watch AI transforms operational data into insights you can act on immediately.",
     ],
     bullets: [
       "Detect inefficiencies in workflows",
@@ -345,7 +345,7 @@ export default function IntegratorNetwork() {
             className="flex max-w-[760px] flex-col gap-2.5"
           >
             <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
-              How V-Watch Ai Turns Operational Data Into Control
+              How V-Watch AI Turns Operational Data Into Control
             </h2>
           </motion.header>
 

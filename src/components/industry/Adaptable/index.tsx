@@ -177,7 +177,7 @@ export default function Adaptable() {
             Also used across a wide range of environments
           </h2>
           <p className="text-[20px] font-normal leading-[28px]">
-            V-Watch Ai is adaptable and scalable making it suitable for any
+            V-Watch AI is adaptable and scalable making it suitable for any
             environment where operational control matters.
           </p>
         </motion.header>

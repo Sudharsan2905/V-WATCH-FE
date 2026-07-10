@@ -187,7 +187,7 @@ export default function BiometricVerification() {
                 custom={0.2}
                 className="mt-3 max-w-170 text-[20px] leading-7 text-[#0A4B6E] font-normal"
               >
-                V-Watch Ai uses facial recognition to ensure every individual is
+                V-Watch AI uses facial recognition to ensure every individual is
                 verified before access is granted linking identity directly to
                 your operational system.
               </motion.p>

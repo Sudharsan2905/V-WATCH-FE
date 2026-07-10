@@ -158,7 +158,7 @@ function CompanyTypeSelect() {
   );
 }
 
-// "Become a V-Watch Ai System Integrator" — three pieces: the section header,
+// "Become a V-Watch AI System Integrator" — three pieces: the section header,
 // one full-width navy world-map container that runs behind the form, and the
 // white partnership-enquiry form card on top of it.
 const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-.]+$/;
@@ -194,7 +194,7 @@ export default function BecomeIntegratorSection() {
           >
             <Image
               src={BECOME_INTEGRATOR_MAP}
-              alt="V-Watch Ai global integrator network"
+              alt="V-Watch AI global integrator network"
               fill
               sizes="(max-width: 1530px) 92vw, 1410px"
               className="object-cover"

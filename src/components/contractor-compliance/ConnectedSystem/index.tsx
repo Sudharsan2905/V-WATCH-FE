@@ -164,7 +164,7 @@ export default function ConnectedSystem() {
               >
                 <Image
                   src="/contractor-complaince/v-watch.webp"
-                  alt="V-Watch Ai connected platform hub"
+                  alt="V-Watch AI connected platform hub"
                   fill
                   sizes="630px"
                   priority
@@ -204,7 +204,7 @@ export default function ConnectedSystem() {
               >
                 <Image
                   src="/contractor-complaince/v-watch.webp"
-                  alt="V-Watch Ai connected platform hub"
+                  alt="V-Watch AI connected platform hub"
                   fill
                   sizes="(max-width: 640px) 100vw, 480px"
                   className="object-contain"
