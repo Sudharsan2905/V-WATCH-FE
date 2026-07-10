@@ -3,14 +3,29 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+
+// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
+// available in the browser). Until all three are present the form stays inert:
+// it logs the submission and shows the success message without calling out.
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+const EMAILJS_READY = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 type Field = {
   name: string;
   label: string;
   required?: boolean;
-  type?: "text" | "email" | "number";
+  type?: "text" | "email" | "number" | "tel";
   placeholder: string;
   icon: string;
+  maxLength?: number;
+  pattern?: string;
+  inputMode?: "text" | "numeric" | "tel";
+  title?: string;
 };
 
 const PAIRED_FIELDS: Field[][] = [
@@ -45,8 +60,12 @@ const PAIRED_FIELDS: Field[][] = [
       name: "phoneNumber",
       label: "Phone Number",
       required: true,
-      type: "number",
-      placeholder: "Phone Number",
+      type: "tel",
+      inputMode: "numeric",
+      pattern: "[0-9]{10}",
+      maxLength: 10,
+      title: "Enter a 10-digit phone number",
+      placeholder: "10-digit phone number",
       icon: "/contact/direct/icons/form-phone.svg",
     },
   ],
@@ -243,17 +262,61 @@ function EnquirySelect({
   );
 }
 
+type Status = "idle" | "sending" | "success" | "error";
+
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
   const [enquiry, setEnquiry] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-    console.log("Contact form submission:", data);
-    setSubmitted(true);
-    e.currentTarget.reset();
-    setEnquiry("");
+    const form = e.currentTarget; // capture before any await (event is reused)
+    const fd = new FormData(form);
+    const get = (k: string) => ((fd.get(k) as string) ?? "").trim();
+
+    // Template variables. We send both the common EmailJS names ({{name}},
+    // {{email}}, {{message}}…) and the raw field names, so the email fills in
+    // whichever placeholders the dashboard template uses.
+    const params = {
+      to_email: "gokulrajkumar02@gmail.com",
+      name: get("fullName"),
+      email: get("workEmail"),
+      phone: get("phoneNumber"),
+      company: get("companyName"),
+      enquiry_type: get("enquiryType"),
+      message: get("additionalDetails"),
+      // reply straight to the person who filled the form
+      reply_to: get("workEmail"),
+      // raw field names, in case the template references these instead
+      fullName: get("fullName"),
+      workEmail: get("workEmail"),
+      phoneNumber: get("phoneNumber"),
+      companyName: get("companyName"),
+      enquiryType: get("enquiryType"),
+      additionalDetails: get("additionalDetails"),
+    };
+
+    // Not connected to a provider yet: log and show success without sending.
+    if (!EMAILJS_READY) {
+      console.log("Contact form submission (EmailJS not configured):", params);
+      setStatus("success");
+      form.reset();
+      setEnquiry("");
+      return;
+    }
+
+    try {
+      setStatus("sending");
+      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
+        publicKey: EMAILJS_PUBLIC_KEY!,
+      });
+      setStatus("success");
+      form.reset();
+      setEnquiry("");
+    } catch (err) {
+      console.error("EmailJS send failed:", err);
+      setStatus("error");
+    }
   }
 
   return (
@@ -280,6 +343,20 @@ export default function ContactForm() {
                     name={f.name}
                     required={f.required}
                     placeholder={f.placeholder}
+                    maxLength={f.maxLength}
+                    pattern={f.pattern}
+                    inputMode={f.inputMode}
+                    title={f.title}
+                    onInput={
+                      f.inputMode === "numeric"
+                        ? (e) => {
+                            const el = e.currentTarget;
+                            el.value = el.value
+                              .replace(/\D/g, "")
+                              .slice(0, f.maxLength);
+                          }
+                        : undefined
+                    }
                     className={INPUT_CLASSES}
                   />
                 </InputShell>
@@ -312,18 +389,25 @@ export default function ContactForm() {
       <div className=" flex w-full flex-col items-center gap-2.5">
         <button
           type="submit"
-          className="inline-flex h-11 items-center justify-center gap-2.5 rounded-[31px] px-6 text-[16px] font-bold leading-[16px] text-white shadow-[2px_5px_14px_rgba(79,148,104,0.2),0_6px_42px_rgba(38,124,153,0.1)]"
+          disabled={status === "sending"}
+          className="inline-flex h-11 items-center justify-center gap-2.5 rounded-[31px] px-6 text-[16px] font-bold leading-[16px] text-white shadow-[2px_5px_14px_rgba(79,148,104,0.2),0_6px_42px_rgba(38,124,153,0.1)] disabled:cursor-not-allowed disabled:opacity-70"
           style={{
             background:
               "linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)), linear-gradient(180deg, #21B1F1 -20.69%, #A6C936 151.72%)",
           }}
         >
-          Submit Enquiry
+          {status === "sending" ? "Sending…" : "Submit Enquiry"}
         </button>
-        <p className="text-center text-[14px] font-normal leading-[20px] text-[#3890C0] opacity-90">
-          {submitted
+        <p
+          className={`text-center text-[14px] font-normal leading-[20px] opacity-90 ${
+            status === "error" ? "text-[#D14343]" : "text-[#3890C0]"
+          }`}
+        >
+          {status === "success"
             ? "Thanks — we'll be in touch within 24 hours."
-            : "We'll get back to you within 24 hours on business days."}
+            : status === "error"
+              ? "Something went wrong. Please try again."
+              : "We'll get back to you within 24 hours on business days."}
         </p>
       </div>
     </form>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import emailjs from "@emailjs/browser";
 import {
   BECOME_INTEGRATOR_HEADER,
   BECOME_INTEGRATOR_MAP,
@@ -15,6 +16,18 @@ import {
 } from "@/constants/integrators-partners";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
+// available in the browser). The service ID and public key are shared across all
+// forms; this form uses its own template ID. Until all three are present the form
+// stays inert: it logs the submission and shows the success message without
+// calling out.
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_INTEGRATOR;
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+const EMAILJS_READY = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -163,8 +176,11 @@ function CompanyTypeSelect() {
 // white partnership-enquiry form card on top of it.
 const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-.]+$/;
 
+type Status = "idle" | "sending" | "success" | "error";
+
 export default function BecomeIntegratorSection() {
   const [nameError, setNameError] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
 
   function validateName(value: string) {
     if (value && !NAME_REGEX.test(value)) {
@@ -173,6 +189,65 @@ export default function BecomeIntegratorSection() {
       );
     } else {
       setNameError("");
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget; // capture before any await (event is reused)
+    const fd = new FormData(form);
+    const get = (k: string) => ((fd.get(k) as string) ?? "").trim();
+
+    const nameValue = get("fullName");
+    if (nameValue && !NAME_REGEX.test(nameValue)) {
+      setNameError(
+        "Only letters, spaces, hyphens, and apostrophes are allowed.",
+      );
+      return;
+    }
+
+    // Template variables. We send both the common EmailJS names and the raw
+    // field names, so the email fills whichever placeholders the template uses.
+    const focusAreas = fd.getAll("focusAreas").map(String);
+    const params = {
+      to_email: "gokulrajkumar02@gmail.com",
+      name: get("fullName"),
+      email: get("workEmail"),
+      company: get("companyName"),
+      country: get("countryRegion"),
+      company_type: get("companyType"),
+      focus_areas: focusAreas.join(", "),
+      message: get("additionalDetails"),
+      // reply straight to the person who filled the form
+      reply_to: get("workEmail"),
+      // raw field names, in case the template references these instead
+      fullName: get("fullName"),
+      workEmail: get("workEmail"),
+      companyName: get("companyName"),
+      countryRegion: get("countryRegion"),
+      companyType: get("companyType"),
+      focusAreas: focusAreas.join(", "),
+      additionalDetails: get("additionalDetails"),
+    };
+
+    // Not connected to a provider yet: log and show success without sending.
+    if (!EMAILJS_READY) {
+      console.log("Partnership enquiry (EmailJS not configured):", params);
+      setStatus("success");
+      form.reset();
+      return;
+    }
+
+    try {
+      setStatus("sending");
+      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
+        publicKey: EMAILJS_PUBLIC_KEY!,
+      });
+      setStatus("success");
+      form.reset();
+    } catch (err) {
+      console.error("EmailJS send failed:", err);
+      setStatus("error");
     }
   }
 
@@ -221,17 +296,7 @@ export default function BecomeIntegratorSection() {
                 container */}
             <motion.div variants={formReveal} className="relative">
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const data = new FormData(e.currentTarget);
-                  const nameValue = (data.get("fullName") as string) ?? "";
-                  if (nameValue && !NAME_REGEX.test(nameValue)) {
-                    setNameError(
-                      "Only letters, spaces, hyphens, and apostrophes are allowed.",
-                    );
-                    return;
-                  }
-                }}
+                onSubmit={handleSubmit}
                 className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
               >
                 <h3 className="text-center text-[20px] font-bold text-[#0A4B6E]">
@@ -337,13 +402,24 @@ export default function BecomeIntegratorSection() {
                   21B1F1→C5EB4C, drop shadow 0 6 42 rgba(38,124,153,0.1) */}
                 <button
                   type="submit"
-                  className="mx-auto mt-1 h-11 rounded-full border-[1.24px] border-transparent px-7 text-[14px] font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.1)] transition [background:linear-gradient(90deg,#21B1F1_0%,#A6C936_100%)_padding-box,linear-gradient(90deg,#21B1F1_0%,#C5EB4C_100%)_border-box] hover:brightness-105"
+                  disabled={status === "sending"}
+                  className="mx-auto mt-1 h-11 rounded-full border-[1.24px] border-transparent px-7 text-[14px] font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.1)] transition [background:linear-gradient(90deg,#21B1F1_0%,#A6C936_100%)_padding-box,linear-gradient(90deg,#21B1F1_0%,#C5EB4C_100%)_border-box] hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Submit Partnership Enquiry
+                  {status === "sending"
+                    ? "Sending…"
+                    : "Submit Partnership Enquiry"}
                 </button>
 
-                <p className="mx-auto max-w-[320px] text-center text-[12px] leading-[17px] text-[#2B9CD8]">
-                  {PARTNERSHIP_FORM_NOTE}
+                <p
+                  className={`mx-auto max-w-[320px] text-center text-[12px] leading-[17px] ${
+                    status === "error" ? "text-[#D14343]" : "text-[#2B9CD8]"
+                  }`}
+                >
+                  {status === "success"
+                    ? "Thanks — we'll be in touch shortly."
+                    : status === "error"
+                      ? "Something went wrong. Please try again."
+                      : PARTNERSHIP_FORM_NOTE}
                 </p>
               </form>
             </motion.div>

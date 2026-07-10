@@ -2,6 +2,19 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+
+// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
+// available in the browser). The service ID and public key are shared across all
+// forms; this form uses its own template ID. Until all three are present the form
+// stays inert: it logs the submission and shows the success message without
+// calling out.
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_DEMO;
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+const EMAILJS_READY = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -404,6 +417,8 @@ export default function DemoForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   // Clear a field's error as soon as the user edits it.
   function clearError(field: keyof FormState) {
@@ -424,7 +439,7 @@ export default function DemoForm() {
     });
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const nextErrors = validate(form);
     if (Object.keys(nextErrors).length > 0) {
@@ -437,9 +452,54 @@ export default function DemoForm() {
       return;
     }
     setErrors({});
-    // Submission handler — wire up to API as needed
-    console.log("Demo request:", { ...form, services: [...form.services] });
-    setSubmitted(true);
+
+    // Template variables. We send both the common EmailJS names ({{name}},
+    // {{email}}, {{message}}…) and the raw field names, so the email fills in
+    // whichever placeholders the dashboard template uses.
+    const services = [...form.services];
+    const params = {
+      to_email: "gokulrajkumar02@gmail.com",
+      name: form.fullName.trim(),
+      email: form.workEmail.trim(),
+      phone: form.phoneNumber.trim(),
+      company: form.companyName.trim(),
+      role: form.role,
+      industry: form.industry,
+      services: services.join(", "),
+      op_size: form.opSize,
+      message: form.additionalDetails.trim(),
+      // reply straight to the person who filled the form
+      reply_to: form.workEmail.trim(),
+      // raw field names, in case the template references these instead
+      fullName: form.fullName.trim(),
+      workEmail: form.workEmail.trim(),
+      phoneNumber: form.phoneNumber.trim(),
+      companyName: form.companyName.trim(),
+      opSize: form.opSize,
+      additionalDetails: form.additionalDetails.trim(),
+    };
+
+    // Not connected to a provider yet: log and show success without sending.
+    if (!EMAILJS_READY) {
+      console.log("Demo request (EmailJS not configured):", params);
+      setSubmitted(true);
+      return;
+    }
+
+    try {
+      setSending(true);
+      setSendError(false);
+      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
+        publicKey: EMAILJS_PUBLIC_KEY!,
+      });
+      setSubmitted(true);
+      setForm(INITIAL);
+    } catch (err) {
+      console.error("EmailJS send failed:", err);
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
   }
 
   if (submitted) {
@@ -728,7 +788,8 @@ export default function DemoForm() {
         <div className="flex flex-col items-center gap-3 pt-1">
           <button
             type="submit"
-            className="group inline-flex h-11 items-center justify-center gap-2.5 rounded-full px-6 font-bold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_10px_48px_rgba(38,124,153,0.55)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#21B1F1]/40 active:translate-y-0 active:scale-100"
+            disabled={sending}
+            className="group inline-flex h-11 items-center justify-center gap-2.5 rounded-full px-6 font-bold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_10px_48px_rgba(38,124,153,0.55)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#21B1F1]/40 active:translate-y-0 active:scale-100 disabled:cursor-not-allowed disabled:opacity-70"
             style={{
               background: `
                 linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)) padding-box,
@@ -739,12 +800,17 @@ export default function DemoForm() {
             }}
           >
             <ArrowBadge />
-            Request a Demo
+            {sending ? "Sending…" : "Request a Demo"}
           </button>
 
-          <p className="max-w-[680px] text-center text-[13px] text-[#3890C0] font-[400] leading-relaxed sm:text-[16px]">
-            Your information will be kept confidential and used only to tailor
-            your demo experience.
+          <p
+            className={`max-w-[680px] text-center text-[13px] font-[400] leading-relaxed sm:text-[16px] ${
+              sendError ? "text-[#D14343]" : "text-[#3890C0]"
+            }`}
+          >
+            {sendError
+              ? "Something went wrong. Please try again."
+              : "Your information will be kept confidential and used only to tailor your demo experience."}
           </p>
         </div>
       </form>

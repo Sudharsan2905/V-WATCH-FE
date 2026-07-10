@@ -285,17 +285,17 @@ export default function ConnectedOperations() {
               pointer handlers are needed here. */}
           <div
             ref={rootRef}
-            className="mt-10 flex flex-col gap-[30px] lg:flex-row lg:items-start"
+            className="mt-10 flex flex-wrap items-start justify-between gap-[30px] xl:flex-nowrap xl:justify-start"
           >
             {/* Left: image carousel + pagination dots */}
             <motion.div
               variants={slideFromLeft}
-              className="mx-auto flex w-full flex-col items-center gap-4 md:max-w-[600px] lg:mx-0 lg:w-[600px] lg:shrink-0"
+              className="order-1 flex w-full flex-col items-center gap-4 md:flex-1 xl:w-[600px] xl:flex-none xl:shrink-0"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
               <div
-                className="relative h-[320px] w-full overflow-hidden rounded-[24px] border-4 border-white/60 bg-[#EDF5FC] lg:h-[480px]"
+                className="relative h-[320px] w-full max-w-[600px] overflow-hidden rounded-[24px] border-4 border-white/60 bg-[#EDF5FC] lg:h-[480px]"
                 style={{
                   boxShadow:
                     "0px 13px 110px 0px rgba(199,199,199,0.25), 6px 10px 33px 0px rgba(217,226,255,0.65), -6px -20px 33px 0px rgba(217,226,255,0.65), 9px 7px 60px 0px rgba(255,255,255,0.40)",
@@ -337,7 +337,7 @@ export default function ConnectedOperations() {
                   lives in the vertical side rail. Prev/next arrows flank the bar
                   (wrapping), and the active-segment width is driven by the RAF
                   loop via the --seg-progress CSS var (no re-renders). */}
-              <div className="flex w-full items-center gap-3 lg:hidden">
+              <div className="flex w-full items-center gap-3 md:hidden">
                 <button
                   type="button"
                   onClick={() =>
@@ -387,7 +387,7 @@ export default function ConnectedOperations() {
             {/* Right: fixed-height vertical card roll */}
             <motion.div
               variants={slideFromRight}
-              className="relative h-[420px] w-full overflow-hidden lg:h-[480px] lg:flex-1"
+              className="order-3 relative h-[420px] w-full overflow-hidden lg:h-[480px] xl:order-2 xl:w-auto xl:flex-1"
               style={{
                 maskImage:
                   "linear-gradient(to bottom, transparent 0%, #000 11%, #000 87%, transparent 100%)",
@@ -484,7 +484,7 @@ export default function ConnectedOperations() {
             {/* Right-edge vertical nav: up / down arrows + progress track.
                 Clamps at the ends (matching the touch-swipe behaviour) and, like
                 the dots, changing active restarts the auto-advance loop. */}
-            <div className="hidden shrink-0 flex-col items-center gap-3 self-stretch lg:flex lg:h-[480px]">
+            <div className="order-2 hidden shrink-0 flex-col items-center gap-3 self-stretch md:flex xl:order-3">
               <button
                 type="button"
                 onClick={() =>

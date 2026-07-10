@@ -52,8 +52,12 @@ export default function AIPlatformHero() {
             priority
             fetchPriority="high"
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-center opacity-60 sm:opacity-100"
           />
+          {/* Black shadow overlay — darkens the image (strongest at the left/bottom
+              where the copy sits) so the white heading and body stay readable. */}
+          <div className="absolute inset-0 bg-linear-to-r from-black/40 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/25 to-transparent" />
         </div>
 
         {/* Content */}
