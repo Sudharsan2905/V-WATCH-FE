@@ -103,7 +103,7 @@ export default function IntegratorsHero() {
 
             <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
               <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
-                V-Watch Ai works with certified system integrators across
+                V-Watch AI works with certified system integrators across
               </span>
               <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_1.8s_both]">
                 regions to deploy, implement, and support our platform

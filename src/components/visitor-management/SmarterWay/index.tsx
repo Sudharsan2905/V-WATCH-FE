@@ -199,7 +199,7 @@ export default function SmarterWay() {
             custom={0.12}
             className="text-[16px] font-normal leading-[1.4] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]"
           >
-            V-Watch Ai transforms visitor management into a seamless, controlled
+            V-Watch AI transforms visitor management into a seamless, controlled
             process ensuring every individual is registered, verified, and
             tracked from the moment they arrive.
           </motion.p>

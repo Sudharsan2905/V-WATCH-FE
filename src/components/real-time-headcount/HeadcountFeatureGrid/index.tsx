@@ -92,7 +92,7 @@ export default function HeadcountFeatureGrid() {
           >
             <Image
               src="/maintenance/maintenance-features.webp"
-              alt="V-Watch Ai real-time headcount overview"
+              alt="V-Watch AI real-time headcount overview"
               fill
               sizes="(min-width: 1024px) 352px, 100vw"
               className="object-cover"

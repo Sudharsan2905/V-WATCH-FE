@@ -189,7 +189,7 @@ export default function ComplianceControl() {
                 custom={0.2}
                 className="mt-3 max-w-[953px] text-[15px] md:text-[20px] leading-6 text-[#0A4B6E]  sm:leading-6.5"
               >
-                V-Watch Ai centralises contractor records, certifications, and
+                V-Watch AI centralises contractor records, certifications, and
                 safety requirements into one system automatically tracking
                 expiry, enforcing access rules, and eliminating compliance gaps.
               </motion.p>

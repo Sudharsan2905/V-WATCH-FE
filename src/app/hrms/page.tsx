@@ -15,7 +15,7 @@ const FOOTER_COLUMNS = [
 ];
 
 export const metadata = {
-  title: "HRMS | V-Watch Ai",
+  title: "HRMS | V-Watch AI",
   description:
     "A unified HR system that connects workforce management with task execution — assign, track, verify, and reward work using real data from your site.",
 };

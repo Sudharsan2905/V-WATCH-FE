@@ -112,7 +112,7 @@ export default function WhyChoose({
   whyChoose = {},
 }: Readonly<{ whyChoose?: WhyChooseContent }> = {}) {
   const {
-    heading     = "Why teams choose V-Watch Ai",
+    heading     = "Why teams choose V-Watch AI",
     subheading  = "Most solutions address only one part of the problem.",
     cardTitle   = "V-Watch AI connects everything.",
     cardImage   = "/industries/construction/v-watch-ai/commerical.webp",

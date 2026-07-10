@@ -25,7 +25,7 @@ const slideUp: Variants = {
   }),
 };
 
-// "Explore how V-Watch Ai works across different environments" (Figma 270:13092)
+// "Explore how V-Watch AI works across different environments" (Figma 270:13092)
 type Card = { title: string; img: string ; desc?: string; link?: string; href?: string };
 
 const CARDS: Card[] = [
@@ -84,12 +84,12 @@ export default function Explore() {
             className="flex max-w-[1160px] flex-col gap-2.5"
           >
             <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
-              Explore how V-Watch Ai works across different environments
+              Explore how V-Watch AI works across different environments
             </h2>
             <p className="max-w-[804px] text-[20px] font-normal leading-[28px] text-[#0A4B6E]">
               While every industry is unique, the need for visibility, safety,
               and control remains the same. These are some of the environments
-              where V-Watch Ai delivers the most impact.
+              where V-Watch AI delivers the most impact.
             </p>
           </motion.header>
 

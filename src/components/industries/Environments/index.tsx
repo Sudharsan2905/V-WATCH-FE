@@ -184,7 +184,7 @@ export default function Environments({
 }: Readonly<{ environments?: EnvironmentsContent }> = {}) {
   const {
     heading = "Designed for any environment.",
-    subtitle = "V-Watch Ai adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
+    subtitle = "V-Watch AI adapts to different types of construction projects wherever workforce coordination, compliance, and site control are critical.",
     cards = [],
   } = environments;
 

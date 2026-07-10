@@ -98,7 +98,7 @@ export default function BiDashboardsHero() {
               variants={copyReveal}
               className="max-w-[560px] text-base font-semibold leading-7 text-white lg:text-[20px] lg:leading-8"
             >
-              V-Watch Ai leverages Microsoft Power BI to transform real-time
+              V-Watch AI leverages Microsoft Power BI to transform real-time
               operational data into clear, actionable dashboards giving you full
               visibility across workforce, operations, assets, and movement.
             </motion.p>

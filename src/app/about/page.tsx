@@ -20,7 +20,7 @@ export default function AboutPage() {
       <WhyWeBuilt />
       <WhatMakesUsDifferent />
       <Footer
-        ctaTitle="See how V-Watch Ai works for your operations"
+        ctaTitle="See how V-Watch AI works for your operations"
         ctaText="Discover how a connected platform can give you full visibility, stronger control, and better decision-making across your organization."        ctaVariant="light"
       />
     </div>

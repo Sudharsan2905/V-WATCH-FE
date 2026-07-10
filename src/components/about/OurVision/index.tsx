@@ -107,7 +107,7 @@ export default function OurVision() {
                 We believe operations should not be managed in silos.
               </p>
               <p className="text-[14px] text-[#eaf8ff] leading-[22px]">
-                V-Watch Ai was built to unify every critical layer of your
+                V-Watch AI was built to unify every critical layer of your
                 environment into a single system giving you real-time visibility
                 and control across
               </p>
@@ -248,7 +248,7 @@ export default function OurVision() {
                   We believe operations should not be managed in silos.
                 </p>
                 <p className="text-[18px] text-[#eaf8ff] leading-[26px]">
-                  V-Watch Ai was built to unify every critical layer of your
+                  V-Watch AI was built to unify every critical layer of your
                   environment into a single system giving you real-time
                   visibility and control across
                 </p>

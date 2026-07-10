@@ -15,7 +15,7 @@ export default function BiDashboardsPage() {
       <DashboardShowcase />
       <Footer
         ctaTitle="Turn your data into operational advantage"
-        ctaText="See how V-Watch Ai and Power BI can help you gain full visibility, improve performance, and make smarter decisions across your operations."        ctaVariant="dark"
+        ctaText="See how V-Watch AI and Power BI can help you gain full visibility, improve performance, and make smarter decisions across your operations."        ctaVariant="dark"
       />
     </div>
   );

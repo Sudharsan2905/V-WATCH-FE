@@ -8,7 +8,7 @@ import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "Workforce Management | V-Watch Ai",
+  title: "Workforce Management | V-Watch AI",
   description:
     "Automate payroll, claims, and leave management using real-time workforce data — reducing manual work, improving accuracy, and keeping operations running efficiently.",
 };
@@ -30,14 +30,14 @@ export default function WorkforceManagementPage() {
             content={{
               title: "Built for teams managing large and dynamic workforces",
               description:
-                "From construction sites to industrial operations, V-Watch Ai simplifies workforce administration and reduces manual workload.",
+                "From construction sites to industrial operations, V-Watch AI simplifies workforce administration and reduces manual workload.",
             }}
           />
         </div>
       </div>
       <Footer
         ctaTitle="Bring your workforce operations into one system"
-        ctaText="V-Watch Ai unifies attendance, claims, leave, and payroll — so your team spends less time on admin and more on the work that matters."      />
+        ctaText="V-Watch AI unifies attendance, claims, leave, and payroll — so your team spends less time on admin and more on the work that matters."      />
     </div>
   );
 }

@@ -75,7 +75,7 @@ export default function Stats() {
             Built for high-scale, high-complexity environments
           </h2>
           <p className="text-balance text-[14px] leading-relaxed text-[#EBF7FE] sm:text-[17px] lg:text-[20px]">
-            V-Watch Ai manages large volumes of users, tasks, and real-time data
+            V-Watch AI manages large volumes of users, tasks, and real-time data
             across complex environments ensuring reliability when it matters
             most.
           </p>

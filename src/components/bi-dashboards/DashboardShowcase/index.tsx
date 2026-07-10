@@ -235,7 +235,7 @@ export default function DashboardShowcase() {
               variants={slideFromLeft}
               ghost="Dashboard"
               title="Dashboards built for clarity and control"
-              body="V-Watch Ai dashboards provide a clear, real-time overview of your operations from ground-level activity to executive insights."
+              body="V-Watch AI dashboards provide a clear, real-time overview of your operations from ground-level activity to executive insights."
               listHeading="Key Capabilities"
               items={[
                 "Real-time visual dashboards",
@@ -246,7 +246,7 @@ export default function DashboardShowcase() {
               mockup={
                 <MockupImage
                   src="/bi-dashboards/dashboard-overview.png"
-                  alt="V-Watch Ai live site overview dashboard"
+                  alt="V-Watch AI live site overview dashboard"
                   width={1086}
                   height={1275}
                   className="flex justify-center"
@@ -256,7 +256,7 @@ export default function DashboardShowcase() {
             <MockupImage
               variants={slideFromRight}
               src="/bi-dashboards/dashboard-overview.png"
-              alt="V-Watch Ai live site overview dashboard"
+              alt="V-Watch AI live site overview dashboard"
               width={1086}
               height={1275}
               className="hidden lg:block"
@@ -286,7 +286,7 @@ export default function DashboardShowcase() {
               mockup={
                 <MockupImage
                   src="/bi-dashboards/dashboard-report.png"
-                  alt="V-Watch Ai automated reporting with exportable formats"
+                  alt="V-Watch AI automated reporting with exportable formats"
                   width={855}
                   height={788}
                   className="flex justify-center"
@@ -296,7 +296,7 @@ export default function DashboardShowcase() {
             <MockupImage
               variants={slideFromLeft}
               src="/bi-dashboards/dashboard-report.png"
-              alt="V-Watch Ai automated reporting with exportable formats"
+              alt="V-Watch AI automated reporting with exportable formats"
               width={855}
               height={788}
               className="hidden lg:block"
@@ -314,7 +314,7 @@ export default function DashboardShowcase() {
               variants={slideFromLeft}
               ghost="Power BI Data"
               title="Built on real-time data across your entire platform"
-              body="The BI layer is powered by data captured across V-Watch Ai."
+              body="The BI layer is powered by data captured across V-Watch AI."
               items={[
                 "Workforce and attendance",
                 "Access and identity systems",
@@ -326,7 +326,7 @@ export default function DashboardShowcase() {
               mockup={
                 <MockupImage
                   src="/bi-dashboards/dashboard-data.png"
-                  alt="V-Watch Ai Power BI data across vehicle and workforce sources"
+                  alt="V-Watch AI Power BI data across vehicle and workforce sources"
                   width={808}
                   height={712}
                   className="flex justify-center"
@@ -336,7 +336,7 @@ export default function DashboardShowcase() {
             <MockupImage
               variants={slideFromRight}
               src="/bi-dashboards/dashboard-data.png"
-              alt="V-Watch Ai Power BI data across vehicle and workforce sources"
+              alt="V-Watch AI Power BI data across vehicle and workforce sources"
               width={808}
               height={712}
               className="hidden lg:block"

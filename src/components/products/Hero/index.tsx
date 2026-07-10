@@ -63,11 +63,11 @@ export type ProductsHeroProps = {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ProductsHero({
-  // badge = "What V-Watch Ai",
+  // badge = "What V-Watch AI",
   badgeDotColor = "#86D58B",
   // headingLines = ["One Platform", "Multiple Capabilities", "Total Control"],
   descriptionLines = [
-    "V-Watch Ai brings together a suite of integrated capabilities",
+    "V-Watch AI brings together a suite of integrated capabilities",
     "that manage your workforce, operations, assets, and security",
     "all in one connected system.",
   ],
@@ -178,7 +178,7 @@ export default function ProductsHero({
                 className="inline-flex w-fit items-center gap-[4px] rounded-full bg-white/10 px-[13px] py-[9px]"
               >
                 <span className="size-[11px] rounded-full bg-[#86D58B]" />
-                <span className="text-base font-bold leading-none text-white lg:text-[18px]">What V-Watch Ai</span>
+                <span className="text-base font-bold leading-none text-white lg:text-[18px]">What V-Watch AI</span>
               </motion.span> */}
 
                 {/* Heading */}

@@ -206,7 +206,7 @@ export default function HrmsOverview() {
             >
               <Image
                 src="/workforce/dashboard-mockup.svg"
-                alt="V-Watch Ai HRMS dashboard overview"
+                alt="V-Watch AI HRMS dashboard overview"
                 width={615}
                 height={407}
                 sizes="(min-width: 1024px) 614px, 100vw"

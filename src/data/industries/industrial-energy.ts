@@ -59,7 +59,7 @@ export const industrialEnergyContent = {
   onePlatform: {
     heading: "Real-time awareness across your entire operation",
     subtitle:
-      "V-Watch Ai provides continuous, real-time visibility of people, movement, and activity across your site — allowing you to prevent risks, respond instantly, and maintain control.",
+      "V-Watch AI provides continuous, real-time visibility of people, movement, and activity across your site — allowing you to prevent risks, respond instantly, and maintain control.",
     skylineImage: "/industries/industrial&energy/real-time/factory.png",
     features: [
       {
@@ -146,7 +146,7 @@ export const industrialEnergyContent = {
   environments: {
     heading: "Designed for a wide range of industrial and energy environments",
     subtitle:
-      "V-Watch Ai adapts to complex, high-risk environments where safety, compliance, and real-time control are critical.",
+      "V-Watch AI adapts to complex, high-risk environments where safety, compliance, and real-time control are critical.",
     cards: [
       {
         image: "/industries/construction/designed-environment/env-6.png",
@@ -265,7 +265,7 @@ export const industrialEnergyContent = {
   footer: {
     ctaTitle: "Take control of safety across your operation",
     ctaText:
-      "See how V-Watch Ai can help you reduce risk, improve response time, and maintain full visibility across your site.",
+      "See how V-Watch AI can help you reduce risk, improve response time, and maintain full visibility across your site.",
     linkColumns: [
       {
         heading: "Platform",

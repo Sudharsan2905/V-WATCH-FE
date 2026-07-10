@@ -25,9 +25,9 @@ const KEYS = [
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "HRMS, Secure Access & AI Location Tracking — V-Watch Ai",
+  title: "HRMS, Secure Access & AI Location Tracking — V-Watch AI",
   description:
-    "V-Watch Ai unifies HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking into one intelligent platform — real-time visibility and control across people, work, assets and movement.",
+    "V-Watch AI unifies HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking into one intelligent platform — real-time visibility and control across people, work, assets and movement.",
   keywords: [
     "HRMS",
     "Human Resource Management System",
@@ -36,20 +36,20 @@ export const metadata: Metadata = {
     "RTL",
     "Workflow Management",
     "AI Location Tracking",
-    "V-Watch Ai",
+    "V-Watch AI",
   ],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "V-Watch Ai",
-    title: "V-Watch Ai — HRMS, Secure Access & AI Location Tracking",
+    siteName: "V-Watch AI",
+    title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
     description:
       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "V-Watch Ai — HRMS, Secure Access & AI Location Tracking",
+    title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
     description:
       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
   },
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "V-Watch Ai",
+  name: "V-Watch AI",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   url: SITE_URL,
@@ -83,8 +83,8 @@ export default function Home() {
           as labelled tiles inside the hero visual (a PNG), so without this they
           are invisible to search engines. Placed after the hero so it follows
           the page <h1> in the heading order. */}
-      <section aria-label="V-Watch Ai platform modules" className="sr-only">
-        <h2>V-Watch Ai platform modules</h2>
+      <section aria-label="V-Watch AI platform modules" className="sr-only">
+        <h2>V-Watch AI platform modules</h2>
         <ul>
           {KEYS.map((m) => (
             <li key={m}>{m}</li>

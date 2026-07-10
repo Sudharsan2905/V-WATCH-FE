@@ -118,7 +118,7 @@ export const commercialFacilitiesContent = {
     platformImage: "/industries/commercial/facility/office.webp",
   },
   whyChoose: {
-    heading: "Why facility managers choose V-Watch Ai",
+    heading: "Why facility managers choose V-Watch AI",
     subheading:
       "Most facility systems focus on one area — access, maintenance, or workforce.",
     cardTitle: "V-Watch AI connects them all.",
@@ -150,7 +150,7 @@ export const commercialFacilitiesContent = {
   environments: {
     heading: "Designed for a wide range of commercial environments",
     subtitle:
-      "V-Watch Ai adapts to different types of facilities — wherever people, access, and operations need to be managed efficiently.",
+      "V-Watch AI adapts to different types of facilities — wherever people, access, and operations need to be managed efficiently.",
     cards: [
       {
         image: "/industries/construction/designed-environment/env-6.png",
@@ -263,7 +263,7 @@ export const commercialFacilitiesContent = {
   footer: {
     ctaTitle: "Take control of your facility operations",
     ctaText:
-      "See how V-Watch Ai can help you improve efficiency, strengthen security, and manage your facility with confidence.",
+      "See how V-Watch AI can help you improve efficiency, strengthen security, and manage your facility with confidence.",
     linkColumns: [
       {
         heading: "Platform",
