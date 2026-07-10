@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0">
         <Image
           src="/hero/hero-visual.png"
-          alt="V-Watch Ai platform modules: HRMS (Human Resource Management System), Secure Access, SMS, RTL, Workflow Management and AI Location Tracking"
+          alt="V-Watch AI platform modules: HRMS (Human Resource Management System), Secure Access, SMS, RTL, Workflow Management and AI Location Tracking"
           fill
           priority
           sizes="100vw"
@@ -25,8 +25,12 @@ export default function Hero() {
                 the bottom (light source from above). */}
             
 
-            <h1 className="text-[34px] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
-              {/* Line 1 reveals left -> right; line 2 reveals top -> bottom, staggered after it. */}
+            <h1 className="text-[clamp(22px,7.2vw,34px)] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
+              {/* Line 1 reveals left -> right; line 2 reveals top -> bottom, staggered after it.
+                  Below sm, the font-size fluidly scales down with viewport width (clamp) instead
+                  of a fixed 34px — at a fixed size, each of these two hardcoded lines no longer
+                  fits on one line on phones narrower than ~430px (e.g. iPhone 12 Pro at 390px),
+                  so they'd each wrap a second time into an orphaned single word. */}
               <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_both]">
                 Run Your Operations on
               </span>
@@ -36,11 +40,15 @@ export default function Hero() {
             </h1>
           </div>
 
-          {/* Split into its visible lines so each wipes in left -> right, one after
-              another, continuing the cascade started by the headline. */}
-          <p className="max-w-[615px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-[32px]">
+          {/* lg+: split into its visible lines so each wipes in left -> right,
+              one after another, continuing the cascade started by the
+              headline. These 3 breaks were authored to each fit one line at
+              this width — below lg the same fragments no longer fit on one
+              line each and wrap a second time into short, ragged lines, so
+              a plain reflowing paragraph is used there instead (below). */}
+          <p className="hidden max-w-[615px] text-[20px] font-bold leading-[32px] text-white lg:block">
             <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
-              V-Watch Ai is an AI-driven platform that automates, secures, and
+              V-Watch AI is an AI-driven platform that automates, secures, and
             </span>
             <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_1.8s_both]">
               connects your entire operation giving you real-time visibility and
@@ -48,6 +56,14 @@ export default function Hero() {
             <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_2.05s_both]">
               control across people, processes, assets, and movement.
             </span>
+          </p>
+
+          {/* Below lg: same copy, no manual line breaks — wraps naturally at
+              any mobile/tablet width instead of double-wrapping. */}
+          <p className="max-w-[615px] text-base font-bold leading-7 text-white motion-safe:animate-[heroFadeUp_0.6s_cubic-bezier(0.16,1,0.3,1)_1.05s_both] lg:hidden">
+            V-Watch AI is an AI-driven platform that automates, secures, and
+            connects your entire operation giving you real-time visibility and
+            control across people, processes, assets, and movement.
           </p>
 
           <div className="flex flex-wrap items-center gap-5 motion-safe:animate-[heroFadeUp_0.6s_cubic-bezier(0.16,1,0.3,1)_2.8s_both]">

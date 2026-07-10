@@ -153,7 +153,7 @@ export default function IndustryHero() {
               >
                 <span className="size-[11.4px] shrink-0 rounded-full bg-[#86D58B]" />
                 <span className="whitespace-nowrap text-base font-semibold leading-none text-white lg:text-[18px]">
-                  What V-Watch Ai
+                  What V-Watch AI
                 </span>
               </motion.div> */}
               <h1 className="max-w-[642px] text-[34px] font-semibold leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px] lg:tracking-[1px]">
@@ -173,7 +173,7 @@ export default function IndustryHero() {
             {/* Subtitle */}
             <p className="max-w-[720px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
               <motion.span custom={0.65} variants={copyReveal} className="block">
-                V-Watch Ai is designed for complex, high-activity environments
+                V-Watch AI is designed for complex, high-activity environments
               </motion.span>
               <motion.span custom={0.9} variants={subLineReveal} className="block">
                 where visibility, safety, and operational control are critical

@@ -78,7 +78,7 @@ export default function AIPlatformHero() {
               variants={copyReveal}
               className="max-w-140 text-base leading-7 font-semibold text-white lg:text-[20px] lg:leading-8"
             >
-              V-Watch Ai is an AI-driven operations platform that connects your
+              V-Watch AI is an AI-driven operations platform that connects your
               people, processes, assets, and environments giving you real-time
               visibility, automation, and control across every part of your
               business.

@@ -75,7 +75,7 @@ const PILLARS: Pillar[] = [
   {
     icon: <IntegrationIcon />,
     title: "Seamless Integration",
-    desc: "Connect V-Watch Ai with your existing systems and infrastructure without disruption.",
+    desc: "Connect V-Watch AI with your existing systems and infrastructure without disruption.",
     bullets: [
       "SCADA, BMS, and facility systems",
       "Security and surveillance platforms",
@@ -236,7 +236,7 @@ export default function ThreePillars() {
               Connected. Intelligent. Built for real-world operations.
             </h2>
             <p className="text-[17px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[18px]">
-              V-Watch Ai is designed to integrate seamlessly into your existing
+              V-Watch AI is designed to integrate seamlessly into your existing
               ecosystem, while adding a layer of intelligence that helps you
               understand and control your operations in real time.
             </p>

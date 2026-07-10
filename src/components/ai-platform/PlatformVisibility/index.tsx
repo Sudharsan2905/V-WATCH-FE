@@ -120,7 +120,7 @@ export default function PlatformVisibility() {
             <Image
               src="/ai-platform/funnel-diagram1.svg"
               // src="/ai-platform/funnel-diagram.png"
-              alt="Funnel of connected systems flowing into the unified V-Watch Ai platform"
+              alt="Funnel of connected systems flowing into the unified V-Watch AI platform"
               width={592}
               height={484}
               // Dimensions match the SVG's cropped viewBox (592×484) so the box

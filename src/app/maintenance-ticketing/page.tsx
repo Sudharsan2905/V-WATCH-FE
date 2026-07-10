@@ -7,7 +7,7 @@ import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "Maintenance & Ticketing | V-Watch Ai",
+  title: "Maintenance & Ticketing | V-Watch AI",
   description:
     "Manage maintenance requests, assign service tasks, and track resolution in one system ensuring every issue is addressed, recorded, and resolved efficiently.",
 };
@@ -33,7 +33,7 @@ export default function MaintenanceTicketingPage() {
       </div>
       <Footer
         ctaTitle="Resolve every issue before it becomes a breakdown"
-        ctaText="V-Watch Ai centralizes your maintenance workflow — from ticket creation to resolution — so nothing falls through the cracks."      />
+        ctaText="V-Watch AI centralizes your maintenance workflow — from ticket creation to resolution — so nothing falls through the cracks."      />
     </div>
   );
 }

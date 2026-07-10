@@ -130,7 +130,7 @@ export default function FeatureGrid() {
           >
             <Image
               src="/maintenance/maintenance-features.webp"
-              alt="V-Watch Ai maintenance operations overview"
+              alt="V-Watch AI maintenance operations overview"
               fill
               sizes="(min-width: 1024px) 352px, 100vw"
               className="object-cover"

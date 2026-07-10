@@ -92,7 +92,7 @@ function PointCard({
   );
 }
 
-// "Why partner with V-Watch Ai" — light rounded band overlapping the dark
+// "Why partner with V-Watch AI" — light rounded band overlapping the dark
 // technologies band above. Four numbered cards arranged around a central
 // V-Watch emblem; a blue block tucks behind each card's outer corner and the
 // big outlined digit sits inside the card alongside the content.
@@ -126,7 +126,7 @@ export default function WhyPartnerSection() {
             >
               <Image
                 src={WHY_PARTNER_EMBLEM}
-                alt="V-Watch Ai"
+                alt="V-Watch AI"
                 fill
                 className="object-contain"
                 sizes="100vw"

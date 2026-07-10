@@ -194,7 +194,7 @@ export default function IntelligenceLayer() {
             A single intelligence layer powered by Power BI
           </h2>
           <p className="text-[18px] font-normal leading-[26px] text-[#0A4B6E] lg:text-[20px]">
-            V-Watch Ai consolidates data from across your entire operational
+            V-Watch AI consolidates data from across your entire operational
             ecosystem and feeds it into a centralized reporting layer powered by
             Microsoft Power BI.
           </p>

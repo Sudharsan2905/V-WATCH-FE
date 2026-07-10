@@ -93,7 +93,7 @@ const CTA_BG = {
 
 export default function Footer({
   ctaTitle = "Transform how your operations run",
-  ctaText = "See how V-Watch Ai helps you automate processes, strengthen security, and improve productivity across your organisation.",
+  ctaText = "See how V-Watch AI helps you automate processes, strengthen security, and improve productivity across your organisation.",
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
   isBookADemoVisible = true,
@@ -241,7 +241,7 @@ export default function Footer({
             {/* Bottom row */}
             <div className="mt-6 flex flex-col items-start gap-4 border-t border-white/[0.14] pt-5 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-[14px] font-normal leading-5 text-[#EBF3FF]">
-                © 2026 V-Watch Ai. All rights reserved.
+                © 2026 V-Watch AI. All rights reserved.
               </p>
               <motion.div
                 variants={stagger}

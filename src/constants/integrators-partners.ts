@@ -68,11 +68,11 @@ export const NETWORK_NOTE =
 export const GLOBAL_TECH_HEADER = {
   title: "Integrated with leading global technologies",
   subtitle:
-    "V-Watch Ai is designed to integrate seamlessly with industry-leading systems and technologies enhancing functionality while working within your existing infrastructure.",
+    "V-Watch AI is designed to integrate seamlessly with industry-leading systems and technologies enhancing functionality while working within your existing infrastructure.",
 };
 
 export const WHY_PARTNER_HEADER = {
-  title: "Why partner with V-Watch Ai",
+  title: "Why partner with V-Watch AI",
   subtitle:
     "We work closely with system integrators to deliver high-value solutions across industries.",
 };
@@ -108,7 +108,7 @@ export const WHY_PARTNER_POINTS = [
 ];
 
 export const BECOME_INTEGRATOR_HEADER = {
-  title: "Become a V-Watch Ai System Integrator",
+  title: "Become a V-Watch AI System Integrator",
   subtitle:
     "We are actively expanding our network of system integrators across regions.",
 };

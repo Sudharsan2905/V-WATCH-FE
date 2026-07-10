@@ -132,14 +132,15 @@ function IndustryTile({
           <div className="pointer-events-auto w-[90%] max-w-[700px] rounded-[14px] border border-white/30 bg-black/40 backdrop-blur-[3px] p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
             <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
             <p className="mt-1.5 line-clamp-3 text-[16px] font-normal leading-[17px] text-white/90 sm:line-clamp-4">{desc}</p>
-            {showLearnMore &&
-              (href ? (
-                <Link href={href} className={learnMoreClass}>
-                  {learnMoreInner}
-                </Link>
-              ) : (
-                <span className={learnMoreClass}>{learnMoreInner}</span>
-              ))}
+            {/* "Learn More" only appears when the card has a real destination
+                page. Data Centers and Logistics & Warehousing have no dedicated
+                page yet, so they show the hover card (name + description) without
+                a misleading, non-navigating "Learn More". */}
+            {showLearnMore && href && (
+              <Link href={href} className={learnMoreClass}>
+                {learnMoreInner}
+              </Link>
+            )}
           </div>
         </div>
 
@@ -187,7 +188,7 @@ export default function Industries() {
                 Built for complex operational environments
               </h2>
               <p className="text-[20px] font-normal leading-[30px]">
-                V-Watch Ai is designed to adapt across industries where visibility, security, and
+                V-Watch AI is designed to adapt across industries where visibility, security, and
                 operational efficiency are critical. While each environment is different, the need for
                 real-time control and automation remains the same.
               </p>
@@ -217,7 +218,7 @@ export default function Industries() {
               <span className="size-1.5 shrink-0 rounded-full bg-white" />
             </span>
             <p className="text-center text-[16px] font-normal leading-[23px] text-white lg:whitespace-nowrap lg:text-[20px]">
-              No matter the industry, V-Watch Ai brings visibility, automation, and control into one
+              No matter the industry, V-Watch AI brings visibility, automation, and control into one
               unified system.
             </p>
               <span className="hidden flex-1 items-center lg:flex">

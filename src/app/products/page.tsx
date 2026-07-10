@@ -20,7 +20,7 @@ export default function ProductsPage() {
       <Ecosystem />
       <Footer
         ctaTitle="Start with what you need. Expand as you grow."
-        ctaText="Whether you're looking to improve workforce visibility, automate operations, or strengthen security, V-Watch Ai gives you the flexibility to scale."      />
+        ctaText="Whether you're looking to improve workforce visibility, automate operations, or strengthen security, V-Watch AI gives you the flexibility to scale."      />
     </div>
   );
 }
