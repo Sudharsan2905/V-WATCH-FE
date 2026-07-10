@@ -453,10 +453,11 @@ export default function SinglePlatform({
                 variant === "checklist"
                   ? undefined
                   : {
-                      background: "rgba(244,251,255,0.20)",
+                      background: "rgba(255,255,255,0.62)",
                       backdropFilter: "blur(14px)",
                       WebkitBackdropFilter: "blur(14px)",
-                      boxShadow: "0px 18px 40px -16px rgba(20,46,92,0.20)",
+                      boxShadow:
+                        "0 2px 10px rgba(20,46,92,0.06), 0px 18px 40px -16px rgba(20,46,92,0.22)",
                     }
               }
             >
@@ -470,7 +471,7 @@ export default function SinglePlatform({
                   style={{
                     padding: 2,
                     background:
-                      "linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 70%, #F3FAFF 100%)",
+                      "linear-gradient(180deg, #E4F1FA 0%, #CBE3F2 100%)",
                     WebkitMask:
                       "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
                     WebkitMaskComposite: "xor",
@@ -479,8 +480,12 @@ export default function SinglePlatform({
                   }}
                 />
               )}
-              {/* Secure badge — overlaps the pill's left edge; its rings bleed
-                  above/below the 54px chip and to the left of it. */}
+              {/* Secure badge. Vertically pinned to the pill's centre (top-1/2 +
+                  -translate-y-[45%]; the 45% — not 50% — accounts for the shield
+                  sitting slightly above its own image-box centre in the SVG) so it
+                  stays aligned no matter how many lines the caption wraps to. It
+                  straddles the pill's left edge, its rings bleeding into the margin
+                  (the Figma treatment). */}
               {pillBadge && (
                 <Image
                   src={SP_PILL_BADGE_SRC}
@@ -489,7 +494,7 @@ export default function SinglePlatform({
                   width={254}
                   height={254}
                   unoptimized
-                  className="pointer-events-none absolute z-20 h-[306px] w-274 -translate-x-[45%] -translate-y-[47%] left-[5px] top-[60px] sm:left-0 sm:top-[35px]"
+                  className="pointer-events-none absolute z-20 top-1/2 h-[306px] w-[306px] -translate-x-[45%] -translate-y-[45%] left-[5px] sm:left-0"
                 />
               )}
               <span
