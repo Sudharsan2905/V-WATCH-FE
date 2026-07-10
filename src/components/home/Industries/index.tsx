@@ -132,14 +132,15 @@ function IndustryTile({
           <div className="pointer-events-auto w-[90%] max-w-[700px] rounded-[14px] border border-white/30 bg-black/40 backdrop-blur-[3px] p-6 transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0_round_14px)] group-hover:[clip-path:inset(0_0_0_0_round_14px)]">
             <h3 className="text-[20px] font-bold tracking-[-0.5px] text-white">{name}</h3>
             <p className="mt-1.5 line-clamp-3 text-[16px] font-normal leading-[17px] text-white/90 sm:line-clamp-4">{desc}</p>
-            {showLearnMore &&
-              (href ? (
-                <Link href={href} className={learnMoreClass}>
-                  {learnMoreInner}
-                </Link>
-              ) : (
-                <span className={learnMoreClass}>{learnMoreInner}</span>
-              ))}
+            {/* "Learn More" only appears when the card has a real destination
+                page. Data Centers and Logistics & Warehousing have no dedicated
+                page yet, so they show the hover card (name + description) without
+                a misleading, non-navigating "Learn More". */}
+            {showLearnMore && href && (
+              <Link href={href} className={learnMoreClass}>
+                {learnMoreInner}
+              </Link>
+            )}
           </div>
         </div>
 
