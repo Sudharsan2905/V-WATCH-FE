@@ -2,6 +2,19 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+
+// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
+// available in the browser). The service ID and public key are shared across all
+// forms; this form uses its own template ID. Until all three are present the form
+// stays inert: it logs the submission and shows the success message without
+// calling out.
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_HRMS;
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+const EMAILJS_READY = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -304,6 +317,8 @@ function TrialFormCard() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   // Clear a field's error as soon as the user edits it.
   function clearError(field: keyof FormState) {
@@ -315,7 +330,7 @@ function TrialFormCard() {
     });
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const nextErrors = validate(form);
     if (Object.keys(nextErrors).length > 0) {
@@ -328,8 +343,47 @@ function TrialFormCard() {
       return;
     }
     setErrors({});
-    console.log("Trial request:", form);
-    setSubmitted(true);
+
+    // Template variables. We send both the common EmailJS names ({{name}},
+    // {{email}}, {{message}}…) and the raw field names, so the email fills in
+    // whichever placeholders the dashboard template uses.
+    const params = {
+      to_email: "gokulrajkumar02@gmail.com",
+      name: form.fullName.trim(),
+      email: form.workEmail.trim(),
+      company: form.companyName.trim(),
+      role: form.role,
+      employee_count: form.employeeCount,
+      // reply straight to the person who filled the form
+      reply_to: form.workEmail.trim(),
+      // raw field names, in case the template references these instead
+      fullName: form.fullName.trim(),
+      workEmail: form.workEmail.trim(),
+      companyName: form.companyName.trim(),
+      employeeCount: form.employeeCount,
+    };
+
+    // Not connected to a provider yet: log and show success without sending.
+    if (!EMAILJS_READY) {
+      console.log("Trial request (EmailJS not configured):", params);
+      setSubmitted(true);
+      return;
+    }
+
+    try {
+      setSending(true);
+      setSendError(false);
+      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
+        publicKey: EMAILJS_PUBLIC_KEY!,
+      });
+      setSubmitted(true);
+      setForm(INITIAL);
+    } catch (err) {
+      console.error("EmailJS send failed:", err);
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
   }
 
   if (submitted) {
@@ -447,7 +501,8 @@ function TrialFormCard() {
         <div className="flex flex-col items-center gap-3 pt-2">
           <button
             type="submit"
-            className="w-[155px] inline-flex h-11 items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)]"
+            disabled={sending}
+            className="w-[155px] inline-flex h-11 items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)] disabled:cursor-not-allowed disabled:opacity-70"
             style={{
               background: `
                 linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)) padding-box,
@@ -457,11 +512,17 @@ function TrialFormCard() {
               border: "1.24px solid transparent",
             }}
           >
-            Start Free Trial
+            {sending ? "Sending…" : "Start Free Trial"}
           </button>
 
-          <p className="text-[12px] text-center md:text-[14px] text-[#3890C0]">
-            No credit card required. Instant access.
+          <p
+            className={`text-[12px] text-center md:text-[14px] ${
+              sendError ? "text-[#D14343]" : "text-[#3890C0]"
+            }`}
+          >
+            {sendError
+              ? "Something went wrong. Please try again."
+              : "No credit card required. Instant access."}
           </p>
         </div>
       </form>
