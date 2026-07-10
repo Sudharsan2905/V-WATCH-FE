@@ -72,6 +72,15 @@ export default function PreConstructionHero({
             sizes="100vw"
             className="object-cover object-right sm:object-fill"
           />
+          {/* Left-to-right dark scrim for text legibility. The bg is a bright
+              blue construction render whose crane/grid lines cut right through
+              where the heading + subtitle sit, washing out the white copy
+              (worst on mobile, where the text spans most of the width). This
+              darkens the left/centre — strongly across more of the width on
+              mobile since the copy is nearly full-bleed there, fading to clear
+              on the right from sm up where the copy is left-anchored and the
+              scene should show through. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#030515]/90 via-[#030515]/65 to-[#030515]/25 sm:via-[#030515]/40 sm:to-transparent" />
         </div>
 
         {/* White wave curve — section-level so it is never inside the fading bg
@@ -105,7 +114,7 @@ export default function PreConstructionHero({
             {/* Heading — Figma: Lato ExtraBold(800→mapped to Black/900, the
                 nearest loaded weight), 50px / 68px line-height, 2% tracking.
                 Scaled down for mobile so it never overflows. */}
-            <h1 className="max-w-[675px] text-[34px] font-black leading-[44px] tracking-[0.02em] text-white sm:text-[42px] sm:leading-[56px] lg:text-[50px] lg:leading-[68px]">
+            <h1 className="max-w-[675px] text-[34px] font-black leading-[44px] tracking-[0.02em] text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.55)] sm:text-[42px] sm:leading-[56px] lg:text-[50px] lg:leading-[68px]">
               <span className="block overflow-hidden pb-[0.12em]">
                 <motion.span custom={0.3} variants={lineReveal} className="block">
                   {heading}
@@ -115,7 +124,7 @@ export default function PreConstructionHero({
 
             {/* Subtitle — Figma: Lato Bold(700), 20px / 32px line-height, 0%
                 tracking, #FFFFFF. Scaled down for mobile. */}
-            <p className="mt-[20px] max-w-[561px] text-[16px] font-bold leading-7 tracking-normal text-white sm:text-[18px] lg:text-[20px] lg:leading-8">
+            <p className="mt-[20px] max-w-[561px] text-[16px] font-bold leading-7 tracking-normal text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.55)] sm:text-[18px] lg:text-[20px] lg:leading-8">
               <motion.span custom={0.65} variants={copyReveal} className="block">
                 {subtitle}
               </motion.span>
