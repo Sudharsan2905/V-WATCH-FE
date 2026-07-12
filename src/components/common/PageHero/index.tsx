@@ -58,7 +58,7 @@ export default function PageHero({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px] px-6 lg:px-[60px]">
+      <section className="relative min-h-[372px] overflow-hidden bg-[#030515] sm:min-h-[520px] lg:min-h-[754px] px-6 lg:px-[60px]">
         <motion.div
           className="pointer-events-none absolute inset-0"
           initial={{ opacity: 0, scale: 1.06 }}
@@ -78,7 +78,7 @@ export default function PageHero({
 
         <div className="relative z-10 mx-auto w-full max-w-[1280px] ">
           <motion.div
-            className="flex flex-col justify-center pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
+            className="flex min-h-[372px] flex-col justify-center pt-[60px] pb-[16px] sm:min-h-[520px] sm:pt-[64px] sm:pb-[24px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"
             animate="show"
           >

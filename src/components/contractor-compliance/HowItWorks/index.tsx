@@ -63,7 +63,7 @@ const STEPS: {
   },
 ];
 
-const AUTO_ADVANCE_MS = 3500;
+const AUTO_ADVANCE_MS = 5000;
 // Container height in px (matches lg:h-110 = 520px)
 
 /** Absolute Y position of an element inside a scroll container */
@@ -425,7 +425,7 @@ export default function HowItWorks() {
             <div
               ref={scrollRef}
               onScroll={handleScroll}
-              className="mx-auto h-70 w-full max-w-[656px] overflow-y-auto sm:h-90 lg:mx-0 lg:flex-1 lg:h-110"
+              className="mx-auto h-[452px] w-full max-w-[656px] overflow-y-auto sm:h-[420px] lg:mx-0 lg:flex-1 lg:h-110"
               style={{ scrollbarWidth: "none" }}
             >
               <div className="px-2">

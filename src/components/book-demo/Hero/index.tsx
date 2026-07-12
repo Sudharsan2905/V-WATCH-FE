@@ -62,6 +62,10 @@ export default function BookDemoHero() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#030515] to-transparent" />
         {/* Blue ambient glow */}
         <div className="pointer-events-none absolute left-0 top-1/3 h-80 w-72 -translate-x-1/2 rounded-full bg-[#0a8ec8] opacity-20 blur-[150px]" />
+        {/* Readability scrim — darkens the bright globe behind the heading/intro so
+            the white text keeps contrast on mobile/tablet; kept subtle on lg where
+            the dark left panel already sits behind the copy. */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#030515]/90 via-[#030515]/55 to-transparent lg:from-[#030515]/50 lg:via-[#030515]/15" />
 
         {/* Content */}
         <div className="relative mx-auto max-w-[1280px] px-6 pt-16 sm:pt-20 lg:px-[60px] lg:pt-24">

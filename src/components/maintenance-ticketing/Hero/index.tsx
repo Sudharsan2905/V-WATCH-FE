@@ -67,7 +67,7 @@ export default function MaintenanceHero() {
               fill
               priority
               sizes="100vw"
-              className="object-cover object-right top-0%"
+              className="object-cover sm:object-fill"
             />
           </motion.div>
           {/* Gradient keeps text legible against the bright right-side image */}
