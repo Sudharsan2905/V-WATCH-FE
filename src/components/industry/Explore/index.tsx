@@ -72,7 +72,7 @@ function Arrow() {
 export default function Explore() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-[2] px-6 pb-20 pt-[30px] lg:px-[60px]">
+      <section className="relative z-[2] px-6 pb-10 pt-[30px] lg:px-[60px]">
         <motion.div
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-10"
           initial="hidden"

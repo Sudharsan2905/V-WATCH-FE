@@ -340,13 +340,13 @@ export default function SinglePlatform({
           <motion.p
             variants={fadeUp}
             custom={0.2}
-            className="mt-1 max-w-[878px] text-[20px] leading-[24px] text-[#0A4B6E]"
+            className="mt-2 max-w-[878px] text-[20px] leading-[24px] text-[#0A4B6E]"
           >
             {intro}
           </motion.p>
         </div>
         <motion.div
-          className="relative mt-[30px] mx-auto w-full max-w-[1280px]"
+          className="relative mt-1.25 mx-auto w-full max-w-[1280px] sm:mt-7.5"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
@@ -357,7 +357,7 @@ export default function SinglePlatform({
             <motion.p
               variants={fadeUp}
               custom={0.32}
-              className="mt-6 max-w-[442px] text-[20px] leading-[30px] text-[#006F9F]"
+              className="mt-2 max-w-[442px] text-[20px] leading-[30px] text-[#006F9F] sm:mt-6"
             >
               {detail}
             </motion.p>

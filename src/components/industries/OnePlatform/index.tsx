@@ -484,14 +484,19 @@ export default function OnePlatform({
 
               {/* 4) Platform image — order-4 on mobile */}
               {platformImage && (
-                <motion.div variants={wipeUp} custom={PLATFORM_IMG} className="order-4 lg:order-none">
-                  <Image
-                    src={platformImage}
-                    alt=""
-                    width={703}
-                    height={510}
-                    className="h-auto w-full rounded-[20px]"
-                  />
+                <motion.div variants={wipeUp} custom={PLATFORM_IMG} className="order-4 -mx-3 lg:order-none lg:mx-0">
+                  {/* Source asset has a decorative glow border baked in; on
+                      mobile we crop it out by zooming into an overflow-hidden
+                      frame (desktop shows the asset at its native scale). */}
+                  <div className="relative aspect-703/510 w-full overflow-hidden rounded-[20px]">
+                    <Image
+                      src={platformImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 703px"
+                      className="scale-[1.18] object-cover lg:scale-100"
+                    />
+                  </div>
                 </motion.div>
               )}
 

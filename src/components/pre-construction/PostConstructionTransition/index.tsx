@@ -310,8 +310,8 @@ export default function PostConstructionTransition({
                 {/* Copy — on mobile this is a normal block that sits ABOVE the
                     image (text and image separated, both fully readable); on
                     md+ it's anchored top-left over the full-bleed image. */}
-                <div className="relative z-10 max-w-full p-6 md:max-w-[88%] lg:max-w-135 lg:p-8">
-                  <p className="font-lato text-[20px] font-bold leading-8 tracking-normal text-[#0A4B6E]">
+                <div className="relative z-10 max-w-full p-6 text-center md:max-w-[88%] md:text-left lg:max-w-135 lg:p-8">
+                  <p className="font-lato text-[17px] font-bold leading-8 tracking-normal text-[#0A4B6E] md:text-[20px]">
                     {panelTitle}
                   </p>
                 </div>

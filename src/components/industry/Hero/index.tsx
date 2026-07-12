@@ -66,7 +66,7 @@ export default function IndustryHero() {
             priority
             fetchPriority="high"
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-center opacity-60"
           />
         </div>
 
