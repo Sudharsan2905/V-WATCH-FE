@@ -139,7 +139,7 @@ export default function IndustriesHero({
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
           <motion.div
-            className="flex min-h-[560px] flex-col items-start justify-center gap-6 py-24 sm:py-28 lg:min-h-[754px] lg:gap-[30px] lg:py-[140px]"
+            className="flex min-h-[650px] flex-col items-start justify-center gap-6 py-24 sm:py-28 lg:min-h-[754px] lg:gap-[30px] lg:py-[140px]"
             initial="hidden"
             animate="show"
           >

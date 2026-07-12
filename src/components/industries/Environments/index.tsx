@@ -128,7 +128,7 @@ function MobileCarousel({
   onSelect,
 }: Readonly<{ cards: EnvCardData[]; selectedCard: number | null; onSelect: (i: number) => void }>) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
+    align: "start",
     containScroll: "trimSnaps",
   });
   const [scrollIndex, setScrollIndex] = useState(0);
@@ -147,7 +147,7 @@ function MobileCarousel({
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {cards.map((card, i) => (
-            <div key={card.title} className="min-w-0 flex-[0_0_88%] pr-4">
+            <div key={card.title} className="min-w-0 flex-[0_0_100%]">
               <EnvCard
                 card={card}
                 delay={CARDS_START + i * CARD_STAGGER}

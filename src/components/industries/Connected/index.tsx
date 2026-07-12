@@ -98,14 +98,14 @@ function Medallion({ icon }: Readonly<{ icon: string }>) {
         alt=""
         width={220}
         height={220}
-        className="size-[220px] object-contain"
+        className="size-[140px] object-contain lg:size-[220px]"
         style={transform ? { transform } : undefined}
       />
     );
   }
   return (
     <div
-      className="relative flex size-[220px] items-center justify-center"
+      className="relative flex size-[140px] items-center justify-center lg:size-[220px]"
       style={transform ? { transform } : undefined}
     >
       <Image src={`${ASSET}/circle.png`} alt="" width={128} height={128} unoptimized className="absolute inset-0 size-[128px] object-contain" />
@@ -229,7 +229,7 @@ export default function Connected({
   return (
     <MotionConfig reducedMotion="user">
       <section
-        className="relative z-10 overflow-hidden px-6 py-10 md:py-20 lg:px-[60px]"
+        className="relative z-10 overflow-hidden px-6 pt-10 pb-6 md:py-20 lg:px-[60px]"
         style={{ background: "rgb(255, 255, 255)" }}
       >
         <motion.div

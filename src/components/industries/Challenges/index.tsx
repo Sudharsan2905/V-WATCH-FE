@@ -255,7 +255,32 @@ export default function Challenges({
               <DotGrid className="absolute top-4 z-10 hidden lg:block lg:left-[calc(22%_-_56px)]" />
 
               {images.length >= 4 && (
-                <div className="mx-auto flex max-w-[500px] flex-col gap-3 overflow-hidden sm:gap-4 lg:mx-0 lg:max-w-none">
+                <>
+                {/* Mobile (< sm): a clean, aligned 2×2 grid — equal cells and
+                    even spacing. The staggered Figma collage below reads as
+                    misaligned once it's squeezed into a phone's width, so mobile
+                    gets a tidy grid instead. */}
+                <div className="grid grid-cols-2 gap-3 sm:hidden">
+                  {[aerial, worker, lower, crane].map((src, i) => (
+                    <motion.div
+                      key={src}
+                      variants={wipeUp}
+                      custom={IMGS_START + i * IMG_STAGGER}
+                      className="aspect-[4/5] overflow-hidden rounded-2xl"
+                    >
+                      <Image
+                        src={src}
+                        alt=""
+                        width={210}
+                        height={262}
+                        className="h-full w-full object-cover"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Tablet & up: the staggered Figma collage */}
+                <div className="mx-auto hidden max-w-[500px] flex-col gap-3 overflow-hidden sm:flex sm:gap-4 lg:mx-0 lg:max-w-none">
                   {/* Top row — aerial offset down, worker starts at top */}
                   <div className="flex items-start gap-3 sm:gap-4">
                     <motion.div
@@ -291,6 +316,7 @@ export default function Challenges({
                     </motion.div>
                   </div>
                 </div>
+                </>
               )}
 
 
