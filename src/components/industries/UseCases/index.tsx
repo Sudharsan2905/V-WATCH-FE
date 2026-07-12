@@ -70,7 +70,7 @@ function Card({
     <motion.div
       variants={fadeUp}
       custom={delay}
-      className="group snap-start h-75.5 w-68.75 rounded-[30px] border-2 border-white/70 bg-white/50 p-2 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)] backdrop-blur-[6px]"
+      className="group snap-start h-75.5 w-[calc(100vw-3rem)] rounded-[30px] border-2 border-white/70 bg-white/50 p-2 shadow-[0px_30px_50px_-30px_rgba(20,46,92,0.35)] backdrop-blur-[6px] sm:w-68.75"
     >
       {href ? (
         <Link href={href} className="block h-full w-full">

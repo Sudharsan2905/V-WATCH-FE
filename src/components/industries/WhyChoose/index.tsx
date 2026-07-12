@@ -122,7 +122,7 @@ export default function WhyChoose({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 px-6 py-16 lg:px-[60px]" style={{ background: "rgb(252, 252, 252)" }}>
+      <section className="relative z-10 px-6 pt-8 pb-16 sm:pt-16 lg:px-[60px]" style={{ background: "rgb(252, 252, 252)" }}>
         <motion.div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-10"
           initial="hidden"
