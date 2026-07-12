@@ -249,7 +249,7 @@ export default function CapabilityTabs() {
         <LayoutGroup>
           <motion.div
             ref={tabScrollerRef}
-            className="flex h-14 w-full items-center gap-2.5 overflow-x-auto overflow-y-hidden rounded-full border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex w-full flex-wrap items-center justify-center gap-2.5 rounded-[26px] border-[1.25px] border-white/80 bg-[linear-gradient(180deg,rgba(233,238,255,0.6),rgba(193,236,255,0.6))] p-1.5 shadow-[6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)] lg:h-14 lg:flex-nowrap lg:justify-start lg:overflow-x-auto lg:overflow-y-hidden lg:rounded-full [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             variants={tabBarVariant}
             initial="hidden"
             animate={inView ? "show" : "hidden"}
@@ -265,7 +265,7 @@ export default function CapabilityTabs() {
                 variants={tabItemVariant}
                 whileHover={{ scale: 1.02, y: -2 }}
                 transition={hoverSpring}
-                className={`relative flex h-full flex-1 items-center justify-center whitespace-nowrap rounded-full px-3 text-[15px] font-medium transition-colors duration-300 sm:px-4 sm:text-[17px] lg:text-[20px] ${
+                className={`relative flex h-9 flex-none items-center justify-center whitespace-nowrap rounded-full px-4 text-[15px] font-medium transition-colors duration-300 sm:text-[17px] lg:h-full lg:flex-1 lg:px-4 lg:text-[20px] ${
                   i === tab ? "text-white" : "text-[#202020] hover:text-[#0A4B6E]"
                 }`}
               >

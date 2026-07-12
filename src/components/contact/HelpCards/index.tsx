@@ -42,6 +42,9 @@ type CardProps = {
   cta?: React.ReactNode;
   className?: string;
   textMaxWidth?: string;
+  // Responsive max-width utility classes for the text block (e.g. to constrain
+  // text only below lg). Applied in addition to textMaxWidth.
+  textClassName?: string;
   variants?: Variants;
   delay?: number;
 };
@@ -79,6 +82,7 @@ function HelpCard({
   cta,
   className = "",
   textMaxWidth,
+  textClassName = "",
   variants = fadeUp,
   delay = 0,
 }: Readonly<CardProps>) {
@@ -128,7 +132,7 @@ function HelpCard({
 
       <div className="relative z-10 flex h-full flex-col gap-[8.46px] pl-[16.92px] pr-[16.92px] pt-[82.92px] pb-[16.92px]">
         <div
-          className="flex flex-col gap-[8.46px]"
+          className={`flex flex-col gap-[8.46px] ${textClassName}`}
           style={textMaxWidth ? { maxWidth: textMaxWidth } : undefined}
         >
           <h3 className="text-[16px] font-bold leading-[20px] text-[#0F172A] sm:text-[18px] sm:leading-[22px]">
@@ -168,7 +172,7 @@ export default function HelpCards() {
 
         {/* Card grid with decorative background */}
         <div className="relative w-full max-w-[1160px]">
-          Decorative blurred ellipses behind cards
+          {/* Decorative blurred ellipses behind cards */}
           <div
             aria-hidden
             className="pointer-events-none absolute left-[-68px] top-[206px] hidden h-[148px] w-[610px] rounded-full lg:block"
@@ -196,19 +200,17 @@ export default function HelpCards() {
               desc="Learn how V-Watch AI can work for your operations"
               illustration={
                 <>
+                  {/* Below lg the card is compact, so the phone illustration is
+                      shown as a right-side vignette (matching the General/Support
+                      cards) instead of the full-width bottom artwork used on the
+                      tall lg card. */}
                   <Image
                     src="/contact/cards/Ellipse 3585.svg"
                     alt=""
                     width={275}
                     height={275}
                     unoptimized
-                    className="pointer-events-none absolute"
-                    style={{
-                      width: "300px",
-                      height: "300px",
-                      left: "80px",
-                      top: "145px",
-                    }}
+                    className="pointer-events-none absolute right-[-56px] top-[6px] h-[210px] w-[210px] md:right-[0px] lg:right-auto lg:left-[80px] lg:top-[145px] lg:h-[300px] lg:w-[300px]"
                   />
                   <Image
                     src="/contact/cards/cardimage.svg"
@@ -216,18 +218,13 @@ export default function HelpCards() {
                     width={501}
                     height={334}
                     unoptimized
-                    className="pointer-events-none absolute"
-                    style={{
-                      width: "440px",
-                      height: "294px",
-                      left: "-6px",
-                      top: "130px",
-                    }}
+                    className="pointer-events-none absolute right-[-26px] top-[56px] h-[128px] w-[192px] md:right-[14px] lg:right-auto lg:left-[-6px] lg:top-[130px] lg:h-[294px] lg:w-[440px]"
                   />
                 </>
               }
               bgSrc="/contact/cards/bgpattern.svg"
-              className="min-h-[320px] lg:h-[440px]"
+              className="min-h-[200px] lg:h-[440px]"
+              textClassName="max-w-[190px] lg:max-w-none"
               variants={cardLeft}
               delay={0.1}
             />
