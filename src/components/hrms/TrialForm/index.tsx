@@ -348,7 +348,7 @@ function TrialFormCard() {
     // {{email}}, {{message}}…) and the raw field names, so the email fills in
     // whichever placeholders the dashboard template uses.
     const params = {
-      to_email: "gokulrajkumar02@gmail.com",
+      to_email: "sales@vwatch.ai",
       name: form.fullName.trim(),
       email: form.workEmail.trim(),
       company: form.companyName.trim(),

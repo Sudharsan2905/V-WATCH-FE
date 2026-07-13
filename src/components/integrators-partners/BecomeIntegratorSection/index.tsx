@@ -210,7 +210,7 @@ export default function BecomeIntegratorSection() {
     // field names, so the email fills whichever placeholders the template uses.
     const focusAreas = fd.getAll("focusAreas").map(String);
     const params = {
-      to_email: "gokulrajkumar02@gmail.com",
+      to_email: "sales@vwatch.ai",
       name: get("fullName"),
       email: get("workEmail"),
       company: get("companyName"),
