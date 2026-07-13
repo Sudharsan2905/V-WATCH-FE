@@ -458,7 +458,7 @@ export default function DemoForm() {
     // whichever placeholders the dashboard template uses.
     const services = [...form.services];
     const params = {
-      to_email: "gokulrajkumar02@gmail.com",
+      to_email: "Marketing@vwatch.ai",
       name: form.fullName.trim(),
       email: form.workEmail.trim(),
       phone: form.phoneNumber.trim(),
