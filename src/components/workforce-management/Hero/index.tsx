@@ -51,7 +51,7 @@ const buttonReveal: Variants = {
 export default function WorkforceHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[754px] px-6 lg:px-[60px]">
+      <section className="relative min-h-[600px] overflow-hidden bg-[#030515] lg:min-h-[784px] px-6 lg:px-[60px]">
         {/* Background image */}
         <div className="pointer-events-none absolute inset-0">
           <motion.div
@@ -65,8 +65,8 @@ export default function WorkforceHero() {
               alt=""
               fill
               priority
-              sizes="100vw"
-              className="object-cover object-right-top"
+              sizes="90vw"
+              className="object-cover object-right md:object-bottom-center"
             />
           </motion.div>
           {/* Gradient keeps text legible against the bright right-side image */}

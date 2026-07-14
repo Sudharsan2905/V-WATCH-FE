@@ -24,11 +24,11 @@ const FEATURES = [
   },
   {
     title: "Task and operational activity",
-    iconSrc: "/workforce/transferIcons/4.svg",
+    iconSrc: "/workforce/transferIcons/5.svg",
   },
   {
     title: "Power BI dashboards and reporting",
-    iconSrc: "/workforce/transferIcons/5.svg",
+    iconSrc: "/workforce/transferIcons/4.svg",
   },
 ];
 
