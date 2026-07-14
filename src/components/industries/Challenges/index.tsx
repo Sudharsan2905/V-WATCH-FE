@@ -96,24 +96,6 @@ function FeatureCard({
   );
 }
 
-function CollageImg({
-  src,
-  w,
-  h,
-  className,
-}: Readonly<{ src: string; w: number; h: number; className?: string }>) {
-  return (
-    <Image
-      src={src}
-      alt=""
-      width={w}
-      height={h}
-      className={`h-auto rounded-2xl ${className ?? ""}`}
-      style={{ maxWidth: w, maxHeight: h }}
-    />
-  );
-}
-
 function DotGrid({ className }: Readonly<{ className?: string }>) {
   return (
     <div
@@ -279,40 +261,78 @@ export default function Challenges({
                   ))}
                 </div>
 
-                {/* Tablet & up: the staggered Figma collage */}
-                <div className="mx-auto hidden max-w-[500px] flex-col gap-3 overflow-hidden sm:flex sm:gap-4 lg:mx-0 lg:max-w-none">
-                  {/* Top row — aerial offset down, worker starts at top */}
-                  <div className="flex items-start gap-3 sm:gap-4">
+                {/* Tablet & up: fixed-size staggered Figma collage. Widths,
+                    gaps and the bottom-row offset are all fixed pixels, so every
+                    image renders at identical dimensions on tablet, laptop and
+                    desktop — the block is simply centered on tablet and
+                    left-aligned from lg up. */}
+                <div className="mx-auto hidden w-[496px] max-w-full flex-col gap-4 sm:flex lg:mx-0">
+                  {/* Top row — bottom-aligned so both images share the same
+                      bottom edge; the shorter aerial image naturally sits lower,
+                      giving the Figma stagger with no leftover gap. */}
+                  <div className="flex items-end gap-4">
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START}
-                      className="w-[42%] max-w-[210px] overflow-hidden pt-6 sm:pt-10 lg:pt-14"
+                      className="w-[210px] shrink-0"
                     >
-                      <CollageImg src={aerial} w={210} h={297} className="w-full" />
+                      <div className="aspect-[210/297] overflow-hidden rounded-2xl">
+                        <Image
+                          src={aerial}
+                          alt=""
+                          width={210}
+                          height={297}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
                     </motion.div>
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START + IMG_STAGGER}
-                      className="flex-1 overflow-hidden"
+                      className="w-[270px] shrink-0"
                     >
-                      <CollageImg src={worker} w={270} h={355} className="w-full" />
+                      <div className="aspect-[270/355] overflow-hidden rounded-2xl">
+                        <Image
+                          src={worker}
+                          alt=""
+                          width={270}
+                          height={355}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
                     </motion.div>
                   </div>
-                  {/* Bottom row — entire row shifted right to match Figma stagger */}
-                  <div className="flex items-start gap-3 ml-[18%] mr-[12%] sm:ml-[20%] sm:mr-[10%] sm:gap-4">
+                  {/* Bottom row — shifted right by a fixed offset to match Figma stagger */}
+                  <div className="flex items-start gap-4 pl-[112px]">
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START + IMG_STAGGER * 2}
-                      className="flex-1 overflow-hidden max-w-[166px]"
+                      className="w-[166px] shrink-0"
                     >
-                      <CollageImg src={lower} w={166} h={212} className="w-full" />
+                      <div className="aspect-[166/212] overflow-hidden rounded-2xl">
+                        <Image
+                          src={lower}
+                          alt=""
+                          width={166}
+                          height={212}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
                     </motion.div>
                     <motion.div
                       variants={wipeUp}
                       custom={IMGS_START + IMG_STAGGER * 3}
-                      className="flex-1 overflow-hidden max-w-[200px]"
+                      className="w-[200px] shrink-0"
                     >
-                      <CollageImg src={crane} w={200} h={265} className="w-full" />
+                      <div className="aspect-[200/265] overflow-hidden rounded-2xl">
+                        <Image
+                          src={crane}
+                          alt=""
+                          width={200}
+                          height={265}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
                     </motion.div>
                   </div>
                 </div>
