@@ -178,7 +178,9 @@ function RequestCard({ isActive }: { isActive?: boolean }) {
             height={13}
             aria-hidden="true"
           />
-          <div className="h-1.5 flex-1 rounded bg-[#E2E8F0]" />
+          <span className="text-[10px] font-bold leading-[15px] text-[#475569]">
+            Worker Layby Issue
+          </span>
         </div>
         <div className="flex w-full items-center gap-2">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
@@ -757,7 +759,7 @@ export default function WorkflowSection() {
       ref={sectionRef}
       className="relative py-6 px-6 lg:py-[40px] lg:pb-[50px] lg:px-[60px]"
     >
-      <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-6 lg:gap-[40px]">
+      <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-6 lg:gap-[30px]">
         {/* Header */}
         <motion.header
           initial="hidden"
@@ -790,6 +792,7 @@ export default function WorkflowSection() {
           xl:px-0
           relative
           -mx-6
+          xl:mx-0
           overflow-x-auto
           snap-x
           snap-mandatory

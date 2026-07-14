@@ -25,7 +25,7 @@ export default function GeofencingPage() {
         trustTitle={`${partners.title} ${partners.subtitle}`}
         trustText={partners.description}
       /> */}
-      <div className="relative pt-2 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+      <div className="relative pt-2 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
         <TechnologyPartners
           content={{
             title: `${partners.title}`,

@@ -25,7 +25,7 @@ export default function WorkforceManagementPage() {
         <ConnectedTo />
         <FeatureHighlight />
 
-        <div className="pt-2 py-5 px-5 relative rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+        <div className="pt-2 py-5 relative rounded-t-[40px] shadow-[inset_0px_18px_50px_10px_#0075B433]">
           <TechnologyPartners
             content={{
               title: "Built for teams managing large and dynamic workforces",
@@ -36,8 +36,9 @@ export default function WorkforceManagementPage() {
         </div>
       </div>
       <Footer
-        ctaTitle="Bring your workforce operations into one system"
-        ctaText="V-Watch AI unifies attendance, claims, leave, and payroll — so your team spends less time on admin and more on the work that matters."      />
+        ctaTitle="Simplify your workforce operations"
+        ctaText="See how V-Watch AI helps you automate payroll, manage claims, and streamline workforce administration all in one system."
+      />
     </div>
   );
 }

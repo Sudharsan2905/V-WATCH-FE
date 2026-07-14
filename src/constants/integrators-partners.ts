@@ -183,7 +183,7 @@ export const TECH_PARTNER_LOGOS = [
   "/integrators-partners/companies/axis.png",
   "/integrators-partners/companies/hkvision.png",
   "/integrators-partners/companies/ivideon.png",
-  "/integrators-partners/companies/cisco.png",
+  "/integrators-partners/companies/cisco1.webp",
   "/integrators-partners/companies/icomputin.png",
   "/integrators-partners/companies/fortinet.png",
   "/integrators-partners/companies/nable.png",
