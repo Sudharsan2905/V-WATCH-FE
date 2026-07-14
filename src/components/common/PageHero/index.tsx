@@ -58,7 +58,7 @@ export default function PageHero({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative min-h-[372px] overflow-hidden bg-[#030515] sm:min-h-[520px] lg:min-h-[754px] px-6 lg:px-[60px]">
+      <section className="relative min-h-[392px] overflow-hidden bg-[#030515] sm:min-h-[520px] lg:min-h-[754px] px-6 lg:px-[60px]">
         <motion.div
           className="pointer-events-none absolute inset-0"
           initial={{ opacity: 0, scale: 1.06 }}
@@ -78,7 +78,11 @@ export default function PageHero({
 
         <div className="relative z-10 mx-auto w-full max-w-[1280px] ">
           <motion.div
-            className="flex min-h-[372px] flex-col justify-center pt-[60px] pb-[16px] sm:min-h-[520px] sm:pt-[64px] sm:pb-[24px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
+            // Taller hero + symmetric vertical padding (matches the geofencing /
+            // pre-construction hero) so the copy is comfortably centered and the
+            // following section's rounded-top overlap (-mt) laps over the bottom
+            // padding rather than the CTA button. lg keeps its own large py.
+            className="flex min-h-[560px] flex-col justify-center py-10 sm:py-14 lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"
             animate="show"
           >

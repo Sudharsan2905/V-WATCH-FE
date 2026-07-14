@@ -111,6 +111,11 @@ export default function Solutions() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  // Pagination dots (mobile/tablet only). Page count and the active page are
+  // derived from the scroller's own metrics, so they stay correct across the
+  // 1-/2-card-per-view breakpoints without hard-coding either.
+  const [pageCount, setPageCount] = useState(1);
+  const [activePage, setActivePage] = useState(0);
   // Gates the client-only carousel arrows: false during SSR and the first
   // client render (so the markup matches), flipped true after mount.
   const [mounted, setMounted] = useState(false);
@@ -122,6 +127,11 @@ export default function Solutions() {
     if (!el) return;
     setAtStart(el.scrollLeft <= 1);
     setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
+    const w = el.clientWidth;
+    if (w > 0) {
+      setPageCount(Math.max(1, Math.round((el.scrollWidth - w) / w) + 1));
+      setActivePage(Math.round(el.scrollLeft / w));
+    }
   }, []);
 
   useEffect(() => {
@@ -137,6 +147,12 @@ export default function Solutions() {
     const el = scrollerRef.current;
     if (!el) return;
     el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" });
+  };
+
+  const goToPage = (i: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
   };
 
   return (
@@ -193,9 +209,11 @@ export default function Solutions() {
                 solutions based on your specific needs.
               </p>
             </div>
-            <div className="flex shrink-0 items-center gap-3">
+            {/* Desktop-only arrows. On mobile/tablet the controls move below
+                the carousel (see the controls row after the scroller). */}
+            <div className="hidden shrink-0 items-center gap-3 lg:flex">
               {hasNav && mounted && (
-                <div className="hidden items-center gap-2.5 lg:flex">
+                <div className="flex items-center gap-2.5">
                   <NavButton
                     dir="prev"
                     disabled={atStart}
@@ -212,22 +230,22 @@ export default function Solutions() {
             </div>
           </motion.div>
 
-          {/* Cards — below lg they simply stack/wrap one by one (no carousel);
-            at lg+ this becomes a horizontal carousel showing VISIBLE cards per
-            view, with arrows paging through the rest. The lg-only negative
-            margin + padding gives the cards' -10px bleed room so the
-            overflow-x scroller doesn't clip it. */}
+          {/* Cards — a horizontal snap carousel at every breakpoint: 1 card per
+            view on mobile, 2 on tablet (sm+), 4 on desktop (lg+), with the
+            header arrows paging through the rest. The negative margin + padding
+            gives the cards' -10px image bleed room so the overflow-x scroller
+            doesn't clip it. */}
           <div
             ref={scrollerRef}
             onScroll={updateEdges}
-            className="flex flex-wrap gap-5 lg:-m-2.5 lg:flex-nowrap lg:snap-x lg:snap-mandatory lg:overflow-x-auto lg:scroll-smooth lg:p-2.5 lg:[-ms-overflow-style:none] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+            className="-m-2.5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth p-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {CARDS.map((c, i) => (
               <motion.div
                 key={c.title}
                 variants={paintIn}
                 custom={CARDS_START + i * CARD_STAGGER}
-                className="group relative h-[302px] min-w-[240px] flex-1 rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] lg:min-w-0 lg:flex-[0_0_calc((100%-60px)/4)] lg:snap-start"
+                className="group relative h-[302px] flex-[0_0_100%] snap-start rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] sm:flex-[0_0_calc((100%-20px)/2)] lg:flex-[0_0_calc((100%-60px)/4)]"
                 style={{ outline: "2px solid white", outlineOffset: -2 }}
               >
                 {c.href && (
@@ -313,6 +331,31 @@ export default function Solutions() {
               </motion.div>
             ))}
           </div>
+
+          {/* Mobile/tablet controls — arrows + pagination dots below the
+              carousel. Hidden from lg up, where the arrows sit in the header. */}
+          {hasNav && mounted && (
+            <div className="flex items-center justify-center gap-4 lg:hidden">
+              <NavButton dir="prev" disabled={atStart} onClick={() => page(-1)} />
+              <div className="flex items-center gap-2">
+                {Array.from({ length: pageCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    aria-current={i === activePage || undefined}
+                    onClick={() => goToPage(i)}
+                    className={`h-2 rounded-full transition-all ${
+                      i === activePage
+                        ? "w-5 bg-[#1273A6]"
+                        : "w-2 bg-[#CFE9F7]"
+                    }`}
+                  />
+                ))}
+              </div>
+              <NavButton dir="next" disabled={atEnd} onClick={() => page(1)} />
+            </div>
+          )}
         </motion.div>
       </section>
     </MotionConfig>

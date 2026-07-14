@@ -413,11 +413,19 @@ export default function OnePlatform({
                 </motion.div>
               )}
 
-              {/* 3) Feature list — order-3 on mobile. Centered up/down arrows
-                  step through the capabilities (wrapping). */}
-              <div className="order-3 flex flex-col items-center gap-3 lg:order-none">
+              {/* 3) Feature list — order-3 on mobile. Up/down arrows step
+                  through the capabilities (wrapping). Each arrow carries the
+                  same left gutter as a FeatureRow (icon size-14 + gap-6) and is
+                  centered in the remaining text column, so it lines up with the
+                  feature cards instead of the full-width row. */}
+              <div className="order-3 flex flex-col gap-3 lg:order-none">
                 {features.length > 1 && (
-                  <ArrowButton dir="up" onClick={() => step(-1)} />
+                  <div className="flex items-center gap-6 px-2">
+                    <span aria-hidden className="size-14 shrink-0" />
+                    <div className="flex flex-1 justify-center">
+                      <ArrowButton dir="up" onClick={() => step(-1)} />
+                    </div>
+                  </div>
                 )}
 
                 <div className="relative w-full">
@@ -451,7 +459,12 @@ export default function OnePlatform({
                 </div>
 
                 {features.length > 1 && (
-                  <ArrowButton dir="down" onClick={() => step(1)} />
+                  <div className="flex items-center gap-6 px-2">
+                    <span aria-hidden className="size-14 shrink-0" />
+                    <div className="flex flex-1 justify-center">
+                      <ArrowButton dir="down" onClick={() => step(1)} />
+                    </div>
+                  </div>
                 )}
               </div>
 
