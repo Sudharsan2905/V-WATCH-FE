@@ -218,17 +218,22 @@ function CommandCentre({ priority = false }: Readonly<{ priority?: boolean }>) {
       {/* Scene, inset to sit within the frame's ~10px padding and clipped to
           the inner rounded shape (20px left, stadium right). */}
       <div
-        className="absolute inset-x-[1.9%] inset-y-[3.7%] overflow-hidden"
-        style={{
-          borderTopLeftRadius: "40px",
-          borderTopRightRadius: "400px",
-          borderBottomLeftRadius: "40px",
-          borderBottomRightRadius: "400px",
-        }}
+        className="absolute inset-x-[1.9%] inset-y-[3.7%] overflow-hidden rounded-tr-[40px] md:rounded-tr-[400px]
+    rounded-br-[40px] md:rounded-br-[400px] rounded-tl-[40px]
+    rounded-bl-[40px]
+    shadow-[10px_10px_10px_rgba(0,0,0,0.3)]
+    md:shadow-none
+    "
+        // style={{
+        //   borderTopLeftRadius: "40px",
+        //   borderTopRightRadius: "400px",
+        //   borderBottomLeftRadius: "40px",
+        //   borderBottomRightRadius: "400px",
+        // }}
       >
         <Image
           src="/home/command-center.webp"
-          alt=""
+          alt="Command-center-image"
           fill
           className="object-cover" 
           sizes="(max-width: 768px) 100vw, 520px"
@@ -253,8 +258,8 @@ function CommandCentre({ priority = false }: Readonly<{ priority?: boolean }>) {
             under that curve and got clipped; 20% right padding keeps every
             width clear of it while 7% on the left (where the radius is only
             40px, so there's no equivalent risk) stays close to the original. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[34%] items-center justify-center border-t border-white/10 bg-gradient-to-t from-black/75 via-black/45 to-black/10 pl-[7%] pr-[20%] py-2 backdrop-blur-md">
-          <p className="text-center text-[11px] font-bold leading-[1.35] text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] sm:text-[12px] lg:text-[15px]">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[34%] items-center justify-center border-t border-white/10 bg-gradient-to-t from-black/75 via-black/45 to-black/10 p-5 md:pl-[7%] md:pr-[15%] py-2 backdrop-blur-md">
+          <p className="text-center text-[13px] font-bold leading-[1.35] text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.6)] md:text-[16px]">
             When operations scale, V-Watch AI scales with you, without loss of
             visibility or control.
           </p>
