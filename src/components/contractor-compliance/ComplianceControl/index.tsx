@@ -163,7 +163,9 @@ function FeatureCard({
 export default function ComplianceControl() {
   return (
     <MotionConfig reducedMotion="user">
-      {/* Full-width section — rounded top only to overlap hero, no side/bottom margins, no shadow */}
+      {/* Full-width section — rounded top overlaps the hero for the "card
+          emerging" curve. PageHero adds extra bottom padding when it has a CTA,
+          so the overlap laps over empty space below the button, not the button. */}
       <section className="relative z-10 -mt-8 lg:-mt-16">
         <div
           className="overflow-hidden rounded-t-[28px] px-6 lg:px-[60px]"

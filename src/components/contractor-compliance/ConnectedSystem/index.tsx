@@ -58,11 +58,12 @@ function IconBox({ icon }: { icon: string }) {
   );
 }
 
-/* Text pill — 312px × 54px, radius 16px, 1px border, padding 6px/16px */
+/* Text pill — 312px wide, min-height 54px (grows for 2-line labels so text
+   is never clipped), radius 16px, 1px border, padding 6px/16px */
 function TextPill({ label, fluid = false }: { label: string; fluid?: boolean }) {
   return (
     <div
-      className={`flex h-13.5 items-center rounded-2xl bg-white px-4 py-1.5 ${
+      className={`flex min-h-13.5 items-center justify-center rounded-2xl bg-white px-4 py-1.5 text-center ${
         fluid ? "min-w-0 flex-1" : "w-78"
       }`}
       style={{
@@ -171,6 +172,14 @@ export default function ConnectedSystem() {
                   className="object-contain"
                   style={{ mixBlendMode: "darken" }}
                 />
+                {/* V-Watch logo centered on the hub platform */}
+                <Image
+                  src="/contractor-complaince/icons/v-watch.svg"
+                  alt="V-Watch"
+                  width={79}
+                  height={18}
+                  className="absolute left-[50.5%] top-[48%] w-[12.5%] -translate-x-1/2 -translate-y-1/2 object-contain"
+                />
               </motion.div>
 
               {/* Top-left */}
@@ -209,6 +218,14 @@ export default function ConnectedSystem() {
                   sizes="(max-width: 640px) 100vw, 480px"
                   className="object-contain"
                   style={{ mixBlendMode: "darken" }}
+                />
+                {/* V-Watch logo centered on the hub platform */}
+                <Image
+                  src="/contractor-complaince/icons/v-watch.svg"
+                  alt="V-Watch"
+                  width={79}
+                  height={18}
+                  className="absolute left-[50.5%] top-[48%] w-[12.5%] -translate-x-1/2 -translate-y-1/2 object-contain"
                 />
               </motion.div>
 

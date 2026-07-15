@@ -206,9 +206,9 @@ export default function SmarterWay() {
         </div>
 
         {/* ── Content row (gap 24px) ───────────────────────────────────── */}
-        <div className="flex flex-col gap-6 lg:flex-row w-full lg:max-w-[1160px]">
+        <div className="flex flex-col gap-6 lg:flex-row w-full">
           {/* Left: 2×2 card grid (630 × 316) with the plus-glow behind it */}
-          <div className="relative shrink-0 lg:w-[630px]">
+          <div className="relative shrink-0 lg:w-[780px]">
             {/* Plus-glow — 356 × 356, centered in the cross-gap. Decorative. */}
             {/* <motion.div
               aria-hidden
@@ -241,7 +241,7 @@ export default function SmarterWay() {
           <motion.div
             variants={imageIn}
             custom={0.2}
-            className="relative mx-auto aspect-[506/316] max-w-[506px] w-full overflow-hidden rounded-[27.69px] border-2 border-white bg-[#F4FBFF]/60 p-2.5 lg:mx-0 lg:aspect-auto lg:h-[316px] lg:w-auto lg:flex-1"
+            className="relative mx-auto aspect-[506/316] w-full overflow-hidden rounded-[27.69px] border-2 border-white bg-[#F4FBFF]/60 p-2.5 lg:mx-0 lg:aspect-auto lg:h-[316px] lg:w-auto lg:flex-1"
           >
             {/* Blue glow that peeks through the 10px padding gap at the
                 top-center and bottom-center, behind the inner image. */}
@@ -260,12 +260,12 @@ export default function SmarterWay() {
                 alt=""
                 fill
                 sizes="(max-width: 1024px) 100vw, 506px"
-                className="object-cover"
+                className="object-cover" 
               />
 
               {/* Caption pill (482 × 64) — semi-transparent black, near bottom */}
               <div className="max-h-[64px] h-full w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
-                <p className="w-[462px] text-center text-[14px] md:text-[18px] font-bold leading-[130%] text-white">
+                <p className="w-[462px] text-center text-[14px] md:text-[18px] font-bold leading-[100%] text-white">
                   No manual logs, No guesswork,
                   <br />
                   No security gaps

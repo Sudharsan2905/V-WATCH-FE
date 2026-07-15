@@ -23,7 +23,7 @@ export default function VisitorManagementPage() {
       {/* <TrustedBy trustTitle="Trusted by teams operating in high-security environments" trustText="From construction sites to critical facilities, organisations rely on
             V-Watch AI to manage visitor access securely and efficiently." /> */}
 
-      <div className="pt-2 py-5 px-5 relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+      <div className="pt-2 py-5 relative rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
         <TechnologyPartners
           content={{
             title: "Trusted by teams operating in high-security environments",

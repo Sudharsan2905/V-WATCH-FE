@@ -163,12 +163,15 @@ function FeatureCard({
 export default function BiometricVerification() {
   return (
     <MotionConfig reducedMotion="user">
+      {/* Full-width section — rounded top overlaps the hero for the "card
+          emerging" curve. PageHero adds extra bottom padding when it has a CTA,
+          so the overlap laps over empty space below the button, not the button. */}
       <section className="relative z-10 -mt-8 lg:-mt-16">
         <div
-          className="overflow-hidden rounded-t-[28px] px-6 lg:px-15"
+          className="overflow-hidden rounded-t-[28px] px-6 lg:px-[60px]"
           style={{ background: "#EDF7FF" }}
         >
-          <div className="mx-auto max-w-[1280px] w-full py-8 lg:py-10">
+          <div className="mx-auto max-w-[1280px] w-full py-8 sm:py-10">
             {/* Section header */}
             <motion.div
               initial="hidden"

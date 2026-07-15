@@ -68,7 +68,7 @@ function FeatureCard({ icon, title, body }: Readonly<(typeof FEATURES)[number]>)
 export default function HeadcountFeatureGrid() {
   return (
     <section className="px-6 pb-12 lg:pb-20 lg:px-[60px]">
-      <div className="flex w-full max-w-[1410px] flex-col gap-[30px]">
+      <div className="flex w-full mx-auto max-w-[1280px] flex-col gap-[30px]">
         {/* Header */}
         <motion.div
           initial="hidden"

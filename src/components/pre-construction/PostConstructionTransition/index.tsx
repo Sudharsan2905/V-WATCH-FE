@@ -258,8 +258,10 @@ export default function PostConstructionTransition({
               <div className="flex flex-wrap justify-center gap-x-7.5 gap-y-15 lg:justify-start lg:gap-7.5">
                 <FeatureCard {...features[2]} delay={0.65} />
                 <FeatureCard {...features[3]} delay={0.75} />
-                {/* 5th card in grid — hidden on tablet (md), visible on mobile & lg+ */}
-                <motion.div variants={cardIn} custom={0.85} className="relative md:hidden lg:block lg:pointer-events-auto">
+                {/* 5th card in grid — kept in the grid on mobile AND tablet (so
+                    a lone wrapped card centers with the row); on lg it nests into
+                    the panel's chamfered corner via the decorative fills below. */}
+                <motion.div variants={cardIn} custom={0.85} className="relative lg:block lg:pointer-events-auto">
                   <div
                     className="pointer-events-none absolute hidden lg:block -z-10"
                     style={{
@@ -332,12 +334,13 @@ export default function PostConstructionTransition({
                   />
                 </div>
 
-                {/* 5th card — inside the panel on tablet only.
-                    Hidden on mobile (<md) and desktop (lg+). */}
+                {/* 5th card — no longer docked in the panel. On tablet it now
+                    lives in the card grid (like mobile); only lg overlaps it onto
+                    the panel. Kept hidden at every breakpoint here. */}
                 <motion.div
                   variants={cardIn}
                   custom={0.85}
-                  className="relative z-10 mb-0 ml-0 mt-auto hidden w-65 max-w-[70%] md:block lg:hidden"
+                  className="relative z-10 mb-0 ml-0 mt-auto hidden w-65 max-w-[70%]"
                 >
                   <div
                     className="pointer-events-none absolute -z-10"

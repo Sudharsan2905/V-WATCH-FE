@@ -19,7 +19,7 @@ export default function RealTimeHeadcountPage() {
       <WhenEmergencyHappens />
       <HeadcountFeatureGrid />
       <PoweredByData />
-      <div className="relative pt-2 py-5 px-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
+      <div className="relative pt-2 py-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
         <TechnologyPartners
           content={{
             title: "Used in environments where safety is non-negotiable ",

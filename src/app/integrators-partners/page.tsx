@@ -14,7 +14,10 @@ import {
 
 export default function ProductsPage() {
   return (
-    <div className="relative bg-[#030515]">
+    // [&>*+*]:-mt-px overlaps each stacked section 1px onto the previous one, so
+    // the fractional-pixel seam between full-width sections doesn't render as a
+    // hairline at non-100% browser zoom (75% / 125%).
+    <div className="relative bg-[#030515] [&>*+*]:-mt-px">
       <Navbar active="Platform" />
       <ProductsHero />
       <SectionHeader {...IMPLEMENTATION_HEADER} className="!pt-0 md:!pt-15" />

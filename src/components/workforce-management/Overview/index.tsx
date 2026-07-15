@@ -19,11 +19,11 @@ function BladeFan() {
   return (
     <div className="relative flex h-[400px] items-stretch justify-center">
       {Array.from({ length: BLADE_COUNT }).map((_, i) => {
-        const distance = Math.abs(i - center);
-        const ratio = distance / center;
-        const intensity = Math.abs(i - center) / center;
+        const ratio = Math.abs(i - center) / center; // 0 = centre, 1 = outer edge
 
-        const blue = 0.6 + intensity * 0.28;
+        // Figma: shade is strongest beside the dashboard and decreases toward
+        // the section edges — so both colour and opacity fade centre → edge.
+        const blue = 0.95 - ratio * 0.3;
 
         return (
           <span
@@ -39,7 +39,7 @@ function BladeFan() {
         rgba(91,184,245,${blue}),
         rgba(245,251,255,0.35))`,
 
-              opacity: 0.2 + ratio * 0.8,
+              opacity: Math.max(1 - ratio * 0.75, 0.1),
 
               filter: "blur(0.6px)",
 
@@ -99,22 +99,23 @@ export default function Overview() {
                   "linear-gradient(to bottom, transparent 0%, #000 16%, #000 56%, transparent 78%)",
               }}
             >
-              {/* Left blue glow */}
+              {/* Left blue glow — core sits at screen centre (behind the dashboard),
+                  so the visible wash starts at the laptop edge and fades leftward */}
               <div
-                className="absolute left-0 top-1/2 h-[420px] w-[38%] -translate-y-1/2"
+                className="absolute right-1/2 top-1/2 h-[420px] w-[45%] -translate-y-1/2"
                 style={{
                   background:
-                    "radial-gradient(circle at left center, rgba(91,184,245,.42) 0%, rgba(91,184,245,.18) 35%, transparent 80%)",
+                    "radial-gradient(circle at right center, rgba(91,184,245,.5) 0%, rgba(91,184,245,.2) 35%, transparent 80%)",
                   filter: "blur(45px)",
                 }}
               />
 
-              {/* Right blue glow */}
+              {/* Right blue glow — mirrored: starts at the laptop edge, fades rightward */}
               <div
-                className="absolute right-0 top-1/2 h-[420px] w-[38%] -translate-y-1/2"
+                className="absolute left-1/2 top-1/2 h-[420px] w-[45%] -translate-y-1/2"
                 style={{
                   background:
-                    "radial-gradient(circle at right center, rgba(91,184,245,.42) 0%, rgba(91,184,245,.18) 35%, transparent 80%)",
+                    "radial-gradient(circle at left center, rgba(91,184,245,.5) 0%, rgba(91,184,245,.2) 35%, transparent 80%)",
                   filter: "blur(45px)",
                 }}
               />

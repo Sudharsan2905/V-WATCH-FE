@@ -70,20 +70,38 @@ export default function OurVision() {
       >
         <motion.div
           variants={fadeUp}
-          className="relative overflow-hidden bg-white rounded-[24px] p-[20px] shadow-[0px_4px_24px_rgba(10,75,110,0.10)]"
+          className="relative overflow-hidden bg-white rounded-l-full rounded-r-[24px] min-h-[124px] flex items-center shadow-[0px_4px_24px_rgba(10,75,110,0.10)]"
         >
-          {/* Target (bullseye) graphic — small, fully visible on the left,
-              sitting slightly below the text. */}
-          <div className="pointer-events-none absolute left-[8px] top-[58%] h-[100px] w-[100px] -translate-y-1/2">
-            <Image
-              src="/about/vision-bg-right.png"
-              alt=""
-              fill
-              className="object-contain object-left"
-              sizes="100px"
-            />
+          {/* Shadow panel — fills the whole card behind the bullseye and text.
+              Same three layers as the original asset / desktop goal card:
+              light #F5FBFF fade from the right, vertical blue gradient at 10%,
+              and a soft #7ECFFA inner glow on the left. */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(270deg, #F5FBFF 3%, rgba(226,246,255,0) 66%), " +
+                "linear-gradient(180deg, rgba(27,117,187,0.1) 0%, rgba(30,132,198,0.1) 12.07%, rgba(38,169,224,0.1) 33.45%, rgba(39,147,200,0.1) 43.34%, rgba(42,96,144,0.1) 68.95%, rgba(43,64,109,0.1) 88%, rgba(44,52,96,0.1) 98.23%)",
+              boxShadow: "inset 40px 0 60px 0 rgba(126,207,250,0.31)",
+            }}
+          />
+          {/* Target (bullseye) graphic — hand-drawn SVG, front-facing (no tilt),
+              vertically centered and fully visible on the left with a soft blue glow. */}
+          <div className="pointer-events-none absolute left-[12px] top-1/2 h-[100px] w-[100px] -translate-y-1/2">
+            <svg
+              viewBox="0 0 100 100"
+              className="h-full w-full drop-shadow-[0_4px_16px_rgba(92,183,232,0.6)]"
+              aria-hidden="true"
+            >
+              <circle cx="50" cy="50" r="50" fill="#B8E6FF" />
+              <circle cx="50" cy="50" r="43" fill="#5CB7E8" />
+              <circle cx="50" cy="50" r="36" fill="#FFFFFF" />
+              <circle cx="50" cy="50" r="29" fill="#5CB7E8" />
+              <circle cx="50" cy="50" r="21" fill="#FFFFFF" />
+              <circle cx="50" cy="50" r="12" fill="#7ECFFA" />
+            </svg>
           </div>
-          <div className="relative z-10 pl-[96px]">
+          <div className="relative z-10 w-full pl-[120px] pr-[20px] py-[20px]">
             <p className="font-bold text-[16px] text-[#0a4b6e] mb-[8px]">
               Our goal is simple
             </p>

@@ -74,8 +74,11 @@ export default function MaintenanceHero() {
           {/* <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" /> */}
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 w-full mx-auto max-w-[1440px] px-6 lg:px-[60px]">
+        {/* Content — padding sits on this full-width wrapper and max-w-[1410px]
+            is capped inside it, matching the sections below so the hero text
+            lines up on the same left edge. */}
+        <div className="relative z-10 w-full px-6 lg:px-[60px]">
+          <div className="mx-auto w-full max-w-[1410px]">
           <motion.div
             className="flex min-h-[600px] max-w-[1280px] flex-col justify-center gap-[30px] pt-[140px] pb-[100px] lg:min-h-[754px] lg:py-[140px]"
             initial="hidden"
@@ -133,6 +136,7 @@ export default function MaintenanceHero() {
               <BookADemo />
             </motion.div>
           </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

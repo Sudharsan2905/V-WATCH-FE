@@ -278,7 +278,7 @@ export default function ContactForm() {
     // {{email}}, {{message}}…) and the raw field names, so the email fills in
     // whichever placeholders the dashboard template uses.
     const params = {
-      to_email: "gokulrajkumar02@gmail.com",
+      to_email: "sales@vwatch.ai",
       name: get("fullName"),
       email: get("workEmail"),
       phone: get("phoneNumber"),
