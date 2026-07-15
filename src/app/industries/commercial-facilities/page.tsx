@@ -31,10 +31,7 @@ export default function CommercialFacilitiesPage() {
       <Connected connected={connected} />
       <WhyChoose whyChoose={whyChoose} />
       <UseCases useCases={useCases} />
-      <Footer
-        ctaTitle={footer.ctaTitle}
-        ctaText={footer.ctaText}
-      />
+      <Footer ctaTitle={footer.ctaTitle} ctaText={footer.ctaText} />
     </div>
   );
 }

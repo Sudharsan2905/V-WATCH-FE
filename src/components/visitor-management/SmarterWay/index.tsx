@@ -24,7 +24,6 @@ const fadeUp: Variants = {
   }),
 };
 
-
 // Soft scale + fade for the focal render on the right.
 const imageIn: Variants = {
   hidden: { opacity: 0, scale: 0.94 },
@@ -73,21 +72,26 @@ function FeatureCard({
       custom={delay}
       className="h-full rounded-[20px]"
       style={{
-        background: "#E5F4FE",
+        background: "#e5f4fe",
       }}
     >
       {/* Inner card */}
       <div
         className="flex h-full flex-col gap-2.5 rounded-[20px] p-4"
         style={{
-          background: "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
+          background:
+            "#B8E6FF33 padding-box, linear-gradient(180deg, rgba(255,255,255,0) 0%, #FFFFFF 100%) border-box",
           border: "1px solid white",
-          boxShadow: "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
+          boxShadow:
+            "0 1px 2px rgba(184,230,255,0.20), inset 0 -6px 23px rgba(212,240,255,0.10)",
         }}
       >
         {/* Icon badge — Figma spec: 60×54 pill, blue circle, frosted icon
             square. All sizes/positions read from the Figma inspector. */}
-        <div className="relative shrink-0 flex justify-center items-center" style={{ width: 60, height: 54 }}>
+        <div
+          className="relative shrink-0 flex justify-center items-center"
+          style={{ width: 60, height: 54 }}
+        >
           {/* 1. Outer pill — radius 82.4, gradient fill #B8E6FF→#C1ECFF,
               1.25px white→transparent gradient border (masked ring). */}
           <div
@@ -113,27 +117,27 @@ function FeatureCard({
               }}
             />
           </div>
-          {/* 2. Blue circle — centred in the pill */}
+          {/* 2. Blue circle — 41.35×38.4, centred in the pill */}
           <div
             className="absolute"
             style={{
-              width: '29px',
-              height: '29px',
+              width: "29px",
+              height: "29px",
               borderRadius: 9999,
               background:
                 "linear-gradient(220.53deg, #9CDCFF 0%, #21B1F1 76.95%)",
               boxShadow: "0 4px 14px rgba(26,143,206,0.32)",
             }}
           >
-            {/* 3. Frosted icon square — 0.4px white(40%)→transparent
-                gradient border (masked ring). */}
+            {/* 3. Frosted icon square — 28.55×28.55 at (11.08, 8.4),
+              0.4px white(40%)→transparent gradient border (masked ring). */}
             <div
               className="absolute flex items-center justify-center"
               style={{
                 width: 28.55,
                 height: 28.55,
-                left: '7.08px',
-                top: '5px',
+                left: "7.08px",
+                top: "5px",
                 borderRadius: 9,
                 background: "rgba(255,255,255,0.18)",
                 backdropFilter: "blur(4px)",
@@ -158,15 +162,15 @@ function FeatureCard({
               <Image
                 src={icon}
                 alt=""
-                width={19}
-                height={19}
+                width={18}
+                height={18}
                 className="object-contain"
               />
             </div>
           </div>
         </div>
 
-        <p className="text-[18px] font-normal leading-6 text-[#1D293D]">
+        <p className="text-[14px] md:text-[18px] font-medium leading-[24px] text-[#1D293D]">
           {text}
         </p>
       </div>
@@ -181,7 +185,7 @@ export default function SmarterWay() {
       style={{ backgroundColor: "#EFF9FF" }}
     >
       <motion.div
-        className="flex w-full mx-auto max-w-[1440px] flex-col gap-[30px]  px-5 pt-10 lg:pb-15 sm:px-8 lg:px-[60px]"
+        className="mx-auto flex w-full max-w-[1440px] flex-col gap-[30px] px-5 pt-10 lg:px-[60px] lg:pb-15"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
@@ -206,45 +210,44 @@ export default function SmarterWay() {
         </div>
 
         {/* ── Content row (gap 24px) ───────────────────────────────────── */}
-        <div className="flex flex-col gap-6 lg:flex-row w-full">
-          {/* Left: 2×2 card grid (630 × 316) with the plus-glow behind it */}
-          <div className="relative shrink-0 lg:w-[780px]">
-            {/* Plus-glow — 356 × 356, centered in the cross-gap. Decorative. */}
-            {/* <motion.div
-              aria-hidden
-              variants={plusIn}
-              custom={0.3}
-              className="pointer-events-none absolute left-1/2 top-1/2 z-1 hidden h-[356px] w-[356px] -translate-x-1/2 -translate-y-1/2 lg:block"
-              style={{
-                clipPath:
-                  "polygon(33% 0,67% 0,67% 33%,100% 33%,100% 67%,67% 67%,67% 100%,33% 100%,33% 67%,0 67%,0 33%,33% 33%)",
-                background:
-                  "radial-gradient(circle, #0585BE 0%, #84D7FD 22%, rgba(180,230,254,0.8) 48%, rgba(210,237,255,0.4) 72%, #F5FBFF 100%)",
-              }}
-            /> */}
-
-            <div
-                className="relative grid grid-cols-2 gap-3 lg:grid-rows-2 lg:gap-6 lg:flex-[630_1_0%] lg:h-[316px]"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
-                  borderRadius: 16,
-                }}
-              >
-              {CARDS.map((f, i) => (
-                <FeatureCard key={f.text} {...f} delay={0.25 + i * 0.1} />
-              ))}
-            </div>
+        <motion.div
+          className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.12 }}
+        >
+          {/* Left: 2×2 feature grid — Figma: 356×356 radial gradient at 50% opacity behind cards */}
+          <div
+            className="relative mx-auto grid w-full grid-cols-2 gap-6 lg:mx-0 lg:flex-1"
+            style={{
+              background:
+                "radial-gradient(ellipse 50% 50% at center, rgba(5,133,190,0.75) 0%, rgba(30,155,210,0.55) 20%, rgba(100,195,245,0.30) 45%, rgba(180,225,255,0.10) 68%, transparent 88%)",
+              borderRadius: 16,
+            }}
+          >
+            {CARDS.map((f, i) => (
+              <FeatureCard key={f.text} {...f} delay={0.25 + i * 0.1} />
+            ))}
           </div>
 
-          {/* Right: focal render (506 × 316) with the caption overlay */}
+          {/* Right: compliance visualization — framed card.
+                          Figma: 10px padding, 27.69 radius, 2px #F5FBFF→#FFFFFF
+                          gradient border, #F4FBFF/60 fill, blue glow top/bottom-center */}
           <motion.div
-            variants={imageIn}
+            variants={fadeUp}
             custom={0.2}
-            className="relative mx-auto aspect-[506/316] w-full overflow-hidden rounded-[27.69px] border-2 border-white bg-[#F4FBFF]/60 p-2.5 lg:mx-0 lg:aspect-auto lg:h-[316px] lg:w-auto lg:flex-1"
+            className="relative mx-auto flex h-[240px] w-full max-w-[506px] overflow-hidden sm:h-[316px] lg:mx-0 lg:flex-1"
+            style={{
+              borderRadius: 27.69,
+              padding: 10,
+              background:
+                "rgba(244,251,255,0.6) padding-box, linear-gradient(180deg, #F5FBFF 0%, #FFFFFF 100%) border-box",
+              border: "2px solid transparent",
+              boxShadow: "0 8px 30px rgba(33,177,241,0.16)",
+            }}
           >
-            {/* Blue glow that peeks through the 10px padding gap at the
-                top-center and bottom-center, behind the inner image. */}
+            {/* Blue glow peeking through the 10px padding gap at the
+                            top-center and bottom-center, behind the inner image. */}
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-0 top-0 z-0 mx-auto h-[26px] w-[45%] -translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
@@ -254,26 +257,27 @@ export default function SmarterWay() {
               className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-[26px] w-[45%] translate-y-1/2 rounded-full bg-[#21B1F1] opacity-80 blur-[16px]"
             />
 
-            <div className="relative z-10 h-full w-full overflow-hidden rounded-[16px]">
+            {/* Inner image */}
+            <div className="relative z-10 h-full w-full flex-1 overflow-hidden rounded-2xl">
               <Image
-                src="/visitor-management/smarter-management-preview.png"
-                alt=""
+                src="/contractor-complaince/track.webp"
+                alt="Compliance management system visualization"
                 fill
-                sizes="(max-width: 1024px) 100vw, 506px"
-                className="object-cover" 
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
 
-              {/* Caption pill (482 × 64) — semi-transparent black, near bottom */}
-              <div className="max-h-[64px] h-full w-full absolute inset-x-0 bottom-0 flex items-center justify-center rounded-[20px] border border-white/30 bg-black/30 px-4 py-3 backdrop-blur-[2px]">
-                <p className="w-[462px] text-center text-[14px] md:text-[18px] font-bold leading-[100%] text-white">
-                  No manual logs, No guesswork,
+              {/* Caption */}
+              <div className="absolute bottom-0 w-full flex max-h-16 items-center justify-center rounded-2xl border border-white/30 bg-black/30 px-3 py-2.5 backdrop-blur-[2px] leading-[100%]">
+                <p className="text-center text-[14px] font-bold leading-[130%] text-white sm:text-[18px]">
+                  No spreadsheets. No missed renewals.
                   <br />
-                  No security gaps
+                  No unauthorised entry.
                 </p>
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

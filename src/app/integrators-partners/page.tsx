@@ -23,14 +23,19 @@ export default function ProductsPage() {
       <SectionHeader {...IMPLEMENTATION_HEADER} className="!pt-0 md:!pt-15" />
 
       <RealTimeImplementationSection />
-      <SectionHeader {...NETWORK_HEADER} background="bg-[#eaf7fa]" className="max-md:pb-4 max-lg:pt-0" />
+      <SectionHeader
+        {...NETWORK_HEADER}
+        background="bg-[#eaf7fa]"
+        className="max-md:pb-4 max-lg:pt-0"
+      />
       <IntegratorNetworkSection />
       <GlobalTechnologiesSection />
       <WhyPartnerSection />
       <BecomeIntegratorSection />
       <Footer
         ctaTitle="Expand Your Business with a Global Operations Platform"
-        ctaText="Join our expanding network of system integrators delivering enterprise-grade operational, security, and workforce solutions across industries and regions"        isBookADemoVisible={false}
+        ctaText="Join our expanding network of system integrators delivering enterprise-grade operational, security, and workforce solutions across industries and regions"
+        isBookADemoVisible={false}
       />
     </div>
   );

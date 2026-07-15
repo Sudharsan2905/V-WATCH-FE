@@ -626,48 +626,39 @@ function VerticalNav({
   );
 }
 
-const CHEVRON_ROTATION = {
-  up: "",
-  down: "rotate-180",
-  left: "-rotate-90",
-  right: "rotate-90",
+// SVG assets instead of an inline <svg>: the nav is mounted twice (tablet +
+// desktop rails), and duplicated inline gradient ids resolved to the instance
+// inside the display:none rail, making the strokes render invisible. Left and
+// right reuse the up arrow rotated.
+const CHEVRON = {
+  up: {
+    src: "/pre-construction/platform-overview/up-arrow.svg",
+    rotation: "",
+  },
+  down: {
+    src: "/pre-construction/platform-overview/down-arrow.svg",
+    rotation: "",
+  },
+  left: {
+    src: "/pre-construction/platform-overview/up-arrow.svg",
+    rotation: "-rotate-90",
+  },
+  right: {
+    src: "/pre-construction/platform-overview/up-arrow.svg",
+    rotation: "rotate-90",
+  },
 } as const;
 
-function Chevron({
-  dir,
-}: Readonly<{ dir: keyof typeof CHEVRON_ROTATION }>) {
-  // Brand linear-gradient stroke (#21B1F1 → #C5EB4C), matching the Figma vector
-  // spec. Unique gradient id per direction so every instance can render.
-  const gid = `chev-grad-${dir}`;
+function Chevron({ dir }: Readonly<{ dir: keyof typeof CHEVRON }>) {
+  const { src, rotation } = CHEVRON[dir];
   return (
-    <svg
-      width="12"
-      height="7"
-      viewBox="0 0 12 7"
-      fill="none"
+    <Image
+      src={src}
+      alt=""
+      width={21}
+      height={21}
       aria-hidden
-      className={CHEVRON_ROTATION[dir]}
-    >
-      <defs>
-        <linearGradient
-          id={gid}
-          x1="0"
-          y1="0"
-          x2="12"
-          y2="0"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#21B1F1" />
-          <stop offset="1" stopColor="#C5EB4C" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M1 6l5-5 5 5"
-        stroke={`url(#${gid})`}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+      className={`size-5.25 object-contain ${rotation}`}
+    />
   );
 }
