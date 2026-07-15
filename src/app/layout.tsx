@@ -27,6 +27,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "v-watch",
   description: "v-watch",
+  icons: {
+    icon: "/vwatch-logo-mark.svg",
+  },
 };
 
 export default function RootLayout({

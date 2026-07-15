@@ -83,6 +83,19 @@ body {
   }
 }
 
+/* Maintenance page: slow breathing glow on the decorative background blur. */
+@keyframes softPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.1);
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
