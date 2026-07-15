@@ -135,9 +135,9 @@ function FeatureCard({
         borderBottomRightRadius: 24,
         padding: "3px 10px",
       }} >
-        <p className="text-center mb-[14px] text-[20px] font-bold text-[#005276]">{title}</p>
+        <p className="text-center mb-[14px] text-[20px] font-bold text-[#005276] leading-[22px]">{title}</p>
 
-        <div className="max-h-[284px] h-full relative w-full overflow-hidden rounded-[14px]" style={{ paddingBottom: "78%" }}>
+        <div className="max-h-[284px] h-full relative w-full overflow-hidden rounded-[16px]" style={{ paddingBottom: "78%" }}>
           <Image
             src={image}
             alt={title}
@@ -147,16 +147,20 @@ function FeatureCard({
             className="object-cover h-[284px]"
           />
           <div
-            className="absolute bottom-0 left-0 right-0 px-4 py-4 rounded-t-[14px]"
-            style={{
-              backdropFilter: "blur(5px)",
-              WebkitBackdropFilter: "blur(8px)",
-              background: "rgba(10, 20, 40, 0.15)",
-              
-            }}
-          >
-            <p className="text-[13px] leading-5 text-white">{description}</p>
-          </div>
+  className="absolute bottom-0 left-0 right-0 rounded-t-[16px] px-4 py-4"
+  style={{
+    background:
+      "linear-gradient(180deg, rgba(34,34,34,0.08) 0%, rgba(34,34,34,0.55) 100%)",
+    backdropFilter: "blur(7px)",
+    WebkitBackdropFilter: "blur(6px)",
+    borderTop: "1px solid rgba(255,255,255,0.15)",
+    boxShadow: "0 -4px 20px rgba(0,0,0,0.20)",
+  }}
+>
+  <p className="text-[13px] md:text-[16px] leading-[22px] text-white">
+    {description}
+  </p>
+</div>
         </div>
       </div>
     </motion.div>

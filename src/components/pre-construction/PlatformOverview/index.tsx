@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, MotionConfig, type Variants } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  type Variants,
+} from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const CYCLE_MS = 4000; // auto-advance every 4 s
@@ -87,8 +92,7 @@ const CAPABILITIES: Capability[] = [
   {
     number: "05",
     title: "Safety & Compliance",
-    image:
-      "/pre-construction/platform-overview/Safety_Compliance_image.webp",
+    image: "/pre-construction/platform-overview/Safety_Compliance_image.webp",
     points: [
       "Permit-to-work (PTW)",
       "LOTO and safety protocols",
@@ -133,7 +137,9 @@ function ConnectedBanner({
       <span className="hidden shrink-0 items-center lg:flex">
         <span
           className="h-0.5 min-w-[24px] max-w-[80px] w-full"
-          style={{ background: "linear-gradient(to right, transparent, #006F9F)" }}
+          style={{
+            background: "linear-gradient(to right, transparent, #006F9F)",
+          }}
         />
         <span className="size-2.5 shrink-0 rounded-full bg-[#006F9F]" />
       </span>
@@ -148,7 +154,9 @@ function ConnectedBanner({
         <span className="size-2.5 shrink-0 rounded-full bg-[#006F9F]" />
         <span
           className="h-0.5 min-w-[24px] max-w-[80px] w-full"
-          style={{ background: "linear-gradient(to left, transparent, #006F9F)" }}
+          style={{
+            background: "linear-gradient(to left, transparent, #006F9F)",
+          }}
         />
       </span>
     </motion.div>
@@ -188,7 +196,7 @@ function Chevron({ dir }: Readonly<{ dir: "up" | "down" }>) {
         strokeLinejoin="round"
       />
     </svg>
-  );  
+  );
 }
 
 function ArrowButton({
@@ -364,18 +372,163 @@ export default function PlatformOverview({
 
           {/* Main two-column layout */}
           <div className="mt-10 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-12">
-
             {/* ── LEFT: progress bar + content card + banner ── */}
             <div className="flex flex-col gap-5 lg:w-[45%] lg:flex-none lg:overflow-visible">
-
-            {/* Inner row: progress bar + content card */}
-            <div className="order-1 flex flex-1 items-stretch gap-5 lg:order-none lg:overflow-visible">
-
-              {/* Vertical nav — up arrow + progress rail + down arrow (desktop).
+              {/* Inner row: progress bar + content card */}
+              <div className="order-1 flex flex-1 items-stretch gap-5 lg:order-none lg:overflow-visible">
+                {/* Vertical nav — up arrow + progress rail + down arrow (desktop).
                   Arrows step through capabilities, wrapping at the ends. */}
-              <div className="hidden shrink-0 flex-col items-center gap-2 self-stretch lg:flex">
-                <ArrowButton
-                  dir="up"
+                <div className="hidden shrink-0 flex-col items-center gap-2 self-stretch lg:flex">
+                  <button
+                    onClick={() =>
+                      goTo(
+                        (activeIndex - 1 + capabilities.length) %
+                          capabilities.length,
+                      )
+                    }
+                    className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+                  >
+                    <Image
+                      src="/pre-construction/platform-overview/up-arrow.svg"
+                      alt="Previous-icon"
+                      width={21}
+                      height={21}
+                    />
+                  </button>
+
+                  {/* Progress rail */}
+                  <div className="relative w-[14px] flex-1">
+                    {/* White track (full bar background) */}
+                    <div
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: "#FFFFFF",
+                        boxShadow:
+                          "inset 0 2px 6px rgba(0,0,0,0.06), 0 2px 10px rgba(74,184,222,0.12)",
+                      }}
+                    />
+
+                    {/* Blue fill — grows from top to center of active dot using CSS calc */}
+                    <div
+                      className="absolute inset-x-0 top-0 rounded-full transition-all duration-500 ease-out"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, #5CC8E8 0%, #3AADD4 100%)",
+                        height:
+                          capabilities.length <= 1
+                            ? "100%"
+                            : `calc(14px + ${activeIndex} * (100% - 28px) / ${capabilities.length - 1})`,
+                      }}
+                    />
+
+                    {/* Dots evenly distributed along the bar */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-between py-[7px]">
+                      {capabilities.map((cap, i) => (
+                        <button
+                          key={cap.number}
+                          type="button"
+                          aria-label={`Go to ${cap.title}`}
+                          onClick={() => goTo(i)}
+                          className="relative z-10 shrink-0 rounded-full transition-all duration-300"
+                          style={{
+                            // Filled section (active + completed) → white dot
+                            // Unfilled section (upcoming) → blue dot
+                            width: i === activeIndex ? 9 : 7,
+                            height: i === activeIndex ? 9 : 7,
+                            background:
+                              i <= activeIndex ? "#FFFFFF" : "#48B8DE",
+                            boxShadow:
+                              i === activeIndex
+                                ? "0 0 0 2px rgba(255,255,255,0.9), 0 0 0 4px rgba(74,184,222,0.35)"
+                                : i < activeIndex
+                                  ? "0 1px 3px rgba(0,0,0,0.08)"
+                                  : "none",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  {/* end progress rail */}
+
+                  <button
+                    onClick={() =>
+                      goTo(
+                        (activeIndex + 1 + capabilities.length) %
+                          capabilities.length,
+                      )
+                    }
+                    className="hover:cursor-pointer flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
+                  >
+                    <Image
+                      src="/pre-construction/platform-overview/down-arrow.svg"
+                      alt="Previous-icon"
+                      width={21}
+                      height={21}
+                    />
+                  </button>
+                </div>
+
+                {/* Content card — animates between capabilities */}
+                {/* Mobile: relative flow so height adapts to content (no clipping) */}
+                {/* Desktop: absolute inset-0 fills the fixed-height container */}
+                <div className="relative flex-1 lg:min-h-[300px] lg:overflow-visible">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={activeIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.38, ease: EASE }}
+                      className="w-full rounded-[28px] bg-white px-6 py-6 shadow-[0_16px_40px_-20px_rgba(20,46,92,0.18)] lg:absolute lg:inset-0 lg:rounded-r-none lg:shadow-none lg:px-7 lg:py-7 lg:[mask-image:linear-gradient(to_right,#000_85%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_right,#000_85%,transparent_100%)]"
+                    >
+                      <span className="block font-lato text-[32px] font-bold leading-none text-[#0A8EC8]/50 lg:text-[36px]">
+                        {activeCap.number}
+                      </span>
+                      <h3 className="mt-3 font-lato text-[20px] font-bold leading-tight tracking-[0] text-[#0A4B6E] lg:text-[22px]">
+                        {activeCap.title}
+                      </h3>
+                      <ul className="mt-4 space-y-2 lg:mt-5 lg:space-y-2.5">
+                        {activeCap.points.map((p) => (
+                          <CheckItem key={p}>{p}</CheckItem>
+                        ))}
+                      </ul>
+
+                      {/* Mobile/tab image — inside the card, hidden on desktop */}
+                      <div
+                        className="relative mt-5 overflow-hidden rounded-[16px] lg:hidden"
+                        style={{ minHeight: 200 }}
+                      >
+                        <div
+                          className="absolute inset-0 rounded-[16px] p-2"
+                          style={{
+                            background:
+                              "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
+                            border: "2px solid transparent",
+                          }}
+                        >
+                          <div className="relative h-full w-full overflow-hidden rounded-[12px]">
+                            <Image
+                              src={activeCap.image ?? CAP_IMAGE}
+                              alt={activeCap.title}
+                              fill
+                              unoptimized
+                              className="object-cover"
+                              sizes="100vw"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+              {/* end inner row */}
+
+              {/* Mobile controls — prev arrow · dot indicators · next arrow
+                (replaces the desktop sidebar progress bar) */}
+              <div className="order-2 flex items-center justify-center gap-3 lg:hidden">
+                <ArrowButtonH
+                  dir="left"
                   onClick={() =>
                     goTo(
                       (activeIndex - 1 + capabilities.length) %
@@ -383,161 +536,37 @@ export default function PlatformOverview({
                     )
                   }
                 />
-
-                {/* Progress rail */}
-                <div className="relative w-[14px] flex-1">
-                {/* White track (full bar background) */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: "#FFFFFF",
-                    boxShadow:
-                      "inset 0 2px 6px rgba(0,0,0,0.06), 0 2px 10px rgba(74,184,222,0.12)",
-                  }}
-                />
-
-                {/* Blue fill — grows from top to center of active dot using CSS calc */}
-                <div
-                  className="absolute inset-x-0 top-0 rounded-full transition-all duration-500 ease-out"
-                  style={{
-                    background: "linear-gradient(180deg, #5CC8E8 0%, #3AADD4 100%)",
-                    height:
-                      capabilities.length <= 1
-                        ? "100%"
-                        : `calc(14px + ${activeIndex} * (100% - 28px) / ${capabilities.length - 1})`,
-                  }}
-                />
-
-                {/* Dots evenly distributed along the bar */}
-                <div className="absolute inset-0 flex flex-col items-center justify-between py-[7px]">
+                <div className="flex items-center justify-center gap-2">
                   {capabilities.map((cap, i) => (
                     <button
                       key={cap.number}
                       type="button"
                       aria-label={`Go to ${cap.title}`}
                       onClick={() => goTo(i)}
-                      className="relative z-10 shrink-0 rounded-full transition-all duration-300"
+                      className="rounded-full transition-all duration-300"
                       style={{
-                        // Filled section (active + completed) → white dot
-                        // Unfilled section (upcoming) → blue dot
-                        width:  i === activeIndex ? 9 : 7,
-                        height: i === activeIndex ? 9 : 7,
-                        background: i <= activeIndex ? "#FFFFFF" : "#48B8DE",
-                        boxShadow:
+                        width: i === activeIndex ? 20 : 8,
+                        height: 8,
+                        background:
                           i === activeIndex
-                            ? "0 0 0 2px rgba(255,255,255,0.9), 0 0 0 4px rgba(74,184,222,0.35)"
-                            : i < activeIndex
-                            ? "0 1px 3px rgba(0,0,0,0.08)"
-                            : "none",
+                            ? "#0A8EC8"
+                            : "rgba(10,142,200,0.25)",
                       }}
                     />
                   ))}
                 </div>
-                </div>{/* end progress rail */}
-
-                <ArrowButton
-                  dir="down"
-                  onClick={() =>
-                    goTo((activeIndex + 1) % capabilities.length)
-                  }
+                <ArrowButtonH
+                  dir="right"
+                  onClick={() => goTo((activeIndex + 1) % capabilities.length)}
                 />
               </div>
 
-              {/* Content card — animates between capabilities */}
-              {/* Mobile: relative flow so height adapts to content (no clipping) */}
-              {/* Desktop: absolute inset-0 fills the fixed-height container */}
-              <div className="relative flex-1 lg:min-h-[300px] lg:overflow-visible">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{ duration: 0.38, ease: EASE }}
-                    className="w-full rounded-[28px] bg-white px-6 py-6 shadow-[0_16px_40px_-20px_rgba(20,46,92,0.18)] lg:absolute lg:inset-0 lg:rounded-r-none lg:shadow-none lg:px-7 lg:py-7 lg:[mask-image:linear-gradient(to_right,#000_85%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_right,#000_85%,transparent_100%)]"
-                  >
-                    <span className="block font-lato text-[32px] font-bold leading-none text-[#0A8EC8]/50 lg:text-[36px]">
-                      {activeCap.number}
-                    </span>
-                    <h3 className="mt-3 font-lato text-[20px] font-bold leading-tight tracking-[0] text-[#0A4B6E] lg:text-[22px]">
-                      {activeCap.title}
-                    </h3>
-                    <ul className="mt-4 space-y-2 lg:mt-5 lg:space-y-2.5">
-                      {activeCap.points.map((p) => (
-                        <CheckItem key={p}>{p}</CheckItem>
-                      ))}
-                    </ul>
-
-                    {/* Mobile/tab image — inside the card, hidden on desktop */}
-                    <div
-                      className="relative mt-5 overflow-hidden rounded-[16px] lg:hidden"
-                      style={{ minHeight: 200 }}
-                    >
-                      <div
-                        className="absolute inset-0 rounded-[16px] p-2"
-                        style={{
-                          background:
-                            "linear-gradient(#fff,#fff) padding-box, linear-gradient(to bottom right,#0A8EC8,#FFFFFF) border-box",
-                          border: "2px solid transparent",
-                        }}
-                      >
-                        <div className="relative h-full w-full overflow-hidden rounded-[12px]">
-                          <Image
-                            src={activeCap.image ?? CAP_IMAGE}
-                            alt={activeCap.title}
-                            fill
-                            unoptimized
-                            className="object-cover"
-                            sizes="100vw"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+              {/* Banner — inside left column, below the content card */}
+              <div className="order-3 lg:order-none">
+                <ConnectedBanner text={bannerText} />
               </div>
-            </div>{/* end inner row */}
-
-            {/* Mobile controls — prev arrow · dot indicators · next arrow
-                (replaces the desktop sidebar progress bar) */}
-            <div className="order-2 flex items-center justify-center gap-3 lg:hidden">
-              <ArrowButtonH
-                dir="left"
-                onClick={() =>
-                  goTo(
-                    (activeIndex - 1 + capabilities.length) %
-                      capabilities.length,
-                  )
-                }
-              />
-              <div className="flex items-center justify-center gap-2">
-                {capabilities.map((cap, i) => (
-                  <button
-                    key={cap.number}
-                    type="button"
-                    aria-label={`Go to ${cap.title}`}
-                    onClick={() => goTo(i)}
-                    className="rounded-full transition-all duration-300"
-                    style={{
-                      width: i === activeIndex ? 20 : 8,
-                      height: 8,
-                      background: i === activeIndex ? "#0A8EC8" : "rgba(10,142,200,0.25)",
-                    }}
-                  />
-                ))}
-              </div>
-              <ArrowButtonH
-                dir="right"
-                onClick={() => goTo((activeIndex + 1) % capabilities.length)}
-              />
             </div>
-
-            {/* Banner — inside left column, below the content card */}
-            <div className="order-3 lg:order-none">
-              <ConnectedBanner text={bannerText} />
-            </div>
-
-            </div>{/* end left column */}
+            {/* end left column */}
 
             {/* ── RIGHT: animated image (desktop only) ── */}
             <div

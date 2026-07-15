@@ -40,7 +40,7 @@ export default function WhenEmergencyHappens() {
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 -mt-12 lg:-mt-16 ">
         <div className="overflow-hidden rounded-t-[28px] bg-[#EDF7FF] min-h-[320px]  px-6 py-10 sm:px-8 sm:py-12 lg:px-[60px] lg:py-10">
-          <div className="mx-auto max-w-[1410px]">
+          <div className="mx-auto max-w-[1280px]">
             {/* Header */}
             <motion.div
               initial="hidden"
@@ -68,13 +68,13 @@ export default function WhenEmergencyHappens() {
 
             {/* 3-column layout */}
             <motion.div
-              className="mt-[30px] flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]"
+              className="mt-[30px] flex flex-col justify-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.15 }}
             >
               {/* Left: You need to know */}
-              <div className="flex w-full flex-col gap-6 lg:flex-1 lg:py-[33px] lg:pl-[45px]">
+              <div className="flex w-full flex-col items-center gap-6 lg:flex-1 lg:items-start lg:text-left lg:py-[33px] lg:pl-[45px]">
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
@@ -111,7 +111,7 @@ export default function WhenEmergencyHappens() {
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
-                className="relative mx-auto w-full h-full max-w-[400px] shrink-0 lg:mx-0 lg:w-[416px] lg:max-w-none"
+                className="relative mx-auto flex justify-center w-full max-w-[400px] shrink-0 lg:w-[416px] lg:max-w-none"
               >
                 <Image
                   src="/real-time-headcount/emergency-floor-plan.svg"
@@ -123,7 +123,7 @@ export default function WhenEmergencyHappens() {
               </motion.div>
 
               {/* Right: And you cannot rely on */}
-              <div className="flex w-full flex-col gap-6 lg:flex-1 lg:py-[33px] lg:pr-[45px]">
+              <div className="flex w-full flex-col items-center gap-6 lg:flex-1 lg:items-start lg:text-left lg:py-[33px] lg:pr-[45px]">
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
