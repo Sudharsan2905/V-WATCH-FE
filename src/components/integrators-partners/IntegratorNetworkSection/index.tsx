@@ -147,9 +147,13 @@ function PanelInner({ current }: Readonly<{ current: Integrator }>) {
           {current.description}
         </p>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-8 rounded-[24px] border border-[#DEF5FD] bg-white/60 px-5 pb-6 pt-5 sm:flex-row sm:items-stretch sm:justify-between sm:gap-6">
+        {/* capabilities + map sit side by side only when the panel is wide
+            enough: sm–lg (inline mobile panel spans the page) and xl+ (desktop
+            panel has room). Between lg and xl the desktop panel is too narrow
+            for the 40px country label, so stack vertically. */}
+        <div className="flex min-h-0 flex-1 flex-col gap-8 rounded-[24px] border border-[#DEF5FD] bg-white/60 px-5 pb-6 pt-5 sm:flex-row sm:items-stretch sm:justify-between sm:gap-6 lg:flex-col lg:gap-8 xl:flex-row xl:gap-6">
           {/* capabilities */}
-          <div className="flex flex-1 flex-col gap-5">
+          <div className="flex min-w-0 flex-1 flex-col gap-5">
             <div className="flex items-center gap-2.5">
               <SparkIcon />
               <span className="bg-[linear-gradient(90deg,#005276,#1D6C97,#6A8515)] bg-clip-text text-[16px] font-semibold leading-5 text-transparent">
@@ -171,8 +175,8 @@ function PanelInner({ current }: Readonly<{ current: Integrator }>) {
           {/* country map + label — the map box is contained by the
               panel height (fixed height only on mobile, where there
               is no row height to inherit) */}
-          <div className="flex min-h-0 flex-1 flex-col items-end gap-4">
-            <div className="relative h-[170px] w-full sm:min-h-0 sm:flex-1">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col items-end gap-4">
+            <div className="relative h-[170px] w-full sm:min-h-0 sm:flex-1 lg:min-h-42.5 xl:min-h-0">
               <Image
                 src={current.map}
                 alt={`${current.country} map`}
@@ -209,7 +213,7 @@ export default function IntegratorNetworkSection() {
         />
 
         <motion.div
-          className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-[34px]"
+          className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8.5 xl:items-stretch"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -307,7 +311,7 @@ export default function IntegratorNetworkSection() {
               the selected card (see the cards column above). */}
           <motion.div
             variants={panelReveal}
-            className={`${PANEL_CLASS} hidden flex-1 lg:flex`}
+            className={`${PANEL_CLASS} hidden min-w-0 flex-1 lg:flex`}
           >
             <PanelInner current={current} />
           </motion.div>

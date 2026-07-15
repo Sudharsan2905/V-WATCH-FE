@@ -171,7 +171,7 @@ export default function ComplianceControl() {
           className="overflow-hidden rounded-t-[28px] px-6 lg:px-[60px]"
           style={{ background: "#EDF7FF" }}
         >
-          <div className="mx-auto max-w-[1280px] w-full py-8  sm:py-10">
+          <div className="mx-auto max-w-[1280px] w-full py-8 sm:py-10">
             {/* Section header */}
             <motion.div
               initial="hidden"
