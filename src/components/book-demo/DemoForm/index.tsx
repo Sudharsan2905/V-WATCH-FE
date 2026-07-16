@@ -184,7 +184,15 @@ function InputField({
           type={type}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            let value = e.target.value;
+
+            if (type === "text" && id === "fullName") {
+              value = value.replace(/[0-9]/g, "");
+            }
+
+            onChange(value);
+          }}
           required={required}
           autoComplete={autoComplete}
           aria-invalid={error ? true : undefined}
@@ -233,7 +241,8 @@ function SelectField({
   useEffect(() => {
     if (!open) return;
     function onPointer(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -456,7 +465,9 @@ export default function DemoForm() {
     // Template variables. We send both the common EmailJS names ({{name}},
     // {{email}}, {{message}}…) and the raw field names, so the email fills in
     // whichever placeholders the dashboard template uses.
-    const services = [...form.services];
+    const services = [...form.services];    
+    // console.log("form", form);
+    
     const params = {
       to_email: "Marketing@vwatch.ai",
       name: form.fullName.trim(),
@@ -551,6 +562,7 @@ export default function DemoForm() {
           <InputField
             id="fullName"
             label="Full Name"
+            type="text"
             placeholder="Enter Full Name"
             value={form.fullName}
             onChange={(v) => {

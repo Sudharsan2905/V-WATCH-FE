@@ -266,42 +266,61 @@ type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [enquiry, setEnquiry] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    workEmail: "",
+    companyName: "",
+    phoneNumber: "",
+    enquiryType: "",
+    additionalDetails: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    maxLength?: number,
+    isNumeric?: boolean,
+  ) => {
+    let { value } = e.target;
+    if (isNumeric) value = value.replace(/\D/g, "").slice(0, maxLength);
+    setFormData((prev) => ({ ...prev, [e.target.name]: value }));
+  };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget; // capture before any await (event is reused)
-    const fd = new FormData(form);
-    const get = (k: string) => ((fd.get(k) as string) ?? "").trim();
+    console.log(formData);
 
-    // Template variables. We send both the common EmailJS names ({{name}},
-    // {{email}}, {{message}}…) and the raw field names, so the email fills in
-    // whichever placeholders the dashboard template uses.
     const params = {
       to_email: "sales@vwatch.ai",
-      name: get("fullName"),
-      email: get("workEmail"),
-      phone: get("phoneNumber"),
-      company: get("companyName"),
-      enquiry_type: get("enquiryType"),
-      message: get("additionalDetails"),
-      // reply straight to the person who filled the form
-      reply_to: get("workEmail"),
-      // raw field names, in case the template references these instead
-      fullName: get("fullName"),
-      workEmail: get("workEmail"),
-      phoneNumber: get("phoneNumber"),
-      companyName: get("companyName"),
-      enquiryType: get("enquiryType"),
-      additionalDetails: get("additionalDetails"),
+      name: formData.fullName,
+      email: formData.workEmail,
+      phone: formData.phoneNumber,
+      company: formData.companyName,
+      enquiry_type: formData.enquiryType,
+      message: formData.additionalDetails,
+      reply_to: formData.workEmail,
+      fullName: formData.fullName,
+      workEmail: formData.workEmail,
+      phoneNumber: formData.phoneNumber,
+      companyName: formData.companyName,
+      enquiryType: formData.enquiryType,
+      additionalDetails: formData.additionalDetails,
     };
 
-    // Not connected to a provider yet: log and show success without sending.
+    const resetForm = () => {
+      setFormData({
+        fullName: "",
+        workEmail: "",
+        companyName: "",
+        phoneNumber: "",
+        enquiryType: "",
+        additionalDetails: "",
+      });
+    };
+
     if (!EMAILJS_READY) {
       console.log("Contact form submission (EmailJS not configured):", params);
       setStatus("success");
-      form.reset();
-      setEnquiry("");
+      resetForm();
       return;
     }
 
@@ -311,8 +330,7 @@ export default function ContactForm() {
         publicKey: EMAILJS_PUBLIC_KEY!,
       });
       setStatus("success");
-      form.reset();
-      setEnquiry("");
+      resetForm();
     } catch (err) {
       console.error("EmailJS send failed:", err);
       setStatus("error");
@@ -347,15 +365,9 @@ export default function ContactForm() {
                     pattern={f.pattern}
                     inputMode={f.inputMode}
                     title={f.title}
-                    onInput={
-                      f.inputMode === "numeric"
-                        ? (e) => {
-                            const el = e.currentTarget;
-                            el.value = el.value
-                              .replace(/\D/g, "")
-                              .slice(0, f.maxLength);
-                          }
-                        : undefined
+                    value={formData[f.name as keyof typeof formData]}
+                    onChange={(e) =>
+                      handleChange(e, f.maxLength, f.inputMode === "numeric")
                     }
                     className={INPUT_CLASSES}
                   />
@@ -368,12 +380,13 @@ export default function ContactForm() {
         <div className="flex flex-col gap-1.5">
           <FieldLabel>Enquiry Type</FieldLabel>
           <EnquirySelect
-            value={enquiry}
-            onChange={setEnquiry}
+            value={formData.enquiryType}
+            onChange={(v) =>
+              setFormData((prev) => ({ ...prev, enquiryType: v }))
+            }
             options={ENQUIRY_TYPES}
             icon="/contact/direct/icons/form-select.svg"
           />
-          <input type="hidden" name="enquiryType" value={enquiry} />
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -381,6 +394,8 @@ export default function ContactForm() {
           <textarea
             name="additionalDetails"
             placeholder="Tell us how we can help…"
+            value={formData.additionalDetails}
+            onChange={(e) => handleChange(e)}
             className="h-[100px] resize-none rounded-[12px] border border-[#E9F8FF] bg-[#F5FBFF] p-3.5 text-[16px] leading-[22px] text-[#0A4B6E] placeholder:text-[#0A4B6E] placeholder:opacity-60 focus:outline-none"
           />
         </div>

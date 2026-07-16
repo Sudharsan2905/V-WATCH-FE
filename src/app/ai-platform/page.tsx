@@ -17,7 +17,8 @@ export default function AIPlatformPage() {
       <ThreePillars />
       <Footer
         ctaTitle="See how the platform works for your business"
-        ctaText="Discover how V-Watch AI can transform how your operations run with automation, security, and real-time intelligence."        ctaVariant="light"
+        ctaText="Discover how V-Watch AI can transform how your operations run with automation, security, and real-time intelligence."
+        ctaVariant="light"
       />
     </div>
   );

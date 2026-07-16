@@ -347,6 +347,8 @@ function TrialFormCard() {
     // Template variables. We send both the common EmailJS names ({{name}},
     // {{email}}, {{message}}…) and the raw field names, so the email fills in
     // whichever placeholders the dashboard template uses.
+
+    // console.log(form)
     const params = {
       to_email: "sales@vwatch.ai",
       name: form.fullName.trim(),

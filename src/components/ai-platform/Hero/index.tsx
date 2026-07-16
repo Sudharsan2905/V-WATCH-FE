@@ -61,7 +61,10 @@ export default function AIPlatformHero() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
+        <div className="relative z-10 w-full  px-6 lg:px-[60px]">
+          <div className="mx-auto flex max-w-[1410px]">
+
+          
           <motion.div
             className="flex flex-col justify-center gap-[30px] pt-[150px] pb-[100px] lg:min-h-[754px] lg:max-w-[700px] lg:py-[140px]"
             initial="hidden"
@@ -97,6 +100,7 @@ export default function AIPlatformHero() {
               <BookADemo />
             </motion.div>
           </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

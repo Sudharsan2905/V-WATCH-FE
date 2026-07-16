@@ -111,7 +111,7 @@ function EnvCard({
         <p className={`text-[18px] font-bold leading-[21px] ${selected ? "text-[#0A2540]" : "text-white group-hover:text-[#0A2540]"}`}>
           {card.title}
         </p>
-        <p className={`text-[14px] font-normal leading-[22px] ${selected ? "text-[#0A4B6E]" : "text-white group-hover:text-[#0A2540]"} sm:text-[16px] sm:leading-[24px] lg:text-[18px]`}>
+        <p className={`text-[18px] font-normal leading-[22px] ${selected ? "text-[#0A4B6E]" : "text-white group-hover:text-[#0A2540]"} sm:text-[16px] sm:leading-[24px] lg:text-[18px]`}>
           {card.desc}
         </p>
       </div>

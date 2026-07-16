@@ -247,10 +247,10 @@ export default function IntelligenceLayer() {
                 key={f.label}
                 variants={fadeUp}
                 custom={CARDS_START + i * CARD_STAGGER}
-                className="flex flex-col gap-4 rounded-[20px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(224,242,253,0.45))] p-6 shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA1A_inset,20px_0px_24px_0px_#7ECFFA1A_inset,8px_10px_34px_0px_#FFFFFF66_inset,-10px_-8px_34px_0px_#FFFFFF99_inset] backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA3D_inset,20px_0px_24px_0px_#7ECFFA3D_inset]"
+                className="flex md:flex-col gap-4 items-center md:items-start rounded-[20px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(224,242,253,0.45))] p-6 shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA1A_inset,20px_0px_24px_0px_#7ECFFA1A_inset,8px_10px_34px_0px_#FFFFFF66_inset,-10px_-8px_34px_0px_#FFFFFF99_inset] backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-[0px_1px_2px_0px_#B8E6FF1A,-20px_0px_24px_0px_#7ECFFA3D_inset,20px_0px_24px_0px_#7ECFFA3D_inset]"
               >
                 <span
-                  className={`flex size-[52px] items-center justify-center rounded-full bg-[#DFF4FF] ${i === 0 ? "border-2 border-dashed border-[#A9D8F0]" : "border-2 border-white"
+                  className={`flex size-[52px] shrink-0 items-center justify-center rounded-full bg-[#DFF4FF] ${i === 0 ? "border-2 border-dashed border-[#A9D8F0]" : "border-2 border-white"
                     }`}
                 >
                   {f.icon}
