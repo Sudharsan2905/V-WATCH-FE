@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import HrmsHero from "@/components/hrms/Hero";
 import HrmsOverview from "@/components/hrms/Overview";
+import HrmsFeatures from "@/components/hrms/Features";
 import HrmsPlanStructure from "@/components/hrms/PlanStructure";
 import HrmsTrialForm from "@/components/hrms/TrialForm";
 import Footer from "@/components/layout/Footer";
@@ -28,7 +29,7 @@ export default function HrmsPage() {
 
       <div className="relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">
         <HrmsOverview />
-        {/* <HrmsFeatureAccordion /> */}
+        <HrmsFeatures />
         <HrmsPlanStructure />
       </div>
 
