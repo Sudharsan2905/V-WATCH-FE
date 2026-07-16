@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -75,7 +74,7 @@ const CARDS: Card[] = [
   {
     title: "Maintenance and task management",
     desc: "Streamline task assignment, tracking, and completion across teams.",
-    img: "/industries/industrial&energy/critical-usecase/maintenances.png",
+    img: "/industries/industrial&energy/critical-usecase/maintenance.svg",
     descColor: "#D4F0FF",
     descWeight: 500,
   },
@@ -238,28 +237,15 @@ export default function Solutions() {
           <div
             ref={scrollerRef}
             onScroll={updateEdges}
-            className="-m-2.5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth p-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="-my-2.5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {CARDS.map((c, i) => (
-              <motion.div
-                key={c.title}
-                variants={paintIn}
-                custom={CARDS_START + i * CARD_STAGGER}
-                className="group relative h-[302px] flex-[0_0_100%] snap-start rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] sm:flex-[0_0_calc((100%-20px)/2)] lg:flex-[0_0_calc((100%-60px)/4)]"
-                style={{ outline: "2px solid white", outlineOffset: -2 }}
-              >
-                {c.href && (
-                  <Link
-                    href={c.href}
-                    className="absolute inset-0 z-20 rounded-[30px]"
-                    aria-label={c.title}
-                  />
-                )}
-                {/* Inner flex — justify-end pushes text to bottom */}
+            {CARDS.map((c, i) => {
+              const cardInner = (
                 <div className="relative flex h-full flex-col items-start justify-end">
                   {/* Image: inset -10px so it sits 10px from each card edge.
                     Its own borderRadius(20px) + position(10px) stays within card(30px) radius — no overflow:hidden needed. */}
-                  <div className="absolute overflow-hidden rounded-[20px]"
+                  <div
+                    className="absolute overflow-hidden rounded-[20px]"
                     style={{ inset: -10 }}
                   >
                     <Image
@@ -304,39 +290,64 @@ export default function Solutions() {
 
                     {/* Learn More — collapsed to zero height at rest (no reserved
                       space); expands and fades in on hover. */}
-                    <div className="relative grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr]">
-                      <div className="overflow-hidden">
-                        <div className="group/learn flex w-fit cursor-pointer items-center gap-2.5 pt-3.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                          <span className="text-[16px] font-medium text-white">
-                            Learn More
-                          </span>
-                           <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            aria-hidden
-                            className="text-white transition-[color,transform] duration-200 group-hover/learn:-translate-y-0.5 group-hover/learn:text-[#A6C936]"
-                          >
-                            <path
-                              d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"
-                              fill="currentColor"
-                            />
-                          </svg>
+                    {c.href && (
+                      <div className="relative z-30 grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr]">
+                        <div className="overflow-hidden">
+                          <div className="group/learn flex w-fit cursor-pointer items-center gap-2.5 pt-3.5 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover/learn:translate-x-1">
+                            <span className="relative text-[16px] font-medium text-white transition-colors duration-300 group-hover/learn:text-[#A6C936]">
+                              Learn More
+                              <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#A6C936] transition-all duration-300 group-hover/learn:w-full" />
+                            </span>
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 14 14"
+                              fill="none"
+                              aria-hidden
+                              className="text-white transition-all duration-300 group-hover/learn:translate-x-1 group-hover/learn:-translate-y-0.5 group-hover/learn:text-[#A6C936]"
+                            >
+                              <path
+                                d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              );
+
+              return (
+                <motion.div
+                  key={c.title}
+                  variants={paintIn}
+                  custom={CARDS_START + i * CARD_STAGGER}
+                  className="group relative h-[302px] flex-[0_0_100%] snap-start rounded-[30px] bg-white/50 p-5 shadow-[0_20px_20px_rgba(0,0,0,0.02)] backdrop-blur-[10px] sm:flex-[0_0_calc((100%-20px)/2)] lg:flex-[0_0_calc((100%-60px)/4)]"
+                  style={{ outline: "2px solid white", outlineOffset: -2 }}
+                >
+                  {c.href ? (
+                    <Link href={c.href} className="block h-full w-full" aria-label={c.title}>
+                      {cardInner}
+                    </Link>
+                  ) : (
+                    cardInner
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Mobile/tablet controls — arrows + pagination dots below the
               carousel. Hidden from lg up, where the arrows sit in the header. */}
           {hasNav && mounted && (
             <div className="flex items-center justify-center gap-4 lg:hidden">
-              <NavButton dir="prev" disabled={atStart} onClick={() => page(-1)} />
+              <NavButton
+                dir="prev"
+                disabled={atStart}
+                onClick={() => page(-1)}
+              />
               <div className="flex items-center gap-2">
                 {Array.from({ length: pageCount }).map((_, i) => (
                   <button
@@ -346,9 +357,7 @@ export default function Solutions() {
                     aria-current={i === activePage || undefined}
                     onClick={() => goToPage(i)}
                     className={`h-2 rounded-full transition-all ${
-                      i === activePage
-                        ? "w-5 bg-[#1273A6]"
-                        : "w-2 bg-[#CFE9F7]"
+                      i === activePage ? "w-5 bg-[#1273A6]" : "w-2 bg-[#CFE9F7]"
                     }`}
                   />
                 ))}

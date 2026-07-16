@@ -4,7 +4,8 @@ import Image from "next/image";
 // depth sets how deep the belly dips. Default (>=425px) keeps the current deep
 // curve; below 425px a shallower control depth flattens it to a small angle so
 // it doesn't read as a steep scoop on narrow phones.
-const CURVE_DEFAULT_FILL = "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
+const CURVE_DEFAULT_FILL =
+  "M0 84 C33.33 103 66.67 103 100 84 L100 100 L0 100 Z";
 const CURVE_DEFAULT_STROKE = "M0 84 C33.33 103 66.67 103 100 84";
 const CURVE_SMALL_FILL = "M0 84 C33.33 92 66.67 92 100 84 L100 100 L0 100 Z";
 const CURVE_SMALL_STROKE = "M0 84 C33.33 92 66.67 92 100 84";
@@ -44,7 +45,14 @@ export default function IntegratorsHero() {
           aria-hidden
         >
           <defs>
-            <linearGradient id="hero-curve-stroke" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="hero-curve-stroke"
+              x1="0"
+              y1="0"
+              x2="100"
+              y2="0"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop offset="0" stopColor="#21B1F1" stopOpacity="0" />
               <stop offset="0.5" stopColor="#7ECFFA" stopOpacity="1" />
               <stop offset="1" stopColor="#21B1F1" stopOpacity="0" />
@@ -85,8 +93,8 @@ export default function IntegratorsHero() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1410px] px-6 lg:px-[60px]">
-        <div className="flex min-h-[754px] flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
+      <div className="relative z-10 w-full px-6 lg:px-[60px]">
+        <div className="flex min-h-[754px] mx-auto  max-w-[1410px]  flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
               {/* Line 1 wipes left -> right; line 2 wipes top -> bottom, staggered
