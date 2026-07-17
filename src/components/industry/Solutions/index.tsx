@@ -293,18 +293,21 @@ export default function Solutions() {
                     {c.href && (
                       <div className="relative z-30 grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr]">
                         <div className="overflow-hidden">
-                          <div className="group/learn flex w-fit cursor-pointer items-center gap-2.5 pt-3.5 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover/learn:translate-x-1">
-                            <span className="relative text-[16px] font-medium text-white transition-colors duration-300 group-hover/learn:text-[#A6C936]">
+                          <div className="flex w-fit items-center gap-2.5 pt-3.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            {/* Text stays plain white — no highlight on hover. */}
+                            <span className="text-[16px] font-medium text-white">
                               Learn More
-                              <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#A6C936] transition-all duration-300 group-hover/learn:w-full" />
                             </span>
+                            {/* Only the arrow reacts — it turns green, slides, and
+                                lifts on card/image hover (group-hover), no need to
+                                hover the tiny arrow itself. */}
                             <svg
                               width="14"
                               height="14"
                               viewBox="0 0 14 14"
                               fill="none"
                               aria-hidden
-                              className="text-white transition-all duration-300 group-hover/learn:translate-x-1 group-hover/learn:-translate-y-0.5 group-hover/learn:text-[#A6C936]"
+                              className="text-white transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:text-[#A6C936]"
                             >
                               <path
                                 d="M14 11.3479L13.7195 0.255009L2.62659 0L2.65209 2.42259L10.0474 2.37158L0 12.4189L1.58106 14L11.6029 3.97814L11.5519 11.3224L14 11.3479Z"

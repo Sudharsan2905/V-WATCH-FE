@@ -7,12 +7,13 @@ export default function Hero() {
       {/* Baked glass-tile render (labels + icons composited in Figma) */}
       <div className="pointer-events-none absolute inset-0">
         <Image
-          src="/hero/hero-visual.png"
+          src="/hero/hero-visual.webp"
           alt="V-Watch AI platform modules: HRMS (Human Resource Management System), Secure Access, SMS, RTL, Workflow Management and AI Location Tracking"
           fill
-          priority
           sizes="100vw"
           className="object-cover object-top"
+          loading="eager"
+          preload={true}
         />
       </div>
 
@@ -23,7 +24,6 @@ export default function Hero() {
             {/* "In Real Time" pill — glassmorphism with a directional gradient
                 border: bright at the top corners, fading down the sides, dim at
                 the bottom (light source from above). */}
-            
 
             <h1 className="text-[clamp(22px,7.2vw,34px)] font-black leading-[1.25] tracking-[0.5px] text-white sm:text-[44px] sm:leading-[1.2] lg:text-[50px] lg:leading-[68px]">
               {/* Line 1 reveals left -> right; line 2 reveals top -> bottom, staggered after it.

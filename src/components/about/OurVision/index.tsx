@@ -60,7 +60,9 @@ export default function OurVision() {
         </p>
       </motion.div>
 
-      {/* Mobile layout */}
+      {/* Mobile / tablet layout — dark "belief" card first, then the goal card,
+          mirroring the desktop's left→right (belief → goal) reading order. The
+          icon flow is a vertical list on phones and a horizontal row on tablets. */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -68,58 +70,23 @@ export default function OurVision() {
         viewport={viewportReveal}
         className="lg:hidden w-full max-w-[1440px] mx-auto px-4 sm:px-6 mt-[24px] flex flex-col gap-[20px]"
       >
+        {/* Dark "not managed in silos" card */}
         <motion.div
           variants={fadeUp}
-          className="relative overflow-hidden bg-white rounded-l-full rounded-r-[24px] min-h-[124px] flex items-center shadow-[0px_4px_24px_rgba(10,75,110,0.10)]"
+          className="relative rounded-[30px] overflow-hidden md:h-[200px]"
         >
-          {/* Shadow panel — fills the whole card behind the bullseye and text.
-              Same three layers as the original asset / desktop goal card:
-              light #F5FBFF fade from the right, vertical blue gradient at 10%,
-              and a soft #7ECFFA inner glow on the left. */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(270deg, #F5FBFF 3%, rgba(226,246,255,0) 66%), " +
-                "linear-gradient(180deg, rgba(27,117,187,0.1) 0%, rgba(30,132,198,0.1) 12.07%, rgba(38,169,224,0.1) 33.45%, rgba(39,147,200,0.1) 43.34%, rgba(42,96,144,0.1) 68.95%, rgba(43,64,109,0.1) 88%, rgba(44,52,96,0.1) 98.23%)",
-              boxShadow: "inset 40px 0 60px 0 rgba(126,207,250,0.31)",
-            }}
+          {/* Same royal-blue card artwork as the desktop card so the dark card
+              reads identically across breakpoints. object-position favours the
+              brighter lower-right of the art on the tall phone crop. */}
+          <Image
+            src="/Frame 2147231126.webp"
+            alt=""
+            fill
+            loading="lazy"
+            className="object-cover object-[70%_100%] md:object-center"
+            sizes="(min-width: 1024px) 0px, 100vw"
           />
-          {/* Target (bullseye) graphic — hand-drawn SVG, front-facing (no tilt),
-              vertically centered and fully visible on the left with a soft blue glow. */}
-          <div className="pointer-events-none absolute left-[12px] top-1/2 h-[100px] w-[100px] -translate-y-1/2">
-            <svg
-              viewBox="0 0 100 100"
-              className="h-full w-full drop-shadow-[0_4px_16px_rgba(92,183,232,0.6)]"
-              aria-hidden="true"
-            >
-              <circle cx="50" cy="50" r="50" fill="#B8E6FF" />
-              <circle cx="50" cy="50" r="43" fill="#5CB7E8" />
-              <circle cx="50" cy="50" r="36" fill="#FFFFFF" />
-              <circle cx="50" cy="50" r="29" fill="#5CB7E8" />
-              <circle cx="50" cy="50" r="21" fill="#FFFFFF" />
-              <circle cx="50" cy="50" r="12" fill="#7ECFFA" />
-            </svg>
-          </div>
-          <div className="relative z-10 w-full pl-[120px] pr-[20px] py-[20px]">
-            <p className="font-bold text-[16px] text-[#0a4b6e] mb-[8px]">
-              Our goal is simple
-            </p>
-            <p className="text-[14px] text-[#1d6c97] leading-[22px]">
-              To help organisations move from fragmented management to complete
-              operational intelligence.
-            </p>
-          </div>
-        </motion.div>
-        <motion.div
-          variants={fadeUp}
-          className="relative rounded-[30px] overflow-hidden min-h-[260px] md:min-h-0 md:h-[200px]"
-          style={{
-            background:
-              "linear-gradient(155deg, #0c1e40 0%, #0e2649 40%, #112d56 70%, #0c2044 100%)",
-          }}
-        >
-          <div className="relative z-10 px-[24px] py-[24px] flex flex-col justify-between gap-[20px] min-h-[260px] md:min-h-0 md:h-[200px]">
+          <div className="relative z-10 flex h-full flex-col justify-between gap-[20px] px-[24px] py-[24px]">
             <div>
               <p className="font-bold text-[16px] text-white leading-[26px] mb-[10px]">
                 We believe operations should not be managed in silos.
@@ -130,11 +97,14 @@ export default function OurVision() {
                 and control across
               </p>
             </div>
-            <div className="flex items-start justify-between gap-[2px]">
+            {/* Phone: vertical flow — icon beside its label, a down-arrow between
+                each. Tablet (md+): horizontal row — icon above its label, a
+                right-arrow between each. */}
+            <div className="flex w-fit mx-auto flex-col gap-[14px] md:mx-0 md:w-full md:flex-row md:items-start md:justify-between md:gap-[2px]">
               {ICONS.map((icon, i) => (
                 <Fragment key={icon.label}>
-                  <div className="flex min-w-0 flex-1 flex-col items-center gap-[6px]">
-                    <div className="size-[44px] bg-white border border-[#9cdcff] rounded-full flex items-center justify-center">
+                  <div className="flex items-center gap-[14px] md:min-w-0 md:flex-1 md:flex-col md:gap-[6px]">
+                    <div className="size-[44px] shrink-0 bg-white border border-[#9cdcff] rounded-full flex items-center justify-center">
                       <div className="relative size-[22px]">
                         <Image
                           src={icon.src}
@@ -145,24 +115,77 @@ export default function OurVision() {
                         />
                       </div>
                     </div>
-                    <span className="w-full text-center text-[10px] font-bold leading-tight text-white">
+                    <span className="text-[15px] font-bold leading-tight text-white md:w-full md:text-center md:text-[10px]">
                       {icon.label}
                     </span>
                   </div>
                   {i < ICONS.length - 1 && (
-                    <div className="relative mt-[17px] h-[10px] w-[14px] shrink-0">
-                      <Image
-                        src="/Group (1).svg"
-                        alt=""
-                        fill
-                        className="object-contain"
-                        sizes="18px"
-                      />
-                    </div>
+                    <>
+                      {/* Phone connector — the arrow rotated to point down,
+                          nudged right so it sits under the icon's centre. */}
+                      <div className="relative ml-[12px] h-[20px] w-[20px] md:hidden">
+                        <Image
+                          src="/Group (1).svg"
+                          alt=""
+                          fill
+                          className="rotate-90 object-contain"
+                          sizes="20px"
+                        />
+                      </div>
+                      {/* Tablet connector — the arrow points right between icons. */}
+                      <div className="relative mt-[17px] hidden h-[10px] w-[14px] shrink-0 md:block">
+                        <Image
+                          src="/Group (1).svg"
+                          alt=""
+                          fill
+                          className="object-contain"
+                          sizes="18px"
+                        />
+                      </div>
+                    </>
                   )}
                 </Fragment>
               ))}
             </div>
+          </div>
+        </motion.div>
+
+        {/* Goal illustration — artwork sliced from the desktop composition
+            (public/about/vision-goal-*.png). Only the arrow/target/panel are
+            baked into the image; the goal text stays live HTML overlaid on the
+            panel. Tablet keeps the fan arrows; phones show a single arrow — both
+            share the same crop geometry so one overlaid card fits both. */}
+        <motion.div variants={fadeUp} className="relative">
+          <Image
+            src="/about/vision-goal-tablet.png"
+            alt=""
+            width={1348}
+            height={838}
+            className="hidden h-auto w-full md:block"
+          />
+          <Image
+            src="/about/vision-goal-mobile.png"
+            alt=""
+            width={1348}
+            height={838}
+            className="h-auto w-full md:hidden"
+          />
+          <div
+            className="absolute right-[2%] top-1/2 w-[52%] max-w-[420px] -translate-y-1/2 rounded-[12px] p-[13px] md:right-[4%] md:w-[45%] md:rounded-[24px] md:p-[20px]"
+            style={{
+              background:
+                "linear-gradient(270deg, #F5FBFF 3%, rgba(226,246,255,0) 66%), " +
+                "linear-gradient(180deg, rgba(27,117,187,0.1) 0%, rgba(30,132,198,0.1) 12.07%, rgba(38,169,224,0.1) 33.45%, rgba(39,147,200,0.1) 43.34%, rgba(42,96,144,0.1) 68.95%, rgba(43,64,109,0.1) 88%, rgba(44,52,96,0.1) 98.23%)",
+              boxShadow: "inset 50px 0 100px 0 rgba(126,207,250,0.31)",
+            }}
+          >
+            <p className="mb-[5px] text-[15px] font-bold leading-[19px] text-[#0a4b6e] md:mb-[8px] md:text-[18px] md:leading-[24px]">
+              Our goal is simple
+            </p>
+            <p className="text-[13px] leading-[18px] text-[#1d6c97] md:text-[16px] md:leading-[24px]">
+              To help organisations move from fragmented management to complete
+              operational intelligence.
+            </p>
           </div>
         </motion.div>
       </motion.div>

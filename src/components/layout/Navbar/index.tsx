@@ -349,7 +349,7 @@ function CaseStudiesAccordion({
       </button>
       {open && children && (
         // Single-column list — no chevrons, plain teal links.
-        <div className="flex flex-col pb-3 pt-1">
+        <div className="flex flex-col pb-3 pt-1 pl-4">
           {children.map((c) => (
             <CaseStudyRow key={c.label} {...c} />
           ))}
@@ -583,7 +583,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                     ref={panelRef}
                     className={`absolute left-1/2 top-full mt-2 ${
                       DROPDOWNS[item.label]!.items.some((i) => i.children)
-                        ? "w-[min(700px,calc(100vw-48px))]"
+                        ? "w-[min(650px,calc(100vw-48px))]"
                         : "w-[min(660px,calc(100vw-48px))]"
                     }`}
                     style={

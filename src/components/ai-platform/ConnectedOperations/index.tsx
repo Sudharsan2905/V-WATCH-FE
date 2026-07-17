@@ -296,13 +296,17 @@ export default function ConnectedOperations() {
             >
               <div className="flex w-full flex-col items-center gap-4 md:w-auto md:max-w-[900px] md:flex-1 md:items-stretch xl:max-w-[600px]">
                 <div
-                  className="relative w-full max-w-[600px] overflow-hidden rounded-[24px] border-4 border-white/60 bg-[#EDF5FC] md:max-w-[900px] xl:max-w-[600px]"
+                  className="relative w-full max-w-[600px] overflow-hidden rounded-[24px] border-4 border-white/60 bg-white p-0.4 md:max-w-[900px] xl:max-w-[600px]"
                   style={{
                     boxShadow:
                       "0px 13px 110px 0px rgba(199,199,199,0.25), 6px 10px 33px 0px rgba(217,226,255,0.65), -6px -20px 33px 0px rgba(217,226,255,0.65), 9px 7px 60px 0px rgba(255,255,255,0.40)",
                   }}
                 >
-                  <div className="relative h-[320px] w-full lg:h-[480px]">
+                  {/* The white p-3/p-4 above is the visible margin; this inner
+                      wrapper carries its own radius so the image's rounded corners
+                      read crisply against that margin instead of bleeding to the
+                      frame edge (Figma: 24px frame, 4px white/60 border, inset image). */}
+                  <div className="relative h-[296px] w-full overflow-hidden rounded-[16px] bg-[#EDF5FC] lg:h-[448px]">
                     {/* All images are mounted and crossfaded via opacity so every
                         slide is fetched once up front and stays cached — this avoids
                         the blank card that appeared when each ~MB image only started
@@ -328,11 +332,6 @@ export default function ConnectedOperations() {
                         />
                       </motion.div>
                     ))}
-
-                    <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-[51px] bg-gradient-to-r from-[#F3F8FC] to-transparent" />
-                    <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-[51px] bg-gradient-to-l from-[#F3F8FC] to-transparent" />
-                    <div className="pointer-events-none absolute left-0 top-0 z-10 h-[51px] w-full bg-gradient-to-b from-[#F3F8FC] to-transparent" />
-                    <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[51px] w-full bg-gradient-to-t from-[#F3F8FC] to-transparent" />
                   </div>
 
                   {/* Mobile/tablet only: the active module's text lives in the same
@@ -349,7 +348,7 @@ export default function ConnectedOperations() {
                       {/* Faded watermark icon */}
                       <div
                         className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2"
-                        aria-hidden
+                        aria-hidden 
                       >
                         <Image
                           src={MODULES[active].iconBg}
@@ -409,7 +408,9 @@ export default function ConnectedOperations() {
                   <button
                     type="button"
                     onClick={() =>
-                      setActive((p) => (p - 1 + MODULES.length) % MODULES.length)
+                      setActive(
+                        (p) => (p - 1 + MODULES.length) % MODULES.length,
+                      )
                     }
                     aria-label="Previous module"
                     className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#D6E7F5] bg-white shadow-[0_6px_16px_rgba(33,177,241,0.18)] transition hover:bg-[#F0F8FE]"
