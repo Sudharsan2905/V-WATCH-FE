@@ -199,7 +199,7 @@ export default function PostConstructionTransition({
     ctaLabel ??
     (onPostConstruction
       ? "Explore Pre-Construction (Atlas)"
-      : "Explore Post-Construction (Aegis)");
+      : "Explore Live Operations (Aegis)");
 
   return (
     <MotionConfig reducedMotion="user">
