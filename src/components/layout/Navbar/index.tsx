@@ -80,9 +80,9 @@ const DROPDOWNS: Record<string, DropdownData> = {
       },
       {
         icon: "/nav/icons/solutions-post.svg",
-        title: "Post Construction",
+        title: "Live Operations",
         desc: "Performance tracking and project closeout.",
-        href: "/post-construction",
+        href: "/live-operations",
       },
     ],
   },
@@ -134,7 +134,7 @@ const DROPDOWNS: Record<string, DropdownData> = {
           { label: "Facial Recognition", href: "/facial-recognition" },
           { label: "Geofencing", href: "/geofencing" },
           { label: "Maintenance & Ticketing", href: "/maintenance-ticketing" },
-          { label: "Payroll, Claims & Leave", href:"/workforce-management" },
+          { label: "Payroll, Claims & Leave", href: "/workforce-management" },
           { label: "Real-Time Headcount", href: "/real-time-headcount" },
           { label: "Visitor Management", href: "/visitor-management" },
         ],
@@ -243,7 +243,9 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
 // state is the light white→grey pill; on card hover it becomes the brand
 // blue→green gradient with a white arrow (Figma hovered state). currentColor
 // drives the arrow so group-hover:text-white flips it.
-function ChevronRightButton({ active = false }: Readonly<{ active?: boolean }>) {
+function ChevronRightButton({
+  active = false,
+}: Readonly<{ active?: boolean }>) {
   return (
     <div
       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-[6.6px] border shadow-[inset_0px_-0.82px_0.82px_rgba(150,161,172,0.12)] transition-colors ${
@@ -357,7 +359,13 @@ function CaseStudiesAccordion({
   );
 }
 
-function DropdownItem({ icon, title, desc, href, children }: Readonly<DropdownLink>) {
+function DropdownItem({
+  icon,
+  title,
+  desc,
+  href,
+  children,
+}: Readonly<DropdownLink>) {
   const pathname = usePathname();
   if (children) {
     return (
@@ -456,7 +464,7 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
       </div>
 
       {/* Right nav items list */}
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+      <div className="flex max-w-[388px] flex-1 flex-col gap-1.5">
         {data.items.map((item) => (
           <DropdownItem key={item.title} {...item} />
         ))}
@@ -572,16 +580,18 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                 openDropdown === item.label &&
                 DROPDOWNS[item.label] && (
                   <div
-                  ref={panelRef}
+                    ref={panelRef}
                     className={`absolute left-1/2 top-full mt-2 ${
                       DROPDOWNS[item.label]!.items.some((i) => i.children)
-                        ? "w-[min(908px,calc(100vw-48px))]"
+                        ? "w-[min(700px,calc(100vw-48px))]"
                         : "w-[min(660px,calc(100vw-48px))]"
                     }`}
-                  style={{
-                    transform: "translateX(calc(-50% + var(--shift, 0px)))",
-                    ["--shift"]: `${shift}px`,
-                  } as React.CSSProperties}
+                    style={
+                      {
+                        transform: "translateX(calc(-50% + var(--shift, 0px)))",
+                        ["--shift"]: `${shift}px`,
+                      } as React.CSSProperties
+                    }
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
                   >
@@ -642,7 +652,9 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                     <>
                       <button
                         type="button"
-                        onClick={() => setMobileSub(expanded ? null : item.label)}
+                        onClick={() =>
+                          setMobileSub(expanded ? null : item.label)
+                        }
                         aria-expanded={expanded}
                         className={`flex w-full items-center justify-between py-3 text-left text-sm font-bold ${
                           item.label === activeLabel
@@ -651,7 +663,10 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                         }`}
                       >
                         {item.label}
-                        <ChevronDown open={expanded} className="text-white/80" />
+                        <ChevronDown
+                          open={expanded}
+                          className="text-white/80"
+                        />
                       </button>
                       {expanded && (
                         <ul className="flex flex-col gap-1 pb-2">
@@ -660,18 +675,34 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                               <li key={sub.title}>
                                 <button
                                   type="button"
-                                  onClick={() => setMobileCaseStudies((v) => !v)}
+                                  onClick={() =>
+                                    setMobileCaseStudies((v) => !v)
+                                  }
                                   aria-expanded={mobileCaseStudies}
                                   className="flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors hover:bg-white/[0.06]"
                                 >
                                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
-                                    <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                    <Image
+                                      src={sub.icon}
+                                      alt=""
+                                      width={18}
+                                      height={18}
+                                      unoptimized
+                                      className="h-[18px] w-[18px] object-contain"
+                                    />
                                   </span>
                                   <span className="flex min-w-0 flex-1 flex-col">
-                                    <span className="text-[13px] font-semibold leading-tight text-white">{sub.title}</span>
-                                    <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                    <span className="text-[13px] font-semibold leading-tight text-white">
+                                      {sub.title}
+                                    </span>
+                                    <span className="truncate text-[12px] font-normal text-white/60">
+                                      {sub.desc}
+                                    </span>
                                   </span>
-                                  <ChevronDown open={mobileCaseStudies} className="text-white/80" />
+                                  <ChevronDown
+                                    open={mobileCaseStudies}
+                                    className="text-white/80"
+                                  />
                                 </button>
                                 {mobileCaseStudies && (
                                   <ul className="grid grid-cols-2 gap-x-2 pb-1 pl-11 pr-2">
@@ -683,7 +714,10 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                             onClick={(e) => {
                                               if (leaf.href === pathname) {
                                                 e.preventDefault();
-                                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                                window.scrollTo({
+                                                  top: 0,
+                                                  behavior: "smooth",
+                                                });
                                               }
                                               setMobileOpen(false);
                                               setMobileSub(null);
@@ -691,7 +725,9 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                             }}
                                             className="flex items-center justify-between gap-1 py-2 text-[12px] font-medium text-white/80 transition-colors hover:text-white"
                                           >
-                                            <span className="truncate">{leaf.label}</span>
+                                            <span className="truncate">
+                                              {leaf.label}
+                                            </span>
                                           </Link>
                                         </li>
                                       ) : (
@@ -701,7 +737,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                         >
                                           {leaf.label}
                                         </li>
-                                      )
+                                      ),
                                     )}
                                   </ul>
                                 )}
@@ -710,13 +746,18 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                               <li key={sub.title}>
                                 <Link
                                   href={sub.href}
-                                  aria-current={sub.href === pathname ? "page" : undefined}
+                                  aria-current={
+                                    sub.href === pathname ? "page" : undefined
+                                  }
                                   onClick={(e) => {
                                     // Already on the target page: scroll to top
                                     // instead of a no-op same-route navigation.
                                     if (sub.href === pathname) {
                                       e.preventDefault();
-                                      window.scrollTo({ top: 0, behavior: "smooth" });
+                                      window.scrollTo({
+                                        top: 0,
+                                        behavior: "smooth",
+                                      });
                                     }
                                     setMobileOpen(false);
                                     setMobileSub(null);
@@ -728,18 +769,35 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                   }`}
                                 >
                                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white">
-                                    <Image src={sub.icon} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] object-contain" />
+                                    <Image
+                                      src={sub.icon}
+                                      alt=""
+                                      width={18}
+                                      height={18}
+                                      unoptimized
+                                      className="h-[18px] w-[18px] object-contain"
+                                    />
                                   </span>
                                   <span className="flex min-w-0 flex-1 flex-col">
-                                    <span className={`text-[13px] font-semibold leading-tight ${
-                                      sub.href === pathname ? "text-[#5FD0F2]" : "text-white"
-                                    }`}>{sub.title}</span>
-                                    <span className="truncate text-[12px] font-normal text-white/60">{sub.desc}</span>
+                                    <span
+                                      className={`text-[13px] font-semibold leading-tight ${
+                                        sub.href === pathname
+                                          ? "text-[#5FD0F2]"
+                                          : "text-white"
+                                      }`}
+                                    >
+                                      {sub.title}
+                                    </span>
+                                    <span className="truncate text-[12px] font-normal text-white/60">
+                                      {sub.desc}
+                                    </span>
                                   </span>
-                                  <ChevronRightButton active={sub.href === pathname} />
+                                  <ChevronRightButton
+                                    active={sub.href === pathname}
+                                  />
                                 </Link>
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       )}
