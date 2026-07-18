@@ -28,6 +28,8 @@ jobs:
 
             npm ci
 
+            sudo rm -rf .next
+
             npm run build
 
             sudo pm2 restart v-watch
