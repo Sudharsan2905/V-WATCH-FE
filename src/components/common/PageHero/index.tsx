@@ -73,6 +73,7 @@ export default function PageHero({
             priority
             sizes="100vw"
             className="object-cover object-[68%_center] sm:object-center"
+            loading="eager"
           />
         </motion.div>
 
