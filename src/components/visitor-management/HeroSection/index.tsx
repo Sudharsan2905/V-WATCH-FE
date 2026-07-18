@@ -42,6 +42,7 @@ export default function HeroSection() {
           priority
           sizes="100vw"
           className="object-cover object-right sm:object-center"
+          loading="eager"
         />
       </motion.div>
 

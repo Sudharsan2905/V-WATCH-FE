@@ -104,7 +104,8 @@ export default function ProductsHero({
               fill
               priority
               sizes="100vw"
-              className="object-cover object-[60%_center] sm:object-center"
+              className="opacity-60 md:opacity-100 object-cover object-[60%_center] sm:object-center"
+              loading="eager"
             />
           </motion.div>
           {/* <div className="absolute inset-0 bg-gradient-to-r from-[#030515] from-5% via-[#030515]/55 via-45% to-transparent" /> */}

@@ -211,6 +211,8 @@ export default function HrmsOverview() {
                 height={407}
                 sizes="(min-width: 1024px) 614px, 100vw"
                 className="h-auto w-full"
+                loading="eager"
+                priority
               />
               <Image
                 src="/workforce/divider-shadow.svg"
@@ -219,6 +221,8 @@ export default function HrmsOverview() {
                 width={759}
                 height={10}
                 className="absolute left-1/2 top-full z-10 w-[123.5%] max-w-none -translate-x-1/2 -translate-y-1/2"
+                loading="eager"
+                priority
               />
               <div
                 aria-hidden="true"
@@ -258,20 +262,20 @@ export default function HrmsOverview() {
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-6 pt-[25px]"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 pt-[25px] justify-items-center"
             >
               {MODULES.map(({ label, icon }, i) => (
                 <motion.div
                   key={label}
                   variants={fadeUp}
                   custom={i * 0.08}
-                  className="flex h-[140px] w-[180px] flex-col items-center justify-center gap-4 rounded-2xl border border-[#f4faff] bg-white shadow-[0_4px_20px_rgba(0,117,180,0.08)]"
+                  className="flex h-[150px] w-full max-w-[200px] sm:h-[160px] flex-col items-center justify-center gap-4 rounded-2xl px-3 border border-[#f4faff] bg-white shadow-[0_4px_20px_rgba(0,117,180,0.08)]"
                 >
                   <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-white shadow-2xl">
                     <Image src={icon} alt={label} width={32} height={32} />
                   </div>
 
-                  <span className="text-center font-lato text-[14px] md:text-[20px] font-semibold text-[#0F172A]">
+                  <span className="w-full text-center font-lato text-[14px] md:text-[18px] font-semibold leading-tight text-[#0F172A]">
                     {label}
                   </span>
                 </motion.div>

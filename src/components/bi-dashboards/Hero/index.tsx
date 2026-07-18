@@ -59,6 +59,7 @@ export default function BiDashboardsHero() {
             priority
             sizes="100vw"
             className="object-cover object-[72%_center]"
+            loading="eager"
           />
          
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-black/40 sm:to-black/15" />
