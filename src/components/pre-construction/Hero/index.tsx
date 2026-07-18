@@ -71,6 +71,7 @@ export default function PreConstructionHero({
             fetchPriority="high"
             sizes="100vw"
             className="object-cover sm:object-fill"
+            loading="eager"
           />
           {/* Left-to-right dark scrim for text legibility. The bg is a bright
               blue construction render whose crane/grid lines cut right through

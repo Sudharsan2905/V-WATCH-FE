@@ -42,7 +42,7 @@ function Arrow({ className = "" }: Readonly<{ className?: string }>) {
 // as a single continuous loop; the badge clips them with overflow-hidden.
 export function ArrowBadge() {
   return (
-    <span className="relative grid h-[25px] w-[25px] place-items-center overflow-hidden rounded-full bg-white">
+    <span className="shrink-0 relative grid h-[25px] w-[25px] place-items-center overflow-hidden rounded-full bg-white">
       <Arrow className="transition-transform duration-300 ease-out group-hover:translate-x-[160%] group-hover:-translate-y-[160%] motion-reduce:transition-none" />
       <Arrow className="-translate-x-[160%] translate-y-[160%] transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:transition-none" />
     </span>

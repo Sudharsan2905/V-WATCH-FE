@@ -71,6 +71,7 @@ export default function IndustriesHero({
             fetchPriority="high"
             sizes="100vw"
             className="object-cover sm:object-fill"
+            loading="eager"
           />
 
           {/* Overlay */}

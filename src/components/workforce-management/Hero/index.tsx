@@ -67,6 +67,7 @@ export default function WorkforceHero() {
               priority
               sizes="90vw"
               className="object-cover object-right md:object-bottom-center"
+              loading="eager"
             />
           </motion.div>
           {/* Gradient keeps text legible against the bright right-side image */}

@@ -186,7 +186,7 @@ export default function HrmsFeatures() {
             />
 
             {/* <PhoneShowcase /> */}
-            <div className="overflow-hidden rounded-[50px]">
+            <div className="order-first overflow-hidden rounded-[50px] lg:order-none">
               <Image
                 src="/hrms/Features/Mobile_shows.jpg"
                 alt="mobile_image"

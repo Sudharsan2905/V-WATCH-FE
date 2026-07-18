@@ -27,8 +27,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "v-watch",
-  description: "v-watch",
+  title:
+    "V-Watch AI — Workforce Management & Site Safety for Infrastructure",
+  description:
+    "V-Watch AI delivers AI-powered workforce management and site safety for data centre and infrastructure projects — from construction handover to live operations.",
   icons: {
     icon: "/vwatch-logo-mark.svg",
   },

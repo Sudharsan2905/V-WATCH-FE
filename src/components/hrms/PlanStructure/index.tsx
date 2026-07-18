@@ -101,9 +101,11 @@ function PlanCard({
         <Image
           src={image}
           alt={role}
+          priority
+          loading="eager"
           fill
           sizes="(min-width: 768px) 30vw, 100vw"
-          className="relative z-10 object-contain object-bottom-right"
+          className="relative z-10 object-contain"
         />
       </div>
     </motion.div>
@@ -114,10 +116,10 @@ function PlanCard({
 
 function InclusionList() {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center sm:col-span-2 lg:col-span-1">
       <motion.div
         variants={scaleIn}
-        className="max-h-[310px] max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
+        className="max-h-[310px] max-w-[547px] sm:max-w-none lg:max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
         style={{
           maskImage:
             "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
@@ -128,7 +130,7 @@ function InclusionList() {
         <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
           What&apos;s included
         </h3>
-        <ul className="flex flex-col gap-5">
+        <ul className="flex flex-col gap-5 sm:grid sm:grid-cols-2 sm:gap-x-10 lg:flex">
           {INCLUSIONS.map((item) => (
             <li key={item} className="flex items-center gap-3">
               <Image

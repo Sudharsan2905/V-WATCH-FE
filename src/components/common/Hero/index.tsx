@@ -12,8 +12,11 @@ export default function Hero() {
           fill
           sizes="100vw"
           className="object-cover object-top"
+          // priority is next/image's preload: it emits <link rel="preload">,
+          // sets fetchpriority="high" and forces eager loading. (There is no
+          // `preload` prop — it was being passed straight through to the DOM.)
+          priority
           loading="eager"
-          preload={true}
         />
       </div>
 

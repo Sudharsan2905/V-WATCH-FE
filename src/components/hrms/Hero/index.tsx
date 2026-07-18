@@ -24,7 +24,7 @@ export default function HrmsHero() {
         "task execution. so, you can assign, track, verify, and reward",
         "work using real data from your site.",
       ]}
-      imageSrc="/hrms/hrmsHero.webp"
+      imageSrc="/hrms/hrmsHero.svg"
       imageObjectPosition="right top"
       ctaDelay={1.35}
       ctaSlot={

@@ -22,6 +22,7 @@ export default function MaintenancePage() {
             width={72}
             height={14}
             priority
+            loading="eager"
           />
           <span className="text-lg font-black text-neutral">V-Watch AI</span>
         </div>
