@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Lato, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/home/SmoothScroll";
+import CookieConsent from "@/components/common/CookieConsent";
 
 // Lato is the design's primary typeface (from Figma). It's not a variable
 // font, so the weights used across the UI must be listed explicitly.
@@ -45,7 +46,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <SmoothScroll />
-        {children}</body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
