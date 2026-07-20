@@ -205,7 +205,7 @@ export default function HrmsOverview() {
               className="relative z-10 mx-auto w-[81%] max-w-[614px]"
             >
               <Image
-                src="/workforce/dashboard-mockup.svg"
+                src="/workforce/dashboard-mockup.webp"
                 alt="V-Watch AI HRMS dashboard overview"
                 width={615}
                 height={407}
@@ -243,7 +243,7 @@ export default function HrmsOverview() {
               initial="hidden"
               whileInView="show"
               viewport={viewportReveal}
-              className="absolute left-1/2 top-0 hidden h-[30px] w-[820px] -translate-x-1/2 lg:flex"
+              className="absolute left-1/2 top-0 hidden h-[30px] w-204 -translate-x-1/2 lg:flex"
             >
               {[0, 1, 2, 3].map((i) => (
                 <motion.div
@@ -264,14 +264,14 @@ export default function HrmsOverview() {
               viewport={viewportReveal}
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 pt-[25px] justify-items-center"
             >
-              {MODULES.map(({ label, icon }, i) => (
+              {MODULES.map(({ label, icon }, i) => (              
                 <motion.div
                   key={label}
                   variants={fadeUp}
                   custom={i * 0.08}
-                  className="flex h-[150px] w-full max-w-[200px] sm:h-[160px] flex-col items-center justify-center gap-4 rounded-2xl px-3 border border-[#f4faff] bg-white shadow-[0_4px_20px_rgba(0,117,180,0.08)]"
+                  className="flex h-[150px] w-full max-w-[200px] sm:h-[160px] flex-col items-center justify-center gap-4 rounded-2xl px-3 border border-[#f4faff] bg-white shadow-[0_4px_20px_rgba(0,117,180,0.08)] lg:h-35 lg:w-45 lg:max-w-none lg:gap-2.5 lg:rounded-[14px] lg:border-2 lg:border-transparent lg:px-3.5 lg:py-5 lg:[background:linear-gradient(rgba(244,251,255,0.2),rgba(244,251,255,0.2))_padding-box,linear-gradient(180deg,#FFFFFF_0%,#EFF9FF_100%)_border-box]"
                 >
-                  <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-white shadow-2xl">
+                  <div className="flex h-[66px] w-[66px] lg:h-14 lg:w-14 items-center justify-center rounded-full bg-white shadow-2xl">
                     <Image src={icon} alt={label} width={32} height={32} />
                   </div>
 

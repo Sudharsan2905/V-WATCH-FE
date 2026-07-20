@@ -82,85 +82,6 @@ function FeatureCard({
   );
 }
 
-function FloatingCard({
-  title,
-  subtitle,
-  iconBg,
-}: {
-  title: string;
-  subtitle: string;
-  iconBg: string;
-  width?: number;
-}) {
-  return (
-    <div className="z-100 flex items-center gap-2 rounded-[10px] bg-white">
-      <div className="flex h-[22.8px] w-[22.8px]">
-        <Image src={iconBg} alt={title} width={22.8} height={22.8} />
-      </div>
-      <div className="flex flex-col">
-        <span className="font-lato text-[10px] font-bold leading-tight text-[#17181B]">
-          {title}
-        </span>
-        <span className="font-lato text-[9px] leading-tight text-[#9CA2AA]">
-          {subtitle.replace("\n", " ")}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function PhoneShowcase() {
-  return (
-    <motion.div
-      variants={loadIn}
-      className="flex justify-center items-center relative h-[380px] w-full rounded-[32px] bg-white lg:h-full lg:max-h-[380px]"
-      style={{
-        boxShadow: "2px -4px 10px rgba(126,207,250,.16)",
-      }}
-    >
-      <div className="relative max-h-[358px] h-full max-w-[331px] w-full ">
-        <Image
-          src="/hrms/Features/feature_mobile.png"
-          alt="mobile_image"
-          fill
-          className="object-contain h-[458px] w-full"
-        />
-      </div>
-
-      {/* Floating notification cards */}
-      <div className="pointer-events-none absolute inset-0">
-        {FLOATING_CARDS.map((card) => {
-          const posClass =
-            card.position === "top-left"
-              ? "top-4 left-4"
-              : card.position === "top-right"
-                ? "top-4 right-4"
-                : card.position === "bottom-left"
-                  ? "bottom-4 left-4"
-                  : "bottom-4 right-4";
-
-          return (
-            <motion.div
-              key={card.title}
-              variants={fadeUp}
-              className={`absolute w-[140px] h-[40px] px-[10px] py-2 bg-white rounded-[10px] ${posClass}`}
-              style={{
-                boxShadow: "0 4px 12px rgba(0,0,0,.08)",
-              }}
-            >
-              <FloatingCard
-                title={card.title}
-                subtitle={card.subtitle}
-                iconBg={card.iconBg}
-              />
-            </motion.div>
-          );
-        })}
-      </div>
-    </motion.div>
-  );
-}
-
 export default function HrmsFeatures() {
   const [card1, card2, card3, card4, card5, card6] = HRMS_FEATURES;
 
@@ -185,7 +106,6 @@ export default function HrmsFeatures() {
               hasCenteredContent={true}
             />
 
-            {/* <PhoneShowcase /> */}
             <div className="order-first overflow-hidden rounded-[50px] lg:order-none">
               <Image
                 src="/hrms/Features/Mobile_shows.jpg"
@@ -213,7 +133,7 @@ export default function HrmsFeatures() {
             />
           </div>
 
-          {/* Row 3: Card 4 + Card 5 + Card 6 */}
+          {/* Row 3: Card 4 + Card 5 + Card 6 */} 
           <div className="mt-4 grid-cols-1 grid md:grid-cols-2 gap-4 lg:grid-cols-3">
             <FeatureCard
               number={card4.number}
@@ -231,7 +151,7 @@ export default function HrmsFeatures() {
               number={card6.number}
               title={card6.title}
               bullets={card6.bullets}
-              index={5}
+              index={5}   
             />
           </div>
         </motion.div>

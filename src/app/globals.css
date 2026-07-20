@@ -5,9 +5,15 @@
   --foreground: #171717;
 }
 
-/* Smooth in-page navigation (e.g. Hero "See How It Works" -> FeatureGrid). */
+/* In-page navigation is smoothed by Lenis (see components/home/SmoothScroll).
+   `scroll-behavior: smooth` must stay off: native smooth scrolling animates the
+   same scrollTop Lenis writes every frame, and the two fight to a standstill.
+   Lenis 1.3 no longer neutralises this itself, so it's on us to leave it auto.
+
+   `overflow-x: clip` — not `hidden`. Per spec `hidden` on one axis computes the
+   other to `auto`, making <html> its own scroll container and stranding the
+   scroll limit partway down the page. `clip` crops overflow without that. */
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
