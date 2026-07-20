@@ -132,7 +132,7 @@ export default function Overview() {
               className="relative z-10 mx-auto w-[81%] max-w-[614px]"
             >
               <Image
-                src="/workforce/dashboard-mockup.svg"
+                src="/workforce/dashboard-mockup.webp"
                 alt="V-Watch AI workforce dashboard overview"
                 width={615}
                 height={407}
