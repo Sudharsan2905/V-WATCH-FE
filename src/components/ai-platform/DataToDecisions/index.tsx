@@ -27,6 +27,11 @@ const slideFromRight: Variants = {
   show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
+// Trigger only once the element is meaningfully inside the viewport — the
+// negative bottom margin pulls the trigger line up so rows don't animate
+// while still sitting below the fold.
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
+
 const dotPop: Variants = {
   hidden: { opacity: 0, scale: 0 },
   show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE, delay: 0.15 } },
@@ -237,7 +242,7 @@ export default function DataToDecisions() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={VIEWPORT}
           className="flex max-w-[500px] flex-col gap-2.5"
         >
           <h2 className="text-[26px] font-black text-[#0A4B6E]">From data to decisions</h2>
@@ -255,7 +260,7 @@ export default function DataToDecisions() {
               custom={i * 0.1}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={VIEWPORT}
               className="flex items-start gap-5 rounded-[20px] border border-[#B8E6FF] bg-white p-5 shadow-[0_4px_20px_rgba(156,220,255,0.15)]"
             >
               {/* Large number */}
@@ -290,7 +295,7 @@ export default function DataToDecisions() {
                   className={`relative flex min-h-40 ${isLast ? "items-start" : "items-center"}`}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: true, amount: 0.2 }}
+                  viewport={VIEWPORT}
                 >
                   {/* Centre target dot — last row: at top (line end); others: centred */}
                   <motion.div

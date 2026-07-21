@@ -7,8 +7,16 @@ import {
   scaleIn,
   loadIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 const FEATURES = [
   {
@@ -73,7 +81,7 @@ export default function HeadcountFeatureGrid() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={viewportReveal}
+          viewport={VIEWPORT}
           variants={wipeTop}
           className="w-full text-[20px] font-normal leading-[28px] tracking-[0%] text-[#0A4B6E] max-w-[953px]"
         >
@@ -86,7 +94,7 @@ export default function HeadcountFeatureGrid() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             variants={loadIn}
             className="relative aspect-[352/427] w-full max-w-[360px] self-center overflow-hidden rounded-[24px] border-2 border-white lg:aspect-auto lg:max-w-none lg:w-[352px] lg:shrink-0 lg:self-stretch"
           >
@@ -104,7 +112,7 @@ export default function HeadcountFeatureGrid() {
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2"
           >
             {FEATURES.map((feature) => (

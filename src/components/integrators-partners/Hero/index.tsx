@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
 // Bottom bezier divider. The curve enters both edges at y=84; the control-point
 // depth sets how deep the belly dips. Default (>=425px) keeps the current deep
@@ -15,14 +18,44 @@ const CURVE_GLOWS = [
   { w: 1.5, o: 1 },
 ];
 
-// Server component (no "use client"): the hero paints entirely from SSR HTML.
-// The background image renders statically with `priority`, and the headline /
-// copy animate in via CSS keyframes (motion-safe:animate-[...] — same pattern as
-// common/Hero). This keeps the LCP text visible on the first frame instead of
-// gating it behind a framer-motion hydration, and ships zero client JS for the
-// hero — both the previous fade-in wrapper and framer-motion were inflating LCP.
+const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Same entrance language as common/Hero (the home hero). Driven by motion
+// rather than CSS keyframes on purpose: CSS animations start at first paint,
+// which here is while the hero webp is still downloading — the sequence would
+// be over before the section looks like anything. Motion starts on hydration.
+const lineReveal: Variants = {
+  hidden: { opacity: 0, y: "115%", filter: "blur(6px)" },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: "0%",
+    filter: "blur(0px)",
+    transition: { delay, duration: 0.3, ease: HERO_EASE },
+  }),
+};
+
+const copyReveal: Variants = {
+  hidden: { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(3px)" },
+  show: (delay: number) => ({
+    opacity: 1,
+    clipPath: "inset(0 0% 0 0)",
+    filter: "blur(0px)",
+    transition: { delay, duration: 0.3, ease: HERO_EASE },
+  }),
+};
+
+const subLineReveal: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay, duration: 0.2, ease: HERO_EASE },
+  }),
+};
+
 export default function IntegratorsHero() {
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative overflow-hidden bg-[#030515]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0">
@@ -95,35 +128,57 @@ export default function IntegratorsHero() {
       </div>
 
       <div className="relative z-10 w-full px-6 lg:px-[60px]">
-        <div className="flex min-h-[754px] mx-auto  max-w-[1410px]  flex-col justify-center gap-[30px] pt-[140px] pb-[240px]">
+        <motion.div
+          className="flex min-h-[754px] mx-auto  max-w-[1410px]  flex-col justify-center gap-[30px] pt-[140px] pb-[240px]"
+          initial="hidden"
+          animate="show"
+        >
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3.5">
-              {/* Line 1 wipes left -> right; line 2 wipes top -> bottom, staggered
-                  after it — same cascade language as common/Hero. */}
+              {/* Each line rises out of its own clipping wrapper, staggered —
+                  same cascade language as common/Hero. */}
               <h1 className="w-[642px] max-w-full text-[34px] font-black leading-[1.2] tracking-[0.5px] text-white sm:text-[44px] lg:text-[50px] lg:leading-[68px]">
-                <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_both]">
-                  Delivered Through Trusted
+                <span className="block overflow-hidden">
+                  <motion.span custom={0.1} variants={lineReveal} className="block">
+                    Delivered Through Trusted
+                  </motion.span>
                 </span>
-                <span className="block motion-safe:animate-[wipeInTop_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
-                  System Integrators
+                <span className="block overflow-hidden">
+                  <motion.span custom={0.35} variants={lineReveal} className="block">
+                    System Integrators
+                  </motion.span>
                 </span>
               </h1>
             </div>
 
-            <p className="max-w-[561px] text-base font-bold leading-7 text-white lg:text-[20px] lg:leading-8">
-              <span className="block motion-safe:animate-[wipeInLeft_1s_cubic-bezier(0.16,1,0.3,1)_1.05s_both]">
+            {/* lg+: split into its authored lines so each reveals one after the
+                other, continuing the cascade. Below lg those fragments no longer
+                fit one line each, so a plain reflowing paragraph is used. */}
+            <p className="hidden max-w-[561px] font-bold text-white lg:block lg:text-[20px] lg:leading-8">
+              <motion.span custom={0.8} variants={copyReveal} className="block">
                 V-Watch AI works with certified system integrators across
-              </span>
-              <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_1.8s_both]">
+              </motion.span>
+              <motion.span custom={1.05} variants={subLineReveal} className="block">
                 regions to deploy, implement, and support our platform
-              </span>
-              <span className="block motion-safe:animate-[wipeInTop_0.5s_cubic-bezier(0.16,1,0.3,1)_2.05s_both]">
+              </motion.span>
+              <motion.span custom={1.25} variants={subLineReveal} className="block">
                 ensuring reliable execution in every environment.
-              </span>
+              </motion.span>
             </p>
+
+            <motion.p
+              custom={0.8}
+              variants={subLineReveal}
+              className="max-w-[561px] text-base font-bold leading-7 text-white lg:hidden"
+            >
+              V-Watch AI works with certified system integrators across regions to
+              deploy, implement, and support our platform ensuring reliable
+              execution in every environment.
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
+    </MotionConfig>
   );
 }

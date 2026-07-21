@@ -6,6 +6,15 @@ import { motion, type Variants } from "motion/react";
 // Shared ease — matches the rest of the site's reveal language.
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// With Lenis smoothing the scroll, a low `amount` fires the reveal as the
+// section's top edge peeks over the viewport bottom — finished before it's
+// really on screen. Pull the trigger line up and require a real slice visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 const wipeTop: Variants = {
   hidden: { opacity: 0, y: -12 },
   show: (d = 0) => ({
@@ -166,7 +175,7 @@ export default function HowItWorks() {
         className="flex w-full max-w-[1280px] flex-col gap-5 xl:h-[687px] xl:max-h-[687px]"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={VIEWPORT}
       >
         <motion.h2
           variants={wipeTop}

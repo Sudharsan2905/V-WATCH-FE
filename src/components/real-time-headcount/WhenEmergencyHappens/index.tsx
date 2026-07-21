@@ -5,6 +5,15 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// With Lenis smoothing the scroll, a low `amount` fires the reveal as the
+// section's top edge peeks over the viewport bottom — finished before it's
+// really on screen. Pull the trigger line up and require a real slice visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 const wipeDown: Variants = {
   hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
   show: (delay = 0) => ({
@@ -45,7 +54,7 @@ export default function WhenEmergencyHappens() {
             <motion.div
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={VIEWPORT}
               className="max-w-[953px]"
             >
               <motion.h2
@@ -71,7 +80,7 @@ export default function WhenEmergencyHappens() {
               className="mt-[30px] flex flex-col justify-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]"
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
+              viewport={VIEWPORT}
             >
               {/* Left: You need to know */}
               <div className="flex w-full flex-col items-center gap-6 lg:flex-1 lg:items-start lg:text-left lg:py-[33px] lg:pl-[45px]">

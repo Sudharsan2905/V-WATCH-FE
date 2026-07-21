@@ -641,7 +641,7 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
 
       {/* ── Mobile panel ────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="max-h-[calc(100vh-60px)] overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
+        <div data-lenis-prevent className="max-h-[calc(100vh-60px)] overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
           <ul className="flex flex-col">
             {NAV_ITEMS.map((item) => {
               const menu = item.hasDropdown ? DROPDOWNS[item.label] : undefined;

@@ -1,14 +1,24 @@
 "use client";
 
+import { Fragment } from "react";
 import Image from "next/image";
 import { motion, MotionConfig } from "motion/react";
 import {
   wipeTop,
   fadeUp,
+  fadeIn,
   loadIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // ─── Arc connector (mirrors OperationalData) ──────────────────────────────────
 
@@ -51,6 +61,102 @@ function ArcConnector({ delay = 0 }: { delay?: number }) {
           }}
         >
           <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+            <path
+              d="M1.5 1.2 L12.5 8 L1.5 14.8 Z"
+              fill="#21B1F1"
+              stroke="#21B1F1"
+              strokeWidth="1"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </motion.span>
+      </span>
+    </div>
+  );
+}
+
+// ─── Serpentine connector (phone/tablet) ─────────────────────────────────────
+// Below `lg` the modules stack as full-width rows, so the horizontal arc is
+// replaced by a step that descends from one row to the next, alternating side
+// to side: a short vertical drop out of the card above, a rounded crossover,
+// then a short vertical drop into the card below. Same dashed-flow language as
+// ArcConnector — an unbroken #3890C0 rail running card-edge to card-edge with a
+// marching dash offset, and a pulsing #21B1F1 arrowhead riding the midpoint of
+// the crossover, pointing the way the flow travels.
+
+const SERPENTINE_NEAR = 62; // crossover x-anchors, in viewBox units (300 wide)
+const SERPENTINE_FAR = 238;
+
+const CONNECTOR_H = 56; // px — also the visual gap between two stacked cards
+const DROP_OUT = 15; // straight run leaving the card above
+const CROSS_END = 32; // where the crossover finishes and the final drop begins
+
+// Midpoint of the crossover cubic at t=0.5. The x control points are the two
+// anchors themselves, so x collapses to the average — dead centre, either
+// direction. y is the standard Bézier average of the four control values.
+const ARROW_TOP_PCT =
+  ((DROP_OUT + 3 * (DROP_OUT + 11) + 3 * (CROSS_END - 11) + CROSS_END) /
+    8 /
+    CONNECTOR_H) *
+  100;
+
+function SerpentineConnector({
+  dir,
+  delay = 0,
+}: {
+  dir: "ltr" | "rtl";
+  delay?: number;
+}) {
+  const from = dir === "ltr" ? SERPENTINE_NEAR : SERPENTINE_FAR;
+  const to = dir === "ltr" ? SERPENTINE_FAR : SERPENTINE_NEAR;
+
+  return (
+    <div
+      aria-hidden
+      className="relative w-full"
+      style={{ height: CONNECTOR_H }}
+    >
+      <svg
+        viewBox={`0 0 300 ${CONNECTOR_H}`}
+        fill="none"
+        preserveAspectRatio="none"
+        className="h-full w-full"
+      >
+        <motion.path
+          d={`M${from} 0 L${from} ${DROP_OUT} C ${from} ${DROP_OUT + 11}, ${to} ${CROSS_END - 11}, ${to} ${CROSS_END} L${to} ${CONNECTOR_H}`}
+          stroke="#3890C0"
+          strokeWidth="2"
+          strokeDasharray="3.9 3.9"
+          vectorEffect="non-scaling-stroke"
+          animate={{ strokeDashoffset: [0, -7.8] }}
+          transition={{ duration: 0.8, ease: "linear", repeat: Infinity }}
+        />
+      </svg>
+
+      {/* Arrowhead — centred on the crossover, flipped to face the direction of
+          travel. Sits on the rail rather than terminating it. */}
+      <span
+        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{ top: `${ARROW_TOP_PCT}%` }}
+      >
+        <motion.span
+          className="block"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{
+            duration: 1.6,
+            ease: "easeInOut",
+            repeat: Infinity,
+            delay,
+          }}
+        >
+          <svg
+            width="14"
+            height="16"
+            viewBox="0 0 14 16"
+            fill="none"
+            className="block"
+            style={{ transform: dir === "rtl" ? "scaleX(-1)" : undefined }}
+          >
             <path
               d="M1.5 1.2 L12.5 8 L1.5 14.8 Z"
               fill="#21B1F1"
@@ -145,7 +251,7 @@ export default function HrmsOverview() {
           <motion.header
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             className="relative z-10 flex flex-col gap-2 text-[#0A4B6E]"
           >
             <motion.h2
@@ -200,7 +306,7 @@ export default function HrmsOverview() {
             <motion.div
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               variants={loadIn}
               className="relative z-10 mx-auto w-[81%] max-w-[614px]"
             >
@@ -235,14 +341,59 @@ export default function HrmsOverview() {
             </motion.div>
           </div>
 
+          {/* Feature modules — phone/tablet: full-width rows in a serpentine flow */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="mx-auto mt-4 flex w-full max-w-[360px] flex-col lg:hidden"
+          >
+            {MODULES.map(({ label, icon }, i) => {
+              // Odd rows are the ones the rail enters — and leaves — on the
+              // right, so they mirror: icon to the right, text packed against
+              // it. Keeps every card's icon sitting under its own connector.
+              const onRight = i % 2 === 1;
+
+              return (
+                <Fragment key={label}>
+                  {i > 0 && (
+                    <motion.div variants={fadeIn} className="w-full">
+                      <SerpentineConnector
+                        dir={onRight ? "ltr" : "rtl"}
+                        delay={i * 0.2}
+                      />
+                    </motion.div>
+                  )}
+
+                  <motion.div
+                    variants={fadeUp}
+                    custom={i * 0.06}
+                    className={`flex w-full items-center gap-5 rounded-2xl border border-[#f4faff] bg-white px-5 py-4 shadow-[0_4px_20px_rgba(0,117,180,0.08)] ${
+                      onRight ? "flex-row-reverse text-right" : ""
+                    }`}
+                  >
+                    <div className="flex h-[62px] w-[62px] shrink-0 items-center justify-center rounded-full bg-white shadow-2xl">
+                      <Image src={icon} alt={label} width={30} height={30} />
+                    </div>
+
+                    <span className="min-w-0 font-lato text-[17px] font-semibold leading-tight text-[#0F172A] sm:text-[18px]">
+                      {label}
+                    </span>
+                  </motion.div>
+                </Fragment>
+              );
+            })}
+          </motion.div>
+
           {/* Feature modules row — arc connectors overlay the grid, same pattern as OperationalData */}
-          <div className="relative mx-auto mt-8 w-fit">
+          <div className="relative mx-auto mt-8 hidden w-fit lg:block">
             {/* Connector */}
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               className="absolute left-1/2 top-0 hidden h-[30px] w-204 -translate-x-1/2 lg:flex"
             >
               {[0, 1, 2, 3].map((i) => (
@@ -261,8 +412,8 @@ export default function HrmsOverview() {
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 pt-[25px] justify-items-center"
+              viewport={VIEWPORT}
+              className="grid grid-cols-5 gap-6 pt-[25px] justify-items-center"
             >
               {MODULES.map(({ label, icon }, i) => (              
                 <motion.div

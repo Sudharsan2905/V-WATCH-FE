@@ -5,6 +5,15 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// With Lenis smoothing the scroll, a low `amount` fires the reveal as the
+// section's top edge peeks over the viewport bottom — finished before it's
+// really on screen. Pull the trigger line up and require a real slice visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: (delay = 0) => ({
@@ -181,7 +190,7 @@ export default function PoweredByData() {
             custom={0.05}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={VIEWPORT}
             className="mb-16 text-[24px] font-bold leading-8 text-[#0A4B6E] sm:text-[26px] sm:leading-9"
           >
             Powered by real-time operational data
@@ -191,7 +200,7 @@ export default function PoweredByData() {
             className="grid grid-cols-1 gap-16 sm:gap-8 sm:grid-cols-3"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={VIEWPORT}
           >
             {CARDS.map(({ key, title, icon, image, description }, i) => (
               <FeatureCard key={key} title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />

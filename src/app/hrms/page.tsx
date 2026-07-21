@@ -23,7 +23,7 @@ export const metadata = {
 
 export default function HrmsPage() {
   return (
-    <div className="relative overflow-x-clip bg-[#f5fbff]">
+    <div className="relative overflow-x-clip bg-[#f6fbfe]">
       <Navbar active="Platform" />
       <HrmsHero />
 

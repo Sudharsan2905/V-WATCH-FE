@@ -7,8 +7,17 @@ import {
   scaleIn,
   loadIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom means the reveal is finished before it's really on
+// screen. Pull the trigger line up and require a real slice to be visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // ─── Feature data ─────────────────────────────────────────────────────────────
 
@@ -94,7 +103,7 @@ export default function FeatureGrid() {
         <motion.header
           initial="hidden"
           whileInView="show"
-          viewport={viewportReveal}
+          viewport={VIEWPORT}
           className="flex w-full flex-col gap-2 text-[#0A4B6E]"
         >
           <motion.h2
@@ -111,7 +120,7 @@ export default function FeatureGrid() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             variants={loadIn}
             className="
                 relative
@@ -142,7 +151,7 @@ export default function FeatureGrid() {
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             className="grid flex-1 grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2"
           >
             {FEATURES.map((feature) => (

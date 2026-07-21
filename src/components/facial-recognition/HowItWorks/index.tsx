@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import { chainWheelToPage } from "@/lib/scrollChain";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -370,6 +371,12 @@ export default function HowItWorks() {
 
             <div
               ref={scrollRef}
+              // Lenis hijacks the wheel document-wide; without this the inner
+              // panel never receives a native scroll.
+              data-lenis-prevent
+              // Once the steps run out, keep the page moving instead of
+              // dead-ending the wheel here.
+              onWheel={(e) => chainWheelToPage(scrollRef.current, e.deltaY)}
               onScroll={handleScroll}
               className="h-70 overflow-y-auto sm:h-90 lg:flex-1 lg:h-110"
               style={{ scrollbarWidth: "none" }}

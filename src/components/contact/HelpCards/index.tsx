@@ -32,6 +32,17 @@ const cardRight: Variants = {
   }),
 };
 
+// The hero above is 754px tall on lg, so this section starts just under the
+// fold. A low `amount` would fire the moment its top edge peeked over the
+// viewport bottom — with Lenis smoothing the scroll, the reveal would be over
+// before the cards were actually on screen. Pull the trigger line up and
+// require a real slice of the block to be visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 type CardProps = {
   iconSrc: string;
   title: string;
@@ -157,7 +168,7 @@ export default function HelpCards() {
         className="relative mx-auto flex w-full max-w-[1280px] flex-col items-start gap-[30px]"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={VIEWPORT}
       >
         {/* Heading */}
         <motion.header variants={fadeUp} className="flex w-full max-w-[1160px] flex-col gap-2.5">
