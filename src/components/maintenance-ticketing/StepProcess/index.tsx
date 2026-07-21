@@ -97,6 +97,14 @@ function StepContent({ step, flip = false }: Readonly<{ step: typeof STEPS[numbe
   );
 }
 
+// Matches WorkflowSection / FeatureGrid above: with Lenis smoothing the
+// scroll, a low `amount` fires the reveal before the panel is really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 export default function StepProcess() {
   return (
     <MotionConfig reducedMotion="user">
@@ -104,7 +112,7 @@ export default function StepProcess() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={VIEWPORT}
           className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] px-4 py-10 sm:px-8 shadow-[0_4px_14px_0_rgba(56,144,192,0.40)]"
         >
           {/* Grid pattern — same technique as ai-platform ThreePillars */}

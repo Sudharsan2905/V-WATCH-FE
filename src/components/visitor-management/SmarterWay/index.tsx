@@ -6,6 +6,15 @@ import { motion, type Variants } from "motion/react";
 // Shared ease — matches the rest of the site's reveal language.
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// With Lenis smoothing the scroll, a low `amount` fires the reveal as the
+// section's top edge peeks over the viewport bottom — finished before it's
+// really on screen. Pull the trigger line up and require a real slice visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 const wipeTop: Variants = {
   hidden: { opacity: 0, y: -12 },
   show: (d = 0) => ({
@@ -188,7 +197,7 @@ export default function SmarterWay() {
         className="mx-auto flex w-full max-w-[1440px] flex-col gap-[30px] px-5 pt-10 lg:px-[60px] lg:pb-15"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={VIEWPORT}
       >
         {/* ── Heading group (gap 10px) ─────────────────────────────────── */}
         <div className="flex max-w-[953px] flex-col gap-2.5 lg:h-[97px]">
@@ -214,7 +223,7 @@ export default function SmarterWay() {
           className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
+          viewport={VIEWPORT}
         >
           {/* Left: 2×2 feature grid — Figma: 356×356 radial gradient at 50% opacity behind cards */}
           <div
@@ -260,7 +269,7 @@ export default function SmarterWay() {
             {/* Inner image */}
             <div className="relative z-10 h-full w-full flex-1 overflow-hidden rounded-2xl">
               <Image
-                src="/contractor-complaince/track.webp"
+                src="/visitor-management/visitor_management_track.png"
                 alt="Compliance management system visualization"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -269,10 +278,10 @@ export default function SmarterWay() {
 
               {/* Caption */}
               <div className="absolute bottom-0 w-full flex max-h-16 items-center justify-center rounded-2xl border border-white/30 bg-black/30 px-3 py-2.5 backdrop-blur-[2px] leading-[100%]">
-                <p className="text-center text-[14px] font-bold leading-[130%] text-white sm:text-[18px]">
-                  No spreadsheets. No missed renewals.
+                <p className="text-center text-[14px] font-bold leading-[100%] text-white sm:text-[18px]">
+                  No manual logs, No guesswork,
                   <br />
-                  No unauthorised entry.
+                  No security gaps
                 </p>
               </div>
             </div>

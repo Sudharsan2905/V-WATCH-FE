@@ -7,6 +7,7 @@ import Lenis from "lenis";
 // h-full, which would otherwise cap the scrollable area) and handles the
 // [data-lenis-prevent] escape hatches.
 import "lenis/dist/lenis.css";
+import { setPageScroller } from "@/lib/scrollChain";
 
 export default function SmoothScroll() {
   const pathname = usePathname();
@@ -23,6 +24,10 @@ export default function SmoothScroll() {
       // from the CSS `scroll-behavior: smooth` we had to remove.
       anchors: true,
     });
+
+    // Nested scroll panels (see chainWheelToPage) need the instance to hand
+    // their over-scrolled wheel deltas back to the page.
+    setPageScroller(lenis);
 
     // Hold the *live* frame id. Capturing only the first one leaks the loop:
     // cleanup would cancel an already-consumed id, leaving the old loop driving
@@ -42,6 +47,7 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("load", resize);
+      setPageScroller(null);
       lenis.destroy();
     };
   }, []);

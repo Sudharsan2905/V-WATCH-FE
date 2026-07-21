@@ -7,8 +7,16 @@ import {
   fadeUp,
   loadIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 const FEATURES = [
   {
@@ -43,7 +51,7 @@ export default function FeatureHighlight() {
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
-          viewport={viewportReveal}
+          viewport={VIEWPORT}
         >
           <div
             aria-hidden

@@ -5,9 +5,17 @@ import { motion, MotionConfig } from "motion/react";
 import {
   scaleIn,
   staggerContainer,
-  viewportReveal,
   wipeTop,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -183,7 +191,7 @@ export default function HrmsPlanStructure() {
             <motion.h2
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               variants={wipeTop}
               className="mb-5 font-lato text-[20px] font-bold text-[#0A4B6E] sm:text-[22px]"
             >
@@ -195,7 +203,7 @@ export default function HrmsPlanStructure() {
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               className="min-h-[356px] grid grid-cols-1 gap-4 md:gap-[35px] sm:grid-cols-2 lg:grid-cols-3 max-w-[1160px] mx-auto"
             >
               {PLANS.map((plan) => (

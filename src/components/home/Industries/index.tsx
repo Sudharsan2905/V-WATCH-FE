@@ -178,7 +178,11 @@ export default function Industries() {
             sizes="100vw"
           />
 
-          <div className="relative mx-auto flex w-full flex-col gap-[30px] px-6 py-12 lg:px-[70px] lg:py-[61px]">
+          {/* The band itself is full-bleed, but its content sits in the same
+              rail as every other home section (max-w-[1410px] inside a 60px
+              gutter → 1410 + 2 × 60 here) so the heading starts on the same
+              vertical line as FeatureGrid / BuiltToScale at any viewport. */}
+          <div className="relative mx-auto flex w-full max-w-[1530px] flex-col gap-[30px] px-6 py-12 lg:px-[60px] lg:py-[61px]">
             <motion.div
               variants={fadeUp}
               custom={HEADER_DELAY}

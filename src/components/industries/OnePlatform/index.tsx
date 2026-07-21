@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import { chainWheelToPage } from "@/lib/scrollChain";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -169,7 +170,6 @@ function FeatureRow({
 }
 
 function AllowCard({
-  badge,
   title,
   delay = 0,
 }: Readonly<Allow & { delay?: number }>) {
@@ -298,6 +298,13 @@ export default function OnePlatform({
       userDriving.current = false;
       setPaused(false); // resume auto-cycle from the current row
     }, RESUME_MS);
+  };
+
+  // Past the last (or before the first) capability the list has nothing left to
+  // show, so the delta goes to the page rather than dead-ending here.
+  const onUserWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (chainWheelToPage(scrollRef.current, e.deltaY)) return;
+    onUserScrollIntent();
   };
 
   // Up / down arrow buttons: move to the previous/next capability (wrapping).
@@ -434,7 +441,10 @@ export default function OnePlatform({
 
                   <div
                     ref={scrollRef}
-                    onWheel={onUserScrollIntent}
+                    // Lenis hijacks the wheel document-wide; without this the
+                    // inner list never receives a native scroll.
+                    data-lenis-prevent
+                    onWheel={onUserWheel}
                     onTouchMove={onUserScrollIntent}
                     onScroll={onScroll}
                     className="flex flex-col gap-2 overflow-y-auto outline-none [&::-webkit-scrollbar]:hidden"
