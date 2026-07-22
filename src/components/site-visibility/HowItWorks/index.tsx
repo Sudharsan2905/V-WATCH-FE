@@ -41,25 +41,25 @@ const STEPS: Step[] = [
     key: "onboard",
     number: "1",
     title: "Onboard your site.",
-    body: "We configure the platform to your gates, zones, bays, project structure and reporting lines. Your sub-contractors are invited to onboard themselves.",
+    body: "Gates, zones, bays and reporting lines configured; sub-contractors self-onboard.",
   },
   {
     key: "rules",
     number: "2",
     title: "Set your site rules.",
-    body: "Define access policies, delivery windows, escort requirements, restricted zones, induction validity and vehicle types enforced automatically.",
+    body: "Access, delivery windows, escort rules and induction validity enforced automatically",
   },
   {
     key: "capture",
     number: "3",
     title: "Capture site activity live.",
-    body: "Gate check-in, digital passes, vehicle logs and delivery events feed into one live picture of the site visible to security, ops and the client team.",
+    body: "Gate check-in, passes, vehicles and deliveries feed into one live picture.",
   },
   {
     key: "report",
     number: "4",
     title: "Report without the rework.",
-    body: "Site attendance, delivery performance, security exceptions and client-ready summaries generated automatically no more end-of-week spreadsheet stitch-up.",
+    body: "Attendance, delivery performance and exception logs, generated automatically.",
   },
 ];
 
@@ -94,7 +94,7 @@ function StepCard({ step }: Readonly<{ step: Step }>) {
     <motion.li
       variants={scaleIn}
       style={{ ...SURFACE, boxShadow: CARD_SHADOW }}
-      className="flex flex-1 flex-col gap-[14px] rounded-[20px] p-[16px] lg:min-h-[310px]"
+      className="flex flex-1 flex-col gap-[14px] rounded-[20px] p-[16px] lg:min-h-[238px]"
     >
       {/* Icon badge + numeral. The 82px numeral sets this row's height (82). */}
       <div className="flex items-center justify-between">
@@ -151,20 +151,13 @@ export default function SiteVisibilityHowItWorks() {
           <div className="flex flex-col gap-[10px]">
             <motion.h2
               variants={fadeUp}
-              className="max-w-[889px] font-lato text-[22px] font-bold leading-[100%] text-[#0A4B6E] lg:text-[26px]"
-            >
-              How it works
-            </motion.h2>
-            <motion.h3
-              variants={fadeUp}
-              custom={0.06}
               className="max-w-[889px] font-lato text-[20px] font-bold leading-[120%] text-[#0A4B6E] lg:text-[24px] lg:leading-[100%]"
             >
               From site mobilisation to live control in four moves.
-            </motion.h3>
+            </motion.h2>
             <motion.p
               variants={fadeUp}
-              custom={0.12}
+              custom={0.08}
               className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] lg:text-[20px] lg:leading-[28px]"
             >
               Designed to slot into how data centre sites already run: main

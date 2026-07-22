@@ -15,11 +15,11 @@ const FOOTER_COLUMNS = [
   { heading: "Company", links: ["About Us", "Contact", "Career", "Terms of Service"] },
 ];
 
-export const metadata = {
-  title: "HRMS | V-Watch AI",
-  description:
-    "A unified HR system that connects workforce management with task execution — assign, track, verify, and reward work using real data from your site.",
-};
+// export const metadata = {
+//   title: "HRMS | V-Watch AI",
+//   description:
+//     "A unified HR system that connects workforce management with task execution — assign, track, verify, and reward work using real data from your site.",
+// };
 
 export default function HrmsPage() {
   return (

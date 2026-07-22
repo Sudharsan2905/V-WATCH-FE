@@ -12,7 +12,7 @@ import SiteVisibilityBusinessBenefits from "@/components/site-visibility/Busines
 import SiteVisibilityWalkthrough from "@/components/site-visibility/Walkthrough"
 
 const siteVisibilitypage = () => {
-  // console.log("siteVisibilitypage rendered")
+
   return (
     <div className="relative overflow-x-clip bg-[#E2EDFA]">
       <Navbar active="" />
@@ -25,11 +25,9 @@ const siteVisibilitypage = () => {
       <SiteVisibilityBusinessBenefits />
       <SiteVisibilityWalkthrough />
 
-      <Footer
-        ctaTitle="See Everything That Matters. Control Everything That Moves."
-        ctaText="V-Watch Ai unify people, vehicles, deliveries and compliance into one intelligent site operations platform."
-        isBookADemoVisible={false}
-      />
+      {/* showHeader={false} swaps the CTA heading for the 220px spacer the
+          walkthrough form overhangs into — same pairing as the HRMS page. */}
+      <Footer showHeader={false} isBookADemoVisible={false} />
     </div>
   )
 }

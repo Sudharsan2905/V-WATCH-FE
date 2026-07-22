@@ -179,20 +179,13 @@ export default function SiteVisibilityBusinessBenefits() {
             <div className="flex flex-col gap-[10px]">
               <motion.h2
                 variants={fadeUp}
-                className="max-w-[889px] font-lato text-[22px] font-bold leading-[100%] text-white lg:text-[26px]"
-              >
-                Business benefits
-              </motion.h2>
-              <motion.h3
-                variants={fadeUp}
-                custom={0.06}
                 className="max-w-[889px] font-lato text-[20px] font-bold leading-[120%] text-white lg:text-[24px] lg:leading-[100%]"
               >
                 What changes for the people held accountable.
-              </motion.h3>
+              </motion.h2>
               <motion.p
                 variants={fadeUp}
-                custom={0.12}
+                custom={0.08}
                 className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-white lg:text-[20px] lg:leading-[28px]"
               >
                 V-Watch Ai is deliberately designed around the roles that carry

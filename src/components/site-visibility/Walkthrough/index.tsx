@@ -504,11 +504,10 @@ function WalkthroughForm() {
       {/* Header — gap 10. */}
       <div className="flex flex-col items-center gap-[10px] text-center">
         <h3 className="font-lato text-[20px] font-bold leading-[100%] text-[#0A4B6E] lg:text-[24px]">
-          Book your site visibility walkthrough
+          Book your walkthrough
         </h3>
         <p className="max-w-[354px] font-lato text-[16px] font-bold leading-[120%] text-[#0A4B6E] lg:text-[18px]">
-          A member of the V-Watch Ai team will be in touch within one working
-          day.
+          We&apos;ll be in touch within one working day.
         </p>
       </div>
 
@@ -666,8 +665,10 @@ function WalkthroughForm() {
 
 export default function SiteVisibilityWalkthrough() {
   return (
+    // z-30 clears the footer's z-20 curtain overlay, which sits in this same
+    // stacking context — at z-10 the curtain would paint over the form card.
     <section
-      className="relative z-10 w-full py-[48px] lg:py-[75px]"
+      className="relative z-30 w-full pt-[48px] lg:pt-[75px]"
       style={{
         background: "linear-gradient(180deg, #FFFFFF 0%, #F1F9FE 100%)",
       }}
@@ -678,49 +679,45 @@ export default function SiteVisibilityWalkthrough() {
           whileInView="show"
           viewport={viewportReveal}
           variants={staggerContainer}
-          className="mx-auto flex w-full max-w-[1410px] flex-col items-start gap-[32px] lg:flex-row lg:justify-between lg:gap-[20px]"
+          className="mx-auto flex w-full max-w-[1410px] flex-col items-stretch gap-[24px]"
         >
-          {/* Left — copy + contact rail. */}
-          <div className="flex w-full min-w-0 flex-col gap-[14px] lg:w-[575px] lg:pt-[50px]">
-            <div className="flex flex-col gap-[20px]">
-              <motion.h2
-                variants={fadeUp}
-                className="font-lato text-[22px] font-bold leading-[130%] text-[#0A4B6E] lg:text-[26px]"
-              >
-                See your next data centre site through a single pane of glass.
-              </motion.h2>
-              <motion.p
-                variants={fadeUp}
-                custom={0.06}
-                className="font-lato text-[16px] font-normal leading-[24px] text-[#0A4B6E] lg:text-[20px] lg:leading-[28px]"
-              >
-                Share a few details about your site and we&apos;ll arrange a
-                30-minute site visibility walkthrough tailored to your project
-                size, gate setup and reporting requirements.
-                <br />
-                No sales pitch: a working demo against a scenario that looks
-                like yours.
-              </motion.p>
-            </div>
-
-            <motion.ul
-              variants={staggerContainer}
-              className="flex w-full flex-col gap-[14px] lg:max-w-[417px]"
+          {/* Header — full width, capped at the Figma's 986px text box. */}
+          <div className="flex max-w-[986px] flex-col gap-[6px]">
+            <motion.h2
+              variants={fadeUp}
+              className="font-lato text-[20px] font-bold leading-[120%] text-[#0A4B6E] lg:text-[24px] lg:leading-[100%]"
             >
-              {CONTACTS.map((c) => (
-                <ContactRow key={c.label} contact={c} />
-              ))}
-            </motion.ul>
+              See your next data center site through a single pane of glass.
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={0.08}
+              className="font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] lg:text-[20px] lg:leading-[28px]"
+            >
+              Share a few details we&apos;ll arrange a 30-minute tailored
+              walkthrough. No sales pitch, just a working demo.
+            </motion.p>
           </div>
 
-          {/* Right — form card, with the Figma's blue halo behind it. */}
+          {/* Contacts — one row of three across the full 1160 at lg. */}
+          <motion.ul
+            variants={staggerContainer}
+            className="grid w-full grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {CONTACTS.map((c) => (
+              <ContactRow key={c.label} contact={c} />
+            ))}
+          </motion.ul>
+
+          {/* Form card, centred below, with the Figma's blue halo behind it. */}
           <motion.div
             variants={scaleIn}
-            // Margin, not padding: the stacked cards are absolutely positioned
-            // against this box, so padding would move the card and leave them
-            // behind rather than clearing their 36px overhang. Only needed
-            // while stacked — at lg the columns sit side by side.
-            className="relative mt-[44px] w-full min-w-0 sm:mt-[52px] lg:mt-0 lg:w-[548px]"
+            // mt: the stacked cards are absolutely positioned against this box,
+            // so margin (not padding) is what clears their 36px overhang.
+            // -mb: drops the card into the 220px spacer the footer renders with
+            // showHeader={false}. It's on the card, not the section, so the
+            // section's light gradient stops above the footer.
+            className="relative mx-auto mt-[44px] -mb-[220px] w-full min-w-0 sm:mt-[52px] lg:w-[548px]"
           >
             {/* Stacked cards peeking out above, then the layered #21B1F1
                 glow — the same treatment as the HRMS trial form so both

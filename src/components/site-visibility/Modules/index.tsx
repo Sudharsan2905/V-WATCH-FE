@@ -26,25 +26,24 @@ const panelFrame = (canvasH: number) => ({
 
 const MODULES: ModuleContent[] = [
   {
-    eyebrow: "Module 01 · Digital Site Access",
     headline: "Know exactly who is on your site and why they’re allowed in.",
-    body: "Replace paper sign-in, guesswork at the gate and hunting for the latest induction spreadsheet. Digital passes, live headcount and enforced site rules give security, project directors and operations a single, trusted view of every person on site.",
+    body: "Digital passes, live headcount and enforced site rules give ops, security and project a single trusted view.",
     bullets: [
       {
         lead: "Digital access passes",
-        rest: "issued per contractor, per project, per zone — with photo, induction status and expiry.",
+        rest: "issued per contractor, per project, per zone",
       },
       {
         lead: "Live headcount & muster",
-        rest: "across gates and zones, ready for evacuation drills and incident response.",
+        rest: "across gates and zones.",
       },
       {
         lead: "Enforced site rules",
-        rest: "— expired inductions, missing RAMS or unapproved companies denied at the gate, not after the fact.",
+        rest: "expired inductions denied at the gate.",
       },
       {
         lead: "Visitor & escort workflows",
-        rest: "for client tours, auditors and one-off engineers with full audit trail.",
+        rest: "with full audit trail.",
       },
     ],
     cta: {
@@ -58,25 +57,24 @@ const MODULES: ModuleContent[] = [
     },
   },
   {
-    eyebrow: "Module 02 · Delivery Management",
     headline: "Control what arrives, when it arrives, and where it goes.",
-    body: "Bring order to loading bays, gate queues and unloading conflicts. Every delivery is booked into a slot, matched to a vehicle and driver, and tracked from ETA to unload so the site team, the security team and the client are all working from the same live picture.",
+    body: "Every delivery booked into a slot, matched to a driver, tracked from ETA to unload no more chaos at the gate.",
     bullets: [
       {
         lead: "Slot-based bookings",
-        rest: "across multiple bays, cranes and escorts with automatic conflict detection.",
+        rest: "across multiple bays, cranes and escorts.",
       },
       {
         lead: "Vehicle & driver check-in",
-        rest: "at the gate with plate, manifest, RAMS and escort assignment in one flow.",
+        rest: "at the gate with plate, manifest.",
       },
       {
         lead: "Early & late delivery alerts",
-        rest: "— the platform notifies the right site contact before the truck disrupts the programme.",
+        rest: "to the right site contact.",
       },
       {
         lead: "Unplanned vehicle workflow",
-        rest: "so unexpected arrivals still get logged, approved and reported — never invisible.",
+        rest: "logged, approved & reported.",
       },
     ],
     cta: {
@@ -95,12 +93,12 @@ const MODULES: ModuleContent[] = [
 
 export default function SiteVisibilityModules() {
   return (
-    <section className="relative z-10 bg-[#F4FBFF] py-[56px] md:py-[10px] lg:py-[20px]">
+    <section className="relative z-10 bg-[#F4FBFF] pt-[56px] pb-[56px] md:pt-[10px] md:pb-[60px] lg:pt-[20px] lg:pb-[80px]">
       <div className="w-full px-[24px] lg:px-[60px]">
         {/* Shared 1410 cap so every section on this page starts on the same x. */}
         <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-[40px] lg:gap-[80px]">
           {MODULES.map((m) => (
-            <SiteVisibilityModule key={m.eyebrow} {...m} />
+            <SiteVisibilityModule key={m.headline} {...m} />
           ))}
         </div>
       </div>

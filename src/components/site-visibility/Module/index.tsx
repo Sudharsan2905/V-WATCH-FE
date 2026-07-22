@@ -62,8 +62,8 @@ export type ModuleMedia = {
 };
 
 export type ModuleContent = {
-  /** e.g. "Module 01 · Digital Site Access" */
-  eyebrow: string;
+  /** Optional kicker, e.g. "Module 01 · Digital Site Access". */
+  eyebrow?: string;
   headline: string;
   body: string;
   bullets: ModuleBullet[];
@@ -186,26 +186,27 @@ export default function SiteVisibilityModule({
       whileInView="show"
       viewport={viewportReveal}
       variants={staggerContainer}
-      className="flex flex-col gap-[40px] lg:gap-[70px]"
+      className="flex flex-col gap-[32px] lg:gap-[40px]"
     >
-      {/* Header — text capped at 986px per Figma, gap 10 between the three. */}
-      <div className="flex max-w-[986px] flex-col gap-[10px]">
-        <motion.h3
-          variants={fadeUp}
-          className={`font-lato text-[20px] font-bold leading-[100%] lg:text-[26px] ${HEADING_COLOR}`}
-        >
-          {eyebrow}
-        </motion.h3>
+      {/* Header — text capped at 986px per Figma, 6px between headline and sub. */}
+      <div className="flex max-w-[986px] flex-col gap-[6px]">
+        {eyebrow ? (
+          <motion.h3
+            variants={fadeUp}
+            className={`font-lato text-[20px] font-bold leading-[100%] lg:text-[26px] ${HEADING_COLOR}`}
+          >
+            {eyebrow}
+          </motion.h3>
+        ) : null}
         <motion.h4
           variants={fadeUp}
-          custom={0.06}
-          className={`font-lato text-[19px] font-bold leading-[120%] lg:text-[24px] lg:leading-[100%] ${HEADING_COLOR}`}
+          className={`font-lato text-[20px] font-bold leading-[120%] lg:text-[24px] lg:leading-[100%] ${HEADING_COLOR}`}
         >
           {headline}
         </motion.h4>
         <motion.p
           variants={fadeUp}
-          custom={0.12}
+          custom={0.08}
           className={`font-lato text-[16px] font-medium leading-[24px] lg:text-[20px] lg:leading-[28px] ${HEADING_COLOR}`}
         >
           {body}

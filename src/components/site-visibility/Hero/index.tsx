@@ -103,14 +103,14 @@ export default function SiteVisibilityHero() {
               whileInView="show"
               viewport={viewportReveal}
               variants={staggerContainer}
-              className="flex w-full min-w-0 max-w-[609px] flex-col items-start gap-[14px]"
+              className="flex w-full min-w-0 max-w-[609px] flex-col my-auto items-start gap-[14px]"
             >
               <motion.h1
                 variants={wipeTop}
                 className="font-lato text-[30px] font-bold leading-[40px] tracking-[2%] text-white sm:text-[42px] sm:leading-[52px] lg:text-[50px] lg:leading-[65px]"
               >
-                Stop letting manual site access and delivery coordination become
-                your blind spot.
+                Stop letting manual site access and delivery become your blind
+                spot.
               </motion.h1>
 
               <motion.p
@@ -118,20 +118,9 @@ export default function SiteVisibilityHero() {
                 custom={0.15}
                 className="max-w-[609px] font-lato text-[16px] font-bold leading-[32px] text-white sm:text-[20px]"
               >
-                On a busy data centre site, one untracked contractor, one
-                expired access pass, one unplanned vehicle or one missed
-                delivery update can create unnecessary delays, security gaps and
-                reporting headaches.
-              </motion.p>
-
-              <motion.p
-                variants={fadeUp}
-                custom={0.25}
-                className="max-w-[609px] font-lato text-[16px] font-bold leading-[32px] text-white sm:text-[20px]"
-              >
-                V-Watch AI helps teams control who enters, what comes in, when
-                it arrives and how site activity is reported from one
-                centralised platform.
+                One untracked contractor, one expired pass, one unplanned
+                vehicle, one missed delivery V-Watch Ai brings all of it into
+                one centralized, live platform.
               </motion.p>
 
               <motion.div
@@ -149,16 +138,25 @@ export default function SiteVisibilityHero() {
                 </Link>
                 <a
                   href="#"
-                  className="group inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-base font-bold transition-colors duration-200 ease-out hover:bg-white/20"
+                  className="group inline-flex h-11 items-center justify-center gap-[6.67px] rounded-full bg-white px-5 text-[16px] font-semibold leading-[19.87px] transition-colors duration-200 ease-out hover:brightness-95"
                 >
+                  <Image
+                    src="/site-visibility/download_icon.svg"
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="h-4.5 w-4.5 shrink-0"
+                  />
+                  {/* leading-none centres the glyphs against the icon; the
+                      padding keeps descenders inside the clipped gradient box. */}
                   <span
-                    className="bg-gradient-to-b bg-clip-text text-transparent"
+                    className="flex items-center py-0.75 leading-none bg-linear-to-b bg-clip-text text-transparent"
                     style={{
                       backgroundImage:
-                        "linear-gradient(180deg, #1696D2 0%, #7FAF2B 100%)",
+                        "linear-gradient(180deg, #21B1F1 0%, #A6C936 100%)",
                     }}
                   >
-                    Download the 1-Page Overview
+                    1-Page Overview
                   </span>
                 </a>
               </motion.div>

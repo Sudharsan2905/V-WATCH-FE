@@ -210,39 +210,29 @@ export default function SiteVisibilityPlatform() {
             whileInView="show"
             viewport={viewportReveal}
             variants={staggerContainer}
-            className="flex flex-col gap-[10px]"
+            className="flex flex-col gap-[6px]"
           >
             <motion.h2
               variants={fadeUp}
-              className="font-lato text-[22px] font-bold leading-[100%] text-[#0A4B6E] sm:text-[24px] lg:text-[26px]"
-            >
-              The V-Watch Ai platform
-            </motion.h2>
-            <motion.h3
-              variants={fadeUp}
-              custom={0.06}
-              className="font-lato text-[20px] font-bold leading-[120%] text-[#0A4B6E] sm:text-[22px] lg:text-[24px]"
+              className="max-w-[986px] font-lato text-[20px] font-bold leading-[28px] text-[#0A4B6E] sm:text-[22px] sm:leading-[30px] lg:text-[24px] lg:leading-[32px]"
             >
               One centralized platform for who enters, what comes in, and how
               the site reports.
-            </motion.h3>
+            </motion.h2>
             <motion.p
               variants={fadeUp}
-              custom={0.12}
+              custom={0.08}
               className="max-w-[986px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] sm:text-[18px] lg:text-[20px] lg:leading-[28px]"
             >
-              V-Watch Ai brings site access control, delivery management,
-              vehicle check-in and live activity reporting into a single
-              operational layer designed specifically for the pace, scrutiny and
-              compliance demands of modern data center construction and
-              operational sites.
+              Access, deliveries, vehicles and live reporting brought into a
+              single operational layer for modern data centre sites.
             </motion.p>
 
             {/* Pills */}
             <motion.div
               variants={fadeUp}
-              custom={0.18}
-              className="mt-[6px] flex flex-wrap items-center justify-center gap-[10px]"
+              custom={0.14}
+              className="mt-[16px] flex flex-wrap items-center justify-center gap-[10px]"
             >
               {PILLS.map((pill) => (
                 <span

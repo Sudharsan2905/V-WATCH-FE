@@ -6,11 +6,11 @@ import StepProcess from "@/components/maintenance-ticketing/StepProcess";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
-export const metadata = {
-  title: "Maintenance & Ticketing | V-Watch AI",
-  description:
-    "Manage maintenance requests, assign service tasks, and track resolution in one system ensuring every issue is addressed, recorded, and resolved efficiently.",
-};
+// export const metadata = {
+//   title: "Maintenance & Ticketing | V-Watch AI",
+//   description:
+//     "Manage maintenance requests, assign service tasks, and track resolution in one system ensuring every issue is addressed, recorded, and resolved efficiently.",
+// };
 
 export default function MaintenanceTicketingPage() {
   return (
