@@ -6,11 +6,9 @@ import { fadeUp, scaleIn, staggerContainer, viewportReveal } from "@/components/
 
 type ProblemCardData = {
   key: string;
-  // Icon path — left empty for now; drop the provided asset in /public and set it here.
   icon: string;
   title: string;
   body: string;
-  tag: string;
 };
 
 const PROBLEM_CARDS: ProblemCardData[] = [
@@ -18,29 +16,25 @@ const PROBLEM_CARDS: ProblemCardData[] = [
     key: "access",
     icon: "/site-visibility/contractors_icon.svg",
     title: "Contractors you cannot fully account for.",
-    body: "Multiple sub-trades, agency labor and one-off visitors on site but no single, live view of who is inside the perimeter right now.",
-    tag: "Access & Security",
+    body: "No live view of who is inside the perimeter right now.",
   },
   {
     key: "compliance",
     icon: "/site-visibility/expired_icon.svg",
-    title: "Expired inductions and access passes slipping through.",
-    body: "Paper sign-in and manual pass checks can't flag out-of-date inductions, permits or right-to-work quickly enough at a busy gate.",
-    tag: "Compliance",
+    title: "Expired inductions slipping through.",
+    body: "Paper sign-in cannot flag out-of-date documents in real time.",
   },
   {
     key: "logistics",
     icon: "/site-visibility/delivery_icon.svg",
     title: "Delivery chaos at the gate.",
-    body: "Vehicles arriving unannounced, queuing on the highway, double-booked bays and unloading conflicts that quietly delay the programme.",
-    tag: "Logistics",
+    body: "Unplanned arrivals, queuing and double-booked bays cost programme days.",
   },
   {
     key: "reporting",
     icon: "/site-visibility/reporting_icon.svg",
     title: "Reporting stitched together after the fact.",
-    body: "End-of-week reports assembled from disconnected logs leaving project directors, security and clients working from different versions of the truth.",
-    tag: "Reporting",
+    body: "Different teams working from different versions of the truth.",
   },
 ];
 
@@ -54,20 +48,24 @@ const GLASS_SURFACE: React.CSSProperties = {
   border: "2px solid transparent",
 };
 
+// Card sits on a wide, very soft lift; the chip gets the same shape scaled down
+// so it reads as a raised tile inside the card.
+const CARD_SHADOW =
+  "0px 4px 12px rgba(9, 46, 84, 0.04), 0px 13px 40px rgba(9, 46, 84, 0.08)";
+
+const CHIP_SHADOW =
+  "0px 2px 6px rgba(9, 46, 84, 0.05), 0px 6px 16px rgba(9, 46, 84, 0.08)";
+
 function ProblemCard({ card }: { card: ProblemCardData }) {
   return (
     <motion.div
       variants={scaleIn}
-      style={{
-        ...GLASS_SURFACE,
-        boxShadow: "0px 13px 100px rgba(9, 46, 84, 0.06)",
-      }}
+      style={{ ...GLASS_SURFACE, boxShadow: CARD_SHADOW }}
       className="flex h-full flex-col gap-[14px] rounded-[20px] p-[16px]"
     >
-      {/* Icon chip — inner icon left empty until the asset is provided. */}
       <div
-        style={GLASS_SURFACE}
-        className="grid size-[54px] flex-shrink-0 place-items-center rounded-[14px] p-[10px]"
+        style={{ ...GLASS_SURFACE, boxShadow: CHIP_SHADOW }}
+        className="grid size-[54px] shrink-0 place-items-center rounded-[14px] p-[10px]"
       >
         {card.icon ? (
           <Image
@@ -84,13 +82,9 @@ function ProblemCard({ card }: { card: ProblemCardData }) {
         {card.title}
       </h3>
 
-      <p className="flex-1 font-lato text-[16px] font-normal leading-[22px] tracking-[-0.2px] text-[#0F172A] lg:text-[18px] lg:leading-[24px]">
+      <p className="font-lato text-[16px] font-normal leading-[22px] tracking-[-0.2px] text-[#0F172A] lg:text-[18px] lg:leading-[24px]">
         {card.body}
       </p>
-
-      <span className="inline-flex w-fit items-center rounded-full border border-[#3890C0] px-[14px] py-[6px] font-lato text-[11px] font-semibold uppercase tracking-[0.06em] text-[#3890C0]">
-        {card.tag}
-      </span>
     </motion.div>
   );
 }
@@ -107,29 +101,19 @@ export default function SiteVisibilityProblem() {
           variants={staggerContainer}
           className="flex flex-col gap-[10px]"
         >
-          <motion.p
-            variants={fadeUp}
-            className="font-lato text-[22px] font-extrabold leading-[100%] text-[#0A4B6E] sm:text-[24px] lg:text-[26px]"
-          >
-            The problem
-          </motion.p>
-
           <motion.h2
             variants={fadeUp}
-            custom={0.08}
             className="font-lato text-[22px] font-extrabold leading-[100%] text-[#0A4B6E] sm:text-[24px]"
           >
-            The moments where control quietly slips on a data centre site.
+            Where control quietly slips on a data centre site.
           </motion.h2>
 
           <motion.p
             variants={fadeUp}
-            custom={0.16}
+            custom={0.08}
             className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] sm:text-[18px] lg:text-[20px] lg:leading-[28px]"
           >
-            Data Centre programmes are unforgiving. When access, deliveries and
-            site movement are managed on clipboards, spreadsheets and WhatsApp
-            threads, small gaps compound into programme risk, security exposure
+            Small manual gaps compound into programme risk, security exposure
             and audit failures.
           </motion.p>
         </motion.div>

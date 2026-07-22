@@ -56,7 +56,7 @@ const MODULES: Module[] = [
       "Attendance and workforce tracking",
       "Fatigue monitoring and safety compliance",
     ],
-    image: "/ai-platform/connected-operation.webp",
+    image: "/ai-platform/connected-operation.png",
   },
   {
     key: "Operations & Workflows",

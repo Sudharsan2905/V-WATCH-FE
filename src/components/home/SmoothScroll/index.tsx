@@ -11,15 +11,15 @@ import { setPageScroller } from "@/lib/scrollChain";
 
 export default function SmoothScroll() {
   const pathname = usePathname();
-
+  
   useEffect(() => {
-    const lenis = new Lenis({
+    const lenis = new Lenis({ 
       duration: 2.2,
       wheelMultiplier: 1,
       touchMultiplier: 0.9,
       lerp: 0.045,
       smoothWheel: true,
-      syncTouch: false,
+      syncTouch: false, 
       // Takes over in-page #anchor jumps (Hero -> "how it works", hrms -> #trial)
       // from the CSS `scroll-behavior: smooth` we had to remove.
       anchors: true,

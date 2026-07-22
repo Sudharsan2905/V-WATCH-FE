@@ -23,40 +23,43 @@ const KEYS = [
   "AI Location Tracking",
 ] as const;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: "HRMS, Secure Access & AI Location Tracking — V-Watch AI",
-  description:
-    "V-Watch AI unifies HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking into one intelligent platform — real-time visibility and control across people, work, assets and movement.",
-  keywords: [
-    "HRMS",
-    "Human Resource Management System",
-    "Secure Access",
-    "SMS",
-    "RTL",
-    "Workflow Management",
-    "AI Location Tracking",
-    "V-Watch AI",
-  ],
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    url: "/",
-    siteName: "V-Watch AI",
-    title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
-    description:
-      "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
-    description:
-      "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(SITE_URL),
+//   title: "HRMS, Secure Access & AI Location Tracking — V-Watch AI",
+//   description:
+//     "V-Watch AI unifies HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking into one intelligent platform — real-time visibility and control across people, work, assets and movement.",
+//   keywords: [
+//     "HRMS",
+//     "Human Resource Management System",
+//     "Secure Access",
+//     "SMS",
+//     "RTL",
+//     "Workflow Management",
+//     "AI Location Tracking",
+//     "V-Watch AI",
+//   ],
+//   alternates: { canonical: "/" },
+//   openGraph: {
+//     type: "website",
+//     url: "/",
+//     siteName: "V-Watch AI",
+//     title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
+//     description:
+//       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
+//     description:
+//       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
+//   },
+// };
 
 // schema.org structured data so search engines can read the module list that is
 // otherwise baked into the hero PNG. HRMS is position 1 (the flagship module).
+
+
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",

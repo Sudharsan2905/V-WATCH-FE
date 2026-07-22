@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "We're upgrading our look! | v-watch",
-  description: "A new, faster interface is on the way. Stay tuned for the complete redesign.",
-};
+// export const metadata: Metadata = {
+//   title: "We're upgrading our look! | v-watch",
+//   description: "A new, faster interface is on the way. Stay tuned for the complete redesign.",
+// };
 
 export default function MaintenancePage() {
   return (
