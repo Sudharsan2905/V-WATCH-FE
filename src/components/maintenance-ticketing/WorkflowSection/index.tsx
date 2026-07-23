@@ -16,7 +16,7 @@ import {
 // screen. Pull the trigger line up and require a real slice to be visible.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 

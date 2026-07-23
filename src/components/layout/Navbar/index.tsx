@@ -479,18 +479,25 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSub, setMobileSub] = useState<string | null>(null);
-  const [mobileCaseStudies, setMobileCaseStudies] = useState(false);
-  const [shift, setShift] = useState(0);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-
   // Which top-level item is highlighted. The current route is the source of
   // truth — derived during render so it's correct on first paint and after a
   // refresh (usePathname resolves on the server too, so there's no flash). The
   // explicit `active` prop is only a fallback for routes not represented in the
   // nav (e.g. /book-demo).
   const activeLabel = findActiveLabel(pathname) ?? active ?? null;
+  // The current page is one of the Case Studies leaves.
+  const onCaseStudy =
+    DROPDOWNS.Resources?.items.some((i) =>
+      i.children?.some((c) => c.href === pathname),
+    ) ?? false;
+  // Auto-open the section (and Case Studies accordion) that owns the current
+  // route, so the active row is revealed the moment the mobile menu opens —
+  // mirroring the desktop dropdown's auto-expand.
+  const [mobileSub, setMobileSub] = useState<string | null>(activeLabel);
+  const [mobileCaseStudies, setMobileCaseStudies] = useState(onCaseStudy);
+  const [shift, setShift] = useState(0);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Keep the open dropdown inside the viewport: measure it and shift
   // horizontally if it overflows either edge. Re-runs on open + on resize.
@@ -711,6 +718,11 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                         <li key={leaf.label}>
                                           <Link
                                             href={leaf.href}
+                                            aria-current={
+                                              leaf.href === pathname
+                                                ? "page"
+                                                : undefined
+                                            }
                                             onClick={(e) => {
                                               if (leaf.href === pathname) {
                                                 e.preventDefault();
@@ -723,7 +735,11 @@ export default function Navbar({ active }: Readonly<{ active?: string }>) {
                                               setMobileSub(null);
                                               setMobileCaseStudies(false);
                                             }}
-                                            className="flex items-center justify-between gap-1 py-2 text-[12px] font-medium text-white/80 transition-colors hover:text-white"
+                                            className={`flex items-center justify-between gap-1 py-2 text-[12px] font-medium transition-colors ${
+                                              leaf.href === pathname
+                                                ? "text-[#5FD0F2]"
+                                                : "text-white/80 hover:text-white"
+                                            }`}
                                           >
                                             <span className="truncate">
                                               {leaf.label}

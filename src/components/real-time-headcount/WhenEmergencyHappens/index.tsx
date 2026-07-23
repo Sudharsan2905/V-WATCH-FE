@@ -10,7 +10,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // really on screen. Pull the trigger line up and require a real slice visible.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -76,17 +76,15 @@ export default function WhenEmergencyHappens() {
             </motion.div>
 
             {/* 3-column layout */}
-            <motion.div
-              className="mt-[30px] flex flex-col justify-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]"
-              initial="hidden"
-              whileInView="show"
-              viewport={VIEWPORT}
-            >
+            <div className="mt-[30px] flex flex-col justify-center gap-8 lg:flex-row lg:items-center lg:gap-[20px]">
               {/* Left: You need to know */}
               <div className="flex w-full flex-col items-center gap-6 lg:flex-1 lg:items-start lg:text-left lg:py-[33px] lg:pl-[45px]">
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
                   className="text-[20px] font-bold leading-[30px] text-[#1D6C97]"
                 >
                   You need to know
@@ -97,6 +95,9 @@ export default function WhenEmergencyHappens() {
                       key={item.label}
                       variants={fadeUp}
                       custom={0.15 + i * 0.1}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={VIEWPORT}
                       className="flex items-center gap-4"
                     >
                       <div className="relative h-[54px] w-[54px] shrink-0">
@@ -120,6 +121,9 @@ export default function WhenEmergencyHappens() {
               <motion.div
                 variants={fadeUp}
                 custom={0.2}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="relative mx-auto flex justify-center w-full max-w-[400px] shrink-0 lg:w-[416px] lg:max-w-none"
               >
                 <Image
@@ -136,6 +140,9 @@ export default function WhenEmergencyHappens() {
                 <motion.p
                   variants={fadeUp}
                   custom={0.1}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
                   className="text-[20px] font-bold leading-[30px] text-[#1D6C97]"
                 >
                   And you cannot rely on
@@ -146,6 +153,9 @@ export default function WhenEmergencyHappens() {
                       key={item.label}
                       variants={fadeUp}
                       custom={0.25 + i * 0.1}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={VIEWPORT}
                       className="flex items-center gap-4"
                     >
                       <div className="relative h-[54px] w-[54px] shrink-0 rounded-full bg-white shadow-sm overflow-hidden">
@@ -164,7 +174,7 @@ export default function WhenEmergencyHappens() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

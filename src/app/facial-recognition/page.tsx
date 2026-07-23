@@ -33,7 +33,8 @@ export default function FacialRecognitionPage() {
         </div>
       <Footer
         ctaTitle="Secure your site with verified identity"
-        ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."      />
+        // ctaText="See how V-Watch AI helps you enforce contractor compliance, prevent risks, and maintain full visibility across your workforce."      
+        />
     </div>
   );
 }

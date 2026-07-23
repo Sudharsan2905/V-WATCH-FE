@@ -18,16 +18,16 @@ export default function RealTimeHeadcountPage() {
       />
       <WhenEmergencyHappens />
       <HeadcountFeatureGrid />
-      <PoweredByData />
       <div className="relative pt-2 py-5 rounded-t-[40px] bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_220px)] shadow-[inset_0px_18px_50px_10px_#0075B433]">
         <TechnologyPartners
           content={{
             title: "Used in environments where safety is non-negotiable ",
             description:
-              "From construction sites to industrial operations, V-Watch AI supports emergency response with real-time visibility and accurate data. ",
+            "From construction sites to industrial operations, V-Watch AI supports emergency response with real-time visibility and accurate data. ",
           }}
         />
       </div>
+          <PoweredByData />
       <Footer
         ctaTitle="Be prepared when it matters most"
         ctaText="See how V-Watch AI helps you respond faster, act smarter, and protect your workforce during critical situations."      />

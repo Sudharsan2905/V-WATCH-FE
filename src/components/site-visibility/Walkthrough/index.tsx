@@ -9,13 +9,12 @@ import {
 } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  EASE,
-  fadeUp,
-  scaleIn,
-  staggerContainer,
-  viewportReveal,
-} from "@/components/about/anim";
+import { EASE, fadeUp, scaleIn } from "@/components/about/anim";
+
+// Trigger each reveal once it's meaningfully inside the viewport. Applied per
+// element (not on a tall wrapping container, which with amount:0.5 could never
+// reach the threshold and so might never fire).
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 /* ------------------------------------------------------------------ *
  * "Book your site visibility walkthrough" — copy + contacts on the
@@ -133,7 +132,10 @@ const CONTACT_STYLE: React.CSSProperties = {
   boxShadow: "0px 13px 34px rgba(10,75,110,0.06)",
 };
 
-function ContactRow({ contact }: Readonly<{ contact: Contact }>) {
+function ContactRow({
+  contact,
+  index,
+}: Readonly<{ contact: Contact; index: number }>) {
   const body = (
     <>
       {/* 48px tile, radius 12, #1D6C97→#5CB7E8. */}
@@ -157,7 +159,15 @@ function ContactRow({ contact }: Readonly<{ contact: Contact }>) {
   );
 
   return (
-    <motion.li variants={fadeUp} style={CONTACT_STYLE} className="rounded-[14px]">
+    <motion.li
+      variants={fadeUp}
+      custom={index * 0.1}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      style={CONTACT_STYLE}
+      className="rounded-[14px]"
+    >
       {contact.href ? (
         <a
           href={contact.href}
@@ -674,17 +684,14 @@ export default function SiteVisibilityWalkthrough() {
       }}
     >
       <div className="w-full px-[24px] lg:px-[60px]">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
-          variants={staggerContainer}
-          className="mx-auto flex w-full max-w-[1410px] flex-col items-stretch gap-[24px]"
-        >
+        <div className="mx-auto flex w-full max-w-[1410px] flex-col items-stretch gap-[24px]">
           {/* Header — full width, capped at the Figma's 986px text box. */}
           <div className="flex max-w-[986px] flex-col gap-[6px]">
             <motion.h2
               variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="font-lato text-[20px] font-bold leading-[120%] text-[#0A4B6E] lg:text-[24px] lg:leading-[100%]"
             >
               See your next data center site through a single pane of glass.
@@ -692,6 +699,9 @@ export default function SiteVisibilityWalkthrough() {
             <motion.p
               variants={fadeUp}
               custom={0.08}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] lg:text-[20px] lg:leading-[28px]"
             >
               Share a few details we&apos;ll arrange a 30-minute tailored
@@ -700,18 +710,18 @@ export default function SiteVisibilityWalkthrough() {
           </div>
 
           {/* Contacts — one row of three across the full 1160 at lg. */}
-          <motion.ul
-            variants={staggerContainer}
-            className="grid w-full grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {CONTACTS.map((c) => (
-              <ContactRow key={c.label} contact={c} />
+          <ul className="grid w-full grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
+            {CONTACTS.map((c, i) => (
+              <ContactRow key={c.label} contact={c} index={i} />
             ))}
-          </motion.ul>
+          </ul>
 
           {/* Form card, centred below, with the Figma's blue halo behind it. */}
           <motion.div
             variants={scaleIn}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             // mt: the stacked cards are absolutely positioned against this box,
             // so margin (not padding) is what clears their 36px overhang.
             // -mb: drops the card into the 220px spacer the footer renders with
@@ -742,7 +752,7 @@ export default function SiteVisibilityWalkthrough() {
               <WalkthroughForm />
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

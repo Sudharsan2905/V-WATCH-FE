@@ -2,12 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import {
-  fadeUp,
-  scaleIn,
-  staggerContainer,
-  viewportReveal,
-} from "@/components/about/anim";
+import { fadeUp, scaleIn } from "@/components/about/anim";
+
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 /* ------------------------------------------------------------------ *
  * "How it works" — four numbered step cards.
@@ -89,10 +86,14 @@ const BADGE_SURFACE: React.CSSProperties = {
 const CARD_SHADOW =
   "0px 13px 100px rgba(199,199,199,0.25), 6px 10px 23px rgba(217,226,255,0.85)";
 
-function StepCard({ step }: Readonly<{ step: Step }>) {
+function StepCard({ step, index }: Readonly<{ step: Step; index: number }>) {
   return (
     <motion.li
       variants={scaleIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      custom={index * 0.1}
       style={{ ...SURFACE, boxShadow: CARD_SHADOW }}
       className="flex flex-1 flex-col gap-[14px] rounded-[20px] p-[16px] lg:min-h-[238px]"
     >
@@ -133,11 +134,7 @@ export default function SiteVisibilityHowItWorks() {
     <section className="relative z-10 w-full bg-[#F4FBFF]">
       {/* Full-bleed rounded panel; the 1160 content is centred inside it via
           the 1280 cap + 60px side padding. */}
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={viewportReveal}
-        variants={staggerContainer}
+      <div
         className="w-full rounded-[40px] py-[48px] lg:py-[80px]"
         style={{
           background: "linear-gradient(180deg, #D6ECFA 0%, #FFFFFF 25%)",
@@ -151,6 +148,9 @@ export default function SiteVisibilityHowItWorks() {
           <div className="flex flex-col gap-[10px]">
             <motion.h2
               variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="max-w-[889px] font-lato text-[20px] font-bold leading-[120%] text-[#0A4B6E] lg:text-[24px] lg:leading-[100%]"
             >
               From site mobilisation to live control in four moves.
@@ -158,6 +158,9 @@ export default function SiteVisibilityHowItWorks() {
             <motion.p
               variants={fadeUp}
               custom={0.08}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] lg:text-[20px] lg:leading-[28px]"
             >
               Designed to slot into how data centre sites already run: main
@@ -168,17 +171,14 @@ export default function SiteVisibilityHowItWorks() {
           </div>
 
           {/* Cards — 4 × 275 with 20px gaps at lg; stacked below. */}
-          <motion.ul
-            variants={staggerContainer}
-            className="mt-[8px] grid grid-cols-1 gap-[20px] sm:grid-cols-2 lg:mt-0 lg:flex lg:items-stretch"
-          >
-              {STEPS.map((s) => (
-                <StepCard key={s.key} step={s} />
+          <ul className="mt-[8px] grid grid-cols-1 gap-[20px] sm:grid-cols-2 lg:mt-0 lg:flex lg:items-stretch">
+              {STEPS.map((s, i) => (
+                <StepCard key={s.key} step={s} index={i} />
               ))}
-            </motion.ul>
+            </ul>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

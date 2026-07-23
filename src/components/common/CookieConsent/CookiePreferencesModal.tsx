@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { COOKIE_CATEGORIES, DEFAULT_PREFERENCES } from "@/lib/cookieConsent";
+import { setPageScrollLocked } from "@/lib/scrollChain";
 import type { CookieCategory, CookieConsentPreferences } from "@/types/cookieConsent";
 
 type Props = {
@@ -36,6 +37,14 @@ export default function CookiePreferencesModal({
     setWasOpen(open);
     if (open) setDraft(initialPreferences);
   }
+
+  // Freeze the page behind the modal so the background can't scroll while it's
+  // open (Lenis needs an explicit stop; see setPageScrollLocked).
+  useEffect(() => {
+    if (!open) return;
+    setPageScrollLocked(true);
+    return () => setPageScrollLocked(false);
+  }, [open]);
 
   // Move focus into the dialog on open, restore it to the trigger element on close.
   useEffect(() => {

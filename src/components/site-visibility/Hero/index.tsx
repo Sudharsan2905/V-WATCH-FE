@@ -7,9 +7,13 @@ import {
   wipeTop,
   fadeUp,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
 import { ArrowBadge } from "@/components/common/BookADemo";
+
+// Trigger reveals once each element is meaningfully inside the viewport — the
+// negative bottom margin pulls the trigger line up so blocks don't animate
+// while still sitting below the fold. Shared across the site-visibility page.
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 const PRIMARY_BUTTON_STYLE: React.CSSProperties = {
   background: `
@@ -101,7 +105,7 @@ export default function SiteVisibilityHero() {
             <motion.div
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               variants={staggerContainer}
               className="flex w-full min-w-0 max-w-[609px] flex-col my-auto items-start gap-[14px]"
             >
@@ -163,7 +167,7 @@ export default function SiteVisibilityHero() {
             </motion.div>
 
             <Image
-              src="/site-visibility/hero_image.svg"
+              src="/site-visibility/hero_image.png"
               alt="Site visibility hero illustration"
               width={548}
               height={550}

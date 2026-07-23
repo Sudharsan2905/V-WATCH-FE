@@ -11,7 +11,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // really on screen. Pull the trigger line up and require a real slice visible.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -111,6 +111,9 @@ function HiwCard({
   return (
     <motion.div
       variants={cardIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       custom={0.1 + index * 0.08}
       // 350 × 76 in Figma — radius 16, 1.25px white/80 border, soft shadow.
       className="bg-[#e8f5fc] mx-auto relative flex max-h-[76px] h-[76px] w-full max-w-[350px] items-center rounded-[16px] border-[1.25px] border-white/90 shadow-[0px_1px_2px_0px_rgba(184,230,255,0.10)] backdrop-blur-[2px]"
@@ -173,12 +176,12 @@ export default function HowItWorks() {
         <motion.div
           // className="flex flex-col w-full max-w-[600px]"
         className="flex w-full max-w-[1280px] flex-col gap-5 xl:h-[687px] xl:max-h-[687px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={VIEWPORT}
       >
         <motion.h2
           variants={wipeTop}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
           className="text-[24px] font-bold leading-tight text-[#0A4B6E] sm:text-[26px]"
         >
           How It Works
@@ -193,6 +196,9 @@ export default function HowItWorks() {
           <motion.div
             aria-hidden
             variants={diagramIn}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 min-[1140px]:block"
           >
             <Image
@@ -218,6 +224,9 @@ export default function HowItWorks() {
             <CardColumn items={INPUT_LEFT} side="left" align="start" />
             <motion.div
               variants={labelIn}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               custom={0.2}
               className="hidden items-center justify-center min-[1140px]:flex"
             >
@@ -231,6 +240,9 @@ export default function HowItWorks() {
             <CardColumn items={OUTPUT_LEFT} side="left" align="start" />
             <motion.div
               variants={labelIn}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               custom={0.2}
               className="hidden items-center justify-center min-[1140px]:flex"
             >
@@ -251,6 +263,9 @@ export default function HowItWorks() {
           <motion.div
             aria-hidden
             variants={diagramIn}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 md:block"
           >
             <Image
@@ -265,6 +280,9 @@ export default function HowItWorks() {
           <div className="relative z-10">
             <motion.p
               variants={labelIn}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="mb-5 text-center text-[20px] font-bold tracking-[-0.6px] text-[#006F9F]"
             >
               System Input
@@ -281,6 +299,9 @@ export default function HowItWorks() {
           <motion.div
             aria-hidden
             variants={diagramIn}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="relative z-10 mx-auto hidden md:block"
           >
             <Image
@@ -296,6 +317,9 @@ export default function HowItWorks() {
             {/* Label sits above the cards on mobile, below them on tablet+. */}
             <motion.p
               variants={labelIn}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="order-first mb-5 text-center text-[20px] font-bold tracking-[-0.6px] text-[#006F9F] md:order-last md:mb-0 md:mt-5"
             >
               System Output

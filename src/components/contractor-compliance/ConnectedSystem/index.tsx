@@ -5,6 +5,8 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
+
 const wipeDown: Variants = {
   hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
   show: (delay = 0) => ({
@@ -96,6 +98,9 @@ function Chip({
     <motion.div
       variants={fadeUp}
       custom={delay}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className={`flex min-w-0 items-center gap-3.5 ${iconRight ? "" : "flex-row-reverse"}`}
     >
       <TextPill label={label} fluid={fluid} />
@@ -110,6 +115,9 @@ function BottomChip({ icon, label, delay }: { icon: string; label: string; delay
     <motion.div
       variants={fadeUp}
       custom={delay}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="flex flex-col items-center gap-3.5"
     >
       <IconBox icon={icon} />
@@ -127,7 +135,7 @@ export default function ConnectedSystem() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <motion.h2
               variants={wipeDown}
@@ -147,13 +155,9 @@ export default function ConnectedSystem() {
             </motion.p>
           </motion.div>
 
-          {/* Hub layout */}
-          <motion.div
-            className="mt-6 lg:mt-10"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
-          >
+          {/* Hub layout — trigger lives on each chip/image (this block is too
+              tall to reach amount:0.5 as a single observed element). */}
+          <div className="mt-6 lg:mt-10">
             {/* Desktop: chips absolutely anchored to the image corners so they
                 overlap inward (1160 × 520 stage, image 630×420 centered) */}
             <div className="relative mx-auto hidden h-130 w-full max-w-290 lg:block">
@@ -161,6 +165,9 @@ export default function ConnectedSystem() {
               <motion.div
                 variants={scaleIn}
                 custom={0.2}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="absolute left-1/2 top-0 h-105 w-157.5 -translate-x-1/2"
               >
                 <Image
@@ -209,6 +216,9 @@ export default function ConnectedSystem() {
               <motion.div
                 variants={scaleIn}
                 custom={0.15}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="relative mx-auto aspect-3/2 w-full max-w-120"
               >
                 <Image
@@ -235,7 +245,7 @@ export default function ConnectedSystem() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

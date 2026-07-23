@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import {
-  fadeUp,
-  scaleIn,
-  staggerContainer,
-  viewportReveal,
-} from "@/components/about/anim";
+import { fadeUp, scaleIn } from "@/components/about/anim";
+
+// Trigger the reveal on each element individually. A single tall stagger
+// container stacking six cards on mobile can never reach 50% visibility, so
+// the trigger must live on each card/header block, not on the wrapper.
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 /* ------------------------------------------------------------------ *
  * "Business benefits" — dark panel with six role cards.
@@ -113,10 +113,17 @@ const BADGE_STYLE: React.CSSProperties = {
   ].join(", "),
 };
 
-function BenefitCard({ benefit }: Readonly<{ benefit: Benefit }>) {
+function BenefitCard({
+  benefit,
+  index,
+}: Readonly<{ benefit: Benefit; index: number }>) {
   return (
     <motion.li
       variants={scaleIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      custom={index * 0.1}
       style={CARD_STYLE}
       className="flex flex-col gap-[14px] rounded-[32px] px-[16px] pb-[16px] pt-[20px] lg:min-h-[230px]"
     >
@@ -167,24 +174,24 @@ export default function SiteVisibilityBusinessBenefits() {
 
         {/* Same wrapper shape as the other sections so the content shares
             their left edge; `relative` lifts it above the fill image. */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
-          variants={staggerContainer}
-          className="relative w-full px-[24px] lg:px-[60px]"
-        >
+        <div className="relative w-full px-[24px] lg:px-[60px]">
           <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-[24px] lg:gap-[30px]">
             {/* Header — gap 10; copy caps at 889 (headings) / 1068 (body). */}
             <div className="flex flex-col gap-[10px]">
               <motion.h2
                 variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="max-w-[889px] font-lato text-[20px] font-bold leading-[120%] text-white lg:text-[24px] lg:leading-[100%]"
               >
                 What changes for the people held accountable.
               </motion.h2>
               <motion.p
                 variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 custom={0.08}
                 className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-white lg:text-[20px] lg:leading-[28px]"
               >
@@ -195,16 +202,13 @@ export default function SiteVisibilityBusinessBenefits() {
             </div>
 
             {/* Grid — 3 × 371 with 24px gaps at lg. */}
-            <motion.ul
-              variants={staggerContainer}
-              className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {BENEFITS.map((b) => (
-                <BenefitCard key={b.key} benefit={b} />
+            <ul className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
+              {BENEFITS.map((b, i) => (
+                <BenefitCard key={b.key} benefit={b} index={i} />
               ))}
-            </motion.ul>
+            </ul>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
