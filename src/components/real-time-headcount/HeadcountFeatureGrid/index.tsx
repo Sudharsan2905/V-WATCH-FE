@@ -2,19 +2,14 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import {
-  wipeTop,
-  scaleIn,
-  loadIn,
-  staggerContainer,
-} from "@/components/about/anim";
+import { wipeTop, scaleIn, loadIn } from "@/components/about/anim";
 
 // A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
 // with Lenis smoothing the scroll, firing as the section's top edge peeks over
 // the viewport bottom leaves the reveal finished before it's really on screen.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -46,10 +41,19 @@ const CARD_SHADOW =
 const ICON_SHADOW =
   "9px 7px 60px 0 rgba(255,255,255,0.40), 6px 10px 23px 0 rgba(217,226,255,0.85), 0 13px 100px 0 rgba(199,199,199,0.25)";
 
-function FeatureCard({ icon, title, body }: Readonly<(typeof FEATURES)[number]>) {
+function FeatureCard({
+  icon,
+  title,
+  body,
+  index,
+}: Readonly<(typeof FEATURES)[number]> & { index: number }) {
   return (
     <motion.div
       variants={scaleIn}
+      custom={index * 0.1}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="flex min-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
       style={{ boxShadow: CARD_SHADOW }}
     >
@@ -108,17 +112,11 @@ export default function HeadcountFeatureGrid() {
           </motion.div>
 
           {/* Cards — 1 col on mobile, 2×2 on sm+ */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-            className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2"
-          >
-            {FEATURES.map((feature) => (
-              <FeatureCard key={feature.title} {...feature} />
+          <div className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2">
+            {FEATURES.map((feature, i) => (
+              <FeatureCard key={feature.title} {...feature} index={i} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

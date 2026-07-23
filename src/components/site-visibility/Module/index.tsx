@@ -4,14 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowBadge } from "@/components/common/BookADemo";
-import {
-  fadeUp,
-  scaleIn,
-  zoomIn,
-  staggerContainer,
-  staggerFast,
-  viewportReveal,
-} from "@/components/about/anim";
+import { fadeUp, scaleIn, zoomIn } from "@/components/about/anim";
+
+// Trigger the reveal on each element once it is meaningfully in view. Putting
+// the trigger on every element (not a tall wrapping container) means a section
+// taller than ~2× the viewport still fires — a single container at amount 0.5
+// could never reach 50% visibility and would never animate.
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 /* ------------------------------------------------------------------ *
  * Reusable "Module NN" section — one component driving both Digital
@@ -122,10 +121,17 @@ function ModuleCta({ label, href }: Readonly<{ label: string; href: string }>) {
   );
 }
 
-function Bullet({ bullet }: Readonly<{ bullet: ModuleBullet }>) {
+function Bullet({
+  bullet,
+  index,
+}: Readonly<{ bullet: ModuleBullet; index: number }>) {
   return (
     <motion.li
       variants={fadeUp}
+      custom={index * 0.08}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="flex items-start gap-[12px] font-lato text-[16px] leading-[22px] text-[#314158] lg:text-[18px] lg:leading-[24px]"
     >
       <CheckIcon />
@@ -155,6 +161,9 @@ function ModuleMediaPanel({ media }: Readonly<{ media: ModuleMedia }>) {
   return (
     <motion.div
       variants={zoomIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="relative w-full min-w-0 lg:w-[580px]"
       style={{ aspectRatio: "580 / 356" }}
     >
@@ -181,18 +190,15 @@ export default function SiteVisibilityModule({
   reverse = false,
 }: Readonly<ModuleContent>) {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={viewportReveal}
-      variants={staggerContainer}
-      className="flex flex-col gap-[32px] lg:gap-[40px]"
-    >
+    <div className="flex flex-col gap-[32px] lg:gap-[40px]">
       {/* Header — text capped at 986px per Figma, 6px between headline and sub. */}
       <div className="flex max-w-[986px] flex-col gap-[6px]">
         {eyebrow ? (
           <motion.h3
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className={`font-lato text-[20px] font-bold leading-[100%] lg:text-[26px] ${HEADING_COLOR}`}
           >
             {eyebrow}
@@ -200,6 +206,9 @@ export default function SiteVisibilityModule({
         ) : null}
         <motion.h4
           variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
           className={`font-lato text-[20px] font-bold leading-[120%] lg:text-[24px] lg:leading-[100%] ${HEADING_COLOR}`}
         >
           {headline}
@@ -207,6 +216,9 @@ export default function SiteVisibilityModule({
         <motion.p
           variants={fadeUp}
           custom={0.08}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
           className={`font-lato text-[16px] font-medium leading-[24px] lg:text-[20px] lg:leading-[28px] ${HEADING_COLOR}`}
         >
           {body}
@@ -223,21 +235,21 @@ export default function SiteVisibilityModule({
       >
         <motion.div
           variants={scaleIn}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
           className="flex w-full min-w-0 flex-col gap-[30px] lg:w-[540px]"
         >
-          <motion.ul
-            variants={staggerFast}
-            className="flex flex-col gap-[20px] lg:gap-[24px]"
-          >
-            {bullets.map((b) => (
-              <Bullet key={b.lead} bullet={b} />
+          <ul className="flex flex-col gap-[20px] lg:gap-[24px]">
+            {bullets.map((b, i) => (
+              <Bullet key={b.lead} bullet={b} index={i} />
             ))}
-          </motion.ul>
+          </ul>
           <ModuleCta label={cta.label} href={cta.href} />
         </motion.div>
 
         <ModuleMediaPanel media={media} />
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -8,6 +8,24 @@ export function setPageScroller(lenis: Lenis | null) {
 }
 
 /**
+ * Lock or unlock the page's scroll — used by full-screen overlays (e.g. the
+ * cookie preferences modal) so the background can't scroll behind them.
+ *
+ * Lenis drives the scroll itself, so `overflow: hidden` on the body isn't
+ * enough; `lenis.stop()` is what actually freezes wheel/touch handling. We also
+ * pin `document.body` overflow as a fallback for the brief window before Lenis
+ * mounts (or if it's ever absent).
+ */
+export function setPageScrollLocked(locked: boolean) {
+  if (typeof document !== "undefined") {
+    document.body.style.overflow = locked ? "hidden" : "";
+  }
+  if (!pageScroller) return;
+  if (locked) pageScroller.stop();
+  else pageScroller.start();
+}
+
+/**
  * Hand an over-scrolled wheel delta back to the page.
  *
  * Nested scroll panels need `data-lenis-prevent` so Lenis stops swallowing the

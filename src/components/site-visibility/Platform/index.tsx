@@ -2,13 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import {
-  fadeUp,
-  scaleIn,
-  zoomIn,
-  staggerContainer,
-  viewportReveal,
-} from "@/components/about/anim";
+import { fadeUp, scaleIn, zoomIn } from "@/components/about/anim";
+
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 /* ------------------------------------------------------------------ *
  * Assets — drop the provided files at these exact paths:
@@ -70,13 +66,19 @@ const DISC_SHADOW =
 function FeatureCard({
   feature,
   fill = false,
+  index = 0,
 }: {
   feature: Feature;
   fill?: boolean;
+  index?: number;
 }) {
   return (
     <motion.div
       variants={scaleIn}
+      custom={index * 0.08}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       style={{ boxShadow: CARD_SHADOW }}
       // Hard-rounded on the icon (left) side, 14px on the right — same for
       // both columns (icon always on the left, per Figma).
@@ -154,6 +156,9 @@ function PlatformStage() {
       {/* Diagram, centred — its 666 width sits exactly between the columns. */}
       <motion.div
         variants={zoomIn}
+        initial="hidden"
+        whileInView="show"
+        viewport={VIEWPORT}
         className="absolute inset-y-0 left-1/2 -translate-x-1/2"
         style={{ width: pctW(SVG_W) }}
       >
@@ -170,7 +175,7 @@ function PlatformStage() {
             height: pctH(CARD_H),
           }}
         >
-          <FeatureCard feature={f} fill />
+          <FeatureCard feature={f} fill index={i} />
         </div>
       ))}
 
@@ -184,7 +189,7 @@ function PlatformStage() {
             height: pctH(CARD_H),
           }}
         >
-          <FeatureCard feature={f} fill />
+          <FeatureCard feature={f} fill index={i} />
         </div>
       ))}
     </div>
@@ -205,15 +210,12 @@ export default function SiteVisibilityPlatform() {
       <div className="w-full px-[24px] lg:px-[60px]">
         <div className="mx-auto w-full max-w-[1410px]">
           {/* Header */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={viewportReveal}
-            variants={staggerContainer}
-            className="flex flex-col gap-[6px]"
-          >
+          <div className="flex flex-col gap-[6px]">
             <motion.h2
               variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="max-w-[986px] font-lato text-[20px] font-bold leading-[28px] text-[#0A4B6E] sm:text-[22px] sm:leading-[30px] lg:text-[24px] lg:leading-[32px]"
             >
               One centralized platform for who enters, what comes in, and how
@@ -222,6 +224,9 @@ export default function SiteVisibilityPlatform() {
             <motion.p
               variants={fadeUp}
               custom={0.08}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="max-w-[986px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] sm:text-[18px] lg:text-[20px] lg:leading-[28px]"
             >
               Access, deliveries, vehicles and live reporting brought into a
@@ -232,6 +237,9 @@ export default function SiteVisibilityPlatform() {
             <motion.div
               variants={fadeUp}
               custom={0.14}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="mt-[16px] flex flex-wrap items-center justify-center gap-[10px]"
             >
               {PILLS.map((pill) => (
@@ -243,16 +251,10 @@ export default function SiteVisibilityPlatform() {
                 </span>
               ))}
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Platform card */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={viewportReveal}
-            variants={staggerContainer}
-            className="relative py-[28px] lg:py-0"
-          >
+          <div className="relative py-[28px] lg:py-0">
             {/* Laptop & up (lg+): cards anchored to the connector tips. */}
             <div className="relative hidden lg:block">
               <PlatformStage />
@@ -262,20 +264,26 @@ export default function SiteVisibilityPlatform() {
                 → 4 cards. */}
             <div className="relative flex flex-col items-center gap-[24px] lg:hidden">
               <div className="grid w-full max-w-[560px] grid-cols-1 gap-[14px] sm:grid-cols-2">
-                {LEFT_FEATURES.map((f) => (
-                  <FeatureCard key={f.key} feature={f} />
+                {LEFT_FEATURES.map((f, i) => (
+                  <FeatureCard key={f.key} feature={f} index={i} />
                 ))}
               </div>
-              <motion.div variants={zoomIn} className="w-full max-w-[420px]">
+              <motion.div
+                variants={zoomIn}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
+                className="w-full max-w-[420px]"
+              >
                 <CorePlatformCenter />
               </motion.div>
               <div className="grid w-full max-w-[560px] grid-cols-1 gap-[14px] sm:grid-cols-2">
-                {RIGHT_FEATURES.map((f) => (
-                  <FeatureCard key={f.key} feature={f} />
+                {RIGHT_FEATURES.map((f, i) => (
+                  <FeatureCard key={f.key} feature={f} index={i} />
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 // Required by Lenis: forces `height: auto` on html/body (our layout sets
@@ -11,7 +11,18 @@ import { setPageScroller } from "@/lib/scrollChain";
 
 export default function SmoothScroll() {
   const pathname = usePathname();
-  
+  // Hold the live Lenis instance so the route-change effect below can reset the
+  // scroll position (Lenis manages scroll itself, so Next's default
+  // scroll-to-top on navigation never fires).
+  const lenisRef = useRef<Lenis | null>(null);
+  // The route effect below also fires once on the initial mount — i.e. a full
+  // page load / refresh. On a refresh the browser restores the previous scroll
+  // offset, so we must NOT reset to the top there (that fight is what produced
+  // the "jump to top then back to position" flash). Skip that first run so a
+  // refresh continues from where the user was; only later runs (real in-app
+  // navigations) reset to the top.
+  const isFirstRun = useRef(true);
+
   useEffect(() => {
     const lenis = new Lenis({ 
       duration: 2.2,
@@ -24,6 +35,7 @@ export default function SmoothScroll() {
       // from the CSS `scroll-behavior: smooth` we had to remove.
       anchors: true,
     });
+    lenisRef.current = lenis;
 
     // Nested scroll panels (see chainWheelToPage) need the instance to hand
     // their over-scrolled wheel deltas back to the page.
@@ -48,13 +60,25 @@ export default function SmoothScroll() {
       cancelAnimationFrame(rafId);
       window.removeEventListener("load", resize);
       setPageScroller(null);
+      lenisRef.current = null;
       lenis.destroy();
     };
   }, []);
 
-  // Client-side navigation swaps the whole page under Lenis; remeasure once the
-  // new route has painted.
+  // Client-side navigation swaps the whole page under Lenis. Because Lenis owns
+  // the scroll position, Next's default scroll-to-top never runs — so the new
+  // route would open at the previous page's scroll offset. Jump to the top
+  // ourselves (immediately, no animation), unless the URL targets an in-page
+  // anchor. Then remeasure once the new route has painted.
   useEffect(() => {
+    const lenis = lenisRef.current;
+    // Only reset to the top on real navigations — not on the initial load /
+    // refresh, where the browser restores the previous scroll offset.
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+    } else if (lenis && !window.location.hash) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+    }
     const id = requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
     return () => cancelAnimationFrame(id);
   }, [pathname]);

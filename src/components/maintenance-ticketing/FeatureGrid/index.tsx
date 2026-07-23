@@ -2,12 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import {
-  wipeTop,
-  scaleIn,
-  loadIn,
-  staggerContainer,
-} from "@/components/about/anim";
+import { wipeTop, scaleIn, loadIn } from "@/components/about/anim";
 
 // A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
 // with Lenis smoothing the scroll, firing as the section's top edge peeks over
@@ -15,7 +10,7 @@ import {
 // screen. Pull the trigger line up and require a real slice to be visible.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -64,10 +59,15 @@ function FeatureCard({
   iconH,
   title,
   body,
-}: Readonly<(typeof FEATURES)[number]>) {
+  index,
+}: Readonly<(typeof FEATURES)[number]> & { index: number }) {
   return (
     <motion.div
       variants={scaleIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      custom={index * 0.1}
       className="flex max-h-[240px] min-[1100]:max-h-[200px] flex-1 flex-col justify-center gap-[14px] rounded-[20px] border-2 border-white bg-[rgba(244,251,255,0.20)] p-5"
       style={{ boxShadow: CARD_SHADOW }}
     >
@@ -147,17 +147,11 @@ export default function FeatureGrid() {
           </motion.div>
 
           {/* Cards — 1 col on mobile, 2×2 on sm+ */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-            className="grid flex-1 grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2"
-          >
-            {FEATURES.map((feature) => (
-              <FeatureCard key={feature.title} {...feature} />
+          <div className="grid flex-1 grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2">
+            {FEATURES.map((feature, i) => (
+              <FeatureCard key={feature.title} index={i} {...feature} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

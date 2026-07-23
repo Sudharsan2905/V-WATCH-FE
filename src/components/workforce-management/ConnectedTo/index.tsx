@@ -13,26 +13,26 @@ import {
 // the viewport bottom leaves the reveal finished before it's really on screen.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
 const FEATURES = [
   {
-    title: "Productivity and manhour tracking",
-    iconSrc: "/workforce/transferIcons/1.svg",
+    title: "Workforce tracking and attendance",
+    iconSrc: "/workforce/transferIcons/3.svg",
   },
   {
     title: "Access control systems",
     iconSrc: "/workforce/transferIcons/2.svg",
   },
   {
-    title: "Workforce tracking and attendance",
-    iconSrc: "/workforce/transferIcons/3.svg",
-  },
-  {
     title: "Task and operational activity",
     iconSrc: "/workforce/transferIcons/5.svg",
+  },
+  {
+    title: "Productivity and manhour tracking",
+    iconSrc: "/workforce/transferIcons/1.svg",
   },
   {
     title: "Power BI dashboards and reporting",

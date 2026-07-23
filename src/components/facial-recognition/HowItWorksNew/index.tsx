@@ -5,6 +5,8 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: (delay = 0) => ({
@@ -154,6 +156,9 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="relative w-[367px]"
       style={{ filter: "drop-shadow(0 16px 36px rgba(184,209,236,0.45))" }}
     >
@@ -299,7 +304,7 @@ export default function HowItWorksNew() {
             custom={0.05}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={VIEWPORT}
             className="mb-8 text-[24px] font-bold leading-8 text-[#0A4B6E] sm:text-[28px] sm:leading-9"
           >
             How It Works
@@ -310,7 +315,7 @@ export default function HowItWorksNew() {
             className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-6"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.12 }}
+            viewport={VIEWPORT}
           >
             {/* Left image — matches height of the 4 step rows */}
             <motion.div
@@ -335,13 +340,9 @@ export default function HowItWorksNew() {
             </div>
           </motion.div>
 
-          {/* Bottom: 3 feature cards */}
-          <motion.div
-            className="mt-20 flex flex-wrap justify-center gap-x-[30px] gap-y-16"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
-          >
+          {/* Bottom: 3 feature cards — each card owns its scroll trigger so the
+              tall vertical stack on mobile still reaches the 50% reveal threshold */}
+          <div className="mt-20 flex flex-wrap justify-center gap-x-[30px] gap-y-16">
             {CARDS.map(({ key, title, icon, image, description }, i) => (
               <div key={key} className="flex w-full justify-center sm:w-auto">
                 <FeatureCard
@@ -349,11 +350,11 @@ export default function HowItWorksNew() {
                   icon={icon}
                   image={image}
                   description={description}
-                  delay={0.2 + i * 0.12}
+                  delay={i * 0.1}
                 />
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

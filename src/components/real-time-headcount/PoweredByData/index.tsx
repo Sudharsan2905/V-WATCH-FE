@@ -10,7 +10,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // really on screen. Pull the trigger line up and require a real slice visible.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -64,6 +64,9 @@ function FeatureCard({
     <motion.div
       variants={fadeUp}
       custom={delay}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       className="relative w-full max-h-[381px] h-full"
       style={{ filter: "drop-shadow(0 16px 36px rgba(184,209,236,0.45))" }}
     >
@@ -196,16 +199,11 @@ export default function PoweredByData() {
             Powered by real-time operational data
           </motion.h2>
 
-          <motion.div
-            className="grid grid-cols-1 gap-16 sm:gap-8 sm:grid-cols-3"
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-          >
+          <div className="grid grid-cols-1 gap-16 sm:gap-8 sm:grid-cols-3">
             {CARDS.map(({ key, title, icon, image, description }, i) => (
               <FeatureCard key={key} title={title} icon={icon} image={image} description={description} delay={0.2 + i * 0.12} />
             ))}
-          </motion.div>
+          </div>
 
         </div>
       </section>

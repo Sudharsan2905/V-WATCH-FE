@@ -14,7 +14,7 @@ import {
 // the viewport bottom leaves the reveal finished before it's really on screen.
 const VIEWPORT = {
   once: true,
-  amount: 0.3,
+  amount: 0.5,
   margin: "0px 0px -120px 0px",
 } as const;
 
@@ -118,14 +118,18 @@ export default function OperationalData() {
             </motion.div>
 
             <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={VIEWPORT}
               className="grid grid-cols-1 gap-x-6 gap-y-10 min-[426px]:grid-cols-2 min-[1046px]:grid-cols-4 min-[1046px]:gap-x-8 min-[1046px]:pt-9"
             >
-              {STEPS.map((step) => (
-                <motion.div key={step.label} variants={fadeUp} className="max-h-[306px] flex flex-col items-center">
+              {STEPS.map((step, i) => (
+                <motion.div
+                  key={step.label}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
+                  custom={i * 0.1}
+                  className="max-h-[306px] flex flex-col items-center"
+                >
                   {/* Step circle */}
                   <motion.div
                     variants={popIn}

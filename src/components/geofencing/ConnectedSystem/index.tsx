@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
 
+// Unified scroll-reveal viewport for this section.
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
+
 // Shared ease — matches the rest of the site (≈ easeOutQuint).
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -97,6 +100,9 @@ function FeatureRow({
   return (
     <motion.div
       variants={rowIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
       custom={delay}
       className="flex items-center gap-5 lg:h-full lg:flex-1"
     >
@@ -148,16 +154,16 @@ export default function ConnectedSystem({
           className="overflow-hidden rounded-t-[28px] px-6 lg:px-15"
           style={{ background: "#f5fbff" }}
         >
-        <motion.div
+        <div
           className="mx-auto flex w-full max-w-[1280px] flex-col gap-8 py-8 sm:py-10 lg:gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
         >
           {/* Header group — gap 10px */}
           <div className="flex flex-col gap-2.5">
             <motion.h2
               variants={wipeDown}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               custom={0.05}
               className="font-lato text-[22px] font-bold leading-none text-[#0A4B6E] sm:text-[26px]"
             >
@@ -165,6 +171,9 @@ export default function ConnectedSystem({
             </motion.h2>
             <motion.p
               variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               custom={0.18}
               className="max-w-[953px] font-lato text-[16px] font-normal leading-[1.4] text-[#0A4B6E] sm:text-[20px] sm:leading-[28px]"
             >
@@ -178,6 +187,9 @@ export default function ConnectedSystem({
                 at lg, intrinsic aspect when stacked. */}
             <motion.div
               variants={fromLeft}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               custom={0.25}
               className="relative aspect-[823/470] w-full overflow-hidden rounded-[16px] lg:aspect-auto lg:h-full lg:flex-1"
             >
@@ -192,16 +204,15 @@ export default function ConnectedSystem({
 
             {/* Feature list — fixed 461px column at lg (4 × 110 + 3 × 10 = 470);
                 1 col mobile, 2 col tablet. */}
-            <motion.div
+            <div
               className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:flex lg:w-[461px] lg:shrink-0 lg:flex-col lg:gap-2.5 lg:h-full"
-              variants={{ show: { transition: { staggerChildren: 0.1 } } }}
             >
               {features.map((f, i) => (
-                <FeatureRow key={f.title} {...f} delay={0.35 + i * 0.1} />
+                <FeatureRow key={f.title} {...f} delay={i * 0.1} />
               ))}
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
         </div>
       </section>
     </MotionConfig>

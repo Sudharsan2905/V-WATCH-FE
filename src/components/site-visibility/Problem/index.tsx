@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import { fadeUp, scaleIn, staggerContainer, viewportReveal } from "@/components/about/anim";
+import { fadeUp, scaleIn } from "@/components/about/anim";
+
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 type ProblemCardData = {
   key: string;
@@ -56,10 +58,14 @@ const CARD_SHADOW =
 const CHIP_SHADOW =
   "0px 2px 6px rgba(9, 46, 84, 0.05), 0px 6px 16px rgba(9, 46, 84, 0.08)";
 
-function ProblemCard({ card }: { card: ProblemCardData }) {
+function ProblemCard({ card, index }: { card: ProblemCardData; index: number }) {
   return (
     <motion.div
       variants={scaleIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      custom={index * 0.1}
       style={{ ...GLASS_SURFACE, boxShadow: CARD_SHADOW }}
       className="flex h-full flex-col gap-[14px] rounded-[20px] p-[16px]"
     >
@@ -94,15 +100,14 @@ export default function SiteVisibilityProblem() {
     <section className="relative z-10 bg-[#f5fbff] py-[56px] md:py-[40px] lg:py-[50px]">
       <div className="w-full px-[24px] lg:px-[60px]">
         <div className="mx-auto w-full max-w-[1410px]">
-          <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
-          variants={staggerContainer}
+          <div
           className="flex flex-col gap-[10px]"
         >
           <motion.h2
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="font-lato text-[22px] font-extrabold leading-[100%] text-[#0A4B6E] sm:text-[24px]"
           >
             Where control quietly slips on a data centre site.
@@ -110,25 +115,24 @@ export default function SiteVisibilityProblem() {
 
           <motion.p
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             custom={0.08}
             className="max-w-[1068px] font-lato text-[16px] font-medium leading-[24px] text-[#0A4B6E] sm:text-[18px] lg:text-[20px] lg:leading-[28px]"
           >
             Small manual gaps compound into programme risk, security exposure
             and audit failures.
           </motion.p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportReveal}
-          variants={staggerContainer}
+        <div
           className="mt-[30px] grid grid-cols-1 gap-[20px] sm:grid-cols-2 lg:mt-[40px] lg:grid-cols-4"
         >
-          {PROBLEM_CARDS.map((card) => (
-            <ProblemCard key={card.key} card={card} />
+          {PROBLEM_CARDS.map((card, i) => (
+            <ProblemCard key={card.key} card={card} index={i} />
           ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
