@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, MotionConfig, type Variants } from "motion/react";
-import emailjs from "@emailjs/browser";
+import { submitForm } from "@/lib/submitForm";
+import FormSuccess from "@/components/common/FormSuccess";
 import {
   BECOME_INTEGRATOR_HEADER,
   BECOME_INTEGRATOR_MAP,
@@ -16,18 +17,6 @@ import {
 } from "@/constants/integrators-partners";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
-// available in the browser). The service ID and public key are shared across all
-// forms; this form uses its own template ID. Until all three are present the form
-// stays inert: it logs the submission and shows the success message without
-// calling out.
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_INTEGRATOR;
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-const EMAILJS_READY = Boolean(
-  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
-);
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -206,11 +195,9 @@ export default function BecomeIntegratorSection() {
       return;
     }
 
-    // Template variables. We send both the common EmailJS names and the raw
-    // field names, so the email fills whichever placeholders the template uses.
     const focusAreas = fd.getAll("focusAreas").map(String);
-    const params = {
-      to_email: "sales@vwatch.ai",
+    const payload = {
+      formId: "PARTNERSHIP_INQ" as const,
       name: get("fullName"),
       email: get("workEmail"),
       company: get("companyName"),
@@ -218,35 +205,15 @@ export default function BecomeIntegratorSection() {
       company_type: get("companyType"),
       focus_areas: focusAreas.join(", "),
       message: get("additionalDetails"),
-      // reply straight to the person who filled the form
-      reply_to: get("workEmail"),
-      // raw field names, in case the template references these instead
-      fullName: get("fullName"),
-      workEmail: get("workEmail"),
-      companyName: get("companyName"),
-      countryRegion: get("countryRegion"),
-      companyType: get("companyType"),
-      focusAreas: focusAreas.join(", "),
-      additionalDetails: get("additionalDetails"),
     };
-
-    // Not connected to a provider yet: log and show success without sending.
-    if (!EMAILJS_READY) {
-      console.log("Partnership enquiry (EmailJS not configured):", params);
-      setStatus("success");
-      form.reset();
-      return;
-    }
 
     try {
       setStatus("sending");
-      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
-        publicKey: EMAILJS_PUBLIC_KEY!,
-      });
+      await submitForm(payload);
       setStatus("success");
       form.reset();
     } catch (err) {
-      console.error("EmailJS send failed:", err);
+      console.error("Partnership enquiry submit failed:", err);
       setStatus("error");
     }
   }
@@ -295,6 +262,13 @@ export default function BecomeIntegratorSection() {
             {/* Right column — partnership enquiry form on top of the map
                 container */}
             <motion.div variants={formReveal} className="relative">
+              {status === "success" ? (
+                <FormSuccess
+                  onReset={() => setStatus("idle")}
+                  resetLabel="Submit another enquiry"
+                  className="relative z-10 min-h-[540px] rounded-[24px] bg-white p-8 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:right-[50px]"
+                />
+              ) : (
               <form
                 onSubmit={handleSubmit}
                 className="relative z-10 flex flex-col gap-4 rounded-[24px] bg-white p-7 shadow-[0_24px_70px_rgba(120,160,200,0.3)] lg:p-8 lg:right-[50px]"
@@ -415,13 +389,12 @@ export default function BecomeIntegratorSection() {
                     status === "error" ? "text-[#D14343]" : "text-[#2B9CD8]"
                   }`}
                 >
-                  {status === "success"
-                    ? "Thanks — we'll be in touch shortly."
-                    : status === "error"
-                      ? "Something went wrong. Please try again."
-                      : PARTNERSHIP_FORM_NOTE}
+                  {status === "error"
+                    ? "Something went wrong. Please try again."
+                    : PARTNERSHIP_FORM_NOTE}
                 </p>
               </form>
+              )}
             </motion.div>
           </div>
         </motion.div>

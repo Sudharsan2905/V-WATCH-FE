@@ -48,7 +48,7 @@ const MODULES: ModuleContent[] = [
     ],
     cta: {
       label: "Explore Digital Site Access",
-      href: "/digital-site-access",
+      href: "",
     },
     media: {
       src: MEDIA("digital-site-access"),
@@ -79,7 +79,7 @@ const MODULES: ModuleContent[] = [
     ],
     cta: {
       label: "Explore Delivery Management",
-      href: "/delivery-management",
+      href: "",
     },
     media: {
       src: MEDIA("delivery-management"),
