@@ -2,19 +2,8 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import emailjs from "@emailjs/browser";
-
-// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
-// available in the browser). The service ID and public key are shared across all
-// forms; this form uses its own template ID. Until all three are present the form
-// stays inert: it logs the submission and shows the success message without
-// calling out.
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_DEMO;
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-const EMAILJS_READY = Boolean(
-  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
-);
+import { submitForm } from "@/lib/submitForm";
+import FormSuccess from "@/components/common/FormSuccess";
 
 const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -134,16 +123,23 @@ const INPUT_BASE =
 function FieldWrapper({
   label,
   id,
+  required,
   children,
 }: {
   label: string;
   id: string;
+  required?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div>
       <label htmlFor={id} className={FIELD_LABEL}>
         {label}
+        {required && (
+          <span className="ml-0.5 text-[#0a8ec8]" aria-hidden>
+            *
+          </span>
+        )}
       </label>
       {children}
     </div>
@@ -174,7 +170,7 @@ function InputField({
   error?: string;
 }) {
   return (
-    <FieldWrapper label={label} id={id}>
+    <FieldWrapper label={label} id={id} required={required}>
       <div className="relative">
         <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8DA5BE]">
           {icon}
@@ -462,51 +458,27 @@ export default function DemoForm() {
     }
     setErrors({});
 
-    // Template variables. We send both the common EmailJS names ({{name}},
-    // {{email}}, {{message}}…) and the raw field names, so the email fills in
-    // whichever placeholders the dashboard template uses.
-    const services = [...form.services];    
-    // console.log("form", form);
-    
-    const params = {
-      to_email: "Marketing@vwatch.ai",
-      name: form.fullName.trim(),
-      email: form.workEmail.trim(),
-      phone: form.phoneNumber.trim(),
-      company: form.companyName.trim(),
-      role: form.role,
-      industry: form.industry,
-      services: services.join(", "),
-      op_size: form.opSize,
-      message: form.additionalDetails.trim(),
-      // reply straight to the person who filled the form
-      reply_to: form.workEmail.trim(),
-      // raw field names, in case the template references these instead
+    const payload = {
+      formId: "DEMO_INQ" as const,
       fullName: form.fullName.trim(),
       workEmail: form.workEmail.trim(),
-      phoneNumber: form.phoneNumber.trim(),
       companyName: form.companyName.trim(),
+      phoneNumber: form.phoneNumber.trim(),
+      role: form.role,
+      industry: form.industry,
+      services: [...form.services].join(", "),
       opSize: form.opSize,
       additionalDetails: form.additionalDetails.trim(),
     };
 
-    // Not connected to a provider yet: log and show success without sending.
-    if (!EMAILJS_READY) {
-      console.log("Demo request (EmailJS not configured):", params);
-      setSubmitted(true);
-      return;
-    }
-
     try {
       setSending(true);
       setSendError(false);
-      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
-        publicKey: EMAILJS_PUBLIC_KEY!,
-      });
+      await submitForm(payload);
       setSubmitted(true);
       setForm(INITIAL);
     } catch (err) {
-      console.error("EmailJS send failed:", err);
+      console.error("Demo request submit failed:", err);
       setSendError(true);
     } finally {
       setSending(false);
@@ -515,38 +487,11 @@ export default function DemoForm() {
 
   if (submitted) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-5 rounded-[20px] bg-white p-8 text-center shadow-[0_8px_60px_rgba(0,0,0,0.12)]">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#e9f8ff]">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#0a8ec8"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
-        </div>
-        <div>
-          <h3 className="mb-2 text-[20px] font-bold text-[#0a4b6e]">
-            Request Received!
-          </h3>
-          <p className="text-[15px] font-normal text-[#556394]">
-            A consultant will contact you within 24 hours to schedule your
-            guided demo.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setSubmitted(false)}
-          className="text-[14px] font-bold text-[#0a8ec8] underline-offset-2 hover:underline"
-        >
-          Submit another request
-        </button>
-      </div>
+      <FormSuccess
+        onReset={() => setSubmitted(false)}
+        resetLabel="Submit another request"
+        className="min-h-[400px] rounded-[20px] bg-white p-8 shadow-[0_8px_60px_rgba(0,0,0,0.12)]"
+      />
     );
   }
 
