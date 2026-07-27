@@ -10,6 +10,11 @@ import {
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { EASE, fadeUp, scaleIn } from "@/components/about/anim";
+import { submitForm } from "@/lib/submitForm";
+
+const PLATFORM_SUMMARY_PDF = "/site-visibility/platform-summary.pdf";
+// Suggested filename for the downloaded file.
+const PLATFORM_SUMMARY_FILENAME = "V-Watch-AI-Platform-Summary.pdf";
 
 // Trigger each reveal once it's meaningfully inside the viewport. Applied per
 // element (not on a tall wrapping container, which with amount:0.5 could never
@@ -30,16 +35,6 @@ const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as co
  *     └ footer  508 × 94   gap 10 (button 44 + disclaimer 40)
  * 50+222+14+274 = 560 ✓   24+83+20+380+20+94+24 = 645 ✓   508+2×20 = 548 ✓
  * ------------------------------------------------------------------ */
-
-// Shared across all forms; this one uses its own template id. Until all three
-// are present the form stays inert — it logs and shows success without sending.
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID =
-  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_SITE_VISIBILITY;
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-const EMAILJS_READY = Boolean(
-  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
-);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -103,20 +98,42 @@ function FieldIcon({ name, size = 20 }: Readonly<{ name: string; size?: number }
 
 /* ─── Contact rail ───────────────────────────────────────────────── */
 
-type Contact = { icon: string; label: string; value: string; href?: string };
+type Contact = {
+  icon: string;
+  label: string;
+  value: string;
+  href?: string;
+  // Open the link in a new tab (used for the Gmail compose window, which is a
+  // web URL rather than an in-page navigation).
+  external?: boolean;
+  // When set, the link downloads its target under this filename instead of
+  // navigating to it (works because the PDF is served same-origin).
+  download?: string;
+};
 
 const CONTACTS: Contact[] = [
   {
     icon: ICON_KEYS.email,
     label: "Email",
     value: "support@vwatch.ai",
-    href: "mailto:support@vwatch.ai",
+    // Open Gmail's compose window pre-addressed to support, in a new tab.
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=support@vwatch.ai",
+    external: true,
   },
-  { icon: ICON_KEYS.phone, label: "Phone", value: "+60 XX-XXXX XXX" },
+  {
+    icon: ICON_KEYS.phone,
+    label: "Phone",
+    value: "+60127499018",
+    // tel: hands the number to the OS — dialer on mobile, "add contact" /
+    // call app on desktop.
+    href: "tel:+60127499018",
+  },
   {
     icon: ICON_KEYS.overview,
     label: "1-Page overview",
     value: "Download the platform summary (PDF)",
+    href: PLATFORM_SUMMARY_PDF,
+    download: PLATFORM_SUMMARY_FILENAME,
   },
 ];
 
@@ -171,6 +188,9 @@ function ContactRow({
       {contact.href ? (
         <a
           href={contact.href}
+          {...(contact.download ? { download: contact.download } : {})}
+          {...(contact.external ? { target: "_blank" } : {})}
+          rel="noopener noreferrer"
           className="flex h-[64px] items-center gap-[10px] p-[10px] transition-opacity hover:opacity-80"
         >
           {body}
@@ -439,38 +459,30 @@ function WalkthroughForm() {
     }
     setErrors({});
 
-    const params = {
-      to_email: "sales@vwatch.ai",
-      name: form.fullName.trim(),
-      email: form.workEmail.trim(),
-      role: form.companyRole,
-      reply_to: form.workEmail.trim(),
-      site_location: form.siteLocation.trim(),
-      project_size: form.projectSize,
+    const payload = {
+      formId: "SITE_VISIBILITY_INQ" as const,
+      fullName: form.fullName.trim(),
+      companyRole: form.companyRole,
+      workEmail: form.workEmail.trim(),
+      siteLocation: form.siteLocation.trim(),
+      projectSize: form.projectSize,
       timing: form.timing,
       message: form.message.trim(),
     };
-
-    if (!EMAILJS_READY) {
-      console.log("Walkthrough request (EmailJS not configured):", params);
+    console.log(payload);
+    
+    try {
+      setSending(true);
+      setSendError(false);
+      await submitForm(payload);
       setSubmitted(true);
-      return;
+      setForm(INITIAL);
+    } catch (err) {
+      console.error("Walkthrough request submit failed:", err);
+      setSendError(true);
+    } finally {
+      setSending(false);
     }
-
-    // try {
-    //   setSending(true);
-    //   setSendError(false);
-    //   await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
-    //     publicKey: EMAILJS_PUBLIC_KEY!,
-    //   });
-    //   setSubmitted(true);
-    //   setForm(INITIAL);
-    // } catch (err) {
-    //   console.error("EmailJS send failed:", err);
-    //   setSendError(true);
-    // } finally {
-    //   setSending(false);
-    // }
   }
 
   if (submitted) {
@@ -658,7 +670,7 @@ function WalkthroughForm() {
         </button>
         {sendError && (
           <p className="font-lato text-[13px] text-[#E5484D]">
-            Something went wrong. Please try again or email support@vwatch.ai.
+            Something went wrong. Please try again or email support@vwatch.ai
           </p>
         )}
         <p className="max-w-[392px] text-center font-lato text-[13px] font-normal leading-[20px] text-[#3890C0]/90 lg:text-[14px]">

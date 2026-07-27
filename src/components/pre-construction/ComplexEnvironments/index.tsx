@@ -25,6 +25,13 @@ const fadeUp: Variants = {
   }),
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates the card rows while they're still below the fold).
+// The negative bottom margin pulls the trigger line up so a group animates just
+// after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type EnvCard = {
   title: string;
   description: string;
@@ -184,16 +191,14 @@ export default function ComplexEnvironments({
             </div>
           ) : null}
 
-          <motion.div
-            className="relative z-10 w-full"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
+          <div className="relative z-10 w-full">
             {/* Heading */}
             <motion.h2
               variants={wipeDown}
               custom={0.05}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="font-lato text-[24px] font-bold leading-tight text-white lg:text-[30px]"
             >
               {heading}
@@ -202,7 +207,12 @@ export default function ComplexEnvironments({
             {/* Top row — three equal cards (Figma: 356 × 318). Flex + wrap so a
                 lone card (e.g. the 3rd at the 2-column breakpoint) centres instead
                 of hugging the left. At xl all three fill the row exactly. */}
-            <div className="mt-10 flex flex-wrap justify-center gap-7.5 lg:mt-12">
+            <motion.div
+              className="mt-10 flex flex-wrap justify-center gap-7.5 lg:mt-12"
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
               {topCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
@@ -211,10 +221,15 @@ export default function ComplexEnvironments({
                   sizeClassName="h-[318px] w-full sm:w-[calc(50%-15px)] xl:w-[calc(33.333%-20px)]"
                 />
               ))}
-            </div>
+            </motion.div>
 
             {/* Bottom row — two wide cards (Figma: 551.53 × 318). */}
-            <div className="mt-7.5 grid grid-cols-1 gap-7.5 xl:grid-cols-2">
+            <motion.div
+              className="mt-7.5 grid grid-cols-1 gap-7.5 xl:grid-cols-2"
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
               {bottomCards.map((card, i) => (
                 <EnvironmentCard
                   key={card.title}
@@ -223,8 +238,8 @@ export default function ComplexEnvironments({
                   sizeClassName="h-[318px] w-full"
                 />
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

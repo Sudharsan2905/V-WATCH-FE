@@ -31,6 +31,13 @@ const panelReveal: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
+// Trigger each column as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 function DoubleChevron() {
   return (
     <svg
@@ -212,15 +219,13 @@ export default function IntegratorNetworkSection() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_85%_35%,rgba(176,226,243,0.5),transparent_60%),linear-gradient(180deg,#eaf7fa_0%,#f6fcfe_45%,#dff2f3_100%)]"
         />
 
-        <motion.div
-          className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8.5 xl:items-stretch"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8.5 xl:items-stretch">
           {/* Integrator cards */}
           <motion.div
             variants={listStagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex w-full flex-col gap-5 lg:w-[550px] lg:shrink-0"
           >
             {INTEGRATORS.map((integrator, i) => {
@@ -311,11 +316,14 @@ export default function IntegratorNetworkSection() {
               the selected card (see the cards column above). */}
           <motion.div
             variants={panelReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className={`${PANEL_CLASS} hidden min-w-0 flex-1 lg:flex`}
           >
             <PanelInner current={current} />
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

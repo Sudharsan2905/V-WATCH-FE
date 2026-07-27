@@ -31,6 +31,13 @@ const slideFromRight: Variants = {
   },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates the columns while they're still below the fold). The
+// negative bottom margin pulls the trigger line up so a group animates just
+// after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type Module = {
   key: string;
   icon: string;
@@ -260,15 +267,13 @@ export default function ConnectedOperations() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative px-6 pt-8 lg:pt-16 lg:pb-20 lg:px-[60px]">
-        <motion.div
-          className="mx-auto w-full max-w-[1410px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="mx-auto w-full max-w-[1410px]">
           {/* Header */}
           <motion.header
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex max-w-[807px] flex-col gap-2.5"
           >
             <h2 className="text-[26px] font-black text-[#0A4B6E]">
@@ -290,6 +295,9 @@ export default function ConnectedOperations() {
             {/* Left: image + merged text card (mobile/tablet) or image-only (desktop) */}
             <motion.div
               variants={slideFromLeft}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="order-1 flex w-full flex-col items-center gap-4 md:flex-row md:items-start xl:flex-1 xl:w-[600px] xl:flex-none xl:shrink-0"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
@@ -463,6 +471,9 @@ export default function ConnectedOperations() {
             {/* Right: fixed-height vertical card roll */}
             <motion.div
               variants={slideFromRight}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="order-3 relative hidden h-[420px] w-full overflow-hidden xl:block lg:h-[480px] xl:order-2 xl:w-auto xl:flex-1"
               style={{
                 maskImage:
@@ -564,7 +575,7 @@ export default function ConnectedOperations() {
               <VerticalNav active={active} setActive={setActive} />
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

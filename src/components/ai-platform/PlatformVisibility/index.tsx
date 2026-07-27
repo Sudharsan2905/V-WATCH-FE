@@ -39,6 +39,13 @@ const slideFromRight: Variants = {
   },
 };
 
+// Trigger each group as IT enters the viewport — applied per element/group,
+// never on one tall wrapping container (which, being taller than the screen,
+// would fire the moment its top scrolls in and animate everything below the
+// fold too early). The negative bottom margin pulls the trigger line up so a
+// group animates just after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type Step = { num: string; label: string };
 
 const STEPS: Step[] = [
@@ -65,14 +72,15 @@ export default function PlatformVisibility() {
       >
         <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="currentColor" />
       </svg>
-      <motion.div
-        className="mx-auto w-full max-w-[1410px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <div className="mx-auto w-full max-w-[1410px]">
         {/* Header */}
-        <motion.header variants={fadeUp} className="flex max-w-[807px] flex-col gap-2.5">
+        <motion.header
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="flex max-w-[807px] flex-col gap-2.5"
+        >
           <h2 className="text-[26px] font-bold text-[#0A4B6E]">
             One Platform. Complete Operational Visibility
           </h2>
@@ -85,7 +93,12 @@ export default function PlatformVisibility() {
         {/* Two-column layout */}
         <div className="mt-5 flex flex-col gap-[60px] justify-between lg:flex-row lg:items-center lg:gap-6">
 
-          <div className="flex flex-1 flex-col gap-6 lg:max-w-[560px] min-w-[300px]">
+          <motion.div
+            className="flex flex-1 flex-col gap-6 lg:max-w-[560px] min-w-[300px]"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.p variants={fadeUp} custom={0.2} className="text-[20px] font-bold text-[#006F9F]">
               It acts as a central operational layer
             </motion.p>
@@ -111,10 +124,13 @@ export default function PlatformVisibility() {
                 ))}
               </ul>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div
             variants={slideFromRight}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex w-full justify-center lg:w-167.5 lg:shrink-0"
           >
             <Image
@@ -130,7 +146,7 @@ export default function PlatformVisibility() {
             />
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
     </MotionConfig>
   );

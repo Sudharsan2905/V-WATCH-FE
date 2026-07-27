@@ -69,7 +69,7 @@ export default function FormSuccess({
       <button
         type="button"
         onClick={onReset}
-        className="text-[14px] font-bold text-[#0A8EC8] underline-offset-2 hover:underline"
+        className="text-[14px] font-bold text-[#0A8EC8] underline-offset-2 hover:underline hover:cursor-pointer"
       >
         {resetLabel}
       </button>

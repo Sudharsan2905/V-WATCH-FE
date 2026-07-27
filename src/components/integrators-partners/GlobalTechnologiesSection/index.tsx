@@ -14,6 +14,10 @@ const fadeUp: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
+// Trigger as the element enters the viewport, with a negative bottom margin so
+// it reveals just after clearing the fold (matches the ai-platform sections).
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 function LogoCard({ src }: { src: string }) {
   return (
     <div className="flex h-[72px] w-[160px] shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(180deg,#FFFFFF,#DDF3FF)] px-5 py-4 shadow-[0_4px_14px_rgba(255,255,255,0.04)]">
@@ -86,14 +90,12 @@ export default function GlobalTechnologiesSection() {
             className="pointer-events-none absolute inset-y-0 right-0 z-20 w-[140px] bg-[linear-gradient(270deg,#0A1A44_0%,rgba(10,26,68,0.55)_45%,transparent_100%)] sm:w-[180px]"
           />
 
-          <motion.div
-            className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-10 pb-28 pt-14"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
+          <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-10 pb-28 pt-14">
             <motion.header
               variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="relative z-30 flex flex-col gap-2.5"
             >
               <h2 className="text-[26px] font-bold leading-none text-white">
@@ -108,7 +110,7 @@ export default function GlobalTechnologiesSection() {
               <MarqueeRow logos={row1} direction="left" />
               <MarqueeRow logos={row2} direction="right" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>

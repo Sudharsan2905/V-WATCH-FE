@@ -47,6 +47,13 @@ const fromRight: Variants = {
   }),
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type Feature = { icon: string; label: string };
 
 type SinglePlatformContent = {
@@ -328,7 +335,12 @@ export default function SinglePlatform({
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 overflow-hidden bg-[#f2f6fb] pb-12 px-6 md:pb-[10px] lg:pb-[20px] xl:pb-0 lg:max-h-175 lg:px-15">
-        <div className="mx-auto max-w-[1280px]">
+        <motion.div
+          className="mx-auto max-w-[1280px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           <motion.h2
             variants={wipeDown}
             custom={0.05}
@@ -344,16 +356,16 @@ export default function SinglePlatform({
           >
             {intro}
           </motion.p>
-        </div>
-        <motion.div
-          className="relative mt-1.25 mx-auto w-full max-w-[1280px] sm:mt-7.5"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
+        </motion.div>
+        <div className="relative mt-1.25 mx-auto w-full max-w-[1280px] sm:mt-7.5">
           {/* CONTENT — stacked above the map on mobile; from lg up it overlays the
               left while the map bleeds beneath it (glass cards sit over the map) */}
-          <div className="relative z-10 flex w-full flex-col lg:absolute lg:inset-y-0 lg:left-0 lg:max-w-126.25">
+          <motion.div
+            className="relative z-10 flex w-full flex-col lg:absolute lg:inset-y-0 lg:left-0 lg:max-w-126.25"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.p
               variants={fadeUp}
               custom={0.32}
@@ -511,7 +523,7 @@ export default function SinglePlatform({
                 {pill}
               </span>
             </motion.div>}
-          </div>
+          </motion.div>
 
           {/* MAP — right-anchored; bleeds left beneath the content from lg up.
               Top, bottom and right edges feather out; the left edge stays solid
@@ -519,6 +531,9 @@ export default function SinglePlatform({
           <motion.div
             variants={fromRight}
             custom={0.3}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="relative z-0 mt-10 ml-auto w-full lg:mt-0 lg:w-[64%]"
           >
             <Image
@@ -547,7 +562,7 @@ export default function SinglePlatform({
               }}
             /> */}
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

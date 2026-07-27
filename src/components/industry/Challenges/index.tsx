@@ -45,6 +45,8 @@ const railDraw: Variants = {
   },
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type Challenge = {
   title: string;
   desc: string;
@@ -357,13 +359,17 @@ export default function Challenges() {
         }}
       />
 
-      <motion.div
+      <div
         className="relative mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
       >
-        <motion.header variants={fadeUp} custom={0} className="flex flex-col gap-2.5">
+        <motion.header
+          variants={fadeUp}
+          custom={0}
+          className="flex flex-col gap-2.5"
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
             Different industries. The same core challenges.
           </h2>
@@ -376,7 +382,12 @@ export default function Challenges() {
             The absolute connector/toggle layout needs the full 1160px container,
             so it's gated on xl (≥1280px); below that the cards wrap and a stacked
             callout is shown instead. */}
-        <div className="relative xl:min-h-[470px]">
+        <motion.div
+          className="relative xl:min-h-[470px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           {/* Connector vector — its own origin sits ~165px right of the card
               column, so the brackets land in the gaps between cards (xl only) */}
           <ChallengeConnectors className="pointer-events-none absolute left-[165px] top-[171px] z-0 hidden xl:block" />
@@ -427,8 +438,8 @@ export default function Challenges() {
             <ToggleRings />
           </motion.div>
 
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
     </MotionConfig>
   );
