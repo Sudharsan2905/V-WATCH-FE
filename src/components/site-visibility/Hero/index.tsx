@@ -10,6 +10,10 @@ import {
 } from "@/components/about/anim";
 import { ArrowBadge } from "@/components/common/BookADemo";
 
+const PLATFORM_SUMMARY_PDF = "/site-visibility/platform-summary.pdf";
+
+const PLATFORM_SUMMARY_FILENAME = "V-Watch-AI-Platform-Summary.pdf";
+
 // Trigger reveals once each element is meaningfully inside the viewport — the
 // negative bottom margin pulls the trigger line up so blocks don't animate
 // while still sitting below the fold. Shared across the site-visibility page.
@@ -138,10 +142,11 @@ export default function SiteVisibilityHero() {
                   style={PRIMARY_BUTTON_STYLE}
                 >
                   <ArrowBadge />
-                  Book a Site Visibility Walkthrough
+                  Book a Demo
                 </Link>
                 <a
-                  href="#"
+                  href={PLATFORM_SUMMARY_PDF}
+                  download={PLATFORM_SUMMARY_FILENAME}
                   className="group inline-flex h-11 items-center justify-center gap-[6.67px] rounded-full bg-white px-5 text-[16px] font-semibold leading-[19.87px] transition-colors duration-200 ease-out hover:brightness-95"
                 >
                   <Image

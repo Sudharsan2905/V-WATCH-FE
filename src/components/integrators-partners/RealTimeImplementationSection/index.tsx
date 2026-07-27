@@ -30,6 +30,13 @@ const railFade: Variants = {
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE } },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // Inline icons (no icon dependency in the project). They draw with currentColor
 // so the badge sets the tint.
 function GlobeIcon() {
@@ -206,15 +213,15 @@ export default function RealTimeImplementationSection() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_60%_at_75%_30%,rgba(176,226,243,0.35),transparent_60%),linear-gradient(180deg,#ffffff_0%,#f2fafd_55%,#eaf7fa_100%)]"
         />
 
-        <motion.div
-          className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-10">
 
           {/* Illustration + integrator responsibilities */}
-          <div className="relative flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-[40px]">
+          <motion.div
+            className="relative flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-[40px]"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.div variants={imageReveal} className="relative w-full lg:flex-1">
               <Image
                 src="/integrators-partners/leftSidePick.png"
@@ -267,18 +274,21 @@ export default function RealTimeImplementationSection() {
                 ))}
               </motion.ul>
             </div>
-          </div>
+          </motion.div>
 
           {/* Closing line */}
           <motion.p
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="mx-auto max-w-[892px] text-center text-[18px] font-medium leading-[26px] text-[#1d6c97]"
           >
             V-Watch AI partners with experienced system integrators who understand local
             environments, infrastructure, and operational requirements ensuring smooth
             implementation from day one.
           </motion.p>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

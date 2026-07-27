@@ -23,6 +23,8 @@ const fadeUp: Variants = {
   }),
 };
 
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type WhyChooseItem = { icon: string; title: string; desc: string; number: string };
 
 type WhyChooseContent = {
@@ -123,14 +125,16 @@ export default function WhyChoose({
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 px-6 pt-8 pb-16 sm:pt-16 lg:px-[60px]" style={{ background: "rgb(252, 252, 252)" }}>
-        <motion.div
+        <div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
         >
           {/* Header */}
-          <header className="flex flex-col gap-2">
+          <motion.header
+            className="flex flex-col gap-2"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.h2
               variants={wipeDown}
               custom={0.05}
@@ -145,12 +149,17 @@ export default function WhyChoose({
             >
               {subheading}
             </motion.p>
-          </header>
+          </motion.header>
 
           {/* Left: title + value rows  |  Right: image */}
           <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
             {/* Left column */}
-            <div className="flex flex-col gap-6 lg:flex-1">
+            <motion.div
+              className="flex flex-col gap-6 lg:flex-1"
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
               <motion.p
                 variants={fadeUp}
                 custom={0.25}
@@ -164,12 +173,15 @@ export default function WhyChoose({
                   <ValueRow key={item.title} item={item} delay={0.35 + i * 0.12} />
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right column — white card wrapping the image */}
             <motion.div
               variants={fadeUp}
               custom={0.3}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="lg:flex-1 flex flex-col rounded-[24px] bg-white p-3 min-h-[300px]"
               style={{
                 boxShadow: "6px 6px 28px rgba(10, 75, 110, 0.15)",
@@ -178,7 +190,7 @@ export default function WhyChoose({
               <ImageCardWithOverlay cardImage={cardImage} cardContent={cardContent} />
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

@@ -27,6 +27,8 @@ const fadeUp: Variants = {
 const CARDS_START   = 0.5;
 const CARD_STAGGER  = 0.15;
 
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type UseCaseCard = { image: string; title: string; desc: string; href?: string };
 
 type UseCasesContent = {
@@ -171,14 +173,16 @@ export default function UseCases({
         className="relative z-10 mt-8 overflow-hidden rounded-t-[38px] px-6 py-16 lg:mt-12 lg:rounded-t-[50px] lg:px-[60px]"
         style={{ background: "linear-gradient(90deg, #E0F0FC 0%, #ECF6FE 45%, #EEF7E9 100%)" }}
       >
-        <motion.div
+        <div
           className="mx-auto flex w-full max-w-[1320px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
         >
           {/* Header — wipeTop */}
-          <header className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+          <motion.header
+            className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <div className="flex max-w-[680px] flex-col gap-2.5">
               <motion.h2
                 variants={wipeDown}
@@ -195,11 +199,16 @@ export default function UseCases({
                 {subtitle}
               </motion.p>
             </div>
-          </header>
+          </motion.header>
 
           {/* Cards — scroll row with arrows placed before & after, not over the images */}
           {cards.length > 0 && (
-            <div className="flex items-center gap-3 lg:gap-4">
+            <motion.div
+              className="flex items-center gap-3 lg:gap-4"
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
               {/* Front (previous) arrow — only when the row overflows */}
               {canScroll && (
                 <ScrollArrow
@@ -234,7 +243,7 @@ export default function UseCases({
                   className="hidden shrink-0 sm:flex"
                 />
               )}
-            </div>
+            </motion.div>
           )}
 
           {/* Dots — mobile only */}
@@ -258,7 +267,7 @@ export default function UseCases({
               ))}
             </div>
           )}
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

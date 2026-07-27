@@ -40,6 +40,13 @@ const fromRight: Variants = {
   }),
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates the card field while it's still below the fold). The
+// negative bottom margin pulls the trigger line up so a group animates just
+// after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type Feature = {
   /** Glass-badge icon. Left as a path — supply the asset under /icons later. */
   icon: string;
@@ -204,15 +211,17 @@ export default function PostConstructionTransition({
   return (
     <MotionConfig reducedMotion="user">
       <section className="mx-auto max-w-[1280px] relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-14 lg:px-15 lg:py-16">
-        <motion.div
-          className="mx-auto w-full max-w-full"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
+        <div className="mx-auto w-full max-w-full">
           {/* CTA button — gradient pill matching the site's demo button style */}
           <div className="flex justify-center lg:justify-end">
-            <motion.div variants={fadeUp} custom={0.3} className="shrink-0">
+            <motion.div
+              variants={fadeUp}
+              custom={0.3}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="shrink-0"
+            >
               <Link
                 href={ctaTarget}
                 className="group inline-flex h-11 items-center justify-center gap-[10px] rounded-full px-4 text-base font-bold text-white shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)] transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110"
@@ -235,7 +244,12 @@ export default function PostConstructionTransition({
               cards sit in front (z-10); the top-right grid cell is left open so
               the panel's copy shows through, and the Access card overlays the
               panel's lower-left — mirroring the Figma. */}
-          <div className="relative mt-20">
+          <motion.div
+            className="relative mt-20"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {/* Feature cards — row 1 holds two cards, row 2 holds three. Within a
                 row the gap is 30px (gap-7.5). Between rows it's 60px (gap-15): the
                 lower row's icon badges float up 30px past their cards, so the extra
@@ -371,8 +385,8 @@ export default function PostConstructionTransition({
                 </motion.div>
               </div>
             </motion.div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

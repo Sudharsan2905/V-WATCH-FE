@@ -25,6 +25,8 @@ const slideUp: Variants = {
   }),
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // "Explore how V-Watch AI works across different environments" (Figma 270:13092)
 type Card = { title: string; img: string ; desc?: string; link?: string; href?: string };
 
@@ -75,14 +77,14 @@ export default function Explore() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-[2] px-6 pb-10 pt-[30px] lg:px-[60px]">
-        <motion.div
+        <div
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
         >
           <motion.header
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex max-w-[1160px] flex-col gap-2.5"
           >
             <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
@@ -95,7 +97,12 @@ export default function Explore() {
             </p>
           </motion.header>
 
-          <div className="flex flex-wrap justify-center gap-[30px]">
+          <motion.div
+            className="flex flex-wrap justify-center gap-[30px]"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {CARDS.map((c, i) => {
               const cardStyle = {
                 borderTop: i === 0 ? "0.625px solid transparent" : "1.25px solid transparent",
@@ -171,8 +178,8 @@ export default function Explore() {
                 </motion.div>
               );
             })}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

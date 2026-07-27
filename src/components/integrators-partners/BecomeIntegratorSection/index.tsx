@@ -33,6 +33,12 @@ const formReveal: Variants = {
   show: { opacity: 1, x: 0, transition: { duration: 1, ease: EASE } },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which fires the moment its top scrolls in). The negative bottom
+// margin pulls the trigger line up so a group animates just after it clears the
+// fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 function ChevronIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
@@ -221,17 +227,15 @@ export default function BecomeIntegratorSection() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden bg-[linear-gradient(180deg,#F6FBFF_0%,#E9F2FA_60%,#F4FAFF_100%)] px-6 py-16 lg:px-[60px]">
-        <motion.div
-          className="relative mx-auto w-full max-w-[1410px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
+        <div className="relative mx-auto w-full max-w-[1410px]">
           {/* World-map container — spans the full width, vertically centered,
               the form card overlaps its right side. lg only; hidden below
               that. */}
           <motion.div
             variants={mapReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="absolute inset-x-0 top-1/2 hidden aspect-[1160/401] w-full -translate-y-1/2 overflow-hidden rounded-[42px] shadow-[0_24px_60px_rgba(7,43,102,0.35)] lg:block"
           >
             <Image
@@ -248,6 +252,9 @@ export default function BecomeIntegratorSection() {
             <div className="flex flex-col gap-8">
               <motion.header
                 variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="flex flex-col gap-2.5"
               >
                 <h2 className="text-[26px] font-bold leading-tight text-[#0A4B6E]">
@@ -261,7 +268,13 @@ export default function BecomeIntegratorSection() {
 
             {/* Right column — partnership enquiry form on top of the map
                 container */}
-            <motion.div variants={formReveal} className="relative">
+            <motion.div
+              variants={formReveal}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative"
+            >
               {status === "success" ? (
                 <FormSuccess
                   onReset={() => setStatus("idle")}
@@ -397,7 +410,7 @@ export default function BecomeIntegratorSection() {
               )}
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

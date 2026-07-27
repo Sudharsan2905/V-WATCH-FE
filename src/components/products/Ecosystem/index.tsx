@@ -41,6 +41,13 @@ const calloutReveal: Variants = {
   },
 };
 
+// Trigger each column as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen on mobile, fires the moment its
+// top scrolls in and animates the map while it's still below the fold). The
+// negative bottom margin pulls the trigger line up so a group animates just
+// after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 const COMPANIES: { name: string; country: string; logo: string }[] = [
   {
     name: "SS Surveillance and Communication Sdn Bhd",
@@ -100,13 +107,13 @@ export default function Ecosystem() {
 
         <div className="relative z-10 mx-auto flex w-full max-w-[1160px] flex-col gap-[30px]">
           {/* System integrators + world map */}
-          <motion.div
-            className="flex flex-col items-start gap-[30px] lg:flex-row lg:max-h-[389px] lg:h-[389px]"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <div className="flex w-full flex-col gap-[30px] lg:w-[482px] lg:h-[372px]">
+          <div className="flex flex-col items-start gap-[30px] lg:flex-row lg:max-h-[389px] lg:h-[389px]">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="flex w-full flex-col gap-[30px] lg:w-[482px] lg:h-[372px]"
+            >
               <motion.div
                 variants={fadeUp}
                 className="flex items-center gap-3.5 mt-6 px-4 lg:mt-0 lg:px-0"
@@ -147,11 +154,16 @@ export default function Ecosystem() {
                   </motion.div>
                 ))}
               </motion.div>
-            </div>
+            </motion.div>
 
             {/* World map with callout — top-aligned in the upper-right, bleeding
                 to the right edge */}
-            <div className="relative flex flex-1 items-start self-stretch">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative flex flex-1 items-start self-stretch"
+            >
               <motion.div
                 variants={mapReveal}
                 className="relative w-full lg:max-h-[389px] lg:h-[389px] lg:-mr-[60px] lg:-mt-2"
@@ -183,9 +195,9 @@ export default function Ecosystem() {
                   environments.
                 </p>
               </motion.div>
-            </div>
-          </motion.div>
-          
+            </motion.div>
+          </div>
+
           <TechnologyPartners
             content={{
               title:"Technology Partners",

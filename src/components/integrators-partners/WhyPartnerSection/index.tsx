@@ -31,6 +31,13 @@ const emblemReveal: Variants = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE } },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 const ICONS = [LayersIcon, ChartIcon, PlugIcon, SupportIcon];
 
 type Point = (typeof WHY_PARTNER_POINTS)[number];
@@ -100,14 +107,15 @@ export default function WhyPartnerSection() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-30 -mt-10 overflow-hidden rounded-t-[40px] border-t-2 border-white bg-[radial-gradient(70%_60%_at_50%_45%,rgba(189,228,250,0.55),transparent_70%),linear-gradient(180deg,#F4FAFF_0%,#EAF5FC_55%,#F6FBFF_100%)] px-6 pb-4 pt-14 md:pb-20 lg:px-[60px]">
-        <motion.div
-          className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-12"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="relative mx-auto flex w-full max-w-[1410px] flex-col gap-12">
           {/* Heading */}
-          <motion.header variants={fadeUp} className="flex flex-col gap-2.5">
+          <motion.header
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-2.5"
+          >
             <h2 className="text-[26px] font-bold leading-none text-[#0A4B6E]">
               {WHY_PARTNER_HEADER.title}
             </h2>
@@ -117,7 +125,12 @@ export default function WhyPartnerSection() {
           </motion.header>
 
           {/* Cards over the emblem artwork */}
-          <div className="relative">
+          <motion.div
+            className="relative"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {/* emblem — background layer covering the whole cards area,
                 rings centered behind the grid */}
             <motion.div
@@ -138,8 +151,8 @@ export default function WhyPartnerSection() {
                 <PointCard key={point.num} point={point} index={i} />
               ))}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

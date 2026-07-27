@@ -4,7 +4,8 @@ export type FormId =
   | "DEMO_INQ"
   | "CONTACT_INQ"
   | "PARTNERSHIP_INQ"
-  | "HRMS_TRIAL_INQ";
+  | "HRMS_TRIAL_INQ"
+  | "SITE_VISIBILITY_INQ";
 
 export type FormSubmitResponse = {
   success: boolean;

@@ -31,6 +31,8 @@ const slideFromRight: Variants = {
   },
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // "Also used across a wide range of environments" — dark masonry of industry
 // image cards (alternating 488 / 608 widths). (Figma node 270:13152)
 type Card = { 
@@ -170,7 +172,7 @@ export default function Adaptable() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={VIEWPORT}
           className="flex max-w-[804px] flex-col gap-2.5 text-white"
         >
           <h2 className="text-[26px] font-extrabold">
@@ -190,7 +192,7 @@ export default function Adaptable() {
               key={row[0].title}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={VIEWPORT}
               className="flex flex-col gap-6 sm:flex-row"
             >
               {row.map((c, i) => (

@@ -41,6 +41,12 @@ const fromLeft: Variants = {
   }),
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which fires the moment its top scrolls in and animates content
+// below the fold too early). The negative bottom margin pulls the trigger line
+// up so a group animates just after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 const HEADER_H2     = 0.05;
 const HEADER_P      = 0.25;
 const SKYLINE       = 0.5;
@@ -368,14 +374,14 @@ export default function OnePlatform({
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 py-0 pb-16 lg:px-[60px]">
-        <motion.div
-          className="mx-auto flex w-full max-w-[1320px] flex-col gap-12"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
+        <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-12">
           {/* Header — wipeTop */}
-          <header className="flex flex-col gap-2.5">
+          <motion.header
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-2.5"
+          >
             <motion.h2
               variants={wipeDown}
               custom={HEADER_H2}
@@ -390,11 +396,16 @@ export default function OnePlatform({
             >
               {subtitle}
             </motion.p>
-          </header>
+          </motion.header>
 
           {/* Two columns — on mobile, all 4 blocks stack with CSS order;
               on lg they group back into left/right columns. */}
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14"
+          >
 
             {/* Left column wrapper (lg only) */}
             <div className="contents lg:flex lg:w-[44%] lg:flex-none lg:flex-col lg:gap-8">
@@ -525,8 +536,8 @@ export default function OnePlatform({
 
             </div>{/* end right column wrapper */}
 
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

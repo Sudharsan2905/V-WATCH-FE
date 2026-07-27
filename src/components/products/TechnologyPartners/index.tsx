@@ -21,6 +21,11 @@ const logoItem: Variants = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: EASE } },
 };
 
+// Trigger each group as IT enters the viewport rather than on the whole section
+// wrapper, with a negative bottom margin so it reveals just after clearing the
+// fold (matches the other sections).
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 function IconBox({ src }: Readonly<{ src: string }>) {
   return (
     <span className="flex size-[54px] shrink-0 items-center justify-center overflow-hidden rounded-[14px] border-2 border-white bg-[rgba(244,251,255,0.2)] shadow-[9px_7px_60px_rgba(255,255,255,0.4),6px_10px_23px_rgba(217,226,255,0.85),0_13px_100px_rgba(199,199,199,0.25)]">
@@ -64,17 +69,17 @@ export default function TechnologyPartners({
             1280px centered — same structure as the other page sections so
             the heading/logos line up with them. */}
         <div className="w-full px-6 lg:px-15">
-          <motion.div
+          <div
             className={`mx-auto flex w-full max-w-[1410px] flex-col ${
               heading ? "gap-[28px]" : "gap-[30px] mt-10"
             }`}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
           >
             {/* Header: icon + title/subtitle + description */}
             <motion.div
               variants={headerStagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="flex flex-col gap-[10px]"
             >
               {heading && (
@@ -200,15 +205,18 @@ export default function TechnologyPartners({
             </div>
 
             {/* Bottom note */}
-            {note && ( 
+            {note && (
               <motion.p
                 variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
                 className="text-center font-lato text-[20px] font-bold leading-[26px] text-[#1d6c97]"
               >
                 {note}
               </motion.p>
             )}
-          </motion.div>
+          </div>
         </div>
       </MotionConfig>
     );
@@ -217,14 +225,12 @@ export default function TechnologyPartners({
   return (
     <MotionConfig reducedMotion="user">
       <div>
-        <motion.div
-          className="mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]">
           <motion.div
             variants={headerStagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex flex-col items-center gap-3.5"
           >
             <motion.div
@@ -251,7 +257,12 @@ export default function TechnologyPartners({
             )}
           </motion.div>
 
-          <div className="flex flex-col items-center gap-2.5">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col items-center gap-2.5"
+          >
             <div className="flex flex-col gap-5">
               {[row1, row2].map((row) => (
                 <div
@@ -288,8 +299,8 @@ export default function TechnologyPartners({
                 {note}
               </motion.p>
             )}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </MotionConfig>
   );

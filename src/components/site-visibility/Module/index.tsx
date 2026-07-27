@@ -108,18 +108,18 @@ const CTA_STYLE: React.CSSProperties = {
   border: "1.24px solid transparent",
 };
 
-function ModuleCta({ label, href }: Readonly<{ label: string; href: string }>) {
-  return (
-    <Link
-      href={href}
-      style={CTA_STYLE}
-      className="group inline-flex h-[44px] w-fit items-center justify-center gap-[10px] rounded-full pl-[16px] pr-[20px] font-lato text-[16px] font-semibold leading-none text-white shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)] transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110"
-    >
-      <ArrowBadge />
-      {label}
-    </Link>
-  );
-}
+// function ModuleCta({ label, href }: Readonly<{ label: string; href: string }>) {
+//   return (
+//     <Link
+//       href={href}
+//       style={CTA_STYLE}
+//       className="group inline-flex h-[44px] w-fit items-center justify-center gap-[10px] rounded-full pl-[16px] pr-[20px] font-lato text-[16px] font-semibold leading-none text-white shadow-[2px_5px_14px_rgba(79,148,104,0.60),0_6px_42px_rgba(38,124,153,0.40)] transition-[transform,filter] duration-200 ease-out hover:scale-102 hover:brightness-110"
+//     >
+//       <ArrowBadge />
+//       {label}
+//     </Link>
+//   );
+// }
 
 function Bullet({
   bullet,
@@ -245,7 +245,7 @@ export default function SiteVisibilityModule({
               <Bullet key={b.lead} bullet={b} index={i} />
             ))}
           </ul>
-          <ModuleCta label={cta.label} href={cta.href} />
+          {/* <ModuleCta label={cta.label} href={cta.href} /> */}
         </motion.div>
 
         <ModuleMediaPanel media={media} />

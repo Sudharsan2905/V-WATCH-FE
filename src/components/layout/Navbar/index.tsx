@@ -228,7 +228,7 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
   return (
     <Link
       href="/book-demo"
-      className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-bold text-white shadow-[0px_2.5px_8.7px_rgba(13,97,31,0.10),0px_9.9px_31px_rgba(12,75,26,0.10)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:brightness-105 hover:shadow-[0px_4px_12px_rgba(13,97,31,0.20),0px_12px_36px_rgba(12,75,26,0.22)] active:scale-100 ${className}`}
       style={{
         backgroundImage:
           "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",

@@ -142,7 +142,7 @@ export default function HrmsFeatures() {
                   mismatched ratio here is what let object-cover crop the
                   phones. Height stays auto so the full frame always shows. */}
               <Image
-                src="/hrms/Features/Mobile_shows.svg"
+                src="/hrms/Features/Mobile_shows.webp"
                 alt="mobile_image"
                 width={527}
                 height={359}

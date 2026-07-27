@@ -27,6 +27,8 @@ const fadeUp: Variants = {
 const CARDS_START  = 0.5;
 const CARD_STAGGER = 0.12;
 
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type EnvCardData = {
   image: string;
   /** Shown at rest; on hover it crossfades to `image`. Falls back to `image`. */
@@ -143,7 +145,12 @@ function MobileCarousel({
   }, [emblaApi]);
 
   return (
-    <div className="sm:hidden">
+    <motion.div
+      className="sm:hidden"
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+    >
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {cards.map((card, i) => (
@@ -175,7 +182,7 @@ function MobileCarousel({
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -203,14 +210,16 @@ export default function Environments({
           className="pointer-events-none select-none object-cover object-top"
         />
 
-        <motion.div
+        <div
           className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
         >
           {/* Header — wipeTop */}
-          <header className="flex flex-col gap-2.5">
+          <motion.header
+            className="flex flex-col gap-2.5"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.h2
               variants={wipeDown}
               custom={0.05}
@@ -225,13 +234,18 @@ export default function Environments({
             >
               {subtitle}
             </motion.p>
-          </header>
+          </motion.header>
 
           {/* Mobile (< sm): swipeable carousel */}
           <MobileCarousel cards={cards} selectedCard={selectedCard} onSelect={handleSelect} />
 
           {/* Tablet & up: grid — one by one */}
-          <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {cards.map((card, i) => (
               <EnvCard
                 key={card.title}
@@ -241,8 +255,8 @@ export default function Environments({
                 onSelect={() => handleSelect(i)}
               />
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );
