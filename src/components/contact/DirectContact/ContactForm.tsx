@@ -3,17 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import emailjs from "@emailjs/browser";
-
-// EmailJS credentials — set these in .env.local (all NEXT_PUBLIC_* so they're
-// available in the browser). Until all three are present the form stays inert:
-// it logs the submission and shows the success message without calling out.
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-const EMAILJS_READY = Boolean(
-  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
-);
+import { submitForm } from "@/lib/submitForm";
+import FormSuccess from "@/components/common/FormSuccess";
 
 type Field = {
   name: string;
@@ -287,21 +278,13 @@ export default function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
 
-    const params = {
-      to_email: "sales@vwatch.ai",
-      name: formData.fullName,
-      email: formData.workEmail,
-      phone: formData.phoneNumber,
-      company: formData.companyName,
-      enquiry_type: formData.enquiryType,
-      message: formData.additionalDetails,
-      reply_to: formData.workEmail,
+    const payload = {
+      formId: "CONTACT_INQ" as const,
       fullName: formData.fullName,
       workEmail: formData.workEmail,
-      phoneNumber: formData.phoneNumber,
       companyName: formData.companyName,
+      phoneNumber: formData.phoneNumber,
       enquiryType: formData.enquiryType,
       additionalDetails: formData.additionalDetails,
     };
@@ -317,24 +300,25 @@ export default function ContactForm() {
       });
     };
 
-    if (!EMAILJS_READY) {
-      console.log("Contact form submission (EmailJS not configured):", params);
-      setStatus("success");
-      resetForm();
-      return;
-    }
-
     try {
       setStatus("sending");
-      await emailjs.send(EMAILJS_SERVICE_ID!, EMAILJS_TEMPLATE_ID!, params, {
-        publicKey: EMAILJS_PUBLIC_KEY!,
-      });
+      await submitForm(payload);
       setStatus("success");
       resetForm();
     } catch (err) {
-      console.error("EmailJS send failed:", err);
+      console.error("Contact form submit failed:", err);
       setStatus("error");
     }
+  }
+
+  if (status === "success") {
+    return (
+      <FormSuccess
+        onReset={() => setStatus("idle")}
+        resetLabel="Send another message"
+        className={`rounded-[36px] bg-white p-8 ${CARD_SHADOW} xl:h-[563px] xl:w-[548px]`}
+      />
+    );
   }
 
   return (
@@ -357,7 +341,7 @@ export default function ContactForm() {
                 <FieldLabel required={f.required}>{f.label}</FieldLabel>
                 <InputShell icon={f.icon}>
                   <input
-                    type={f.type ?? "text"}
+                    type={f.type ?? "text"} 
                     name={f.name}
                     required={f.required}
                     placeholder={f.placeholder}
@@ -418,11 +402,9 @@ export default function ContactForm() {
             status === "error" ? "text-[#D14343]" : "text-[#3890C0]"
           }`}
         >
-          {status === "success"
-            ? "Thanks — we'll be in touch within 24 hours."
-            : status === "error"
-              ? "Something went wrong. Please try again."
-              : "We'll get back to you within 24 hours on business days."}
+          {status === "error"
+            ? "Something went wrong. Please try again."
+            : "We'll get back to you within 24 hours on business days."}
         </p>
       </div>
     </form>

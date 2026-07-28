@@ -7,11 +7,11 @@ import FeatureHighlight from "@/components/workforce-management/FeatureHighlight
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 import Footer from "@/components/layout/Footer";
 
-export const metadata = {
-  title: "Workforce Management | V-Watch AI",
-  description:
-    "Automate payroll, claims, and leave management using real-time workforce data — reducing manual work, improving accuracy, and keeping operations running efficiently.",
-};
+// export const metadata = {
+//   title: "Workforce Management | V-Watch AI",
+//   description:
+//     "Automate payroll, claims, and leave management using real-time workforce data — reducing manual work, improving accuracy, and keeping operations running efficiently.",
+// };
 
 export default function WorkforceManagementPage() {
   return (

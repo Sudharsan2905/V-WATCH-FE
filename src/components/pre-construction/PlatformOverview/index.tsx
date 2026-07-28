@@ -31,6 +31,23 @@ const fadeUp: Variants = {
   }),
 };
 
+// Trigger as the element enters the viewport, with a negative bottom margin so
+// it reveals just after clearing the fold (matches the other sections).
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
+// Column reveals for the main two-column layout (progress rail + content card on
+// the left, the image on the right). The inner carousel uses its own
+// AnimatePresence with explicit initial/animate props, so it runs independently
+// of these variant-driven entrance reveals.
+const slideLeft: Variants = {
+  hidden: { opacity: 0, x: -40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE } },
+};
+const slideRight: Variants = {
+  hidden: { opacity: 0, x: 40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE, delay: 0.1 } },
+};
+
 const CAP_IMAGE =
   "/pre-construction/platform-overview/Rectangle%2034624111.png";
 
@@ -122,7 +139,7 @@ function ConnectedBanner({
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={VIEWPORT}
       className="flex w-full min-h-[60px] items-center gap-2 overflow-hidden rounded-[30px] px-4 py-3"
       style={{
         background:
@@ -364,7 +381,8 @@ export default function PlatformOverview({
             variants={wipeDown}
             custom={0.05}
             initial="hidden"
-            animate="show"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="font-lato text-[26px] font-bold leading-[100%] tracking-[0] text-[#0A4B6E]"
           >
             {heading}
@@ -373,7 +391,13 @@ export default function PlatformOverview({
           {/* Main two-column layout */}
           <div className="mt-10 flex flex-col gap-8 lg:mt-12 lg:flex-row lg:items-stretch lg:gap-12">
             {/* ── LEFT: progress bar + content card + banner ── */}
-            <div className="flex flex-col gap-5 lg:w-[45%] lg:flex-none lg:overflow-visible">
+            <motion.div
+              variants={slideLeft}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="flex flex-col gap-5 lg:w-[45%] lg:flex-none lg:overflow-visible"
+            >
               {/* Inner row: progress bar + content card */}
               <div className="order-1 flex flex-1 items-stretch gap-5 lg:order-none lg:overflow-visible">
                 {/* Vertical nav — up arrow + progress rail + down arrow (desktop).
@@ -565,11 +589,15 @@ export default function PlatformOverview({
               <div className="order-3 lg:order-none">
                 <ConnectedBanner text={bannerText} />
               </div>
-            </div>
+            </motion.div>
             {/* end left column */}
 
             {/* ── RIGHT: animated image (desktop only) ── */}
-            <div
+            <motion.div
+              variants={slideRight}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="relative hidden flex-1 overflow-hidden rounded-[22px] lg:block"
               style={{ minHeight: 260 }}
             >
@@ -603,7 +631,7 @@ export default function PlatformOverview({
                   </div>
                 </motion.div>
               </AnimatePresence>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

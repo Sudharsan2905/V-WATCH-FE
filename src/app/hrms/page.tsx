@@ -11,23 +11,29 @@ const FOOTER_COLUMNS = [
     heading: "Platform",
     links: ["DSA Access", "RTLS Tracking", "SMS Workflow", "HRMS Management"],
   },
-  { heading: "Industries", links: ["Construction", "Industrial", "Commercial"] },
-  { heading: "Company", links: ["About Us", "Contact", "Career", "Terms of Service"] },
+  {
+    heading: "Industries",
+    links: ["Construction", "Industrial", "Commercial"],
+  },
+  {
+    heading: "Company",
+    links: ["About Us", "Contact", "Career", "Terms of Service"],
+  },
 ];
 
-export const metadata = {
-  title: "HRMS | V-Watch AI",
-  description:
-    "A unified HR system that connects workforce management with task execution — assign, track, verify, and reward work using real data from your site.",
-};
+// export const metadata = {
+//   title: "HRMS | V-Watch AI",
+//   description:
+//     "A unified HR system that connects workforce management with task execution — assign, track, verify, and reward work using real data from your site.",
+// };
 
 export default function HrmsPage() {
   return (
-    <div className="relative overflow-x-clip bg-[#f5fbff]">
-      <Navbar active="Platform" />
+    <div className="relative overflow-x-clip bg-[#f6fbfe]">
+      <Navbar active="" />
       <HrmsHero />
 
-      <div className="relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">
+      <div className="-mt-[2px] relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">
         <HrmsOverview />
         <HrmsFeatures />
         <HrmsPlanStructure />
@@ -35,11 +41,7 @@ export default function HrmsPage() {
 
       <HrmsTrialForm />
 
-      <Footer
-        showHeader={false}
-        showCta={false}
-        linkColumns={FOOTER_COLUMNS}
-      />
+      <Footer showHeader={false} showCta={false} linkColumns={FOOTER_COLUMNS} />
     </div>
   );
 }

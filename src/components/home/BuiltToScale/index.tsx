@@ -3,6 +3,11 @@
 import Image from "next/image";
 import { motion, type Variants } from "motion/react";
 
+// Shared scroll-reveal viewport (matches the site-visibility page + FeatureGrid):
+// the element must be 30% visible AND 80px past the bottom edge before it
+// animates, so content never reveals before it's actually scrolled into view.
+const VIEWPORT = { once: true, amount: 0.3, margin: "0px 0px -80px 0px" } as const;
+
 // ── Scroll-reveal variants ──────────────────────────────────────────────────
 // Wipe-in-from-top: content reveals downward behind a moving top edge.
 // `custom` is the per-element delay in seconds.
@@ -279,7 +284,7 @@ export default function BuiltToScale() {
             className="max-w-[860px]"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <motion.h2
               variants={wipeTop}
@@ -304,7 +309,7 @@ export default function BuiltToScale() {
             style={{ aspectRatio: "1221 / 392" }}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             {/* Left cluster: 3 concentric glow ellipses (group 1) + rocket (group 2) */}
             <div
@@ -402,7 +407,7 @@ export default function BuiltToScale() {
             className="mt-6 lg:mt-10 flex flex-col gap-9 md:hidden"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             {/* Command-centre image */}
             <motion.div

@@ -6,12 +6,12 @@ import HowItWorks from "@/components/visitor-management/HowItWorks";
 import Footer from "@/components/layout/Footer";
 import TechnologyPartners from "@/components/products/TechnologyPartners";
 
-export const metadata: Metadata = {
-  title: "Visitor Management — V-Watch AI",
-  description:
-    "Manage, verify, and track every visitor entering your operations from pre-registration to exit ensuring security, efficiency, and complete accountability without manual processes.",
-  alternates: { canonical: "/visitor-management" },
-};
+// export const metadata: Metadata = {
+//   title: "Visitor Management — V-Watch AI",
+//   description:
+//     "Manage, verify, and track every visitor entering your operations from pre-registration to exit ensuring security, efficiency, and complete accountability without manual processes.",
+//   alternates: { canonical: "/visitor-management" },
+// };
 
 export default function VisitorManagementPage() {
   return (

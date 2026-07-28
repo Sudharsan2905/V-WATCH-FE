@@ -33,6 +33,13 @@ const fadeUp: Variants = {
   }),
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 const CARDS_START = 0.4;
 const CARD_STAGGER = 0.15;
 const SUMMARY_DELAY = 0.9;
@@ -134,14 +141,14 @@ export default function Challenges({
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-10 overflow-hidden bg-[#f5fbff] px-6 pb-16 lg:px-[60px] lg:pb-24">
-        <motion.div
-          className="mx-auto flex w-full max-w-[1320px] flex-col gap-8"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
+        <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-8">
           {/* Header — wipeDown */}
-          <header className="flex flex-col gap-2.5">
+          <motion.header
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-2.5"
+          >
             <motion.h2
               variants={wipeDown}
               custom={0.05}
@@ -156,12 +163,17 @@ export default function Challenges({
             >
               {subheading}
             </motion.p>
-          </header>
+          </motion.header>
 
           {/* Two columns */}
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
             {/* Left column — feature cards + results (loadIn) */}
-            <div className="flex w-full min-w-0 flex-col gap-7 lg:flex-1">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="flex w-full min-w-0 flex-col gap-7 lg:flex-1"
+            >
               {features.length > 0 && (
                 <div className="relative grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                   {/* Cross dividers */}
@@ -230,10 +242,15 @@ export default function Challenges({
                   ))}
                 </ul>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right column — photo collage (wipebottom) */}
-            <div className="relative w-full shrink-0 lg:w-[540px]">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative w-full shrink-0 lg:w-[540px]"
+            >
               <DotGrid className="absolute top-4 z-10 hidden lg:block lg:left-[calc(22%_-_56px)]" />
 
               {images.length >= 4 && (
@@ -340,9 +357,9 @@ export default function Challenges({
               )}
 
 
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

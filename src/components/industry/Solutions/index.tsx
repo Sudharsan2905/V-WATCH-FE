@@ -30,6 +30,8 @@ const paintIn: Variants = {
   }),
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type Card = {
   title: string;
   desc: string;
@@ -188,15 +190,15 @@ export default function Solutions() {
           }}
         />
 
-        <motion.div
+        <div
           className="relative z-10 mx-auto flex w-full max-w-[1410px] flex-col gap-[30px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
         >
           {/* Header */}
           <motion.div
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center"
           >
             <div className="flex max-w-[845px] flex-col gap-2.5 text-[#0A4B6E]">
@@ -234,9 +236,12 @@ export default function Solutions() {
             header arrows paging through the rest. The negative margin + padding
             gives the cards' -10px image bleed room so the overflow-x scroller
             doesn't clip it. */}
-          <div
+          <motion.div
             ref={scrollerRef}
             onScroll={updateEdges}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="-my-2.5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {CARDS.map((c, i) => {
@@ -340,7 +345,7 @@ export default function Solutions() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Mobile/tablet controls — arrows + pagination dots below the
               carousel. Hidden from lg up, where the arrows sit in the header. */}
@@ -368,7 +373,7 @@ export default function Solutions() {
               <NavButton dir="next" disabled={atEnd} onClick={() => page(1)} />
             </div>
           )}
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

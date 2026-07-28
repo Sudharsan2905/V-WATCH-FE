@@ -7,8 +7,20 @@ import {
   fadeUp,
   loadIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// `amount` is the fraction of the *whole* stagger container that must be in
+// view before the reveal fires. The container holds all four feature cards, so
+// it's taller than the viewport — a high `amount` (0.3+) can never be satisfied
+// and the whole section stays in its `hidden` state (opacity 0), rendering
+// blank. Keep it low so the first card scrolling in triggers the staggered
+// reveal. The negative bottom margin still delays the trigger slightly so the
+// entrance isn't finished before the section is really on screen under Lenis.
+const VIEWPORT = {
+  once: true,
+  amount: 0.1,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 const FEATURES = [
   {
@@ -18,9 +30,39 @@ const FEATURES = [
       "Automatically capture working hours, shifts, and attendance using real-time data.",
     image: "/workforce/featureCard1.svg",
   },
+  {
+    number: "02",
+    title: "Payroll Automation",
+    description:
+      "Calculate salaries based on actual manhours, overtime, and workforce activity.",
+    image: "/workforce/featureCard2.svg",
+  },
+  {
+    number: "03",
+    title: "Claims Management",
+    description:
+      "Submit, track, and approve claims within a structured workflow.",
+    image: "/workforce/featureCard3.svg",
+  },
+  {
+    number: "04",
+    title: "Leave Management",
+    description:
+      "Manage leave requests, approvals, and balances in one system.",
+    image: "/workforce/featureCard4.svg",
+  },
 ];
 
-const CARD_SHADOW = "0 4px 32px 0 rgba(0,117,180,0.06)";
+// Each card should read as "lifted from the top, merged into the page at the
+// bottom": a soft shadow above/around the rounded top edge (negative Y offset,
+// negative spread so it stays near the top and doesn't bleed downward), and a
+// white background that fades to transparent so the bottom edge dissolves into
+// whatever surface is behind it (#F2F8FE here).
+const CARD_STYLE = {
+  background:
+    "linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 45%, rgba(255,255,255,0) 100%)",
+  boxShadow: "0 -14px 34px -12px rgba(0,117,180,0.16)",
+} as const;
 
 export default function FeatureHighlight() {
   return (
@@ -43,7 +85,7 @@ export default function FeatureHighlight() {
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
-          viewport={viewportReveal}
+          viewport={VIEWPORT}
         >
           <div
             aria-hidden
@@ -58,7 +100,7 @@ export default function FeatureHighlight() {
               key={number}
               variants={fadeUp}
               className="relative flex flex-col items-center gap-6 rounded-t-3xl p-6 sm:flex-row sm:gap-8 sm:p-8"
-              style={{ boxShadow: CARD_SHADOW }}
+              style={CARD_STYLE}
             >
               {/* White background that fades right — image sits above this */}
 
@@ -68,13 +110,13 @@ export default function FeatureHighlight() {
                 <motion.span
                   variants={wipeTop}
                   custom={i * 0.1}
-                  className="shrink-0 font-lato text-[72px] font-extrabold leading-none text-[#3DA9F5] sm:text-[88px]"
+                  className="shrink-0 font-lato text-[40px] my-auto font-extrabold leading-none text-[#3DA9F5] md:text-[88px]"
                 >
                   {number}
                 </motion.span>
 
                 {/* Title + description */}
-                <div className="flex flex-col gap-1.5 rounded-2xl bg-gradient-to-r from-[#E4F3FB]/80 to-transparent px-4 py-3">
+                <div className="flex flex-col gap-1.5 rounded-2xl bg-gradient-to-r from-[#B5E4FC82]/80 to-transparent px-4 py-3">
                   <motion.h3
                     variants={fadeUp}
                     custom={0.1 + i * 0.1}

@@ -6,12 +6,18 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Shared scroll-reveal viewport (matches the site-visibility page + FeatureGrid):
+// the band must be 30% visible AND 80px past the bottom edge before it animates,
+// so content never reveals before it's actually scrolled into view.
+const VIEWPORT = { once: true, amount: 0.3, margin: "0px 0px -80px 0px" } as const;
+
 // Reveal timeline (seconds): the dark band shows first, then the header,
-// then the tiles one after another, and the bottom pill last.
+// then the tiles row by row (all 3 of row 1 together, then both of row 2),
+// and the bottom pill last.
 const HEADER_DELAY = 0.25;
 const CARDS_START = 0.55;
-const CARD_STAGGER = 0.2;
-const PILL_DELAY = CARDS_START + 5 * CARD_STAGGER + 0.15;
+const ROW_STAGGER = 0.2;
+const PILL_DELAY = CARDS_START + 2 * ROW_STAGGER + 0.15;
 
 // `custom` is the per-element delay in seconds.
 const fadeUp: Variants = {
@@ -85,9 +91,9 @@ function IndustryTile({
   img,
   desc,
   href,
-  index,
+  row,
   showLearnMore = false,
-}: Readonly<Industry & { index: number; showLearnMore?: boolean }>) {
+}: Readonly<Industry & { row: number; showLearnMore?: boolean }>) {
   // Shared "Learn More" affordance. On laptop (lg+) this is the ONLY thing that
   // navigates; below lg the whole-tile overlay link handles taps instead.
   const learnMoreInner = (
@@ -108,7 +114,7 @@ function IndustryTile({
     // hover scale so it doesn't fight Motion's inline transform.
     <motion.div
       variants={cardItem}
-      custom={CARDS_START + index * CARD_STAGGER}
+      custom={CARDS_START + row * ROW_STAGGER}
       className="w-full"
     >
       <div className="group relative h-[300px] w-full overflow-hidden rounded-[24px] transition-transform duration-300 ease-out hover:scale-[1.02] sm:h-[320px]">
@@ -167,7 +173,7 @@ export default function Industries() {
           variants={bandIn}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={VIEWPORT}
         >
           {/* background texture + glow */}
           <Image
@@ -178,7 +184,11 @@ export default function Industries() {
             sizes="100vw"
           />
 
-          <div className="relative mx-auto flex w-full flex-col gap-[30px] px-6 py-12 lg:px-[70px] lg:py-[61px]">
+          {/* The band itself is full-bleed, but its content sits in the same
+              rail as every other home section (max-w-[1410px] inside a 60px
+              gutter → 1410 + 2 × 60 here) so the heading starts on the same
+              vertical line as FeatureGrid / BuiltToScale at any viewport. */}
+          <div className="relative mx-auto flex w-full max-w-[1530px] flex-col gap-[30px] px-6 py-12 lg:px-[60px] lg:py-[61px]">
             <motion.div
               variants={fadeUp}
               custom={HEADER_DELAY}
@@ -197,13 +207,13 @@ export default function Industries() {
             {/* grid */}
             <div className="flex flex-col gap-[30px]">
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-3">
-                {ROW_1.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={i} showLearnMore />
+                {ROW_1.map((ind) => (
+                  <IndustryTile key={ind.name} {...ind} row={0} showLearnMore />
                 ))}
               </div>
               <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
-                {ROW_2.map((ind, i) => (
-                  <IndustryTile key={ind.name} {...ind} index={ROW_1.length + i} showLearnMore />
+                {ROW_2.map((ind) => (
+                  <IndustryTile key={ind.name} {...ind} row={1} showLearnMore />
                 ))}
               </div>
             </div>

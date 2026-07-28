@@ -6,8 +6,16 @@ import {
   wipeTop,
   fadeUp,
   loadIn,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.5,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // ─── Decorative blade fan ─────────────────────────────────────────────────────
 // Identical flat 35×555 radial-glow fins behind the dashboard, masked top/bottom.
@@ -66,7 +74,7 @@ export default function Overview() {
           <motion.header
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             className="relative z-10 flex flex-col gap-2 text-[#0A4B6E]"
           >
             <motion.h2
@@ -127,12 +135,12 @@ export default function Overview() {
             <motion.div
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               variants={loadIn}
               className="relative z-10 mx-auto w-[81%] max-w-[614px]"
             >
               <Image
-                src="/workforce/dashboard-mockup.svg"
+                src="/workforce/dashboard-mockup.webp"
                 alt="V-Watch AI workforce dashboard overview"
                 width={615}
                 height={407}

@@ -38,6 +38,7 @@ export default function BookDemoHero() {
             priority
             sizes="100vw"
             className="object-cover object-left-top"
+            loading="eager"
           />
         </div>
 

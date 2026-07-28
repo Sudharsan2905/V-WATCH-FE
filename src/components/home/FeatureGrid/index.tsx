@@ -4,6 +4,11 @@ import Image from "next/image";
 type Feature = { icon: string; title: string; desc: string };
 import { motion, type Variants } from "motion/react";
 
+// Shared scroll-reveal viewport (matches the site-visibility page): the element
+// must be 50% visible AND 120px past the bottom edge before it animates, so
+// content never reveals before it's actually scrolled into view.
+const VIEWPORT = { once: true, amount: 0.3, margin: "0px 0px -80px 0px" } as const;
+
 // Wipe-in-from-top: content reveals downward behind a moving top edge.
 // `custom` is the per-element delay in seconds.
 const wipeTop: Variants = {
@@ -162,7 +167,7 @@ export default function FeatureGrid() {
           className="flex max-w-[807px] flex-col gap-2.5"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={VIEWPORT}
         >
           <motion.h2
             variants={wipeTop}
@@ -185,7 +190,7 @@ export default function FeatureGrid() {
           className="flex flex-col items-center gap-[30px]"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={VIEWPORT}
         >
           <div className="flex w-full max-w-[1160px] flex-col gap-[30px]">
             {rows.map((row, r) => (

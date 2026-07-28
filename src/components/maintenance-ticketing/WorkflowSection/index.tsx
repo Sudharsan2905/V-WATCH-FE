@@ -8,8 +8,17 @@ import {
   fadeUp,
   scaleIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom means the reveal is finished before it's really on
+// screen. Pull the trigger line up and require a real slice to be visible.
+const VIEWPORT = {
+  once: true,
+  amount: 0.5,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // ─── Timeline Step Indicators ─────────────────────────────────────────────────
 
@@ -362,7 +371,7 @@ function ExecuteCard({ isActive }: { isActive?: boolean }) {
               }}
               initial={{ width: 0 }}
               whileInView={{ width: "68%" }}
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
             />
           </div>
@@ -764,7 +773,7 @@ export default function WorkflowSection() {
         <motion.header
           initial="hidden"
           whileInView="show"
-          viewport={viewportReveal}
+          viewport={VIEWPORT}
           className="flex flex-col gap-2 text-[#0A4B6E]"
         >
           <motion.h2
@@ -810,7 +819,7 @@ export default function WorkflowSection() {
               className="relative z-20"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
             >
               {/* flex on mobile with fixed 260px cols + gap-5 (20px) = exact match to cards row; grid at xl */}
@@ -872,7 +881,7 @@ export default function WorkflowSection() {
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               className="flex gap-[20px] xl:grid xl:grid-cols-5 xl:gap-[30px]"
             >
               {CARD_COMPONENTS.map(({ key, Component }, i) => {

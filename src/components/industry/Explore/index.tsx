@@ -25,6 +25,8 @@ const slideUp: Variants = {
   }),
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // "Explore how V-Watch AI works across different environments" (Figma 270:13092)
 type Card = { title: string; img: string ; desc?: string; link?: string; href?: string };
 
@@ -53,14 +55,16 @@ const CARDS: Card[] = [
   },
 ];
 
+/* Same affordance as the home page's industry tiles: a hairline circle that
+   fills white and inverts the glyph on hover, with the row's gap opening up. */
 function Arrow() {
   return (
-    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/10 transition-colors duration-200 group-hover/link:bg-white/25">
-      <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden>
+    <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover/btn:border-white group-hover/btn:bg-white group-hover/btn:text-[#0A1A2F]">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
         <path
           d="M3.6 8.4 8.4 3.6M4.5 3.6h3.9v3.9"
-          stroke="white"
-          strokeWidth="1.4"
+          stroke="currentColor"
+          strokeWidth="1.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -73,14 +77,14 @@ export default function Explore() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative z-[2] px-6 pb-10 pt-[30px] lg:px-[60px]">
-        <motion.div
+        <div
           className="mx-auto flex w-full max-w-[1410px] flex-col gap-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
         >
           <motion.header
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex max-w-[1160px] flex-col gap-2.5"
           >
             <h2 className="max-w-[889px] text-[26px] font-extrabold text-[#0A4B6E]">
@@ -93,7 +97,12 @@ export default function Explore() {
             </p>
           </motion.header>
 
-          <div className="flex flex-wrap justify-center gap-[30px]">
+          <motion.div
+            className="flex flex-wrap justify-center gap-[30px]"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {CARDS.map((c, i) => {
               const cardStyle = {
                 borderTop: i === 0 ? "0.625px solid transparent" : "1.25px solid transparent",
@@ -138,7 +147,7 @@ export default function Explore() {
                               <p className="text-[16px] font-normal leading-5 text-white">{c.desc}</p>
                             )}
                             {c.link && (
-                              <div className="group/link flex w-fit cursor-pointer items-center gap-2.5">
+                              <div className="group/btn flex w-fit cursor-pointer items-center gap-2 text-white transition-all duration-300 hover:gap-3">
                                 <p className="text-[16px] font-bold text-white">{c.link}</p>
                                 <Arrow />
                               </div>
@@ -169,8 +178,8 @@ export default function Explore() {
                 </motion.div>
               );
             })}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

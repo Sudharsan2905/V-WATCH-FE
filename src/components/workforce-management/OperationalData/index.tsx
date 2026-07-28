@@ -7,8 +7,16 @@ import {
   fadeUp,
   popIn,
   staggerContainer,
-  viewportReveal,
 } from "@/components/about/anim";
+
+// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
+// with Lenis smoothing the scroll, firing as the section's top edge peeks over
+// the viewport bottom leaves the reveal finished before it's really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.5,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // ─── Process steps ────────────────────────────────────────────────────────────
 const STEPS = [
@@ -67,7 +75,7 @@ export default function OperationalData() {
           <motion.header
             initial="hidden"
             whileInView="show"
-            viewport={viewportReveal}
+            viewport={VIEWPORT}
             className="flex w-full flex-col gap-2 text-[#0A4B6E]"
           >
             <motion.h2
@@ -94,7 +102,7 @@ export default function OperationalData() {
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
-              viewport={viewportReveal}
+              viewport={VIEWPORT}
               className="absolute inset-x-0 top-1 hidden h-8 min-[1046px]:block"
             >
               {[0, 1, 2].map((i) => (
@@ -110,14 +118,18 @@ export default function OperationalData() {
             </motion.div>
 
             <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportReveal}
               className="grid grid-cols-1 gap-x-6 gap-y-10 min-[426px]:grid-cols-2 min-[1046px]:grid-cols-4 min-[1046px]:gap-x-8 min-[1046px]:pt-9"
             >
-              {STEPS.map((step) => (
-                <motion.div key={step.label} variants={fadeUp} className="max-h-[306px] flex flex-col items-center">
+              {STEPS.map((step, i) => (
+                <motion.div
+                  key={step.label}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
+                  custom={i * 0.1}
+                  className="max-h-[306px] flex flex-col items-center"
+                >
                   {/* Step circle */}
                   <motion.div
                     variants={popIn}

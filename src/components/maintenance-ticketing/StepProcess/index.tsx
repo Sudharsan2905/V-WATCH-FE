@@ -97,16 +97,19 @@ function StepContent({ step, flip = false }: Readonly<{ step: typeof STEPS[numbe
   );
 }
 
+// Matches WorkflowSection / FeatureGrid above: with Lenis smoothing the
+// scroll, a low `amount` fires the reveal before the panel is really on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.5,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 export default function StepProcess() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="px-3 pb-16 pt-2 sm:px-6 lg:px-[60px]">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] px-4 py-10 sm:px-8 shadow-[0_4px_14px_0_rgba(56,144,192,0.40)]"
-        >
+        <div className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[28px] border border-[#1E4D7B]/40 bg-[linear-gradient(120deg,#0B1E3A_0%,#0A1730_55%,#081124_100%)] px-4 py-10 sm:px-8 shadow-[0_4px_14px_0_rgba(56,144,192,0.40)]">
           {/* Grid pattern — same technique as ai-platform ThreePillars */}
           <div
             aria-hidden
@@ -154,6 +157,9 @@ export default function StepProcess() {
                 <motion.div
                   key={step.num}
                   variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
                   custom={i * 0.1}
                   className="flex items-start gap-4 rounded-[16px] p-4"
                   style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(58,175,212,0.18)" }}
@@ -181,7 +187,7 @@ export default function StepProcess() {
                       key={step.num}
                       initial="hidden"
                       whileInView="show"
-                      viewport={{ once: true, amount: 0.5 }}
+                      viewport={VIEWPORT}
                       className={`group relative flex min-h-[140px] ${isLast ? "items-start" : "items-center"}`}
                     >
                       {/* Centre dot — white bg, blue border, 7px padding, blue inner dot */}
@@ -244,7 +250,7 @@ export default function StepProcess() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

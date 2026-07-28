@@ -25,6 +25,15 @@ const formRight: Variants = {
   show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE, delay: 0.25 } },
 };
 
+// Matches HelpCards above: a low `amount` fires the reveal the moment the
+// section's top edge peeks over the viewport bottom, and with Lenis smoothing
+// the scroll it would be over before the panel is actually on screen.
+const VIEWPORT = {
+  once: true,
+  amount: 0.3,
+  margin: "0px 0px -120px 0px",
+} as const;
+
 export default function DirectContact() {
   return (
     <MotionConfig reducedMotion="user">
@@ -33,7 +42,7 @@ export default function DirectContact() {
         className="mx-auto flex w-full max-w-[1280px] flex-col gap-[30px]"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={VIEWPORT}
       >
         {/* Heading */}
         <motion.header variants={fadeUp} className="flex max-w-[552px] flex-col gap-2.5">

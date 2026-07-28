@@ -5,6 +5,8 @@ import { motion, MotionConfig, type Variants } from "motion/react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
+
 const wipeDown: Variants = {
   hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
   show: (delay = 0) => ({
@@ -176,7 +178,7 @@ export default function BiometricVerification() {
             <motion.div
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={VIEWPORT}
             >
               <motion.h2
                 variants={wipeDown}
@@ -201,7 +203,7 @@ export default function BiometricVerification() {
               className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-6"
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.12 }}
+              viewport={VIEWPORT}
             >
               {/* Left: 2×2 feature grid */}
               <div

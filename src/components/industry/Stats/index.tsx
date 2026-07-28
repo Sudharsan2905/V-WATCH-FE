@@ -27,6 +27,8 @@ const fadeUp: Variants = {
   }),
 };
 
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // ── Data ────────────────────────────────────────────────────────────────────
 // Icons live in /public/industry.
 type Stat = { icon: string; value: string; label: string };
@@ -63,12 +65,15 @@ export default function Stats() {
         variants={bannerIn}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={VIEWPORT}
         className="relative mx-auto w-full max-w-[1410px] overflow-hidden rounded-[24px] bg-[#0a3f5c] px-6 py-10 sm:rounded-none sm:bg-transparent sm:bg-[url(/industry/stats-bg.webp)] sm:bg-[length:100%_100%] sm:bg-center sm:bg-no-repeat sm:px-8 sm:py-12 lg:px-20 lg:py-16"
       >
         <motion.div
           variants={fadeUp}
           custom={HEADER_DELAY}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
           className="relative z-10 mx-auto flex max-w-[900px] flex-col items-center gap-3.5 text-center"
         >
           <h2 className="max-w-[584px] text-[26px] font-bold leading-[31px] text-[#EBF7FE]">
@@ -81,7 +86,12 @@ export default function Stats() {
           </p>
         </motion.div>
 
-        <div className="relative z-10 mt-10 mb-7 flex flex-col items-stretch gap-8 sm:flex-row sm:items-center sm:justify-center sm:gap-0">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="relative z-10 mt-10 mb-7 flex flex-col items-stretch gap-8 sm:flex-row sm:items-center sm:justify-center sm:gap-0"
+        >
           {STATS.map((stat, i) => (
             <Fragment key={stat.label}>
               {/* Tapered, blurred vertical separator between columns (sm+ only).
@@ -129,7 +139,7 @@ export default function Stats() {
               </motion.div>
             </Fragment>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
     </MotionConfig>

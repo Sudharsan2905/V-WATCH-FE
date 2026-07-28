@@ -25,6 +25,11 @@ const slideFromRight: Variants = {
   },
 };
 
+// Each row triggers as IT enters the viewport; the negative bottom margin pulls
+// the trigger line up so a row reveals just after it clears the fold (matches
+// the ai-platform sections).
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // ── Shared bits ───────────────────────────────────────────────────────────────
 
 function CheckBullet({ text }: Readonly<{ text: string }>) {
@@ -229,7 +234,7 @@ export default function DashboardShowcase() {
             className="relative z-10 flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <CopyColumn
               variants={slideFromLeft}
@@ -268,7 +273,7 @@ export default function DashboardShowcase() {
             className="relative z-10 flex flex-col items-center gap-10 lg:flex-row-reverse lg:gap-16"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <CopyColumn
               variants={slideFromRight}
@@ -308,7 +313,7 @@ export default function DashboardShowcase() {
             className="relative z-10 flex flex-col items-center gap-10 lg:flex-row lg:gap-16"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <CopyColumn
               variants={slideFromLeft}

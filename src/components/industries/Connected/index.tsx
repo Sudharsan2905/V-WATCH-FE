@@ -36,6 +36,8 @@ const popIn: Variants = {
 const CARDS_START  = 0.3;
 const CARD_STAGGER = 0.45;
 
+const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -120px 0px" } as const;
+
 type Step = { icon: string; title: string; desc: string };
 
 type ConnectedContent = {
@@ -179,7 +181,12 @@ function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
   }, [emblaApi]);
 
   return (
-    <div className="lg:hidden">
+    <motion.div
+      className="lg:hidden"
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+    >
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {steps.map((step, i) => (
@@ -213,7 +220,7 @@ function MobileCarousel({ steps }: Readonly<{ steps: Step[] }>) {
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -232,14 +239,16 @@ export default function Connected({
         className="relative z-10 overflow-hidden px-6 pt-10 pb-6 md:py-20 lg:px-[60px]"
         style={{ background: "rgb(255, 255, 255)" }}
       >
-        <motion.div
+        <div
           className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-2"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
         >
           {/* Header */}
-          <header className="flex flex-col gap-2.5">
+          <motion.header
+            className="flex flex-col gap-2.5"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.h2
               variants={wipeDown}
               custom={0.05}
@@ -254,7 +263,7 @@ export default function Connected({
             >
               {subtitle}
             </motion.p>
-          </header>
+          </motion.header>
 
           {/* Mobile: Embla carousel */}
           <MobileCarousel steps={steps} />
@@ -262,7 +271,12 @@ export default function Connected({
           {/* Desktop: each step is one 320px column (medallion + card stacked,
               16px gap — Figma frame), with connectors between columns aligned
               to the medallion centre. */}
-          <div className="hidden items-start justify-center lg:flex">
+          <motion.div
+            className="hidden items-start justify-center lg:flex"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {steps.map((step, i) => (
               <Fragment key={step.title}>
                 {i > 0 && (
@@ -278,8 +292,8 @@ export default function Connected({
                 </div>
               </Fragment>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

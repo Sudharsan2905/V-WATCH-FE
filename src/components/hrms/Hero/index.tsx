@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import ProductsHero from "@/components/products/Hero";
-import BookADemo, { ArrowBadge } from "@/components/common/BookADemo";
+import { ArrowBadge } from "@/components/common/BookADemo";
 
 const BUTTON_STYLE: React.CSSProperties = {
   background: `
@@ -24,7 +24,7 @@ export default function HrmsHero() {
         "task execution. so, you can assign, track, verify, and reward",
         "work using real data from your site.",
       ]}
-      imageSrc="/hrms/hrmsHero.webp"
+      imageSrc="/hrms/hrmsHero.svg"
       imageObjectPosition="right top"
       ctaDelay={1.35}
       ctaSlot={
@@ -37,7 +37,22 @@ export default function HrmsHero() {
             <ArrowBadge/>
             Start Free 14-Day Trial
           </Link>
-          <BookADemo />
+          {/* White button with gradient-coloured label — Figma: 136×44, radius
+              72.67px, 20px horizontal padding, Lato SemiBold 16px. */}
+          <Link
+            href="/book-demo"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-white px-5 transition-[transform,filter] duration-200 ease-out hover:scale-[1.02] hover:brightness-105"
+          >
+            <span
+              className="bg-clip-text font-lato text-base font-semibold leading-[19.87px] text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(180deg, #21B1F1 0%, #A6C936 100%)",
+              }}
+            >
+              Book a Demo
+            </span>
+          </Link>
         </div>
       }
     />

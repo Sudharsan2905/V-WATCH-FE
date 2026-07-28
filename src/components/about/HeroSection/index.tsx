@@ -33,9 +33,10 @@ export default function HeroSection() {
           src="/hero/about-us-hero.webp"
           alt=""
           fill
-          priority
           sizes="100vw"
           className="object-cover object-right sm:object-center"
+          preload={true}
+          loading="eager"
         />
       </motion.div>
 

@@ -30,6 +30,13 @@ const slideFromLeft: Variants = {
   },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early). The negative
+// bottom margin pulls the trigger line up so a group animates just after it
+// clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 type Feature = { icon: React.ReactNode; label: string };
 
 function VisualizeIcon() {
@@ -182,14 +189,15 @@ export default function IntelligenceLayer() {
         <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="currentColor" />
       </svg>
 
-      <motion.div
-        className="mx-auto w-full max-w-[1410px]"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <div className="mx-auto w-full max-w-[1410px]">
         {/* Header */}
-        <motion.header variants={fadeUp} className="flex max-w-[760px] flex-col gap-2.5">
+        <motion.header
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="flex max-w-[760px] flex-col gap-2.5"
+        >
           <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
             A single intelligence layer powered by Power BI
           </h2>
@@ -225,6 +233,9 @@ export default function IntelligenceLayer() {
           {/* Power BI visual */}
           <motion.div
             variants={slideFromLeft}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex items-center justify-center xl:absolute xl:left-0 xl:top-1/2 xl:w-[68%] xl:-translate-y-1/2 xl:justify-start"
           >
             <Image
@@ -237,7 +248,12 @@ export default function IntelligenceLayer() {
           </motion.div>
 
           {/* Feature cards */}
-          <div className="mt-8 flex flex-col gap-5 xl:absolute xl:right-0 xl:top-1/2 xl:mt-0 xl:w-[54%] xl:-translate-y-1/2">
+          <motion.div
+            className="mt-8 flex flex-col gap-5 xl:absolute xl:right-0 xl:top-1/2 xl:mt-0 xl:w-[54%] xl:-translate-y-1/2"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             <motion.p variants={fadeUp} custom={CARDS_START - 0.05} className="text-[20px] font-semibold text-[#006F9F]">
               This allows you to
             </motion.p>
@@ -261,9 +277,9 @@ export default function IntelligenceLayer() {
               </motion.div>
             ))}
           </div>
-          </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
     </MotionConfig>
   );

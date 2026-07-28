@@ -29,6 +29,13 @@ const slideFromRight: Variants = {
   },
 };
 
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates the columns while they're still below the fold). The
+// negative bottom margin pulls the trigger line up so a group animates just
+// after it clears the fold.
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -120px 0px" } as const;
+
 // "Our system integrator network"
 // Left: a 5-step list + a vertical "section pointer" that tracks the active step.
 // Right: detail panel (fades to transparent at the bottom) — copy left, tall image right.
@@ -333,15 +340,13 @@ export default function IntegratorNetwork() {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] bg-[radial-gradient(75%_100%_at_56%_120%,rgb(197_124_250/24%)_0%,rgb(253_255_254/5%)_72%)]"
         />
 
-        <motion.div
-          className="relative mx-auto w-full max-w-[1410px]"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="relative mx-auto w-full max-w-[1410px]">
           {/* Header */}
           <motion.header
             variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
             className="flex max-w-[760px] flex-col gap-2.5"
           >
             <h2 className="text-[26px] font-semibold text-[#0A4B6E] lg:text-[28px]">
@@ -353,6 +358,9 @@ export default function IntegratorNetwork() {
             {/* Left: step list + section pointer */}
             <motion.div
               variants={slideFromLeft}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className="lg:w-[400px] lg:shrink-0"
             >
               {/* Wrapper sizes to the step list so the pointer track tracks the
@@ -452,12 +460,15 @@ export default function IntegratorNetwork() {
               the step list (see the mobile panel above). */}
             <motion.div
               variants={slideFromRight}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
               className={`${PANEL_CLASS} hidden lg:flex`}
             >
               <DetailContent current={current} />
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
     </MotionConfig>
   );

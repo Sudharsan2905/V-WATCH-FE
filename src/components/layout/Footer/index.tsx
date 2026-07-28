@@ -93,7 +93,8 @@ const CTA_BG = {
 
 export default function Footer({
   ctaTitle = "Transform how your operations run",
-  ctaText = "See how V-Watch AI helps you automate processes, strengthen security, and improve productivity across your organisation.",
+  ctaText,
+  // ctaText = "See how V-Watch AI helps you automate processes, strengthen security, and improve productivity across your organisation.",
   linkColumns = DEFAULT_COLUMNS,
   ctaVariant = "light",
   isBookADemoVisible = true,
@@ -155,9 +156,12 @@ export default function Footer({
                 <h2 className="text-[28px] font-bold text-white sm:text-[32px]">
                   {ctaTitle}
                 </h2>
-                <p className="max-w-[814px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
+                {ctaText && 
+
+                  <p className="max-w-[814px] text-[18px] font-normal leading-8 text-[#F3F8FF] sm:text-[20px]">
                   {ctaText}
                 </p>
+                }
               </div>
               {isBookADemoVisible && <BookADemo />}
             </motion.div>

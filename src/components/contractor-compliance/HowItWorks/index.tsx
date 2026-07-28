@@ -3,8 +3,11 @@
 import Image from "next/image";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import { chainWheelToPage } from "@/lib/scrollChain";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const VIEWPORT = { once: true, amount: 0.5, margin: "0px 0px -120px 0px" } as const;
 
 const slideLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
@@ -404,7 +407,7 @@ export default function HowItWorks() {
               custom={0.15}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={VIEWPORT}
               className="sticky top-14 mx-auto h-70 w-full max-w-[504px] overflow-hidden rounded-[20px] sm:h-90 lg:mx-0 lg:flex-1 lg:top-22 lg:h-110"
             >
               <Image
@@ -424,6 +427,12 @@ export default function HowItWorks() {
             {/* RIGHT: scrollable panel — height matches image at every breakpoint */}
             <div
               ref={scrollRef}
+              // Lenis hijacks the wheel document-wide; without this the inner
+              // panel never receives a native scroll.
+              data-lenis-prevent
+              // Once the steps run out, keep the page moving instead of
+              // dead-ending the wheel here.
+              onWheel={(e) => chainWheelToPage(scrollRef.current, e.deltaY)}
               onScroll={handleScroll}
               className="mx-auto h-[452px] w-full max-w-[656px] overflow-y-auto sm:h-[420px] lg:mx-0 lg:flex-1 lg:h-110"
               style={{ scrollbarWidth: "none" }}
