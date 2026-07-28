@@ -26,6 +26,7 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
+            sudo rm -rf node_modules
             npm ci
 
             sudo rm -rf .next
