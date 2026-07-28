@@ -83,6 +83,10 @@ type FooterProps = {
   isBookADemoVisible?: boolean;
   showCta?: boolean;
   showHeader?: boolean;
+  // When false, the whole footer card (brand, link columns, socials, copyright)
+  // is hidden and only the CTA band renders — used by focused landing pages like
+  // site-visibility.
+  showFooterCard?: boolean;
 };
 
 const CTA_BG = {
@@ -99,6 +103,7 @@ export default function Footer({
   ctaVariant = "light",
   isBookADemoVisible = true,
   showHeader = true,
+  showFooterCard = true,
 }: Readonly<FooterProps>) {
   // Trigger point: when the footer enters the viewport, start the CTA slide-up.
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -171,6 +176,7 @@ export default function Footer({
         </div>
 
         {/* ── Footer card — sits on top of CTA via z-10 */}
+        {showFooterCard && (
         <div className="relative z-10 px-4 pb-10 sm:px-10 -mt-11 -px">
           {/* Decorative background glow */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -276,6 +282,7 @@ export default function Footer({
             </div>
           </div>
         </div>
+        )}
       </div>
     </MotionConfig>
   );

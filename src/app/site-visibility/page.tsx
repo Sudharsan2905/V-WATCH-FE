@@ -1,6 +1,5 @@
 "use client";
 
-// import { useEffect } from "react"
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SiteVisibilityHero from "@/components/site-visibility/Hero";
@@ -11,11 +10,14 @@ import SiteVisibilityModules from "@/components/site-visibility/Modules";
 import SiteVisibilityHowItWorks from "@/components/site-visibility/HowItWorks";
 import SiteVisibilityBusinessBenefits from "@/components/site-visibility/BusinessBenefits";
 import SiteVisibilityWalkthrough from "@/components/site-visibility/Walkthrough";
+import WhatsAppFloat from "@/components/common/WhatsAppFloat";
 
 const siteVisibilitypage = () => {
+  const phone = "60127499018";
+
   return (
     <div className="relative overflow-x-clip bg-[#E2EDFA]">
-      <Navbar active="" />
+      <Navbar active="" minimal />
       <SiteVisibilityHero />
       <SiteVisibilityTrustedLogos />
       <SiteVisibilityProblem />
@@ -27,7 +29,12 @@ const siteVisibilitypage = () => {
 
       {/* showHeader={false} swaps the CTA heading for the 220px spacer the
           walkthrough form overhangs into — same pairing as the HRMS page. */}
-      <Footer showHeader={false} isBookADemoVisible={false} />
+      <Footer
+        showHeader={false}
+        isBookADemoVisible={false}
+        showFooterCard={false}
+      />
+      <WhatsAppFloat phone={phone} />
     </div>
   );
 };

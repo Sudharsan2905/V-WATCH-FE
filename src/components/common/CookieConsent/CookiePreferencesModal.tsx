@@ -4,7 +4,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { COOKIE_CATEGORIES, DEFAULT_PREFERENCES } from "@/lib/cookieConsent";
 import { setPageScrollLocked } from "@/lib/scrollChain";
-import type { CookieCategory, CookieConsentPreferences } from "@/types/cookieConsent";
+import type {
+  CookieCategory,
+  CookieConsentPreferences,
+} from "@/types/cookieConsent";
 
 type Props = {
   open: boolean;
@@ -24,7 +27,8 @@ export default function CookiePreferencesModal({
   onSave,
   onCancel,
 }: Readonly<Props>) {
-  const [draft, setDraft] = useState<CookieConsentPreferences>(initialPreferences);
+  const [draft, setDraft] =
+    useState<CookieConsentPreferences>(initialPreferences);
   const dialogRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const titleId = useId();
@@ -51,7 +55,8 @@ export default function CookiePreferencesModal({
     if (!open) return;
 
     previouslyFocused.current = document.activeElement as HTMLElement | null;
-    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+    const focusable =
+      dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
     focusable?.[0]?.focus();
 
     return () => previouslyFocused.current?.focus();
@@ -71,9 +76,11 @@ export default function CookiePreferencesModal({
       if (event.key !== "Tab") return;
 
       const node = dialogRef.current;
-      const focusable = node ? Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : [];
+      const focusable = node
+        ? Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+        : [];
       if (focusable.length === 0) return;
-
+      
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       const active = document.activeElement;
@@ -121,17 +128,24 @@ export default function CookiePreferencesModal({
               data-lenis-prevent
               className="relative z-10 max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/40 bg-white/95 p-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-navy-900/95"
             >
-              <h2 id={titleId} className="text-lg font-semibold text-neutral dark:text-white">
+              <h2
+                id={titleId}
+                className="text-lg font-semibold text-neutral dark:text-white"
+              >
                 Customize Consent Preferences
               </h2>
               <p className="mt-1.5 text-sm text-neutral/70 dark:text-navy-100">
-                Choose which categories of cookies you allow us to use. Essential cookies cannot
-                be disabled since the site relies on them to function.
+                Choose which categories of cookies you allow us to use.
+                Essential cookies cannot be disabled since the site relies on
+                them to function.
               </p>
 
               <ul className="mt-5 divide-y divide-navy-100 dark:divide-navy-800">
                 {COOKIE_CATEGORIES.map((category) => (
-                  <li key={category.key} className="flex items-start justify-between gap-4 py-4">
+                  <li
+                    key={category.key}
+                    className="flex items-start justify-between gap-4 py-4"
+                  >
                     <div>
                       <p className="text-sm font-semibold text-neutral dark:text-white">
                         {category.title}
@@ -191,7 +205,12 @@ type ToggleSwitchProps = {
   onChange: () => void;
 };
 
-function ToggleSwitch({ checked, disabled, label, onChange }: Readonly<ToggleSwitchProps>) {
+function ToggleSwitch({
+  checked,
+  disabled,
+  label,
+  onChange,
+}: Readonly<ToggleSwitchProps>) {
   if (disabled) {
     return (
       <span className="mt-0.5 shrink-0 rounded-full bg-primary-green-100 px-3 py-1 text-xs font-semibold text-primary-green-800 dark:bg-primary-green-900/40 dark:text-primary-green-400">
