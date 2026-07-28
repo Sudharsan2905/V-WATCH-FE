@@ -109,16 +109,59 @@ type Contact = {
   // When set, the link downloads its target under this filename instead of
   // navigating to it (works because the PDF is served same-origin).
   download?: string;
+  // Custom click handler (used by the Email row to open the Gmail app on mobile
+  // and Gmail web compose on desktop). Preventing default overrides `href`,
+  // which stays as the desktop/no-JS fallback.
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
+
+const SUPPORT_EMAIL = "support@vwatch.ai";
+// Gmail web "compose" window, pre-addressed. Used directly on desktop and as
+// the fallback on mobile when the Gmail app isn't installed.
+const GMAIL_WEB_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}`;
+
+/**
+ * Open a Gmail compose window addressed to support.
+ *  - Mobile: deep-link into the Gmail app (googlegmail://). If the app isn't
+ *    installed the scheme does nothing, so a short timer falls back to Gmail
+ *    web compose. The timer is cancelled when the app takes over and the page
+ *    is backgrounded, so installed users don't also get the web tab.
+ *  - Desktop: open Gmail web compose in a new tab.
+ */
+function openGmailCompose(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault();
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (!isMobile) {
+    window.open(GMAIL_WEB_COMPOSE, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  const fallback = window.setTimeout(() => {
+    window.location.href = GMAIL_WEB_COMPOSE;
+  }, 1200);
+
+  // If the Gmail app opens, the page is hidden — cancel the web fallback.
+  const cancelOnHide = () => {
+    if (document.hidden) window.clearTimeout(fallback);
+  };
+  document.addEventListener("visibilitychange", cancelOnHide, { once: true });
+
+  window.location.href = `googlegmail://co?to=${SUPPORT_EMAIL}`;
+}
 
 const CONTACTS: Contact[] = [
   {
     icon: ICON_KEYS.email,
     label: "Email",
-    value: "support@vwatch.ai",
-    // Open Gmail's compose window pre-addressed to support, in a new tab.
-    href: "https://mail.google.com/mail/?view=cm&fs=1&to=support@vwatch.ai",
+    value: SUPPORT_EMAIL,
+    // Always opens Gmail: the app on mobile (with web-compose fallback), Gmail
+    // web compose on desktop — see openGmailCompose. href is the desktop/no-JS
+    // fallback; onClick prevents default and takes over.
+    href: GMAIL_WEB_COMPOSE,
     external: true,
+    onClick: openGmailCompose,
   },
   {
     icon: ICON_KEYS.phone,
@@ -190,6 +233,7 @@ function ContactRow({
           href={contact.href}
           {...(contact.download ? { download: contact.download } : {})}
           {...(contact.external ? { target: "_blank" } : {})}
+          {...(contact.onClick ? { onClick: contact.onClick } : {})}
           rel="noopener noreferrer"
           className="flex h-[64px] items-center gap-[10px] p-[10px] transition-opacity hover:opacity-80"
         >
@@ -475,6 +519,7 @@ function WalkthroughForm() {
       setSending(true);
       setSendError(false);
       await submitForm(payload);
+      
       setSubmitted(true);
       setForm(INITIAL);
     } catch (err) {
