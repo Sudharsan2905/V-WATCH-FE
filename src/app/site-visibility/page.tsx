@@ -13,7 +13,7 @@ import SiteVisibilityWalkthrough from "@/components/site-visibility/Walkthrough"
 import WhatsAppFloat from "@/components/common/WhatsAppFloat";
 
 const siteVisibilitypage = () => {
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE_NUMBER;
+  const phone = "60127499018";
 
   return (
     <div className="relative overflow-x-clip bg-[#E2EDFA]">
@@ -34,7 +34,7 @@ const siteVisibilitypage = () => {
         isBookADemoVisible={false}
         showFooterCard={false}
       />
-      {phone && <WhatsAppFloat phone={phone} />}
+      <WhatsAppFloat phone={phone} />
     </div>
   );
 };
