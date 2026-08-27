@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PreConstructionHero from "@/components/pre-construction/Hero";
 import SinglePlatform from "@/components/pre-construction/SinglePlatform";
+import ConnectedCapabilities from "@/components/pre-construction/ConnectedCapabilities";
 import PlatformOverview from "@/components/pre-construction/PlatformOverview";
 import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironments";
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
@@ -11,6 +12,7 @@ export default function PostConstructionPage() {
   const {
     hero,
     unifiedPlatform,
+    connectedCapabilities,
     longTermSecurity,
     criticalEnvironments,
     continuity,
@@ -22,6 +24,7 @@ export default function PostConstructionPage() {
       <Navbar active="Solutions" />
       <PreConstructionHero hero={hero} />
       <SinglePlatform content={unifiedPlatform} />
+      <ConnectedCapabilities content={connectedCapabilities} />
       <PlatformOverview content={longTermSecurity} />
       <ComplexEnvironments content={criticalEnvironments} />
       {/* Same transition section — its CTA detects this route and toggles back
