@@ -14,7 +14,7 @@ import {
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Auto-advance cadence, mirroring PlatformOverview's carousel on the same page.
-const CYCLE_MS = 3000; // step the active card every 3 s
+const CYCLE_MS = 2000; // step the active card every 2 s
 const RESUME_MS = 6000; // resume auto-play 6 s after the pointer leaves
 
 // Header clip-wipe from the top — the site's signature heading reveal.
@@ -90,7 +90,7 @@ const VIEWPORT = {
 // Rail geometry — two columns per row. The connector shares the number's column
 // and is laid out in flow (not absolutely positioned), so each dashed segment
 // stretches exactly from one figure down to the next however long the copy runs.
-const NUMBER_COL = 68; // px — width of the outlined "01" column + its connector
+const NUMBER_COL = 72; // px — width of the outlined "01" column + its connector
 const CARD_GAP = 10; // px — gap between the number column and the content card
 
 // Soft blue blush behind the timeline. Two offset ellipses rather than one so
@@ -275,7 +275,7 @@ function CapabilityRow({
             aria-hidden
             variants={railDraw}
             custom={delay + 0.08}
-            className="mt-2 w-0 flex-1 border-l border-dashed border-[#7FC8EA]"
+            className="mt-2 w-0 flex-1 border-l-2 border-dashed border-[#0A8EC8]"
             style={{ originY: 0 }}
           />
         )}
