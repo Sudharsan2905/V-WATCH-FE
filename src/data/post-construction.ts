@@ -37,6 +37,57 @@ export const postConstructionContent = {
     mapImage: "/post-construction/single-platform/map.png",
   },
 
+  // ── "Six connected capabilities. One continuous operation." (ConnectedCapabilities)
+  connectedCapabilities: {
+    heading: "Six connected capabilities. One continuous operation.",
+    intro:
+      "Operations, security, facility intelligence, energy, analytics and governance on a common operational spine.",
+    badge: "AEGIS",
+    backgroundImage: "/post-construction/connected-capabilities/background.webp",
+    badgeImage: "/post-construction/connected-capabilities/AEGIS.webp",
+    logoImage: "/post-construction/connected-capabilities/V-WATCH.webp",
+    panelImage: "/post-construction/connected-capabilities/operation.webp",
+    panelAlt:
+      "Isometric view of the V-Watch Aegis connected capability clusters",
+    stats: [
+      { label: "Modules", value: "26" },
+      { label: "Connected Cluster", value: "06" },
+      { label: "Cybersense Module", value: "05" },
+    ],
+    capabilities: [
+      {
+        title: "Operations",
+        description:
+          "Coordinate assets, infrastructure, services and day-to-day facility operations.",
+      },
+      {
+        title: "Physical Security",
+        description:
+          "Unify zones, patrols, perimeter awareness and incident response.",
+      },
+      {
+        title: "Facility & Twin",
+        description:
+          "Visualise the data hall, thermal conditions and spatial context in one model.",
+      },
+      {
+        title: "Energy",
+        description:
+          "Monitor power performance and optimise consumption across the facility.",
+      },
+      {
+        title: "Analytics & AI",
+        description:
+          "Turn facility data into operational intelligence and early warning.",
+      },
+      {
+        title: "Governance",
+        description:
+          "Connect financial, ESG, compliance and enterprise reporting.",
+      },
+    ],
+  },
+
   // ── "Built for long-term operational security" (PlatformOverview)
   longTermSecurity: {
     heading: "Built for long-term operational security",
