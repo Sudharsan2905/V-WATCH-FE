@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import PreConstructionHero from "@/components/pre-construction/Hero";
 import SinglePlatform from "@/components/pre-construction/SinglePlatform";
 import ConnectedCapabilities from "@/components/pre-construction/ConnectedCapabilities";
+import ConnectedCapabilitiesShowcase from "@/components/common/ConnectedCapabilitiesShowcase";
 import PlatformOverview from "@/components/pre-construction/PlatformOverview";
 import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironments";
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
@@ -14,6 +15,7 @@ export default function PreConstructionPage() {
       <PreConstructionHero />
       <SinglePlatform />
       <ConnectedCapabilities />
+      <ConnectedCapabilitiesShowcase />
       <PlatformOverview />
       <ComplexEnvironments />
       <PostConstructionTransition />
