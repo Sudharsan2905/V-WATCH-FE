@@ -58,7 +58,7 @@ export const postConstructionContent = {
       {
         title: "Operations",
         description:
-          "Coordinate assets, infrastructure, services and day-to-day facility operations.",
+          "Coordinate assets, infrastructure, service workflows and operational HSE across the live facility.",
       },
       {
         title: "Physical Security",

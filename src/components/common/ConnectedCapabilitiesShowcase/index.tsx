@@ -213,7 +213,7 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     moduleCount: "12 Modules",
     description:
       "Worker identity, entry, occupancy, accountability and workforce performance in one operating view.",
-    image: `${ATLAS_IMG}/workforce-access.webp`,
+    image: `${ATLAS_IMG}/workforce-access.png`,
     imageAlt: "Workers passing through a smart gate on a construction site",
     features: [
       { title: "Profiles", description: "Full worker lifecycle & credential vault", icon: <UserIcon /> },
@@ -237,7 +237,7 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     moduleCount: "03 Modules",
     description:
       "Real-time movement, identification and density awareness across people and assets.",
-    image: `${ATLAS_IMG}/tracking-mobility.webp`,
+    image: `${ATLAS_IMG}/tracking-mobility.png`,
     imageAlt: "Isometric render of site tracking and mobility zones",
     features: [
       { title: "RTLS", description: "Real-time location of people & assets", icon: <LocationIcon /> },
@@ -252,10 +252,10 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     moduleCount: "07 Modules",
     description:
       "Policy-led controls before entry, during work and when every person must be accounted for.",
-    image: `${ATLAS_IMG}/safety-compliance.webp`,
+    image: `${ATLAS_IMG}/safety-compliance.png`,
     imageAlt: "Workers reviewed against safety and compliance checks",
     features: [
-      { title: "Compliance Gate (10-check)", description: "Admit / warn / deny outcome; evidence on every check", icon: <ShieldIcon /> },
+      { title: "Compliance Gate (10-check)", description: "Admit / warn / deny before entry, evidence on every check", icon: <ShieldIcon /> },
       { title: "Emergency Muster", description: "Live baseline, face-scan accounting, drill mode", icon: <AlertIcon /> },
       { title: "Permit-to-Work", description: "Apply, register & approve with process flow", icon: <BadgeIcon /> },
       { title: "Fitness-to-Work", description: "Start-of-shift declarations & random testing", icon: <UserIcon /> },
@@ -271,11 +271,11 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     moduleCount: "02 Modules",
     description:
       "Preserve commissioning records and move project intelligence into live operations.",
-    image: `${ATLAS_IMG}/delivery-handover.webp`,
+    image: `${ATLAS_IMG}/delivery-handover.png`,
     imageAlt: "Server room being commissioned for handover",
     features: [
-      { title: "Commissioning", description: "Records & acceptance of the build", icon: <BadgeIcon /> },
-      { title: "Handover to Aegis", description: "One-click transfer to live operations, same spine", icon: <TruckIcon /> },
+      { title: "Commissioning", description: "Cx records & acceptance on the build.", icon: <BadgeIcon /> },
+      { title: "Handover to Aegis", description: "One-click transfer to live operations same spine.", icon: <TruckIcon /> },
     ],
   },
   {
@@ -285,12 +285,12 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     moduleCount: "06 Modules",
     description:
       "Convert camera feeds into identity, safety, intrusion and operational event alerts.",
-    image: `${ATLAS_IMG}/ai-video-analytics.webp`,
+    image: `${ATLAS_IMG}/ai-video-analytics.png`,
     imageAlt: "Aerial view of a construction site with AI video overlays",
     features: [
-      { title: "Facial Recognition", description: "Identify at the gate via cameras", icon: <UserIcon /> },
-      { title: "PPE / Hard-hat", description: "Uniform & helmet detection alerts", icon: <HardHatIcon /> },
-      { title: "Intrusion & Tracking", description: "Restricted zone & live cross alerts", icon: <AlertIcon /> },
+      { title: "Facial Recognition", description: "Identity at the gate via camera", icon: <UserIcon /> },
+      { title: "PPE / Hard-hat", description: "Uniform & helmet detection alarms", icon: <HardHatIcon /> },
+      { title: "Intrusion & Tracking", description: "Restricted-zone & line-cross alerts", icon: <AlertIcon /> },
       { title: "Fire & Smoke", description: "Early detection from camera feeds", icon: <AlertIcon /> },
       { title: "Crowd & Fall", description: "Overcrowding & person-down alerts", icon: <UserIcon /> },
       { title: "Licence Plate Recognition", description: "Vehicle access & logging", icon: <TagIcon /> },
@@ -309,7 +309,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     moduleCount: "08 Modules",
     description:
       "Coordinate assets, infrastructure, service workflows and operational HSE across the live facility.",
-    image: `${AEGIS_IMG}/operations.webp`,
+    image: `${AEGIS_IMG}/operations.png`,
     imageAlt: "Facility operations dashboard overlaid on a live site",
     features: [
       { title: "Assets", description: "Full asset lifecycle & credential vault", icon: <TagIcon /> },
@@ -329,7 +329,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     moduleCount: "03 Modules",
     description:
       "Unify zones, patrols, perimeter awareness and access-point oversight.",
-    image: `${AEGIS_IMG}/physical-security.webp`,
+    image: `${AEGIS_IMG}/physical-security.png`,
     imageAlt: "Security operations centre monitoring a live facility",
     features: [
       { title: "Physical Security", description: "Zones, patrols & security operations", icon: <ShieldIcon /> },
@@ -344,7 +344,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     moduleCount: "04 Modules",
     description:
       "Visualise the data hall, thermal conditions, wireless coverage and continuity readiness.",
-    image: `${AEGIS_IMG}/facility-twin.webp`,
+    image: `${AEGIS_IMG}/facility-twin.png`,
     imageAlt: "Digital twin render of a data hall",
     features: [
       { title: "Data Hall", description: "Digital twin of the data hall", icon: <GridIcon /> },
@@ -359,7 +359,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     icon: <ChartIcon />,
     moduleCount: "02 Modules",
     description: "Monitor power performance and optimise operational efficiency.",
-    image: `${AEGIS_IMG}/energy.webp`,
+    image: `${AEGIS_IMG}/energy.png`,
     imageAlt: "Energy infrastructure with wind turbines and power monitoring overlays",
     features: [
       { title: "Energy & Power", description: "Energy monitoring & power management", icon: <ChartIcon /> },
@@ -373,7 +373,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     moduleCount: "05 Modules",
     description:
       "Turn facility data into operational intelligence, capacity insight and executive reporting.",
-    image: `${AEGIS_IMG}/analytics-ai.webp`,
+    image: `${AEGIS_IMG}/analytics-ai.png`,
     imageAlt: "Analytics dashboards overlaid on facility devices",
     features: [
       { title: "Analytics", description: "Operational analytics across the facility", icon: <ChartIcon /> },
@@ -390,7 +390,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     moduleCount: "04 Modules",
     description:
       "Connect financial, ESG, compliance, enterprise risk and capital works oversight.",
-    image: `${AEGIS_IMG}/governance.webp`,
+    image: `${AEGIS_IMG}/governance.png`,
     imageAlt: "Governance and compliance reporting overlaid on a facility",
     features: [
       { title: "Financial ESG", description: "Financial & ESG performance", icon: <ChartIcon /> },
@@ -454,20 +454,21 @@ function FeatureCard({
   return (
     <motion.div
       variants={cardVariants}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 320, damping: 24 }}
-      className="group relative h-full overflow-hidden rounded-2xl border border-[#EAF3FB] bg-[#F7FBFE] p-4 shadow-[0_10px_24px_-20px_rgba(10,75,110,0.25)] transition-colors duration-300 hover:border-[#8ED0F5] hover:bg-white hover:shadow-[0_16px_32px_-16px_rgba(10,110,168,0.28)]"
+      className="group relative h-full overflow-hidden rounded-[14px] border border-[#DCEFFC]/90 bg-[#F4FBFF]/40 p-3.5 sm:p-4 shadow-[0_4px_16px_rgba(10,75,110,0.04)] transition-all duration-300 hover:border-[#8ED0F5] hover:bg-white hover:shadow-[0_14px_28px_-14px_rgba(10,110,168,0.22)]"
     >
+      {/* Corner circular badge seamlessly clipped into the top-right corner */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-1.5 -top-1.5 flex h-11 w-11 items-center justify-center text-[#0A8EC8] opacity-[0.16] transition-opacity duration-300 group-hover:opacity-25 [&>svg]:h-9 [&>svg]:w-9"
+        className="pointer-events-none absolute -right-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-b from-[#E2F0FB] to-[#F2F9FD] pl-0.5 pt-0.5 text-[#54A0DE] shadow-[inset_0_2px_6px_rgba(56,144,192,0.12)] transition-colors duration-300 group-hover:from-[#D4ECFB] group-hover:to-[#EAF6FE] group-hover:text-[#0A8EC8] [&>svg]:h-[19px] [&>svg]:w-[19px]"
       >
         {feature.icon ?? <Fallback />}
       </span>
-      <h4 className="font-lato text-[14px] font-bold leading-[19px] text-[#0A4B6E]">
+      <h4 className="max-w-[76%] font-lato text-[15px] font-bold leading-[20px] text-[#18233F]">
         {feature.title}
       </h4>
-      <p className="mt-1 max-w-[85%] font-lato text-[12px] font-normal leading-[17px] text-[#5C7E97]">
+      <p className="mt-1 max-w-[80%] font-lato text-[13px] font-normal leading-[18px] text-[#314158]">
         {feature.description}
       </p>
     </motion.div>
@@ -475,7 +476,7 @@ function FeatureCard({
 }
 
 export default function ConnectedCapabilitiesShowcase({
-  heading = "Connected Operations, Real Time Visibility, Smarted Decisions",
+  heading = "Connected operations, real time Visibility, smarter Decisions",
   subtitle = "A modular operating environment that connects workforce, movement, compliance, delivery records and video intelligence across the site lifecycle.",
   modules = ATLAS_MODULES,
   className = "",
@@ -535,7 +536,7 @@ export default function ConnectedCapabilitiesShowcase({
 
   if (!active) return null;
 
-  const moduleCount = active.moduleCount ?? `${active.features.length} Modules`;
+  const moduleCount = active.moduleCount ?? `${String(active.features.length).padStart(2, "0")} Modules`;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -627,10 +628,7 @@ export default function ConnectedCapabilitiesShowcase({
               })}
             </nav>
 
-            {/* Scroll rail — track height and thumb position/size are measured
-                off the nav's real DOM (see the effect above), so the thumb
-                lines up with the active item instead of an assumed 1/N split
-                of the row's (taller) stretched height. */}
+            {/* Scroll rail */}
             <div
               className="relative hidden w-1 shrink-0 overflow-hidden rounded-full bg-[#E3EFFA] lg:block"
               style={{ height: rail.trackHeight || undefined }}
@@ -656,30 +654,36 @@ export default function ConnectedCapabilitiesShowcase({
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.35, ease: EASE }}
                     >
-                      <div className="flex items-center justify-between gap-3">
-                        <span
-                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-lato text-[15px] font-extrabold text-white"
-                          style={{
-                            background: "linear-gradient(135deg,#21B1F1,#0A6FA8)",
-                          }}
-                        >
-                          {active.number ?? String(activeIndex + 1).padStart(2, "0")}
-                        </span>
-                        <span className="rounded-full bg-[#EAF6FE] px-3.5 py-1.5 font-lato text-[12px] font-semibold text-[#0A6FA8]">
+                      {/* Top row: Number icon + overarching tagline + Module count pill */}
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-lato text-[16px] font-extrabold text-white shadow-[0_4px_12px_rgba(10,142,200,0.25)]"
+                            style={{
+                              background: "linear-gradient(135deg,#21B1F1,#0A6FA8)",
+                            }}
+                          >
+                            {active.number ?? String(activeIndex + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="font-lato text-[15px] font-bold leading-[20px] text-[#0A4B6E] sm:text-[17px]">
+                            Everything happening across your operations captured in one system
+                          </h3>
+                        </div>
+
+                        <span className="shrink-0 rounded-full border border-white/80 bg-[#EAF6FE] px-3.5 py-1.5 font-lato text-[12px] font-bold text-[#0A6FA8] shadow-[0_2px_8px_rgba(10,110,168,0.08)]">
                           {moduleCount}
                         </span>
                       </div>
 
-                      {/* Two-line box: a one-line tagline must not shorten the card. */}
-                      <p className="mt-4 max-w-[540px] font-lato text-[16px] font-bold leading-[24px] text-[#0A4B6E] sm:min-h-[48px] sm:text-[17px]">
+                      {/* Module specific description */}
+                      <p className="mt-3.5 max-w-[560px] font-lato text-[15px] font-bold leading-[22px] text-[#0A4B6E] sm:min-h-[44px] sm:text-[16px] sm:leading-[24px]">
                         {active.description}
                       </p>
                     </motion.div>
                   </AnimatePresence>
 
-                  {/* Fixed 2 x 3 board — a module with 2 features reserves the same
-                      space as one with 6, so switching never resizes the section. */}
-                  <div className="relative mt-6 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none">
+                  {/* Fixed 2 x 3 board */}
+                  <div className="relative mt-5 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.div
                         key={`${active.id}-${pageIndex}`}
@@ -687,7 +691,7 @@ export default function ConnectedCapabilitiesShowcase({
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        className="grid h-full grid-cols-1 gap-3.5 sm:auto-rows-fr sm:grid-cols-2 sm:grid-rows-3"
+                        className="grid h-full grid-cols-1 gap-3 sm:auto-rows-fr sm:grid-cols-2 sm:grid-rows-3"
                       >
                         {currentFeatures.map((feature, i) => (
                           <FeatureCard
@@ -703,7 +707,12 @@ export default function ConnectedCapabilitiesShowcase({
 
                 {/* Right: image panel */}
                 <div
-                  className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[260px] xl:w-[300px]"
+                  // Width at lg/xl is picked to roughly match the photos'
+                  // own ~2:3 aspect ratio at the height this panel stretches
+                  // to (matching the text column) — narrower and the photos
+                  // over-crop, wider and the panel would need to grow taller
+                  // than its sibling, so this is the balance point.
+                  className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[310px] xl:w-[330px]"
                   style={{
                     background: "linear-gradient(155deg,#0A1A2E 0%,#0B2340 55%,#071627 100%)",
                   }}
@@ -735,9 +744,8 @@ export default function ConnectedCapabilitiesShowcase({
                 </div>
               </div>
 
-              {/* Bottom pagination — the row is always reserved so modules that fit
-                  on one page stay the same height as the paged ones. */}
-              <div className="mt-6 flex h-2 items-center justify-center gap-1.5">
+              {/* Bottom pagination matching Figma 58x5px capsules */}
+              <div className="mt-6 flex h-2 items-center justify-center gap-2">
                 {pages.length > 1 &&
                   pages.map((_, i) => (
                     <motion.button
@@ -745,15 +753,12 @@ export default function ConnectedCapabilitiesShowcase({
                       type="button"
                       aria-label={`Show feature set ${i + 1} of ${pages.length}`}
                       onClick={() => selectPage(i)}
-                      animate={{ width: i === pageIndex ? 28 : 8 }}
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      className="h-2 rounded-full"
-                      style={{
-                        background:
-                          i === pageIndex
-                            ? "linear-gradient(90deg,#21B1F1,#0A6FA8)"
-                            : "#D7E9F7",
+                      animate={{
+                        width: i === pageIndex ? 48 : 24,
+                        backgroundColor: i === pageIndex ? "#3890C0" : "#D4F0FF",
                       }}
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      className="h-1.5 rounded-full"
                     />
                   ))}
               </div>
