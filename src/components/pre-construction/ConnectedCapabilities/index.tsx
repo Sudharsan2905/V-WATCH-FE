@@ -409,7 +409,7 @@ export default function ConnectedCapabilities({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative z-10 w-full overflow-hidden bg-[#f5fbff] px-6 py-10 lg:px-15 lg:py-14">
+      <section className="relative z-10 w-full overflow-hidden bg-[#f5fbff] px-6 py-5 lg:px-15 lg:py-7">
         {/* Ribbon backdrop. mix-blend-multiply drops the asset's white ground
             into the section wash, so only the pale blue ribbon paints and the
             #f5fbff tint survives underneath it. */}

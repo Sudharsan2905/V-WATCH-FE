@@ -573,7 +573,12 @@ export default function ConnectedCapabilitiesShowcase({
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="w-full bg-[#f5fbff] px-6 py-10 lg:px-15 lg:py-14">
+      {/* The three-column desktop layout (nav | rail | card+image) only has
+          room for its full dimensions from xl up. Between lg and xl the gutters,
+          nav, card padding and image all tighten so the feature-card column
+          keeps ~400px — below that, card titles truncate and descriptions clip
+          against the fixed-height board. */}
+      <section className="w-full bg-[#f5fbff] px-6 py-5 lg:px-8 lg:py-7 xl:px-15">
         <div className={`mx-auto max-w-[1280px] ${className}`}>
           {/* Header */}
           <motion.div
@@ -602,7 +607,7 @@ export default function ConnectedCapabilitiesShowcase({
             <nav
               ref={navRef}
               aria-label="Capability modules"
-              className="flex gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] lg:w-[248px] lg:shrink-0 lg:flex-col lg:gap-3 lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
+              className="flex gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] lg:w-[200px] lg:shrink-0 lg:flex-col xl:w-[248px] lg:gap-3 lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
             >
               {modules.map((mod, i) => {
                 const isActive = i === activeIndex;
@@ -689,8 +694,8 @@ export default function ConnectedCapabilitiesShowcase({
             </div>
 
             {/* Content card */}
-            <div className="relative min-w-0 flex-1 overflow-hidden rounded-[28px] border border-[#EAF3FB] bg-white p-5 shadow-[0_25px_60px_-28px_rgba(10,75,110,0.3)] sm:p-6 lg:p-7">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
+            <div className="relative min-w-0 flex-1 overflow-hidden rounded-[28px] border border-[#EAF3FB] bg-white p-5 shadow-[0_25px_60px_-28px_rgba(10,75,110,0.3)] sm:p-6 lg:p-5 xl:p-7">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-8">
                 {/* Left: badge/title row + description + feature grid */}
                 <div className="flex min-w-0 flex-1 flex-col">
                   <AnimatePresence mode="wait" initial={false}>
@@ -728,7 +733,10 @@ export default function ConnectedCapabilitiesShowcase({
                   </AnimatePresence>
 
                   {/* Fixed 2 x 3 board */}
-                  <div className="relative mt-5 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none">
+                  {/* Fixed board height keeps the section stable across
+                      modules. lg gets 20px more so a title that wraps to two
+                      lines in the narrower column still clears its row. */}
+                  <div className="relative mt-5 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none lg:h-[356px] xl:h-[336px]">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.div
                         key={`${active.id}-${pageIndex}`}
@@ -757,7 +765,7 @@ export default function ConnectedCapabilitiesShowcase({
                   // to (matching the text column) — narrower and the photos
                   // over-crop, wider and the panel would need to grow taller
                   // than its sibling, so this is the balance point.
-                  className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[310px] xl:w-[330px]"
+                  className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[250px] xl:w-[330px]"
                 >
                   <AnimatePresence mode="sync" initial={false}>
                     <motion.div
