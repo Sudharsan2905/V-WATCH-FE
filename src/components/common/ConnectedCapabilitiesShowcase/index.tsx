@@ -26,6 +26,9 @@ export type CapabilityModule = {
   title: string;
   /** Sidebar icon shown only while this module is active. */
   icon?: ReactNode;
+  /** Exported badge asset for the sidebar — a self-contained gradient tile
+      (glyph baked in), rendered in place of `icon` + its gradient circle. */
+  iconBadge?: string;
   /** e.g. "12 Modules" — auto-derived from `features.length` when omitted. */
   moduleCount?: string;
   /** Bold tagline shown at the top of the content card. */
@@ -174,16 +177,6 @@ function AlertIcon({ className }: Readonly<IconProps>) {
   );
 }
 
-function HardHatIcon({ className }: Readonly<IconProps>) {
-  return (
-    <svg {...BASE} className={className}>
-      <path d="M4 16.5A8 6.5 0 0 1 20 16.5" />
-      <path d="M2.5 16.5h19" />
-      <path d="M12 6v4.5" />
-    </svg>
-  );
-}
-
 /** Cycled per feature card when a module does not specify its own icon. */
 const FALLBACK_ICONS = [
   UserIcon,
@@ -200,6 +193,46 @@ const FALLBACK_ICONS = [
   AlertIcon,
 ];
 
+// ── Exported Figma icons ────────────────────────────────────────────────────
+
+const CC_ICONS = "/pre-construction/connected-capabilities";
+
+const WORKFORCE_ICONS = `${CC_ICONS}/workforce`;
+const TRACKING_ICONS = `${CC_ICONS}/tracking-mobility`;
+const SAFETY_ICONS = `${CC_ICONS}/safety`;
+const DELIVERY_ICONS = `${CC_ICONS}/delivery`;
+const ANALYTICS_ICONS = `${CC_ICONS}/analytics`;
+
+const PC_ICONS = "/post-construction/connected-capabilities";
+
+const OPERATIONS_ICONS = `${PC_ICONS}/operations`;
+const SECURITY_ICONS = `${PC_ICONS}/physical-security`;
+const FACILITY_ICONS = `${PC_ICONS}/facility`;
+const ENERGY_ICONS = `${PC_ICONS}/energy`;
+const AI_ICONS = `${PC_ICONS}/analytics`;
+const GOVERNANCE_ICONS = `${PC_ICONS}/governance`;
+
+/**
+ * Feature-card glyph from an exported asset. The files are full-colour (they
+ * carry their own blues), so unlike the line icons above they ignore the
+ * badge's `currentColor` and its hover shift — the badge tint still animates
+ * behind them. Sources vary between 20 and 24px, hence `object-contain` in a
+ * fixed box so every card's glyph reads at the same size.
+ */
+function AssetIcon({ src }: Readonly<{ src: string }>) {
+  return (
+    <Image
+      src={src}
+      alt=""
+      aria-hidden
+      width={24}
+      height={24}
+      unoptimized
+      className="h-[19px] w-[19px] object-contain"
+    />
+  );
+}
+
 // ── Module data ─────────────────────────────────────────────────────────────
 
 const ATLAS_IMG = "/pre-construction/connected-capabilities/showcase";
@@ -209,91 +242,91 @@ export const ATLAS_MODULES: CapabilityModule[] = [
   {
     id: "workforce-access",
     title: "Workforce & Access",
-    icon: <HardHatIcon />,
+    iconBadge: `${WORKFORCE_ICONS}/workforce.svg`,
     moduleCount: "12 Modules",
     description:
       "Worker identity, entry, occupancy, accountability and workforce performance in one operating view.",
     image: `${ATLAS_IMG}/workforce-access.png`,
     imageAlt: "Workers passing through a smart gate on a construction site",
     features: [
-      { title: "Profiles", description: "Full worker lifecycle & credential vault", icon: <UserIcon /> },
-      { title: "Self-Registration", description: "Phone-based sign-up, approve & enrol in one flow", icon: <TagIcon /> },
-      { title: "Site Gate", description: "Live gate feed, KPIs & every lane in one view", icon: <GateIcon /> },
-      { title: "Overstay", description: "Shift-hour & fatigue monitoring", icon: <ClockIcon /> },
-      { title: "Roll Call", description: "On-demand accountability from live occupancy", icon: <UserIcon /> },
-      { title: "Workforce Analytics", description: "Live on-site, manhours & productivity", icon: <ChartIcon /> },
-      { title: "Contractor Scorecard", description: "Per-contractor safety performance", icon: <ChartIcon /> },
-      { title: "Gate Pass", description: "Visitor & delivery passes with expiry enforcement", icon: <TagIcon /> },
-      { title: "Face Verification", description: "On-device face detection & verification", icon: <CameraIcon /> },
-      { title: "Badges", description: "Badge issuance with status-aware lifecycle", icon: <BadgeIcon /> },
-      { title: "Passes", description: "Pass types, validity windows & expiry", icon: <TagIcon /> },
-      { title: "Access Control", description: "Per-gate assignment, enrol & revoke", icon: <GateIcon /> },
+      { title: "Profiles", description: "Full worker lifecycle & credential vault", icon: <AssetIcon src={`${WORKFORCE_ICONS}/profile.svg`} /> },
+      { title: "Self-Registration", description: "Phone-based sign-up, approve & enrol in one flow", icon: <AssetIcon src={`${WORKFORCE_ICONS}/selfregistration.svg`} /> },
+      { title: "Site Gate", description: "Live gate feed, KPIs & every lane in one view", icon: <AssetIcon src={`${WORKFORCE_ICONS}/sitegate.svg`} /> },
+      { title: "Overstay", description: "Shift-hour & fatigue monitoring", icon: <AssetIcon src={`${WORKFORCE_ICONS}/overstay.svg`} /> },
+      { title: "Roll Call", description: "On-demand accountability from live occupancy", icon: <AssetIcon src={`${WORKFORCE_ICONS}/rollcall.svg`} /> },
+      { title: "Workforce Analytics", description: "Live on-site, manhours & productivity", icon: <AssetIcon src={`${WORKFORCE_ICONS}/workforceanalytics.svg`} /> },
+      { title: "Contractor Scorecard", description: "Per-contractor safety performance", icon: <AssetIcon src={`${WORKFORCE_ICONS}/score-card.svg`} /> },
+      { title: "Gate Pass", description: "Visitor & delivery passes with expiry enforcement", icon: <AssetIcon src={`${WORKFORCE_ICONS}/gatecard.svg`} /> },
+      { title: "Face Verification", description: "On-device face detection & verification", icon: <AssetIcon src={`${WORKFORCE_ICONS}/faceverification.svg`} /> },
+      { title: "Badges", description: "Badge issuance with status-aware lifecycle", icon: <AssetIcon src={`${WORKFORCE_ICONS}/badges.svg`} /> },
+      { title: "Passes", description: "Pass types, validity windows & expiry", icon: <AssetIcon src={`${WORKFORCE_ICONS}/passes.svg`} /> },
+      { title: "Access Control", description: "Per-gate assignment, enrol & revoke", icon: <AssetIcon src={`${WORKFORCE_ICONS}/accesscontrol.svg`} /> },
     ],
   },
   {
     id: "tracking-mobility",
     title: "Tracking & Mobility",
-    icon: <LocationIcon />,
+    iconBadge: `${TRACKING_ICONS}/trackandmobility.svg`,
     moduleCount: "03 Modules",
     description:
       "Real-time movement, identification and density awareness across people and assets.",
     image: `${ATLAS_IMG}/tracking-mobility.png`,
     imageAlt: "Isometric render of site tracking and mobility zones",
     features: [
-      { title: "RTLS", description: "Real-time location of people & assets", icon: <LocationIcon /> },
-      { title: "RFID", description: "Tag-based identification & tracking", icon: <TagIcon /> },
-      { title: "Heatmap", description: "Movement & density visualisation", icon: <GridIcon /> },
+      { title: "RTLS", description: "Real-time location of people & assets", icon: <AssetIcon src={`${TRACKING_ICONS}/RTLS.svg`} /> },
+      { title: "RFID", description: "Tag-based identification & tracking", icon: <AssetIcon src={`${TRACKING_ICONS}/RFID.svg`} /> },
+      { title: "Heatmap", description: "Movement & density visualisation", icon: <AssetIcon src={`${TRACKING_ICONS}/Heatmap.svg`} /> },
     ],
   },
   {
     id: "safety-compliance",
     title: "Safety & Compliance",
-    icon: <ShieldIcon />,
+    iconBadge: `${SAFETY_ICONS}/safety.svg`,
     moduleCount: "07 Modules",
     description:
       "Policy-led controls before entry, during work and when every person must be accounted for.",
     image: `${ATLAS_IMG}/safety-compliance.png`,
     imageAlt: "Workers reviewed against safety and compliance checks",
     features: [
-      { title: "Compliance Gate (10-check)", description: "Admit / warn / deny before entry, evidence on every check", icon: <ShieldIcon /> },
-      { title: "Emergency Muster", description: "Live baseline, face-scan accounting, drill mode", icon: <AlertIcon /> },
-      { title: "Permit-to-Work", description: "Apply, register & approve with process flow", icon: <BadgeIcon /> },
-      { title: "Fitness-to-Work", description: "Start-of-shift declarations & random testing", icon: <UserIcon /> },
-      { title: "Random Safety Audit", description: "Camera-based spot audits on mobile", icon: <CameraIcon /> },
-      { title: "Anti-Passback", description: "Blocks re-entry without exit, never blocked", icon: <GateIcon /> },
-      { title: "Site Policies", description: "Per-site compliance profiles, never weakening the gate", icon: <ShieldIcon /> },
+      { title: "Compliance Gate (10-check)", description: "Admit / warn / deny before entry, evidence on every check", icon: <AssetIcon src={`${SAFETY_ICONS}/compilance.svg`} /> },
+      { title: "Emergency Muster", description: "Live baseline, face-scan accounting, drill mode", icon: <AssetIcon src={`${SAFETY_ICONS}/emergency.svg`} /> },
+      { title: "Permit-to-Work", description: "Apply, register & approve with process flow", icon: <AssetIcon src={`${SAFETY_ICONS}/premit.svg`} /> },
+      { title: "Fitness-to-Work", description: "Start-of-shift declarations & random testing", icon: <AssetIcon src={`${SAFETY_ICONS}/fitness.svg`} /> },
+      { title: "Random Safety Audit", description: "Camera-based spot audits on mobile", icon: <AssetIcon src={`${SAFETY_ICONS}/random.svg`} /> },
+      { title: "Anti-Passback", description: "Blocks re-entry without exit, never blocked", icon: <AssetIcon src={`${SAFETY_ICONS}/anti-passbook.svg`} /> },
+      { title: "Site Policies", description: "Per-site compliance profiles, never weakening the gate", icon: <AssetIcon src={`${SAFETY_ICONS}/site-policies.svg`} /> },
     ],
   },
   {
     id: "delivery-handover",
     title: "Delivery & Handover",
-    icon: <TruckIcon />,
+    iconBadge: `${DELIVERY_ICONS}/delivery.svg`,
     moduleCount: "02 Modules",
     description:
       "Preserve commissioning records and move project intelligence into live operations.",
     image: `${ATLAS_IMG}/delivery-handover.png`,
     imageAlt: "Server room being commissioned for handover",
     features: [
-      { title: "Commissioning", description: "Cx records & acceptance on the build.", icon: <BadgeIcon /> },
-      { title: "Handover to Aegis", description: "One-click transfer to live operations same spine.", icon: <TruckIcon /> },
+      { title: "Commissioning", description: "Cx records & acceptance on the build.", icon: <AssetIcon src={`${DELIVERY_ICONS}/commissioning.svg`} /> },
+      { title: "Handover to Aegis", description: "One-click transfer to live operations same spine.", icon: <AssetIcon src={`${DELIVERY_ICONS}/handover.svg`} /> },
     ],
   },
   {
     id: "ai-video-analytics",
     title: "AI Video Analytics",
-    icon: <CameraIcon />,
+    iconBadge: `${ANALYTICS_ICONS}/analytics.svg`,
     moduleCount: "06 Modules",
     description:
       "Convert camera feeds into identity, safety, intrusion and operational event alerts.",
     image: `${ATLAS_IMG}/ai-video-analytics.png`,
     imageAlt: "Aerial view of a construction site with AI video overlays",
     features: [
-      { title: "Facial Recognition", description: "Identity at the gate via camera", icon: <UserIcon /> },
-      { title: "PPE / Hard-hat", description: "Uniform & helmet detection alarms", icon: <HardHatIcon /> },
-      { title: "Intrusion & Tracking", description: "Restricted-zone & line-cross alerts", icon: <AlertIcon /> },
-      { title: "Fire & Smoke", description: "Early detection from camera feeds", icon: <AlertIcon /> },
-      { title: "Crowd & Fall", description: "Overcrowding & person-down alerts", icon: <UserIcon /> },
-      { title: "Licence Plate Recognition", description: "Vehicle access & logging", icon: <TagIcon /> },
+      { title: "Facial Recognition", description: "Identity at the gate via camera", icon: <AssetIcon src={`${ANALYTICS_ICONS}/facial.svg`} /> },
+      { title: "PPE / Hard-hat", description: "Uniform & helmet detection alarms", icon: <AssetIcon src={`${ANALYTICS_ICONS}/hard-hat.svg`} /> },
+      { title: "Intrusion & Tracking", description: "Restricted-zone & line-cross alerts", icon: <AssetIcon src={`${ANALYTICS_ICONS}/tracking.svg`} /> },
+      { title: "Fire & Smoke", description: "Early detection from camera feeds", icon: <AssetIcon src={`${ANALYTICS_ICONS}/smoke.svg`} /> },
+      { title: "Crowd & Fall", description: "Overcrowding & person-down alerts", icon: <AssetIcon src={`${ANALYTICS_ICONS}/fall.svg`} /> },
+      { title: "Licence Plate Recognition", description: "Vehicle access & logging", icon: <AssetIcon src={`${ANALYTICS_ICONS}/plate-recognition.svg`} /> },
     ],
   },
 ];
@@ -305,98 +338,98 @@ export const AEGIS_MODULES: CapabilityModule[] = [
   {
     id: "operations",
     title: "Operations",
-    icon: <GridIcon />,
+    iconBadge: `${OPERATIONS_ICONS}/operation.svg`,
     moduleCount: "08 Modules",
     description:
       "Coordinate assets, infrastructure, service workflows and operational HSE across the live facility.",
     image: `${AEGIS_IMG}/operations.png`,
     imageAlt: "Facility operations dashboard overlaid on a live site",
     features: [
-      { title: "Assets", description: "Full asset lifecycle & credential vault", icon: <TagIcon /> },
-      { title: "VM Manager", description: "Virtual infrastructure oversight", icon: <GridIcon /> },
-      { title: "Alarms", description: "Real-time alarm monitoring & routing", icon: <AlertIcon /> },
-      { title: "Service Desk", description: "Tickets, SLAs & resolution tracking", icon: <BadgeIcon /> },
-      { title: "Work Orders", description: "Raise, assign & track maintenance work", icon: <ClockIcon /> },
-      { title: "Change & Config", description: "Controlled change & configuration management", icon: <ShieldIcon /> },
-      { title: "Supply & Spares", description: "Spares inventory & supply tracking", icon: <TruckIcon /> },
-      { title: "Health & Safety", description: "Operational HSE on the live site", icon: <UserIcon /> },
+      { title: "Assets", description: "Full asset lifecycle & credential vault", icon: <AssetIcon src={`${OPERATIONS_ICONS}/assests.svg`} /> },
+      { title: "VM Manager", description: "Virtual infrastructure oversight", icon: <AssetIcon src={`${OPERATIONS_ICONS}/vmmanager.svg`} /> },
+      { title: "Alarms", description: "Real-time alarm monitoring & routing", icon: <AssetIcon src={`${OPERATIONS_ICONS}/alarm.svg`} /> },
+      { title: "Service Desk", description: "Tickets, SLAs & resolution tracking", icon: <AssetIcon src={`${OPERATIONS_ICONS}/servicedesk.svg`} /> },
+      { title: "Work Orders", description: "Raise, assign & track maintenance work", icon: <AssetIcon src={`${OPERATIONS_ICONS}/work-orders.svg`} /> },
+      { title: "Change & Config", description: "Controlled change & configuration management", icon: <AssetIcon src={`${OPERATIONS_ICONS}/config.svg`} /> },
+      { title: "Supply & Spares", description: "Spares inventory & supply tracking", icon: <AssetIcon src={`${OPERATIONS_ICONS}/supply.svg`} /> },
+      { title: "Health & Safety", description: "Operational HSE on the live site", icon: <AssetIcon src={`${OPERATIONS_ICONS}/health.svg`} /> },
     ],
   },
   {
     id: "physical-security",
     title: "Physical Security",
-    icon: <ShieldIcon />,
+    iconBadge: `${SECURITY_ICONS}/physical.svg`,
     moduleCount: "03 Modules",
     description:
       "Unify zones, patrols, perimeter awareness and access-point oversight.",
     image: `${AEGIS_IMG}/physical-security.png`,
     imageAlt: "Security operations centre monitoring a live facility",
     features: [
-      { title: "Physical Security", description: "Zones, patrols & security operations", icon: <ShieldIcon /> },
-      { title: "Perimeter Boundary", description: "Perimeter monitoring & breach awareness", icon: <GateIcon /> },
-      { title: "Security Point", description: "Checkpoint & access-point oversight", icon: <LocationIcon /> },
+      { title: "Physical Security", description: "Zones, patrols & security operations", icon: <AssetIcon src={`${SECURITY_ICONS}/security.svg`} /> },
+      { title: "Perimeter Boundary", description: "Perimeter monitoring & breach awareness", icon: <AssetIcon src={`${SECURITY_ICONS}/boundar.svg`} /> },
+      { title: "Security Point", description: "Checkpoint & access-point oversight", icon: <AssetIcon src={`${SECURITY_ICONS}/security-point.svg`} /> },
     ],
   },
   {
     id: "facility-twin",
     title: "Facility & Twin",
-    icon: <GridIcon />,
+    iconBadge: `${FACILITY_ICONS}/facility.svg`,
     moduleCount: "04 Modules",
     description:
       "Visualise the data hall, thermal conditions, wireless coverage and continuity readiness.",
     image: `${AEGIS_IMG}/facility-twin.png`,
     imageAlt: "Digital twin render of a data hall",
     features: [
-      { title: "Data Hall", description: "Digital twin of the data hall", icon: <GridIcon /> },
-      { title: "Thermal & Cooling", description: "Thermal mapping & cooling performance", icon: <ChartIcon /> },
-      { title: "WiFi Heatmap", description: "Wireless coverage visualisation", icon: <LocationIcon /> },
-      { title: "Continuity & DR", description: "Business continuity & disaster readiness", icon: <ShieldIcon /> },
+      { title: "Data Hall", description: "Digital twin of the data hall", icon: <AssetIcon src={`${FACILITY_ICONS}/hall.svg`} /> },
+      { title: "Thermal & Cooling", description: "Thermal mapping & cooling performance", icon: <AssetIcon src={`${FACILITY_ICONS}/thermal.svg`} /> },
+      { title: "WiFi Heatmap", description: "Wireless coverage visualisation", icon: <AssetIcon src={`${FACILITY_ICONS}/wifi.svg`} /> },
+      { title: "Continuity & DR", description: "Business continuity & disaster readiness", icon: <AssetIcon src={`${FACILITY_ICONS}/DR.svg`} /> },
     ],
   },
   {
     id: "energy",
     title: "Energy",
-    icon: <ChartIcon />,
+    iconBadge: `${ENERGY_ICONS}/energy.svg`,
     moduleCount: "02 Modules",
     description: "Monitor power performance and optimise operational efficiency.",
     image: `${AEGIS_IMG}/energy.png`,
     imageAlt: "Energy infrastructure with wind turbines and power monitoring overlays",
     features: [
-      { title: "Energy & Power", description: "Energy monitoring & power management", icon: <ChartIcon /> },
-      { title: "Energy Mode", description: "Optimisation modes & efficiency control", icon: <ClockIcon /> },
+      { title: "Energy & Power", description: "Energy monitoring & power management", icon: <AssetIcon src={`${ENERGY_ICONS}/power.svg`} /> },
+      { title: "Energy Mode", description: "Optimisation modes & efficiency control", icon: <AssetIcon src={`${ENERGY_ICONS}/energy_mode.svg`} /> },
     ],
   },
   {
     id: "analytics-ai",
     title: "Analytics & AI",
-    icon: <ChartIcon />,
+    iconBadge: `${AI_ICONS}/analytics-ai.svg`,
     moduleCount: "05 Modules",
     description:
       "Turn facility data into operational intelligence, capacity insight and executive reporting.",
     image: `${AEGIS_IMG}/analytics-ai.png`,
     imageAlt: "Analytics dashboards overlaid on facility devices",
     features: [
-      { title: "Analytics", description: "Operational analytics across the facility", icon: <ChartIcon /> },
-      { title: "AI Insights", description: "AI-driven operational intelligence", icon: <GridIcon /> },
-      { title: "Capacity", description: "Capacity planning & utilisation", icon: <BadgeIcon /> },
-      { title: "Availability", description: "Uptime & availability tracking", icon: <ClockIcon /> },
-      { title: "AI Report", description: "AI-generated executive reporting", icon: <TagIcon /> },
+      { title: "Analytics", description: "Operational analytics across the facility", icon: <AssetIcon src={`${AI_ICONS}/analytics.svg`} /> },
+      { title: "AI Insights", description: "AI-driven operational intelligence", icon: <AssetIcon src={`${AI_ICONS}/ai-insights.svg`} /> },
+      { title: "Capacity", description: "Capacity planning & utilisation", icon: <AssetIcon src={`${AI_ICONS}/capacity.svg`} /> },
+      { title: "Availability", description: "Uptime & availability tracking", icon: <AssetIcon src={`${AI_ICONS}/availability.svg`} /> },
+      { title: "AI Report", description: "AI-generated executive reporting", icon: <AssetIcon src={`${AI_ICONS}/ai-report.svg`} /> },
     ],
   },
   {
     id: "governance",
     title: "Governance",
-    icon: <BadgeIcon />,
+    iconBadge: `${GOVERNANCE_ICONS}/governance.svg`,
     moduleCount: "04 Modules",
     description:
       "Connect financial, ESG, compliance, enterprise risk and capital works oversight.",
     image: `${AEGIS_IMG}/governance.png`,
     imageAlt: "Governance and compliance reporting overlaid on a facility",
     features: [
-      { title: "Financial ESG", description: "Financial & ESG performance", icon: <ChartIcon /> },
-      { title: "Compliance & Audit", description: "Compliance posture & audit records", icon: <ShieldIcon /> },
-      { title: "Enterprise Risk", description: "Risk register & mitigation", icon: <AlertIcon /> },
-      { title: "Capital Works", description: "Capital projects on the live facility", icon: <TruckIcon /> },
+      { title: "Financial ESG", description: "Financial & ESG performance", icon: <AssetIcon src={`${GOVERNANCE_ICONS}/esg.svg`} /> },
+      { title: "Compliance & Audit", description: "Compliance posture & audit records", icon: <AssetIcon src={`${GOVERNANCE_ICONS}/audit.svg`} /> },
+      { title: "Enterprise Risk", description: "Risk register & mitigation", icon: <AssetIcon src={`${GOVERNANCE_ICONS}/risk.svg`} /> },
+      { title: "Capital Works", description: "Capital projects on the live facility", icon: <AssetIcon src={`${GOVERNANCE_ICONS}/capital.svg`} /> },
     ],
   },
 ];
@@ -585,22 +618,36 @@ export default function ConnectedCapabilitiesShowcase({
                     transition={{ type: "spring", stiffness: 320, damping: 24 }}
                     className="relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-colors duration-300 lg:shrink lg:flex-1"
                     style={{
-                      background: isActive ? "#EAF6FE" : "#FFFFFF",
+                      background: isActive ? "#FFFFFF" : "#EAF6FE",
                       boxShadow: isActive
                         ? "0 14px 28px -18px rgba(10,110,168,0.4)"
                         : "0 8px 20px -16px rgba(10,75,110,0.18)",
                     }}
                   >
-                    {isActive && (
-                      <motion.span
-                        layoutId="capability-active-indicator"
+                    {isActive && mod.iconBadge ? (
+                      /* Badge asset — the tile, glyph and drop shadow are all
+                         baked in, so it stands in for the gradient circle.
+                         The export is a 40x40 tile on a 76px canvas (the extra
+                         room is shadow), so it renders at 68px to land the tile
+                         itself on 36px, absolutely positioned so the shadow
+                         overflows the 36px layout box instead of inflating it.
+                         The tile sits 4 SVG units above centre (the shadow
+                         falls below), hence the +3.6px y-nudge. */
+                      <span
                         aria-hidden
-                        className="absolute inset-y-2 left-0 w-1 rounded-full bg-gradient-to-b from-[#21B1F1] to-[#0A6FA8] shadow-[0_0_10px_rgba(33,177,241,0.7)]"
-                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      />
-                    )}
-
-                    {isActive ? (
+                        className="relative flex h-9 w-9 shrink-0 items-center justify-center"
+                      >
+                        <Image
+                          src={mod.iconBadge}
+                          alt=""
+                          width={76}
+                          height={76}
+                          unoptimized
+                          className="pointer-events-none absolute left-1/2 top-1/2 h-[68px] w-[68px] max-w-none"
+                          style={{ transform: "translate(-50%, calc(-50% + 3.6px))" }}
+                        />
+                      </span>
+                    ) : isActive ? (
                       <span
                         aria-hidden
                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white [&>svg]:h-[18px] [&>svg]:w-[18px]"
@@ -654,31 +701,29 @@ export default function ConnectedCapabilitiesShowcase({
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.35, ease: EASE }}
                     >
-                      {/* Top row: Number icon + overarching tagline + Module count pill */}
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-lato text-[16px] font-extrabold text-white shadow-[0_4px_12px_rgba(10,142,200,0.25)]"
-                            style={{
-                              background: "linear-gradient(135deg,#21B1F1,#0A6FA8)",
-                            }}
-                          >
-                            {active.number ?? String(activeIndex + 1).padStart(2, "0")}
-                          </span>
-                          <h3 className="font-lato text-[15px] font-bold leading-[20px] text-[#0A4B6E] sm:text-[17px]">
-                            Everything happening across your operations captured in one system
-                          </h3>
-                        </div>
+                      {/* Top row: nothing but the number badge (start) and the
+                          module count pill (end) — the title owns the line
+                          below, so neither can crowd the other. */}
+                      <div className="flex items-center justify-between gap-3">
+                        <span
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-lato text-[16px] font-extrabold text-white shadow-[0_4px_12px_rgba(10,142,200,0.25)]"
+                          style={{
+                            background: "linear-gradient(135deg,#21B1F1,#0A6FA8)",
+                          }}
+                        >
+                          {active.number ?? String(activeIndex + 1).padStart(2, "0")}
+                        </span>
 
                         <span className="shrink-0 rounded-full border border-white/80 bg-[#EAF6FE] px-3.5 py-1.5 font-lato text-[12px] font-bold text-[#0A6FA8] shadow-[0_2px_8px_rgba(10,110,168,0.08)]">
                           {moduleCount}
                         </span>
                       </div>
 
-                      {/* Module specific description */}
-                      <p className="mt-3.5 max-w-[560px] font-lato text-[15px] font-bold leading-[22px] text-[#0A4B6E] sm:min-h-[44px] sm:text-[16px] sm:leading-[24px]">
+                      {/* Second line: the module's own title. Full width now
+                          that it no longer shares the badge row. */}
+                      <h3 className="mt-3.5 max-w-[560px] font-lato text-[15px] font-bold leading-[22px] text-[#0A4B6E] sm:min-h-[44px] sm:text-[16px] sm:leading-[24px]">
                         {active.description}
-                      </p>
+                      </h3>
                     </motion.div>
                   </AnimatePresence>
 
@@ -713,9 +758,6 @@ export default function ConnectedCapabilitiesShowcase({
                   // over-crop, wider and the panel would need to grow taller
                   // than its sibling, so this is the balance point.
                   className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[310px] xl:w-[330px]"
-                  style={{
-                    background: "linear-gradient(155deg,#0A1A2E 0%,#0B2340 55%,#071627 100%)",
-                  }}
                 >
                   <AnimatePresence mode="sync" initial={false}>
                     <motion.div
