@@ -6,6 +6,8 @@ import {
   AnimatePresence,
   motion,
   MotionConfig,
+  useInView,
+  useReducedMotion,
   type Variants,
 } from "motion/react";
 
@@ -442,6 +444,22 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // matter how many features the active module contributes.
 const FEATURES_PER_PAGE = 6;
 
+// Auto-advance cadence. 4 s matches PlatformOverview's carousel rather than
+// ConnectedCapabilities' 2 s: a module here swaps six feature cards and a
+// photo, and that transition alone runs close to a second.
+const CYCLE_MS = 2000;
+const RESUME_MS = 1000; // resume auto-play 6 s after manual interaction
+
+// Header clip-wipe from the top — the site's signature heading reveal.
+const wipeDown: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  show: (delay = 0) => ({
+    clipPath: "inset(0 0 0% 0)",
+    opacity: 1,
+    transition: { delay, duration: 0.6, ease: EASE },
+  }),
+};
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 22 },
   show: (delay = 0) => ({
@@ -450,6 +468,42 @@ const fadeUp: Variants = {
     transition: { duration: 0.55, ease: EASE, delay },
   }),
 };
+
+// Card reveal — rise + subtle scale, kept inside a stagger container.
+const cardIn: Variants = {
+  hidden: { opacity: 0, y: 20, scale: 0.94 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: EASE, delay },
+  }),
+};
+
+// Sidebar list — staggers its buttons down the column as the row reveals.
+const navIn: Variants = {
+  hidden: {},
+  show: { transition: { delayChildren: 0.15, staggerChildren: 0.08 } },
+};
+
+// The rail draws itself downward alongside the nav it measures.
+const railDraw: Variants = {
+  hidden: { scaleY: 0, opacity: 0 },
+  show: (delay = 0) => ({
+    scaleY: 1,
+    opacity: 1,
+    transition: { duration: 1.1, ease: EASE, delay },
+  }),
+};
+
+// Trigger each group as IT enters the viewport — never on one tall wrapping
+// container (which, being taller than the screen, fires the moment its top
+// scrolls in and animates everything below the fold too early).
+const VIEWPORT = {
+  once: true,
+  amount: 0.15,
+  margin: "0px 0px -120px 0px",
+} as const;
 
 // Feature grid — the container staggers its cards in on every module/page swap.
 const gridVariants: Variants = {
@@ -520,9 +574,71 @@ export default function ConnectedCapabilitiesShowcase({
     activeIndex: 0,
     pageIndex: 0,
   });
-  const selectModule = (i: number) => setSelection({ activeIndex: i, pageIndex: 0 });
-  const selectPage = (i: number) =>
+
+  // ── Auto-advancing active module ──────────────────────────────────────────
+  // Mirrors the PlatformOverview / ConnectedCapabilities carousels on the same
+  // page: the active item steps forward on a timer, and any reader interaction
+  // hands control back to them.
+  const [paused, setPaused] = useState(false);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hovering = useRef(false);
+  const rowRef = useRef<HTMLDivElement>(null);
+  // Never cycle off-screen — otherwise the reader scrolls down to a module
+  // chosen at random by however long the page sat above the fold.
+  const inView = useInView(rowRef, { amount: 0.25 });
+  const reduceMotion = useReducedMotion();
+
+  // Resume only if the pointer has actually left; a click while hovering would
+  // otherwise restart the cycle under the reader's cursor 6 s later.
+  const scheduleResume = () => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      if (!hovering.current) setPaused(false);
+    }, RESUME_MS);
+  };
+
+  const selectModule = (i: number) => {
+    setSelection({ activeIndex: i, pageIndex: 0 });
+    setPaused(true);
+    scheduleResume();
+  };
+  const selectPage = (i: number) => {
     setSelection((current) => ({ ...current, pageIndex: i }));
+    setPaused(true);
+    scheduleResume();
+  };
+
+  // Pointer anywhere over the row (nav or content card) holds playback, so the
+  // board never swaps out from under someone mid-sentence.
+  const holdPlayback = () => {
+    hovering.current = true;
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+  };
+  const releasePlayback = () => {
+    hovering.current = false;
+    scheduleResume();
+  };
+
+  useEffect(() => {
+    if (!inView || paused || reduceMotion || modules.length <= 1) return;
+    const id = setInterval(
+      () =>
+        setSelection(({ activeIndex: i }) => ({
+          activeIndex: (i + 1) % modules.length,
+          pageIndex: 0,
+        })),
+      CYCLE_MS,
+    );
+    return () => clearInterval(id);
+  }, [inView, paused, reduceMotion, modules.length]);
+
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
 
   // Placeholder images 404 until real Figma exports replace them — track
   // failures per module so a missing file falls back to the gradient card
@@ -581,31 +697,38 @@ export default function ConnectedCapabilitiesShowcase({
       <section className="w-full bg-[#f5fbff] px-6 py-5 lg:px-8 lg:py-7 xl:px-15">
         <div className={`mx-auto max-w-[1280px] ${className}`}>
           {/* Header */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+          <motion.div initial="hidden" whileInView="show" viewport={VIEWPORT}>
             <motion.h2
-              variants={fadeUp}
-              custom={0}
+              variants={wipeDown}
+              custom={0.05}
               className="max-w-[720px] font-lato text-[24px] font-extrabold leading-[32px] text-[#0A4B6E] sm:text-[28px] sm:leading-[36px]"
             >
               {heading}
             </motion.h2>
             <motion.p
               variants={fadeUp}
-              custom={0.1}
+              custom={0.2}
               className="mt-2 max-w-[680px] font-lato text-[15px] font-normal leading-[22px] text-[#5C7E97] sm:text-[16px]"
             >
               {subtitle}
             </motion.p>
           </motion.div>
 
-          <div className="mt-8 flex flex-col gap-5 lg:mt-10 lg:flex-row lg:items-stretch lg:gap-3">
+          {/* The nav, rail and content card share one trigger so they reveal as
+              a single row rather than three unrelated pieces. */}
+          <motion.div
+            ref={rowRef}
+            onMouseEnter={holdPlayback}
+            onMouseLeave={releasePlayback}
+            className="mt-8 flex flex-col gap-5 lg:mt-10 lg:flex-row lg:items-stretch lg:gap-3"
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+          >
             {/* Sidebar */}
-            <nav
+            <motion.nav
               ref={navRef}
+              variants={navIn}
               aria-label="Capability modules"
               className="flex gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] lg:w-[200px] lg:shrink-0 lg:flex-col xl:w-[248px] lg:gap-3 lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
             >
@@ -619,6 +742,7 @@ export default function ConnectedCapabilitiesShowcase({
                     }}
                     type="button"
                     onClick={() => selectModule(i)}
+                    variants={cardIn}
                     whileHover={!isActive ? { y: -2 } : undefined}
                     transition={{ type: "spring", stiffness: 320, damping: 24 }}
                     className="relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-colors duration-300 lg:shrink lg:flex-1"
@@ -678,12 +802,16 @@ export default function ConnectedCapabilitiesShowcase({
                   </motion.button>
                 );
               })}
-            </nav>
+            </motion.nav>
 
             {/* Scroll rail */}
-            <div
+            <motion.div
+              variants={railDraw}
+              custom={0.25}
               className="relative hidden w-1 shrink-0 overflow-hidden rounded-full bg-[#E3EFFA] lg:block"
-              style={{ height: rail.trackHeight || undefined }}
+              /* originY 0 so the track grows downward from the top rather than
+                 outward from its middle. */
+              style={{ height: rail.trackHeight || undefined, originY: 0 }}
             >
               <motion.div
                 aria-hidden
@@ -691,10 +819,14 @@ export default function ConnectedCapabilitiesShowcase({
                 animate={{ top: rail.thumbTop, height: rail.thumbHeight }}
                 transition={{ type: "spring", stiffness: 260, damping: 30 }}
               />
-            </div>
+            </motion.div>
 
             {/* Content card */}
-            <div className="relative min-w-0 flex-1 overflow-hidden rounded-[28px] border border-[#EAF3FB] bg-white p-5 shadow-[0_25px_60px_-28px_rgba(10,75,110,0.3)] sm:p-6 lg:p-5 xl:p-7">
+            <motion.div
+              variants={cardIn}
+              custom={0.3}
+              className="relative min-w-0 flex-1 overflow-hidden rounded-[28px] border border-[#EAF3FB] bg-white p-5 shadow-[0_25px_60px_-28px_rgba(10,75,110,0.3)] sm:p-6 lg:p-5 xl:p-7"
+            >
               <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-8">
                 {/* Left: badge/title row + description + feature grid */}
                 <div className="flex min-w-0 flex-1 flex-col">
@@ -737,13 +869,20 @@ export default function ConnectedCapabilitiesShowcase({
                       modules. lg gets 20px more so a title that wraps to two
                       lines in the narrower column still clears its row. */}
                   <div className="relative mt-5 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none lg:h-[356px] xl:h-[336px]">
-                    <AnimatePresence mode="wait" initial={false}>
+                    {/* `whileInView` rather than `animate`, and no
+                        `initial={false}`, so the very first board staggers in
+                        when the section is scrolled to — with `animate` it
+                        played at page load, long above the fold, and the user
+                        arrived to a board that had already settled. Later
+                        module/page swaps re-key this node and stagger as before. */}
+                    <AnimatePresence mode="wait">
                       <motion.div
                         key={`${active.id}-${pageIndex}`}
                         variants={gridVariants}
                         initial="enter"
-                        animate="center"
+                        whileInView="center"
                         exit="exit"
+                        viewport={{ once: true, amount: 0.2 }}
                         className="grid h-full grid-cols-1 gap-3 sm:auto-rows-fr sm:grid-cols-2 sm:grid-rows-3"
                       >
                         {currentFeatures.map((feature, i) => (
@@ -767,13 +906,14 @@ export default function ConnectedCapabilitiesShowcase({
                   // than its sibling, so this is the balance point.
                   className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[250px] xl:w-[330px]"
                 >
-                  <AnimatePresence mode="sync" initial={false}>
+                  <AnimatePresence mode="sync">
                     <motion.div
                       key={active.id}
                       variants={imageVariants}
                       initial="enter"
-                      animate="center"
+                      whileInView="center"
                       exit="exit"
+                      viewport={{ once: true, amount: 0.2 }}
                       className="absolute inset-0"
                     >
                       {!failedImages[active.id] && (
@@ -795,7 +935,11 @@ export default function ConnectedCapabilitiesShowcase({
               </div>
 
               {/* Bottom pagination matching Figma 58x5px capsules */}
-              <div className="mt-6 flex h-2 items-center justify-center gap-2">
+              <motion.div
+                variants={fadeUp}
+                custom={0.55}
+                className="mt-6 flex h-2 items-center justify-center gap-2"
+              >
                 {pages.length > 1 &&
                   pages.map((_, i) => (
                     <motion.button
@@ -811,9 +955,9 @@ export default function ConnectedCapabilitiesShowcase({
                       className="h-1.5 rounded-full"
                     />
                   ))}
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </MotionConfig>

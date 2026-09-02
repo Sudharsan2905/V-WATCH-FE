@@ -15,6 +15,16 @@ export const postConstructionContent = {
     bgImage: "/post-construction/hero.webp",
   },
 
+  // ── Walkthrough video (PlatformVideo) — the same shared section used on the
+  // pre-construction page. The file is not available yet: drop it in
+  // /public/post-construction/platform-video/ and uncomment `src` (and
+  // `poster`). Until then the section renders its placeholder frame.
+  platformVideo: {
+    title: "V-Watch Aegis platform walkthrough",
+    // src: "/post-construction/platform-video/aegis-walkthrough.mp4",
+    // poster: "/post-construction/platform-video/poster.webp",
+  },
+
   // ── "A unified platform for operational security and control" (SinglePlatform)
   unifiedPlatform: {
     heading: "A unified platform for operational security and control",
