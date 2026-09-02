@@ -7,6 +7,17 @@ import ConnectedCapabilitiesShowcase from "@/components/common/ConnectedCapabili
 import PlatformOverview from "@/components/pre-construction/PlatformOverview";
 import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironments";
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
+import PlatformVideo from "@/components/common/PlatformVideo";
+
+// Walkthrough clip — the same shared section renders on live-operations, so the
+// two pages stay identical apart from the copy. The video file is not available
+// yet: drop it in /public/pre-construction/platform-video/ and uncomment `src`
+// (and `poster`) below. Until then the section shows its placeholder frame.
+const platformVideo = {
+  title: "V-Watch Atlas platform walkthrough",
+  // src: "/pre-construction/platform-video/atlas-walkthrough.mp4",
+  // poster: "/pre-construction/platform-video/poster.webp",
+};
 
 export default function PreConstructionPage() {
   return (
@@ -16,6 +27,7 @@ export default function PreConstructionPage() {
       <SinglePlatform />
       <ConnectedCapabilities />
       <ConnectedCapabilitiesShowcase />
+      <PlatformVideo content={platformVideo} />
       <PlatformOverview />
       <ComplexEnvironments />
       <PostConstructionTransition />

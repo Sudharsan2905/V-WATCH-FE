@@ -9,11 +9,13 @@ import ConnectedCapabilitiesShowcase, {
 import PlatformOverview from "@/components/pre-construction/PlatformOverview";
 import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironments";
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
+import PlatformVideo from "@/components/common/PlatformVideo";
 import { postConstructionContent } from "@/data/post-construction";
 
 export default function PostConstructionPage() {
   const {
     hero,
+    platformVideo,
     unifiedPlatform,
     connectedCapabilities,
     longTermSecurity,
@@ -29,6 +31,7 @@ export default function PostConstructionPage() {
       <SinglePlatform content={unifiedPlatform} />
       <ConnectedCapabilities content={connectedCapabilities} />
       <ConnectedCapabilitiesShowcase modules={AEGIS_MODULES} />
+      <PlatformVideo content={platformVideo} />
       <PlatformOverview content={longTermSecurity} />
       <ComplexEnvironments content={criticalEnvironments} />
       {/* Same transition section — its CTA detects this route and toggles back
