@@ -23,13 +23,15 @@ jobs:
 
             cd /var/www/V-WATCH-FE
 
+            sudo chown -R $(whoami):$(whoami) /var/www/V-WATCH-FE
+
             git fetch origin
             git reset --hard origin/main
 
-            sudo rm -rf node_modules
+            rm -rf node_modules
             npm ci
 
-            sudo rm -rf .next
+            rm -rf .next
 
             npm run build
 
