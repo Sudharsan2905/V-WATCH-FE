@@ -30,7 +30,10 @@ export default function PostConstructionPage() {
       <PreConstructionHero hero={hero} />
       <SinglePlatform content={unifiedPlatform} />
       <ConnectedCapabilities content={connectedCapabilities} />
-      <ConnectedCapabilitiesShowcase modules={AEGIS_MODULES} />
+      <ConnectedCapabilitiesShowcase
+        modules={AEGIS_MODULES}
+        subtitle="A compact capability catalogue for live-facility management and security operations."
+      />
       <PlatformVideo content={platformVideo} />
       <PlatformOverview content={longTermSecurity} />
       <ComplexEnvironments content={criticalEnvironments} />

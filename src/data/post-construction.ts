@@ -73,27 +73,27 @@ export const postConstructionContent = {
       {
         title: "Physical Security",
         description:
-          "Unify zones, patrols, perimeter awareness and incident response.",
+          "Unify zones, patrols, perimeter awareness and access-point oversight.",
       },
       {
         title: "Facility & Twin",
         description:
-          "Visualise the data hall, thermal conditions and spatial context in one model.",
+          "Visualise the data hall, thermal conditions, wireless coverage and continuity readiness.",
       },
       {
         title: "Energy",
         description:
-          "Monitor power performance and optimise consumption across the facility.",
+          "Monitor power performance and optimise operational efficiency.",
       },
       {
         title: "Analytics & AI",
         description:
-          "Turn facility data into operational intelligence and early warning.",
+          "Turn facility data into operational intelligence, capacity insight and executive reporting.",
       },
       {
         title: "Governance",
         description:
-          "Connect financial, ESG, compliance and enterprise reporting.",
+          "Connect financial ESG, compliance, enterprise risk and capital works oversight.",
       },
     ],
   },
