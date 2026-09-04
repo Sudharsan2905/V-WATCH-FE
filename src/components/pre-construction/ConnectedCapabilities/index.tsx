@@ -16,6 +16,13 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 // Auto-advance cadence, mirroring PlatformOverview's carousel on the same page.
 const CYCLE_MS = 2000; // step the active card every 2 s
 const RESUME_MS = 6000; // resume auto-play 6 s after the pointer leaves
+// On first entering view, cards light up in a quick 1-2-3-4-5 sweep (matching
+// how fast the rows themselves cascade in) before settling into the slower
+// CYCLE_MS steady loop — otherwise every row has already faded in long before
+// the first CYCLE_MS tick, and the highlight looks stuck on card one. Must
+// clear the card's own 0.45s background crossfade (below) or each step gets
+// interrupted mid-fade and never reads as fully "lit".
+const INTRO_STEP_MS = 550;
 
 // Header clip-wipe from the top — the site's signature heading reveal.
 const wipeDown: Variants = {
@@ -281,32 +288,49 @@ function CapabilityRow({
         )}
       </div>
 
-      {/* Content card — the only thing the active state touches: it lifts to
-          solid white while the rest sit back translucent. The numbers stay at
-          full strength throughout so the rail reads as one continuous scale. */}
+      {/* Content card — only the active row gets one. Everything else sits
+          flush against the section background with no box at all, so the
+          white card reads as a single spotlight moving down the rail rather
+          than one of several cards merely dimming. */}
       <div
         className={`min-w-0 flex-1 ${isLast ? "" : "pb-4 lg:pb-5"}`}
         style={{ paddingLeft: CARD_GAP }}
       >
         <motion.div
-          className="rounded-[14px] px-4 py-3"
+          className="relative rounded-[14px] px-4 py-3"
           animate={{
-            backgroundColor: isActive
-              ? "rgba(255,255,255,1)"
-              : "rgba(255,255,255,0.42)",
+            // Same offset/blur/spread in both states — only the alpha moves,
+            // so the shadow fades in place instead of visibly growing and
+            // sliding into position as the card activates.
             boxShadow: isActive
               ? "0 16px 34px -18px rgba(20,46,92,0.35)"
-              : "0 10px 26px -18px rgba(20,46,92,0.14)",
+              : "0 16px 34px -18px rgba(20,46,92,0)",
             y: isActive ? -2 : 0,
           }}
           transition={{ duration: 0.45, ease: EASE }}
         >
-          <h3 className="font-lato text-[15px] font-bold leading-[20px] text-[#0A4B6E]">
-            {title}
-          </h3>
-          <p className="mt-1 font-lato text-[13px] font-normal leading-[19px] text-[#5C7E97]">
-            {description}
-          </p>
+          {/* A flat color can't crossfade into a gradient, so the gradient
+              itself stays fixed and only its opacity moves — left edge solid
+              white, right edge dissolving into whatever sits behind the
+              card, instead of a hard-edged white box. */}
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[14px]"
+            style={{
+              background:
+                "linear-gradient(90deg, #ffffff 0%, #ffffff 55%, rgba(255,255,255,0) 100%)",
+            }}
+            animate={{ opacity: isActive ? 1 : 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
+          />
+          <div className="relative">
+            <h3 className="font-lato text-[15px] font-bold leading-[20px] text-[#0A4B6E]">
+              {title}
+            </h3>
+            <p className="mt-1 font-lato text-[13px] font-normal leading-[19px] text-[#5C7E97]">
+              {description}
+            </p>
+          </div>
         </motion.div>
       </div>
     </motion.li>
@@ -355,15 +379,54 @@ export default function ConnectedCapabilities({
     setMoreBelow(frame.scrollHeight - frame.clientHeight - frame.scrollTop > 8);
   }, []);
 
-  // Step the active card while the list is on screen and not being hovered.
+  // Read the live paused/hover state from inside timeout callbacks below,
+  // whose closures are fixed at the moment the intro sweep effect ran.
+  const pausedRef = useRef(paused);
   useEffect(() => {
-    if (!inView || paused || capabilities.length <= 1) return;
+    pausedRef.current = paused;
+  }, [paused]);
+
+  // On first entering view, sweep the highlight through every card once
+  // (1-2-3-4-5, quickly) so it visibly lands on each one as it fades in,
+  // before the steady loop below takes over.
+  const [introDone, setIntroDone] = useState(false);
+  const introStartedRef = useRef(false);
+
+  useEffect(() => {
+    if (!inView || introStartedRef.current) return;
+    introStartedRef.current = true;
+
+    if (capabilities.length <= 1) {
+      setIntroDone(true);
+      return;
+    }
+
+    const timers = capabilities.slice(1).map((_, i) =>
+      setTimeout(() => {
+        if (!pausedRef.current) setActiveIndex(i + 1);
+      }, (i + 1) * INTRO_STEP_MS),
+    );
+    const doneTimer = setTimeout(
+      () => setIntroDone(true),
+      capabilities.length * INTRO_STEP_MS,
+    );
+
+    return () => {
+      timers.forEach(clearTimeout);
+      clearTimeout(doneTimer);
+    };
+  }, [inView, capabilities.length]);
+
+  // Step the active card while the list is on screen and not being hovered,
+  // recursively looping back to the first once the intro sweep has landed.
+  useEffect(() => {
+    if (!inView || paused || !introDone || capabilities.length <= 1) return;
     const id = setInterval(
       () => setActiveIndex((i) => (i + 1) % capabilities.length),
       CYCLE_MS,
     );
     return () => clearInterval(id);
-  }, [inView, paused, capabilities.length]);
+  }, [inView, paused, introDone, capabilities.length]);
 
   // Keep the active row inside the frame. Only scrolls when the row is actually
   // out of view, so the common case (rows one to five) never moves the frame.

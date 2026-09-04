@@ -1,13 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { scrollPageTo } from "@/lib/scrollChain";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   AnimatePresence,
   motion,
   MotionConfig,
-  useInView,
-  useReducedMotion,
+  useMotionValueEvent,
+  useScroll,
   type Variants,
 } from "motion/react";
 
@@ -257,12 +265,12 @@ export const ATLAS_MODULES: CapabilityModule[] = [
       { title: "Overstay", description: "Shift-hour & fatigue monitoring", icon: <AssetIcon src={`${WORKFORCE_ICONS}/overstay.svg`} /> },
       { title: "Roll Call", description: "On-demand accountability from live occupancy", icon: <AssetIcon src={`${WORKFORCE_ICONS}/rollcall.svg`} /> },
       { title: "Workforce Analytics", description: "Live on-site, manhours & productivity", icon: <AssetIcon src={`${WORKFORCE_ICONS}/workforceanalytics.svg`} /> },
-      { title: "Contractor Scorecard", description: "Per-contractor safety performance", icon: <AssetIcon src={`${WORKFORCE_ICONS}/score-card.svg`} /> },
-      { title: "Gate Pass", description: "Visitor & delivery passes with expiry enforcement", icon: <AssetIcon src={`${WORKFORCE_ICONS}/gatecard.svg`} /> },
-      { title: "Face Verification", description: "On-device face detection & verification", icon: <AssetIcon src={`${WORKFORCE_ICONS}/faceverification.svg`} /> },
-      { title: "Badges", description: "Badge issuance with status-aware lifecycle", icon: <AssetIcon src={`${WORKFORCE_ICONS}/badges.svg`} /> },
-      { title: "Passes", description: "Pass types, validity windows & expiry", icon: <AssetIcon src={`${WORKFORCE_ICONS}/passes.svg`} /> },
-      { title: "Access Control", description: "Per-gate assignment, enrol & revoke", icon: <AssetIcon src={`${WORKFORCE_ICONS}/accesscontrol.svg`} /> },
+      { title: "Induction & Training", description: "Site induction, toolbox talks & sign-off", icon: <AssetIcon src={`${WORKFORCE_ICONS}/score-card.svg`} /> },
+      { title: "Contractor Management", description: "Companies, packages & compliance status", icon: <AssetIcon src={`${WORKFORCE_ICONS}/gatecard.svg`} /> },
+      { title: "Access Zones", description: "Zone permissions, turnstiles & lift control", icon: <AssetIcon src={`${WORKFORCE_ICONS}/faceverification.svg`} /> },
+      { title: "Attendance & Timesheets", description: "Clock-in/out with payroll-ready export", icon: <AssetIcon src={`${WORKFORCE_ICONS}/badges.svg`} /> },
+      { title: "Certifications", description: "Trade tickets & expiry alerts", icon: <AssetIcon src={`${WORKFORCE_ICONS}/passes.svg`} /> },
+      { title: "Rostering & Deployment", description: "Shift planning & manpower allocation", icon: <AssetIcon src={`${WORKFORCE_ICONS}/accesscontrol.svg`} /> },
     ],
   },
   {
@@ -295,8 +303,8 @@ export const ATLAS_MODULES: CapabilityModule[] = [
       { title: "Permit-to-Work", description: "Apply, register & approve with process flow", icon: <AssetIcon src={`${SAFETY_ICONS}/premit.svg`} /> },
       { title: "Fitness-to-Work", description: "Start-of-shift declarations & random testing", icon: <AssetIcon src={`${SAFETY_ICONS}/fitness.svg`} /> },
       { title: "Random Safety Audit", description: "Camera-based spot audits on mobile", icon: <AssetIcon src={`${SAFETY_ICONS}/random.svg`} /> },
-      { title: "Anti-Passback", description: "Blocks re-entry without exit, never blocked", icon: <AssetIcon src={`${SAFETY_ICONS}/anti-passbook.svg`} /> },
-      { title: "Site Policies", description: "Per-site compliance profiles, never weakening the gate", icon: <AssetIcon src={`${SAFETY_ICONS}/site-policies.svg`} /> },
+      { title: "Anti-Passback", description: "Blocks re-entry without a matching exit", icon: <AssetIcon src={`${SAFETY_ICONS}/anti-passbook.svg`} /> },
+      { title: "Lock-Out / Tag-Out (LOTO)", description: "Isolation control & verification before work", icon: <AssetIcon src={`${SAFETY_ICONS}/site-policies.svg`} /> },
     ],
   },
   {
@@ -309,8 +317,8 @@ export const ATLAS_MODULES: CapabilityModule[] = [
     image: `${ATLAS_IMG}/delivery-handover.png`,
     imageAlt: "Server room being commissioned for handover",
     features: [
-      { title: "Commissioning", description: "Cx records & acceptance on the build.", icon: <AssetIcon src={`${DELIVERY_ICONS}/commissioning.svg`} /> },
-      { title: "Handover to Aegis", description: "One-click transfer to live operations same spine.", icon: <AssetIcon src={`${DELIVERY_ICONS}/handover.svg`} /> },
+      { title: "Commissioning", description: "Cx records & acceptance on the build", icon: <AssetIcon src={`${DELIVERY_ICONS}/commissioning.svg`} /> },
+      { title: "Handover to Aegis", description: "One-click transfer to live operations on the same spine", icon: <AssetIcon src={`${DELIVERY_ICONS}/handover.svg`} /> },
     ],
   },
   {
@@ -328,7 +336,7 @@ export const ATLAS_MODULES: CapabilityModule[] = [
       { title: "Intrusion & Tracking", description: "Restricted-zone & line-cross alerts", icon: <AssetIcon src={`${ANALYTICS_ICONS}/tracking.svg`} /> },
       { title: "Fire & Smoke", description: "Early detection from camera feeds", icon: <AssetIcon src={`${ANALYTICS_ICONS}/smoke.svg`} /> },
       { title: "Crowd & Fall", description: "Overcrowding & person-down alerts", icon: <AssetIcon src={`${ANALYTICS_ICONS}/fall.svg`} /> },
-      { title: "Licence Plate Recognition", description: "Vehicle access & logging", icon: <AssetIcon src={`${ANALYTICS_ICONS}/plate-recognition.svg`} /> },
+      { title: "Licence-Plate Recognition", description: "Vehicle access & logging", icon: <AssetIcon src={`${ANALYTICS_ICONS}/plate-recognition.svg`} /> },
     ],
   },
 ];
@@ -347,14 +355,14 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     image: `${AEGIS_IMG}/operations.png`,
     imageAlt: "Facility operations dashboard overlaid on a live site",
     features: [
-      { title: "Assets", description: "Full asset lifecycle & credential vault", icon: <AssetIcon src={`${OPERATIONS_ICONS}/assests.svg`} /> },
+      { title: "Assets", description: "Asset register & lifecycle oversight", icon: <AssetIcon src={`${OPERATIONS_ICONS}/assests.svg`} /> },
       { title: "VM Manager", description: "Virtual infrastructure oversight", icon: <AssetIcon src={`${OPERATIONS_ICONS}/vmmanager.svg`} /> },
       { title: "Alarms", description: "Real-time alarm monitoring & routing", icon: <AssetIcon src={`${OPERATIONS_ICONS}/alarm.svg`} /> },
       { title: "Service Desk", description: "Tickets, SLAs & resolution tracking", icon: <AssetIcon src={`${OPERATIONS_ICONS}/servicedesk.svg`} /> },
       { title: "Work Orders", description: "Raise, assign & track maintenance work", icon: <AssetIcon src={`${OPERATIONS_ICONS}/work-orders.svg`} /> },
       { title: "Change & Config", description: "Controlled change & configuration management", icon: <AssetIcon src={`${OPERATIONS_ICONS}/config.svg`} /> },
-      { title: "Supply & Spares", description: "Spares inventory & supply tracking", icon: <AssetIcon src={`${OPERATIONS_ICONS}/supply.svg`} /> },
-      { title: "Health & Safety", description: "Operational HSE on the live site", icon: <AssetIcon src={`${OPERATIONS_ICONS}/health.svg`} /> },
+      { title: "Preventive Maintenance", description: "Scheduled PM plans & compliance tracking", icon: <AssetIcon src={`${OPERATIONS_ICONS}/supply.svg`} /> },
+      { title: "Inventory & Spares", description: "Parts, stock levels & procurement", icon: <AssetIcon src={`${OPERATIONS_ICONS}/health.svg`} /> },
     ],
   },
   {
@@ -424,7 +432,7 @@ export const AEGIS_MODULES: CapabilityModule[] = [
     iconBadge: `${GOVERNANCE_ICONS}/governance.svg`,
     moduleCount: "04 Modules",
     description:
-      "Connect financial, ESG, compliance, enterprise risk and capital works oversight.",
+      "Connect financial ESG, compliance, enterprise risk and capital works oversight.",
     image: `${AEGIS_IMG}/governance.png`,
     imageAlt: "Governance and compliance reporting overlaid on a facility",
     features: [
@@ -440,15 +448,9 @@ export const AEGIS_MODULES: CapabilityModule[] = [
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// The card grid is a fixed 2 x 3 board, so the section keeps one height no
-// matter how many features the active module contributes.
-const FEATURES_PER_PAGE = 6;
-
-// Auto-advance cadence. 4 s matches PlatformOverview's carousel rather than
-// ConnectedCapabilities' 2 s: a module here swaps six feature cards and a
-// photo, and that transition alone runs close to a second.
-const CYCLE_MS = 2000;
-const RESUME_MS = 1000; // resume auto-play 6 s after manual interaction
+// Scroll-reveal variants — same shapes/timings as the sibling ConnectedCapabilities
+// section, so the two read as one consistent system rather than two different
+// animation styles on the same page.
 
 // Header clip-wipe from the top — the site's signature heading reveal.
 const wipeDown: Variants = {
@@ -505,24 +507,18 @@ const VIEWPORT = {
   margin: "0px 0px -120px 0px",
 } as const;
 
-// Feature grid — the container staggers its cards in on every module/page swap.
-const gridVariants: Variants = {
-  enter: { transition: { staggerChildren: 0.06 } },
-  center: { transition: { staggerChildren: 0.06 } },
-  exit: {},
-};
+// The card grid is a fixed 2 x 3 board, so the section keeps one height no
+// matter how many features the active module contributes.
+const FEATURES_PER_PAGE = 6;
 
-const cardVariants: Variants = {
-  enter: { opacity: 0, y: 16, scale: 0.96 },
-  center: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: EASE } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: EASE } },
-};
+// Extra scroll runway given to each module while the row is pinned — big
+// enough that one scroll gesture reliably lands on a single module instead
+// of blowing past it, short enough that stepping through all of them (or
+// scrolling past the section entirely) doesn't feel like a chore.
+const SCROLL_VH_PER_MODULE = 85;
 
-const imageVariants: Variants = {
-  enter: { opacity: 0, scale: 1.08 },
-  center: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE } },
-  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.35, ease: EASE } },
-};
+// Height of the fixed site header the pinned row must clear.
+const STICKY_TOP_OFFSET = 76;
 
 // ── Component ───────────────────────────────────────────────────────────────
 
@@ -540,7 +536,6 @@ function FeatureCard({
 }: Readonly<{ feature: CapabilityFeature; fallbackIcon: (typeof FALLBACK_ICONS)[number] }>) {
   return (
     <motion.div
-      variants={cardVariants}
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 320, damping: 24 }}
       className="group relative h-full overflow-hidden rounded-[14px] border border-[#DCEFFC]/90 bg-[#F4FBFF]/40 p-3.5 sm:p-4 shadow-[0_4px_16px_rgba(10,75,110,0.04)] transition-all duration-300 hover:border-[#8ED0F5] hover:bg-white hover:shadow-[0_14px_28px_-14px_rgba(10,110,168,0.22)]"
@@ -548,7 +543,7 @@ function FeatureCard({
       {/* Corner circular badge seamlessly clipped into the top-right corner */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-b from-[#E2F0FB] to-[#F2F9FD] pl-0.5 pt-0.5 text-[#54A0DE] shadow-[inset_0_2px_6px_rgba(56,144,192,0.12)] transition-colors duration-300 group-hover:from-[#D4ECFB] group-hover:to-[#EAF6FE] group-hover:text-[#0A8EC8] [&>svg]:h-[19px] [&>svg]:w-[19px]"
+        className="pointer-events-none absolute -right-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-b from-[#E2F0FB] to-[#F2F9FD] pr-2 pt-2 text-[#54A0DE] shadow-[inset_0_2px_6px_rgba(56,144,192,0.12)] transition-colors duration-300 group-hover:from-[#D4ECFB] group-hover:to-[#EAF6FE] group-hover:text-[#0A8EC8] [&>svg]:h-[19px] [&>svg]:w-[19px]"
       >
         {feature.icon ?? <Fallback />}
       </span>
@@ -563,7 +558,7 @@ function FeatureCard({
 }
 
 export default function ConnectedCapabilitiesShowcase({
-  heading = "Connected operations, real time Visibility, smarter Decisions",
+  heading = "Connected Operations, Real-Time Visibility, Smarter Decisions",
   subtitle = "A modular operating environment that connects workforce, movement, compliance, delivery records and video intelligence across the site lifecycle.",
   modules = ATLAS_MODULES,
   className = "",
@@ -575,70 +570,87 @@ export default function ConnectedCapabilitiesShowcase({
     pageIndex: 0,
   });
 
-  // ── Auto-advancing active module ──────────────────────────────────────────
-  // Mirrors the PlatformOverview / ConnectedCapabilities carousels on the same
-  // page: the active item steps forward on a timer, and any reader interaction
-  // hands control back to them.
-  const [paused, setPaused] = useState(false);
-  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const hovering = useRef(false);
-  const rowRef = useRef<HTMLDivElement>(null);
-  // Never cycle off-screen — otherwise the reader scrolls down to a module
-  // chosen at random by however long the page sat above the fold.
-  const inView = useInView(rowRef, { amount: 0.25 });
-  const reduceMotion = useReducedMotion();
+  // Scroll track — while it's taller than the viewport, the row inside pins
+  // in place (lg+ only; on smaller screens the nav is a horizontal scroller
+  // and the row is short enough to just scroll past normally).
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  // Resume only if the pointer has actually left; a click while hovering would
-  // otherwise restart the cycle under the reader's cursor 6 s later.
-  const scheduleResume = () => {
-    if (resumeTimer.current) clearTimeout(resumeTimer.current);
-    resumeTimer.current = setTimeout(() => {
-      if (!hovering.current) setPaused(false);
-    }, RESUME_MS);
-  };
+  useLayoutEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mql.matches);
+    sync();
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ["start start", "end end"],
+  });
+
+  // While a click is smooth-scrolling the page to a module's slice of the
+  // track, the scroll-progress listener below must stay quiet — otherwise it
+  // fires on every intermediate tick of that animated scroll and the active
+  // module (and everything keyed off it: rail, card, feature grid) flickers
+  // through each module in between before landing on the clicked one.
+  const suppressScrollSyncRef = useRef(false);
+  const scrollTokenRef = useRef(0);
+
+  useEffect(() => {
+    // Any real wheel/touch input means the user just grabbed control back —
+    // hand it to them immediately rather than waiting for the (now
+    // irrelevant) click-scroll to report done.
+    const resumeSync = () => {
+      suppressScrollSyncRef.current = false;
+    };
+    window.addEventListener("wheel", resumeSync, { passive: true });
+    window.addEventListener("touchstart", resumeSync, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", resumeSync);
+      window.removeEventListener("touchstart", resumeSync);
+    };
+  }, []);
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (!isDesktop || suppressScrollSyncRef.current) return;
+    const idx = Math.min(
+      modules.length - 1,
+      Math.max(0, Math.floor(progress * modules.length)),
+    );
+    setSelection((current) =>
+      idx === current.activeIndex ? current : { activeIndex: idx, pageIndex: 0 },
+    );
+  });
 
   const selectModule = (i: number) => {
     setSelection({ activeIndex: i, pageIndex: 0 });
-    setPaused(true);
-    scheduleResume();
+
+    // Keep the pinned scroll position in sync with a manual click so the
+    // two ways of navigating (scrolling vs. clicking) never fight each other.
+    const track = trackRef.current;
+    if (!isDesktop || !track) return;
+
+    const token = ++scrollTokenRef.current;
+    suppressScrollSyncRef.current = true;
+    // Safety net in case onComplete never fires (scroll interrupted by
+    // something other than wheel/touch) — never leave sync stuck off.
+    window.setTimeout(() => {
+      if (scrollTokenRef.current === token) suppressScrollSyncRef.current = false;
+    }, 3000);
+
+    const trackTop = track.getBoundingClientRect().top + window.scrollY;
+    const scrollableHeight = Math.max(track.offsetHeight - window.innerHeight, 0);
+    const targetProgress = (i + 0.5) / modules.length;
+    scrollPageTo(trackTop + targetProgress * scrollableHeight, {
+      onComplete: () => {
+        if (scrollTokenRef.current === token) suppressScrollSyncRef.current = false;
+      },
+    });
   };
   const selectPage = (i: number) => {
     setSelection((current) => ({ ...current, pageIndex: i }));
-    setPaused(true);
-    scheduleResume();
   };
-
-  // Pointer anywhere over the row (nav or content card) holds playback, so the
-  // board never swaps out from under someone mid-sentence.
-  const holdPlayback = () => {
-    hovering.current = true;
-    setPaused(true);
-    if (resumeTimer.current) clearTimeout(resumeTimer.current);
-  };
-  const releasePlayback = () => {
-    hovering.current = false;
-    scheduleResume();
-  };
-
-  useEffect(() => {
-    if (!inView || paused || reduceMotion || modules.length <= 1) return;
-    const id = setInterval(
-      () =>
-        setSelection(({ activeIndex: i }) => ({
-          activeIndex: (i + 1) % modules.length,
-          pageIndex: 0,
-        })),
-      CYCLE_MS,
-    );
-    return () => clearInterval(id);
-  }, [inView, paused, reduceMotion, modules.length]);
-
-  useEffect(
-    () => () => {
-      if (resumeTimer.current) clearTimeout(resumeTimer.current);
-    },
-    [],
-  );
 
   // Placeholder images 404 until real Figma exports replace them — track
   // failures per module so a missing file falls back to the gradient card
@@ -714,17 +726,24 @@ export default function ConnectedCapabilitiesShowcase({
             </motion.p>
           </motion.div>
 
-          {/* The nav, rail and content card share one trigger so they reveal as
-              a single row rather than three unrelated pieces. */}
-          <motion.div
-            ref={rowRef}
-            onMouseEnter={holdPlayback}
-            onMouseLeave={releasePlayback}
-            className="mt-8 flex flex-col gap-5 lg:mt-10 lg:flex-row lg:items-stretch lg:gap-3"
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
+          {/* Scroll track — while it's taller than the viewport (lg+ only)
+              the row below pins in place, and each module's slice of the
+              scroll activates it in turn until the last one, at which point
+              the section unpins and the page continues past it. */}
+          <div
+            ref={trackRef}
+            style={isDesktop ? { height: `${modules.length * SCROLL_VH_PER_MODULE}vh` } : undefined}
+            className="relative mt-8 lg:mt-10"
           >
+            <div className="lg:sticky lg:top-[76px] lg:flex lg:min-h-[calc(100vh-76px)] lg:items-center">
+              {/* Nav, rail and content card share one trigger so they reveal
+                  as a single row rather than three unrelated pieces. */}
+              <motion.div
+                className="flex w-full flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-3"
+                initial="hidden"
+                whileInView="show"
+                viewport={VIEWPORT}
+              >
             {/* Sidebar */}
             <motion.nav
               ref={navRef}
@@ -747,9 +766,11 @@ export default function ConnectedCapabilitiesShowcase({
                     transition={{ type: "spring", stiffness: 320, damping: 24 }}
                     className="relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-colors duration-300 lg:shrink lg:flex-1"
                     style={{
-                      background: isActive ? "#FFFFFF" : "#EAF6FE",
+                      background: isActive
+                        ? "linear-gradient(135deg, #F6FAFE 0%, #EFF6FC 65%, #E8F2FB 250%)"
+                        : "linear-gradient(135deg, #EAF6FE 0%, #DCEEFC 100%)",
                       boxShadow: isActive
-                        ? "0 14px 28px -18px rgba(10,110,168,0.4)"
+                        ? "0 24px 48px -12px rgba(64,150,200,0.28), 0 8px 20px -6px rgba(64,150,200,0.16)"
                         : "0 8px 20px -16px rgba(10,75,110,0.18)",
                     }}
                   >
@@ -764,7 +785,7 @@ export default function ConnectedCapabilitiesShowcase({
                          falls below), hence the +3.6px y-nudge. */
                       <span
                         aria-hidden
-                        className="relative flex h-9 w-9 shrink-0 items-center justify-center"
+                        className="relative flex h-9 w-9 shrink-0 items-center justify-center drop-shadow-[0_6px_10px_rgba(10,110,168,0.35)]"
                       >
                         <Image
                           src={mod.iconBadge}
@@ -804,13 +825,12 @@ export default function ConnectedCapabilitiesShowcase({
               })}
             </motion.nav>
 
-            {/* Scroll rail */}
+            {/* Scroll rail — the track draws itself downward with the row;
+                only the thumb keeps its own always-on slide animation. */}
             <motion.div
               variants={railDraw}
               custom={0.25}
               className="relative hidden w-1 shrink-0 overflow-hidden rounded-full bg-[#E3EFFA] lg:block"
-              /* originY 0 so the track grows downward from the top rather than
-                 outward from its middle. */
               style={{ height: rail.trackHeight || undefined, originY: 0 }}
             >
               <motion.div
@@ -821,7 +841,8 @@ export default function ConnectedCapabilitiesShowcase({
               />
             </motion.div>
 
-            {/* Content card */}
+            {/* Content card — reveals with the row; only its inner content
+                transitions as the active module/page changes. */}
             <motion.div
               variants={cardIn}
               custom={0.3}
@@ -836,7 +857,7 @@ export default function ConnectedCapabilitiesShowcase({
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.35, ease: EASE }}
+                      transition={{ duration: 0.3, ease: EASE }}
                     >
                       {/* Top row: nothing but the number badge (start) and the
                           module count pill (end) — the title owns the line
@@ -851,9 +872,9 @@ export default function ConnectedCapabilitiesShowcase({
                           {active.number ?? String(activeIndex + 1).padStart(2, "0")}
                         </span>
 
-                        <span className="shrink-0 rounded-full border border-white/80 bg-[#EAF6FE] px-3.5 py-1.5 font-lato text-[12px] font-bold text-[#0A6FA8] shadow-[0_2px_8px_rgba(10,110,168,0.08)]">
+                        {/* <span className="shrink-0 rounded-full border border-white/80 bg-[#EAF6FE] px-3.5 py-1.5 font-lato text-[12px] font-bold text-[#0A6FA8] shadow-[0_2px_8px_rgba(10,110,168,0.08)]">
                           {moduleCount}
-                        </span>
+                        </span> */}
                       </div>
 
                       {/* Second line: the module's own title. Full width now
@@ -866,23 +887,15 @@ export default function ConnectedCapabilitiesShowcase({
 
                   {/* Fixed 2 x 3 board */}
                   {/* Fixed board height keeps the section stable across
-                      modules. lg gets 20px more so a title that wraps to two
-                      lines in the narrower column still clears its row. */}
+                      modules regardless of the transition playing inside it. */}
                   <div className="relative mt-5 min-h-[200px] flex-1 sm:h-[336px] sm:flex-none lg:h-[356px] xl:h-[336px]">
-                    {/* `whileInView` rather than `animate`, and no
-                        `initial={false}`, so the very first board staggers in
-                        when the section is scrolled to — with `animate` it
-                        played at page load, long above the fold, and the user
-                        arrived to a board that had already settled. Later
-                        module/page swaps re-key this node and stagger as before. */}
-                    <AnimatePresence mode="wait">
+                    <AnimatePresence mode="wait" initial={false}>
                       <motion.div
                         key={`${active.id}-${pageIndex}`}
-                        variants={gridVariants}
-                        initial="enter"
-                        whileInView="center"
-                        exit="exit"
-                        viewport={{ once: true, amount: 0.2 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.3, ease: EASE }}
                         className="grid h-full grid-cols-1 gap-3 sm:auto-rows-fr sm:grid-cols-2 sm:grid-rows-3"
                       >
                         {currentFeatures.map((feature, i) => (
@@ -897,7 +910,7 @@ export default function ConnectedCapabilitiesShowcase({
                   </div>
                 </div>
 
-                {/* Right: image panel */}
+                {/* Right: image panel — crossfades with the active module. */}
                 <div
                   // Width at lg/xl is picked to roughly match the photos'
                   // own ~2:3 aspect ratio at the height this panel stretches
@@ -906,14 +919,13 @@ export default function ConnectedCapabilitiesShowcase({
                   // than its sibling, so this is the balance point.
                   className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[280px] lg:h-auto lg:w-[250px] xl:w-[330px]"
                 >
-                  <AnimatePresence mode="sync">
+                  <AnimatePresence mode="sync" initial={false}>
                     <motion.div
                       key={active.id}
-                      variants={imageVariants}
-                      initial="enter"
-                      whileInView="center"
-                      exit="exit"
-                      viewport={{ once: true, amount: 0.2 }}
+                      initial={{ opacity: 0, scale: 1.04 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.35, ease: EASE }}
                       className="absolute inset-0"
                     >
                       {!failedImages[active.id] && (
@@ -957,7 +969,9 @@ export default function ConnectedCapabilitiesShowcase({
                   ))}
               </motion.div>
             </motion.div>
-          </motion.div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
     </MotionConfig>

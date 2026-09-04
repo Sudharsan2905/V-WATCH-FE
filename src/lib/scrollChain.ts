@@ -26,6 +26,25 @@ export function setPageScrollLocked(locked: boolean) {
 }
 
 /**
+ * Smoothly scroll the page to an absolute Y position through the same Lenis
+ * instance driving the rest of the page — never native `window.scrollTo({
+ * behavior: "smooth" })`, which animates the same scrollTop Lenis writes
+ * every frame and fights it to a stutter (see the note on
+ * `setPageScrollLocked` above). Falls back to native smooth-scroll only for
+ * the brief window before Lenis mounts.
+ */
+export function scrollPageTo(target: number, options?: { onComplete?: () => void }) {
+  if (pageScroller) {
+    pageScroller.scrollTo(target, { onComplete: options?.onComplete });
+    return;
+  }
+  window.scrollTo({ top: target, behavior: "smooth" });
+  if (options?.onComplete) {
+    window.addEventListener("scrollend", options.onComplete, { once: true });
+  }
+}
+
+/**
  * Hand an over-scrolled wheel delta back to the page.
  *
  * Nested scroll panels need `data-lenis-prevent` so Lenis stops swallowing the

@@ -14,11 +14,11 @@
    other to `auto`, making <html> its own scroll container and stranding the
    scroll limit partway down the page. `clip` crops overflow without that. */
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Auto-advancing accordion progress bar (products CapabilityTabs).
