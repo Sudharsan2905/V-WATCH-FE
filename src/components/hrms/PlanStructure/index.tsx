@@ -1,219 +1,345 @@
 "use client";
-
 import Image from "next/image";
-import { motion, MotionConfig } from "motion/react";
-import {
-  scaleIn,
-  staggerContainer,
-  wipeTop,
-} from "@/components/about/anim";
+import Link from "next/link";
+import { motion, MotionConfig, type Variants } from "motion/react";
 
-// A later trigger than the shared `viewportReveal` (amount 0.2, no margin):
-// with Lenis smoothing the scroll, firing as the section's top edge peeks over
-// the viewport bottom leaves the reveal finished before it's really on screen.
-const VIEWPORT = {
-  once: true,
-  amount: 0.3,
-  margin: "0px 0px -120px 0px",
-} as const;
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: EASE, delay },
+  }),
+};
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+const VIEWPORT = { once: true, amount: 0.25, margin: "0px 0px -100px 0px" } as const;
 
-const PLANS = [
-  {
-    role: "Employees",
-    tag: null,
-    price: "USD 10",
-    period: "/ User / Month",
-    image: "/hrms/Card1BG.svg",
-  },
-  {
-    role: "Managers",
-    tag: "with payroll tools",
-    price: "USD 20",
-    period: "/ User / Month",
-    image: "/hrms/Card2BG.svg",
-  },
+const FREE_ACCESS = [
+  "Employee management",
+  "Mobile and portal attendance",
+  "Payroll management",
+  "Leave management",
+  "Claims management",
+  "Employee mobile access",
+  "Payslip generation",
+  "Approval workflows",
+  "Reports and dashboards",
 ];
 
-const INCLUSIONS = [
-  "Full HRMS access",
-  "Mobile app",
-  "Payroll workflows",
-  "Claims & leave management",
-  "Reporting and dashboards",
+const PRICING_EXAMPLES = [
+  { employees: "10", price: "RM 50", icon: "/hrms-new/employee.svg" },
+  { employees: "25", price: "RM 125", icon: "/hrms-new/employees-25.svg" },
+  { employees: "50", price: "RM 250", icon: "/hrms-new/employees-50.svg" },
+  // employees-100.svg was exported as a 0-byte file — falling back to the
+  // 50-tier icon until a real one lands, rather than shipping a blank image.
+  { employees: "100", price: "RM 500", icon: "/hrms-new/employees-50.svg" },
 ];
 
-// ─── Plan card ────────────────────────────────────────────────────────────────
-
-function PlanCard({
-  role,
-  tag,
-  price,
-  period,
-  image,
-}: {
-  role: string;
-  tag: string | null;
-  price: string;
-  period: string;
-  image: string;
-}) {
+function CheckTick({ className = "" }: Readonly<{ className?: string }>) {
   return (
-    <motion.div
-      variants={scaleIn}
-      className="bg-[#edf7fd] relative max-h-[356px] md:max-h-[356px] h-full flex flex-col overflow-hidden rounded-2xl border-2 border-white"
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden
+      className={className}
     >
-      <div
-        className="pointer-events-none absolute inset-0 z-10"
-        style={{
-          background: `
-      radial-gradient(
-        ellipse 90% 80% at 50% 80%,
-        rgba(255,255,255,1) 0%,
-        rgba(255,255,255,1) 25%,
-        rgba(180,215,250,0.75) 48%,
-        rgba(200,225,250,0.3) 65%,
-        rgba(255,255,255,0) 80%
-      )
-    `,
-        }}
+      <circle cx="8" cy="8" r="8" fill="currentColor" />
+      <path
+        d="M4.8 8.2 6.8 10.2 11.2 5.6"
+        stroke="#05080F"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <div className="relative z-20 flex flex-col gap-1 px-6 pt-6 ">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="font-lato text-[20px] font-bold text-[#0F172A]">
-            {role}
-          </span>
-          {tag && (
-            <span className="font-lato text-[18px] font-normal text-[#0F172A]">
-              ({tag})
-            </span>
-          )}
-        </div>
-        <p className="font-lato">
-          <span className="text-[28px] font-black leading-tight text-[#005276] sm:text-[32px]">
-            {price}
-          </span>
-          <span className="ml-1 text-[15px] md:text-[18px] text-[#005276]">
-            {period}
-          </span>
-        </p>
-      </div>
-
-      {/* Illustration container — grows to fill the card so the image stays
-          anchored to the bottom instead of leaving a gap below it. */}
-      <div className="relative w-full flex-1 min-h-[200px] sm:min-h-[250px]">
-        {/* Glow layer — sits ABOVE white bg but BELOW the image */}
-
-        <Image
-          src={image}
-          alt={role}
-          priority
-          loading="eager"
-          fill
-          sizes="(min-width: 768px) 30vw, 100vw"
-          className="relative z-10 object-contain"
-        />
-      </div>
-    </motion.div>
+    </svg>
   );
 }
 
-// ─── What's included ──────────────────────────────────────────────────────────
-
-function InclusionList() {
+function RefreshIcon({ className = "" }: Readonly<{ className?: string }>) {
   return (
-    <div className="flex items-center sm:col-span-2 lg:col-span-1">
-      <motion.div
-        variants={scaleIn}
-        className="max-h-[310px] max-w-[547px] sm:max-w-none lg:max-w-[547px] w-full h-full flex flex-col justify-center rounded-2xl bg-white px-6 py-6"
-        style={{
-          maskImage:
-            "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 0%, black 80%, transparent 100%)",
-        }}
-      >
-        <h3 className="mb-6 font-lato text-[16px] font-bold text-[#0A4B6E] sm:text-[20px]">
-          What&apos;s included
-        </h3>
-        <ul className="flex flex-col gap-5 sm:grid sm:grid-cols-2 sm:gap-x-10 lg:flex">
-          {INCLUSIONS.map((item) => (
-            <li key={item} className="flex items-center gap-3">
-              <Image
-                src={"/hrms/tick.svg"}
-                alt="tick-icon"
-                height={24}
-                width={24}
-              />
-              <span className="font-lato text-[14px] leading-snug text-[#314158] sm:text-[18px]">
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden
+      className={className}
+    >
+      <path
+        d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13.5 3v3.2h-3.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Section eyebrow — label, then the dot+fading-line asset trailing to the
+    edge (line-icon.svg bakes the dot and the fade into one image, rather
+    than two separately styled elements). */
+function SectionLabel({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="shrink-0 font-lato text-[13px] font-bold uppercase tracking-[0.04em] text-white">
+        {children}
+      </span>
+      <span className="relative min-w-0 flex-1">
+        <Image
+          src="/hrms-new/line-icon.svg"
+          alt=""
+          aria-hidden
+          width={339}
+          height={11}
+          unoptimized
+          className="h-auto w-full"
+        />
+      </span>
     </div>
   );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
-
 export default function HrmsPlanStructure() {
   return (
     <MotionConfig reducedMotion="user">
-      <div
-        className="w-full rounded-t-[40px]"
-        style={{
-          background: `
-      radial-gradient(
-        ellipse 120% 60% at 50% 0%,
-        rgba(255,255,255,0.55) 0%,
-        rgba(255,255,255,0.15) 40%,
-        rgba(255,255,255,0) 72%
-      ),
-      linear-gradient(
-        180deg,
-        #E1EFFB 0%,
-        #D8EBF9 30%,
-        #D0E7F7 60%,
-        #E8F4FF 100%
-      )
-    `,
-        }}
-      >
-        <section className="px-6 py-6 md:py-10 lg:px-[60px]">
-          <div className="mx-auto w-full max-w-[1410px]">
-            {/* Outer container — no border */}
-
-            {/* Title */}
+      <section className="relative overflow-hidden rounded-t-[40px] bg-[#05080F] px-6 py-14 lg:px-15 lg:py-20">
+        {/* Background image needs an explicit z-index, not just `fill` —
+            without one, its stacking order versus the content below is
+            decided by whether Framer Motion's `transform` on those
+            motion.divs happens to win a stacking-context tiebreak, which is
+            NOT reliable (it's why this was covering the pricing card). z-0
+            here + z-10 on the content below pins it behind, guaranteed. */}
+        <Image
+          src="/industries/construction/designed-environment/env-bg.png"
+          alt=""
+          aria-hidden
+          fill
+          sizes="100vw"
+          className="pointer-events-none absolute inset-0 z-0 select-none object-cover object-top opacity-20"
+        />
+        <div className="relative z-10 mx-auto flex max-w-[1280px] flex-col gap-8">
+          {/* Full-width header — deliberately OUTSIDE the two-column grid
+              below. It used to live inside the left column, which pushed the
+              calendar box down while the pricing card (nothing above it)
+              started right at the top — the two columns never lined up.
+              Pulling it out means both columns below start level. */}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-1"
+          >
             <motion.h2
-              initial="hidden"
-              whileInView="show"
-              viewport={VIEWPORT}
-              variants={wipeTop}
-              className="mb-5 font-lato text-[20px] font-bold text-[#0A4B6E] sm:text-[22px]"
+              variants={fadeUp}
+              custom={0.05}
+              className="font-lato text-[26px] font-bold leading-[1.25] text-white sm:text-[30px]"
             >
-              Plan Structure
+              Use Every HRMS Feature Free for Two Full Months
             </motion.h2>
-
-            {/* 3-column grid */}
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={VIEWPORT}
-              className="min-h-[356px] grid grid-cols-1 gap-4 md:gap-[35px] sm:grid-cols-2 lg:grid-cols-3 max-w-[1160px] mx-auto"
+            <motion.p
+              variants={fadeUp}
+              custom={0.12}
+              className="font-lato text-[15px] text-[#93A3B8]"
             >
-              {PLANS.map((plan) => (
-                <PlanCard key={plan.role} {...plan} />
-              ))}
-              <InclusionList />
+              This is not a limited-feature demonstration.
+            </motion.p>
+          </motion.div>
+
+          <div className="grid gap-10 lg:grid-cols-[1fr_460px] lg:items-stretch lg:gap-12">
+          {/* Left — calendar note + free-access checklist + CTA */}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="flex flex-col gap-6"
+          >
+            <motion.div
+              variants={fadeUp}
+              custom={0.2}
+              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5"
+            >
+              {/* calendar.svg bakes its own rounded-square badge, border and
+                  drop shadow in — no wrapping span/background needed. Its
+                  160x92 canvas holds a 64x64 badge at (14,14), with the rest
+                  reserved for the shadow's blur bleed, so it's sized here at
+                  ~0.69x to land the badge itself back at ~44px (matching the
+                  old manual span) rather than at native size. */}
+              <Image
+                src="/hrms-new/calendar.svg"
+                alt=""
+                aria-hidden
+                width={160}
+                height={92}
+                unoptimized
+                className="h-[63px] w-[110px] shrink-0"
+              />
+              <span className="font-lato text-[14px] leading-[21px] text-[#DCE6F0] sm:text-[15px]">
+                Sign up by{" "}
+                <span className="font-semibold text-[#4ADE80]">
+                  15 September 2026
+                </span>{" "}
+                and receive full access to the V-Watch HRMS platform for two
+                months.
+              </span>
             </motion.div>
+
+            <motion.div variants={fadeUp} custom={0.28}>
+              <SectionLabel>Your Free Access Includes</SectionLabel>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              custom={0.34}
+              className="grid grid-cols-1 gap-x-8 gap-y-2.5"
+            >
+              {FREE_ACCESS.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2 font-lato text-[14px] text-[#DCE6F0] sm:text-[15px]"
+                >
+                  <CheckTick className="shrink-0 text-[#3DA9F5]" />
+                  {item}
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div variants={fadeUp} custom={0.42}>
+              <Link
+                href="#trial"
+                className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-lato text-[15px] font-bold text-white shadow-[0_10px_30px_-6px_rgba(74,222,128,0.45)] transition hover:brightness-110"
+                style={{
+                  background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)",
+                }}
+              >
+                <RefreshIcon />
+                Start My 2 Free Months
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Right — pricing card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEWPORT}
+            transition={{ duration: 0.55, ease: EASE, delay: 0.15 }}
+            className="flex flex-col gap-5 rounded-[22px] border border-white/10 bg-white/[0.04] p-6 lg:p-7"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-lato text-[16px] font-bold text-white">
+                Your Cost for the First Two Months
+              </h3>
+              <span
+                className="shrink-0 rounded-full px-3 py-1 font-lato text-[11px] font-bold uppercase tracking-[0.04em] text-white"
+                style={{
+                  background: "linear-gradient(90deg,#3DA9F5 0%,#4ADE80 100%)",
+                }}
+              >
+                Full Access
+              </span>
+            </div>
+
+            <div>
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-lato text-[20px] font-bold text-[#3DA9F5]">
+                  RM
+                </span>
+                <span className="font-lato text-[48px] font-extrabold leading-none text-white">
+                  0
+                </span>
+              </p>
+              <p className="mt-2 font-lato text-[13px] text-[#93A3B8]">
+                No credit card required.
+              </p>
+            </div>
+
+            <div className="h-px w-full bg-white/10" />
+
+            <div>
+              <p className="font-lato text-[13px] text-[#93A3B8]">
+                Continue using V-Watch HRMS for only
+              </p>
+              <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
+                <span className="font-lato text-[18px] font-bold text-[#3DA9F5]">
+                  RM
+                </span>
+                <span
+                  className="bg-clip-text font-lato text-[30px] font-extrabold text-transparent"
+                  style={{
+                    backgroundImage: "linear-gradient(90deg,#4ADE80,#22D3EE)",
+                  }}
+                >
+                  5
+                </span>
+                <span className="font-lato text-[13px] text-[#DCE6F0]">
+                  Per Subscribed Employee/ Month
+                </span>
+              </p>
+              <span className="mt-2 inline-block rounded-full border border-white/15 px-2.5 py-1 font-lato text-[10px] font-bold uppercase tracking-[0.04em] text-[#93A3B8]">
+                After Your Free Period
+              </span>
+              <p className="mt-2 font-lato text-[13px] leading-[19px] text-[#93A3B8]">
+                You decide how many employee subscriptions your company
+                requires.
+              </p>
+            </div>
+
+            <div className="h-px w-full bg-white/10" />
+
+            <div>
+              <div className="mb-3">
+                <SectionLabel>Simple Pricing Example</SectionLabel>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {PRICING_EXAMPLES.map((ex) => (
+                  <div
+                    key={ex.employees}
+                    className="relative flex flex-col items-center gap-1 rounded-xl border border-white/10 bg-white/[0.03] px-2 py-3 text-center"
+                  >
+                    {/* Each icon already bakes in its own circular badge
+                        background (rx=12 on a 24x24 canvas) — no wrapping
+                        span needed, same pattern as calendar.svg. */}
+                    <Image
+                      src={ex.icon}
+                      alt=""
+                      aria-hidden
+                      width={24}
+                      height={24}
+                      unoptimized
+                      className="absolute right-2 top-2 h-5 w-5"
+                    />
+                    <span className="font-lato text-[13px] font-semibold text-[#DCE6F0]">
+                      {ex.employees} Employees
+                    </span>
+                    <span className="font-lato text-[15px] font-bold text-white">
+                      {ex.price}
+                    </span>
+                    <span className="font-lato text-[11px] text-[#93A3B8]">
+                      Per Month
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="text-center font-lato text-[12px] text-[#93A3B8]">
+              There is no obligation to continue after the free period.
+            </p>
+          </motion.div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </MotionConfig>
   );
 }
