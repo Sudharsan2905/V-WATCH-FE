@@ -20,7 +20,7 @@ const STEPS = [
   {
     icon: "/hrms-new/three-steps/Register.webp",
     title: "Register Your Company",
-    description: "Complete the short registration form before 15 September 2026.",
+    description: "Complete the short registration form before 31st December 2026.",
   },
   {
     icon: "/hrms-new/three-steps/Activate.webp",
@@ -69,23 +69,48 @@ export default function HrmsGetStarted() {
             viewport={VIEWPORT}
             className="relative mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-6"
           >
-            {/* back-shadow.webp is the wavy connector spanning all three
-                steps as one image, rather than per-pair SVG paths — desktop
-                only, since the 3 columns stack on smaller screens. Locked to
-                its own aspect-[1280/521] rather than a plain `fill`, so it
-                scales in lockstep with width instead of being object-contain
-                letterboxed inside a taller/shorter grid row — which was
-                throwing its wave peaks out of alignment with the circles. */}
-            <div className="pointer-events-none absolute inset-x-0 top-1/2 hidden aspect-[1280/521] w-full -translate-y-1/2 lg:block">
-              <Image
-                src="/hrms-new/three-steps/back-shadow.webp"
-                alt=""
+            {/* Wavy connector spanning all three steps as one SVG path,
+                rather than per-pair segments — desktop only, since the 3
+                columns stack on smaller screens. The path's x-coordinates
+                (200/600/1000 of a 1200-wide viewBox) line up with the three
+                evenly-spaced column centers; preserveAspectRatio="none" lets
+                it stretch to the actual grid width instead of being
+                letterboxed. back-shadow.webp (an almost-white wash) used to
+                sit here but was invisible against the section background.
+                top-[55px] (half the 110px circle) instead of top-1/2 — the
+                column also holds title+description below the circle, so
+                centering on the whole column's height (which varies with
+                description length) dragged the wave down toward the text
+                instead of through the circles' centers. */}
+            <div className="pointer-events-none absolute inset-x-0 top-[55px] hidden w-full -translate-y-1/2 lg:block">
+              <svg
+                viewBox="0 0 1200 220"
+                fill="none"
+                preserveAspectRatio="none"
                 aria-hidden
-                fill
-                unoptimized
-                sizes="1000px"
-                className="select-none object-contain"
-              />
+                className="h-[180px] w-full"
+              >
+                <defs>
+                  <linearGradient
+                    id="hrmsStepsWave"
+                    x1="0"
+                    y1="0"
+                    x2="1200"
+                    y2="0"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0%" stopColor="#38BDF8" />
+                    <stop offset="50%" stopColor="#22D3EE" />
+                    <stop offset="100%" stopColor="#38BDF8" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M200 110 C320 40 480 180 600 110 C720 40 880 180 1000 110"
+                  stroke="url(#hrmsStepsWave)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+              </svg>
             </div>
 
             {STEPS.map((step, i) => (

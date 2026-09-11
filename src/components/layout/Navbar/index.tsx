@@ -495,7 +495,16 @@ function DropdownPanel({ data }: Readonly<{ data: DropdownData }>) {
 export default function Navbar({
   active,
   minimal = false,
-}: Readonly<{ active?: string; minimal?: boolean }>) {
+  topBar,
+}: Readonly<{
+  active?: string;
+  minimal?: boolean;
+  // Optional banner rendered above the nav row, inside the same fixed
+  // header (e.g. the HRMS page's limited-time-offer strip). Nothing renders
+  // here — and nothing else about the header changes — unless a page passes
+  // one, so this is opt-in per page rather than a site-wide change.
+  topBar?: React.ReactNode;
+}>) {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -518,6 +527,24 @@ export default function Navbar({
   const [shift, setShift] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [headerH, setHeaderH] = useState(60);
+
+  // Measure the visible fixed bar (topBar + nav row, excluding the mobile
+  // dropdown panel) so the mobile panel's own height — and, via the --nav-h
+  // custom property, any page's top padding — can react to a taller header
+  // (e.g. when `topBar` is present) instead of assuming a fixed 60px.
+  useEffect(() => {
+    const el = barRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const h = entry.contentRect.height;
+      setHeaderH(h);
+      document.documentElement.style.setProperty("--nav-h", `${h}px`);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Keep the open dropdown inside the viewport: measure it and shift
   // horizontally if it overflows either edge. Re-runs on open + on resize.
@@ -556,6 +583,8 @@ export default function Navbar({
 
   return (
     <header className="fixed inset-x-0 top-0 z-999">
+      <div ref={barRef}>
+      {topBar}
       {/* ── Desktop bar ─────────────────────────────────────────────────── */}
       <nav className="flex h-[60px] items-center gap-2 bg-[rgba(3,5,21,0.80)] px-3 shadow-[inset_0px_-5px_27px_rgba(255,255,255,0.10)] sm:px-5">
         <Logo minimal={minimal} />
@@ -671,10 +700,15 @@ export default function Navbar({
           </>
         )}
       </nav>
+      </div>
 
       {/* ── Mobile panel ────────────────────────────────────────────────── */}
       {!minimal && mobileOpen && (
-        <div data-lenis-prevent className="max-h-[calc(100vh-60px)] overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden">
+        <div
+          data-lenis-prevent
+          style={{ maxHeight: `calc(100vh - ${headerH}px)` }}
+          className="overflow-y-auto border-t border-white/5 bg-[rgba(3,5,21,0.95)] px-5 py-2 backdrop-blur-md lg:hidden"
+        >
           <ul className="flex flex-col">
             {NAV_ITEMS.map((item) => {
               const menu = item.hasDropdown ? DROPDOWNS[item.label] : undefined;

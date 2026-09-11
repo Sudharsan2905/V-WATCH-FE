@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import { ArrowBadge } from "@/components/common/BookADemo";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -29,12 +30,12 @@ const FREE_ACCESS = [
 ];
 
 const PRICING_EXAMPLES = [
-  { employees: "10", price: "RM 50", icon: "/hrms-new/employee.svg" },
-  { employees: "25", price: "RM 125", icon: "/hrms-new/employees-25.svg" },
-  { employees: "50", price: "RM 250", icon: "/hrms-new/employees-50.svg" },
+  { employees: "10", price: "50", icon: "/hrms-new/employee.svg" },
+  { employees: "25", price: "125", icon: "/hrms-new/employees-25.svg" },
+  { employees: "50", price: "250", icon: "/hrms-new/employees-50.svg" },
   // employees-100.svg was exported as a 0-byte file — falling back to the
   // 50-tier icon until a real one lands, rather than shipping a blank image.
-  { employees: "100", price: "RM 500", icon: "/hrms-new/employees-50.svg" },
+  { employees: "100", price: "500", icon: "/hrms-new/employees-50.svg" },
 ];
 
 function CheckTick({ className = "" }: Readonly<{ className?: string }>) {
@@ -113,7 +114,7 @@ function SectionLabel({ children }: Readonly<{ children: React.ReactNode }>) {
 export default function HrmsPlanStructure() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden rounded-t-[40px] bg-[#05080F] px-6 py-14 lg:px-15 lg:py-20">
+      <section className="relative overflow-hidden rounded-t-[40px] rounded-b-[40px] bg-[#05080F] px-6 py-14 lg:px-15 lg:py-20">
         {/* Background image needs an explicit z-index, not just `fill` —
             without one, its stacking order versus the content below is
             decided by whether Framer Motion's `transform` on those
@@ -156,7 +157,7 @@ export default function HrmsPlanStructure() {
             </motion.p>
           </motion.div>
 
-          <div className="grid gap-10 lg:grid-cols-[1fr_460px] lg:items-stretch lg:gap-12">
+          <div className="grid gap-10 lg:grid-cols-[1fr_560px] lg:items-stretch lg:gap-12">
           {/* Left — calendar note + free-access checklist + CTA */}
           <motion.div
             initial="hidden"
@@ -187,7 +188,7 @@ export default function HrmsPlanStructure() {
               <span className="font-lato text-[14px] leading-[21px] text-[#DCE6F0] sm:text-[15px]">
                 Sign up by{" "}
                 <span className="font-semibold text-[#4ADE80]">
-                  15 September 2026
+                  31st December 2026
                 </span>{" "}
                 and receive full access to the V-Watch HRMS platform for two
                 months.
@@ -222,7 +223,7 @@ export default function HrmsPlanStructure() {
                   background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)",
                 }}
               >
-                <RefreshIcon />
+             <ArrowBadge />
                 Start My 2 Free Months
               </Link>
             </motion.div>
@@ -251,11 +252,11 @@ export default function HrmsPlanStructure() {
             </div>
 
             <div>
-              <p className="flex items-baseline gap-1.5">
-                <span className="font-lato text-[20px] font-bold text-[#3DA9F5]">
+              <p className="flex items-center gap-1.5">
+                <span className="font-lato text-[30px] font-bold text-[#3DA9F5]">
                   RM
                 </span>
-                <span className="font-lato text-[48px] font-extrabold leading-none text-white">
+                <span className="font-lato text-[80px] font-extrabold leading-none text-white">
                   0
                 </span>
               </p>
@@ -270,14 +271,19 @@ export default function HrmsPlanStructure() {
               <p className="font-lato text-[13px] text-[#93A3B8]">
                 Continue using V-Watch HRMS for only
               </p>
-              <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
-                <span className="font-lato text-[18px] font-bold text-[#3DA9F5]">
+              <p className="mt-1 flex flex-wrap items-center gap-x-2">
+                <span
+                  className="bg-clip-text font-lato text-[30px] font-black leading-none tracking-normal text-transparent"
+                  style={{
+                    backgroundImage: "linear-gradient(90deg,#5CB7E8,#B8E6FF)",
+                  }}
+                >
                   RM
                 </span>
                 <span
-                  className="bg-clip-text font-lato text-[30px] font-extrabold text-transparent"
+                  className="bg-clip-text font-lato text-[80px] font-black leading-none tracking-normal text-transparent"
                   style={{
-                    backgroundImage: "linear-gradient(90deg,#4ADE80,#22D3EE)",
+                    backgroundImage: "linear-gradient(90deg,#21B1F1,#A6C936)",
                   }}
                 >
                   5
@@ -305,7 +311,7 @@ export default function HrmsPlanStructure() {
                 {PRICING_EXAMPLES.map((ex) => (
                   <div
                     key={ex.employees}
-                    className="relative flex flex-col items-center gap-1 rounded-xl border border-white/10 bg-white/[0.03] px-2 py-3 text-center"
+                    className="relative flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
                   >
                     {/* Each icon already bakes in its own circular badge
                         background (rx=12 on a 24x24 canvas) — no wrapping
@@ -317,17 +323,32 @@ export default function HrmsPlanStructure() {
                       width={24}
                       height={24}
                       unoptimized
-                      className="absolute right-2 top-2 h-5 w-5"
+                      className="absolute right-3 top-3 h-6 w-6"
                     />
-                    <span className="font-lato text-[13px] font-semibold text-[#DCE6F0]">
-                      {ex.employees} Employees
-                    </span>
-                    <span className="font-lato text-[15px] font-bold text-white">
-                      {ex.price}
-                    </span>
-                    <span className="font-lato text-[11px] text-[#93A3B8]">
-                      Per Month
-                    </span>
+                    <div>
+                      <p className="font-lato text-[20px] font-bold text-white">
+                        {ex.employees}
+                      </p>
+                      <p className="font-lato text-[13px] text-[#93A3B8]">
+                        Employees
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-lato text-[16px]">
+                        <span className="font-semibold text-white">RM </span>
+                        <span
+                          className="bg-clip-text font-extrabold text-transparent"
+                          style={{
+                            backgroundImage: "linear-gradient(90deg,#3DA9F5,#4ADE80)",
+                          }}
+                        >
+                          {ex.price}
+                        </span>
+                      </p>
+                      <p className="font-lato text-[12px] text-[#93A3B8]">
+                        Per Month
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

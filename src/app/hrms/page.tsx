@@ -1,4 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
+import HrmsPromoBar from "@/components/hrms/PromoBar";
 import HrmsHero from "@/components/hrms/Hero";
 import HrmsAudience from "@/components/hrms/Audience";
 import HrmsOverview from "@/components/hrms/Overview";
@@ -33,7 +34,7 @@ const FOOTER_COLUMNS = [
 export default function HrmsPage() {
   return (
     <div className="relative overflow-x-clip bg-[#f6fbfe]">
-      <Navbar active="" />
+      <Navbar active="" topBar={<HrmsPromoBar />} />
       <HrmsHero />
 
       <div className="-mt-[2px] relative bg-[linear-gradient(180deg,#FFFFFF_0%,#F2F8FE_320px)]">

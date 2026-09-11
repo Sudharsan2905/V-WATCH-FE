@@ -171,7 +171,9 @@ export default function Footer({
               {isBookADemoVisible && <BookADemo />}
             </motion.div>
           ) : (
-            <div className="h-[220px]" />
+            // Sized to stay taller than the fine print it backs on narrow
+            // viewports, where that text wraps to many more lines.
+            <div className="h-[560px] sm:h-[220px]" />
           )}
         </div>
 
