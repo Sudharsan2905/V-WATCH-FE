@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion, MotionConfig, type Variants } from "motion/react";
+import { ArrowBadge } from "@/components/common/BookADemo";
 
 // Dedicated hero for the HRMS promo redesign — intentionally NOT built on
 // ProductsHero (shared by /products), since that component stays untouched.
@@ -130,8 +131,8 @@ function HeroCopy() {
         className="max-w-[520px] text-[15px] leading-[24px] text-[#C7D3E0] sm:text-[16px]"
       >
         Manage employee records, attendance, leave, claims and payroll from
-        one connected HR platform built for Malaysian SMEs. Sign up by 15
-        September 2026 and enjoy full access for two months at no cost.
+        one connected HR platform built for Malaysian SMEs. Sign up by 31st
+        December 2026 and enjoy full access for two months at no cost.
       </motion.p>
 
       <motion.div
@@ -146,7 +147,7 @@ function HeroCopy() {
             background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)",
           }}
         >
-          <RefreshIcon />
+          <ArrowBadge />
           Claim My 2 Free Months
         </Link>
         <Link
@@ -182,35 +183,15 @@ export default function HrmsHero() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden bg-[#05080F]">
-        {/* Promo banner — first thing in normal document flow, directly under
-            the fixed global Navbar (which always overlays the viewport top
-            regardless of DOM order, so this can't render visually "above" it
-            without touching that shared component). */}
-        {/* <div
-          className="relative z-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 py-2.5 pt-[calc(0.625rem+76px)] text-center text-[13px] font-semibold text-white sm:text-[14px]"
-          style={{ background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)" }}
-        >
-          <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.04em] sm:text-[12px]">
-            Limited-Time SME Offer
-          </span>
-          <span className="max-w-[560px]">
-            Sign up by 15 September 2026 and get full V-Watch HR System
-            access FREE for two months
-          </span>
-          <Link
-            href="#trial"
-            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[12px] font-bold text-[#12967F] transition hover:brightness-95"
-          >
-            Claim This Offer <span aria-hidden>→</span>
-          </Link>
-        </div> */}
-
-        {/* Dark hero panel. pt-[132px]/lg:pt-[140px] = 76px fixed-navbar
-            clearance + the panel's own breathing room — the banner above
-            used to carry that 76px clearance; with it commented out, this is
-            now the only thing keeping content from starting under the fixed
-            nav on every device. */}
-        <div className="relative px-6 pb-24 pt-[132px] lg:px-15 lg:pb-32 lg:pt-[140px]">
+        {/* Dark hero panel. Its top padding clears the fixed global header —
+            <Navbar topBar={<HrmsPromoBar />}> on this page adds the
+            limited-time-offer strip above the nav row, which makes the fixed
+            header taller than the plain 60px nav used elsewhere, so this
+            reads the header's real measured height (--nav-h, kept in sync by
+            Navbar via ResizeObserver) rather than a hardcoded clearance. The
+            76px fallback matches the plain nav's height for the first paint
+            before that measurement lands. */}
+        <div className="relative px-6 pb-24 pt-[calc(var(--nav-h,76px)+56px)] lg:px-15 lg:pb-32 lg:pt-[calc(var(--nav-h,76px)+64px)]">
           {/* Faint light-ray texture, screen-blended over the flat dark
               panel. Purely decorative — sits behind the copy/mockup row and
               the feature strip below it. Desktop only: on mobile/tablet the
@@ -285,8 +266,8 @@ export default function HrmsHero() {
           </motion.div>
 
           <p className="relative mx-auto mt-8 max-w-[720px] text-center text-[13px] text-[#93A3B8]">
-            Limited-time offer for Malaysian SMEs. Registration closes on 15
-            September 2026.
+            Limited-time offer for Malaysian SMEs. Registration closes on
+            31st December 2026.
           </p>
         </div>
 

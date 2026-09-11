@@ -44,6 +44,14 @@ const ROLES = [
 
 const EMPLOYEE_COUNTS = ["1–50", "51–200", "201–500", "501–1,000", "1,000+"];
 
+const HR_MANAGEMENT_METHODS = [
+  "Spreadsheets",
+  "Paper Forms",
+  "WhatsApp / Messaging Apps",
+  "Another HR System",
+  "We Don't Track This Yet",
+];
+
 // ─── Field styles ─────────────────────────────────────────────────────────────
 
 const FIELD_LABEL =
@@ -143,7 +151,7 @@ function SelectField({
   onChange: (v: string) => void;
   options: string[];
   placeholder: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -168,23 +176,25 @@ function SelectField({
   return (
     <FieldWrapper label={label} id={id}>
       <div ref={ref} className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-[#8DA5BE]">
-          {icon}
-        </span>
+        {icon && (
+          <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-[#8DA5BE]">
+            {icon}
+          </span>
+        )}
         <button
           id={id}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-haspopup="listbox"
           aria-expanded={open}
-          className={`relative flex h-11 w-full items-center rounded-[10px] border bg-[#F5FBFF] pl-10 pr-9 text-left text-[15px] leading-[22px] transition-all ${
+          className={`relative flex h-11 w-full items-center rounded-[10px] border bg-[#F5FBFF] ${icon ? "pl-10" : "pl-4"} pr-9 text-left text-[15px] leading-[22px] transition-all ${
             open
               ? "border-[#0a8ec8] ring-2 ring-[#0a8ec8]/15"
               : "border-[#E9F8FF] hover:border-[#bfe6f5]"
           }`}
         >
           <span
-            className={`pl-2 truncate ${value ? "text-[#19213D]" : "text-[#0A4B6E]/50"}`}
+            className={`truncate ${icon ? "pl-2" : ""} ${value ? "text-[#19213D]" : "text-[#0A4B6E]/50"}`}
           >
             {value || placeholder}
           </span>
@@ -264,6 +274,8 @@ type FormState = {
   companyName: string;
   role: string;
   employeeCount: string;
+  howManageHR: string;
+  consent: boolean;
 };
 
 const INITIAL: FormState = {
@@ -272,6 +284,8 @@ const INITIAL: FormState = {
   companyName: "",
   role: "",
   employeeCount: "",
+  howManageHR: "",
+  consent: false,
 };
 
 type FieldErrors = Partial<Record<keyof FormState, string>>;
@@ -295,6 +309,10 @@ function validate(form: FormState): FieldErrors {
 
   if (!form.companyName.trim()) {
     errors.companyName = "Company name is required.";
+  }
+
+  if (!form.consent) {
+    errors.consent = "Please agree to be contacted to continue.";
   }
 
   return errors;
@@ -340,6 +358,7 @@ function TrialFormCard() {
       companyName: form.companyName.trim(),
       role: form.role,
       employeeCount: form.employeeCount,
+      howManageHR: form.howManageHR,
     };
 
     try {
@@ -367,96 +386,133 @@ function TrialFormCard() {
   }
 
   return (
-    <div className="max-w-[548px] w-full">
-      <h2 className="mb-6 text-center font-lato text-[20px] font-bold text-[#0A4B6E] sm:text-[24px]">
-        Start Your Free 14-Day Trial
+    <div className="max-w-[640px] w-full">
+      <h2 className="text-center font-lato text-[20px] font-bold text-[#0A4B6E] sm:text-[24px]">
+        Claim Your 2 Free Months of V-Watch HRMS
       </h2>
+      <p className="mx-auto mb-6 mt-2 max-w-[420px] text-center font-lato text-[13px] leading-[19px] text-[#3890C0] sm:text-[14px]">
+        Register by 31st December 2026 to receive full HRMS access at no
+        cost for two months.
+      </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-        <InputField
-          id="trial-fullName"
-          label="Full Name *"
-          placeholder="Enter Full Name"
-          value={form.fullName}
-          onChange={(v) => {
-            clearError("fullName");
-            setForm((p) => ({ ...p, fullName: v }));
-          }}
-          error={errors.fullName}
-          icon={
-            <Image src="/hrms/person_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />
-          }
-          required
-          autoComplete="name"
-        />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <InputField
+            id="trial-fullName"
+            label="Full Name *"
+            placeholder="Enter Your Full Name"
+            value={form.fullName}
+            onChange={(v) => {
+              clearError("fullName");
+              setForm((p) => ({ ...p, fullName: v }));
+            }}
+            error={errors.fullName}
+            icon={
+              <Image src="/hrms/person_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />
+            }
+            required
+            autoComplete="name"
+          />
 
-        <InputField
-          id="trial-workEmail"
-          label="Work Email *"
-          type="email"
-          placeholder="Enter Work Email"
-          value={form.workEmail}
-          onChange={(v) => {
-            clearError("workEmail");
-            setForm((p) => ({ ...p, workEmail: v }));
-          }}
-          error={errors.workEmail}
-          icon={<Image src="/hrms/mail_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
-          required
-          autoComplete="email"
-        />
+          <InputField
+            id="trial-workEmail"
+            label="Work Email *"
+            type="email"
+            placeholder="Enter Your Work Email"
+            value={form.workEmail}
+            onChange={(v) => {
+              clearError("workEmail");
+              setForm((p) => ({ ...p, workEmail: v }));
+            }}
+            error={errors.workEmail}
+            icon={<Image src="/hrms/mail_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
+            required
+            autoComplete="email"
+          />
 
-        <InputField
-          id="trial-companyName"
-          label="Company Name *"
-          placeholder="Enter Company Name"
-          value={form.companyName}
-          onChange={(v) => {
-            clearError("companyName");
-            setForm((p) => ({ ...p, companyName: v }));
-          }}
-          error={errors.companyName}
-          icon={<Image src="/hrms/company_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
-          required
-          autoComplete="organization"
-        />
+          <InputField
+            id="trial-companyName"
+            label="Company Name *"
+            placeholder="Enter Company Name"
+            value={form.companyName}
+            onChange={(v) => {
+              clearError("companyName");
+              setForm((p) => ({ ...p, companyName: v }));
+            }}
+            error={errors.companyName}
+            icon={<Image src="/hrms/company_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
+            required
+            autoComplete="organization"
+          />
 
-        <SelectField
-          id="trial-role"
-          label="Your Role"
-          value={form.role}
-          onChange={(v) => setForm((p) => ({ ...p, role: v }))}
-          options={ROLES}
-          placeholder="Select Option"
-          icon={<Image src="/hrms/role_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
-        />
+          <SelectField
+            id="trial-role"
+            label="Your Role"
+            value={form.role}
+            onChange={(v) => setForm((p) => ({ ...p, role: v }))}
+            options={ROLES}
+            placeholder="Select Option"
+            icon={<Image src="/hrms/role_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
+          />
 
-        <SelectField
-          id="trial-employeeCount"
-          label="Number of Employees"
-          value={form.employeeCount}
-          onChange={(v) => setForm((p) => ({ ...p, employeeCount: v }))}
-          options={EMPLOYEE_COUNTS}
-          placeholder="1–50"
-          icon={<Image src="/hrms/employee_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
-        />
+          <SelectField
+            id="trial-employeeCount"
+            label="Number of Employees"
+            value={form.employeeCount}
+            onChange={(v) => setForm((p) => ({ ...p, employeeCount: v }))}
+            options={EMPLOYEE_COUNTS}
+            placeholder="1–50"
+            icon={<Image src="/hrms/employee_hrms.svg" alt="" width={24} height={24} aria-hidden="true" />}
+          />
+
+          <SelectField
+            id="trial-howManageHR"
+            label="How do you currently manage HR?"
+            value={form.howManageHR}
+            onChange={(v) => setForm((p) => ({ ...p, howManageHR: v }))}
+            options={HR_MANAGEMENT_METHODS}
+            placeholder="Spreadsheets"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="trial-consent" className="flex items-start gap-2.5 text-[12px] leading-[18px] text-[#5C7E97]">
+            <input
+              id="trial-consent"
+              type="checkbox"
+              checked={form.consent}
+              onChange={(e) => {
+                clearError("consent");
+                setForm((p) => ({ ...p, consent: e.target.checked }));
+              }}
+              aria-invalid={errors.consent ? true : undefined}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#BFE0F0] text-[#0a8ec8] focus:ring-[#0a8ec8]/30"
+            />
+            <span>
+              By submitting this form, you agree to be contacted by V-Watch
+              AI regarding the HRMS promotional offer. Please refer to our{" "}
+              <span className="font-semibold text-[#0A4B6E]">
+                Privacy Policy
+              </span>{" "}
+              for information about how your data is handled.
+            </span>
+          </label>
+          {errors.consent && (
+            <p className="mt-1 text-[12px] text-[#E5484D]">{errors.consent}</p>
+          )}
+        </div>
 
         {/* Submit */}
         <div className="flex flex-col items-center gap-3 pt-2">
           <button
             type="submit"
             disabled={sending}
-            className="w-[155px] inline-flex h-11 items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-[0_6px_42px_rgba(38,124,153,0.40)] disabled:cursor-not-allowed disabled:opacity-70"
+            className="inline-flex h-11 items-center justify-center gap-2.5 rounded-full px-8 font-semibold text-white shadow-[0_10px_30px_-6px_rgba(74,222,128,0.45)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
             style={{
-              background: `
-                linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)) padding-box,
-                linear-gradient(180deg, #21B1F1 -20.69%, #A6C936 151.72%) padding-box,
-                linear-gradient(180deg, rgba(33,177,241,0.4) -20.69%, rgba(197,235,76,0.4) 151.72%) border-box
-              `,
-              border: "1.24px solid transparent",
+              background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)",
             }}
           >
-            {sending ? "Sending…" : "Start Free Trial"}
+            {sending ? "Sending…" : "Claim My 2 Free Months"}
           </button>
 
           <p
@@ -466,7 +522,7 @@ function TrialFormCard() {
           >
             {sendError
               ? "Something went wrong. Please try again."
-              : "No credit card required. Instant access."}
+              : "No credit card required. Our team will contact you to help activate your free access."}
           </p>
         </div>
       </form>
@@ -478,8 +534,18 @@ function TrialFormCard() {
 
 export default function HrmsTrialForm() {
   return (
-    <section className="z-30 relative -mb-[220px] pt-4 md:pt-15">
-      <div className="relative mx-auto max-w-[540px]">
+    <section
+      id="trial"
+      // In-page jumps to this anchor (the promo bar's "Claim This Offer",
+      // the hero CTA, etc.) are handled by Lenis (see SmoothScroll), which
+      // reads scroll-margin-top to know how much of the fixed header to
+      // clear — without it the card's top (heading included) lands hidden
+      // behind the header. --nav-h is the header's real measured height
+      // (kept in sync by Navbar), so this stays correct whether or not the
+      // promo bar is present/wrapped to two lines.
+      className="z-30 relative -mb-[600px] scroll-mt-[calc(var(--nav-h,60px)+16px)] sm:-mb-[220px] pt-4 md:pt-15"
+    >
+      <div className="relative mx-auto max-w-[680px]">
         {/* Stacked cards behind — visible peeking out above the main card */}
         <div className="absolute inset-x-10 -top-9 h-8 rounded-t-[24px] bg-[#e7f6ff]" />
         <div className="absolute inset-x-6 -top-5 h-8 rounded-t-[24px] bg-[#bae3fb]" />
@@ -499,6 +565,21 @@ export default function HrmsTrialForm() {
           <TrialFormCard />
         </div>
       </div>
+
+      {/* Legal fine print — sits in the blue CTA band that the Footer renders
+          directly below (this section's negative margin pulls that band up
+          to start right here; showHeader={false} on <Footer> leaves that
+          band empty otherwise, sized via its own responsive height so the
+          band stays taller than this text on narrow/mobile viewports where
+          it wraps to many more lines). */}
+      <p className="relative mx-auto mt-6 max-w-[820px] px-4 text-center font-lato text-[20px] font-medium leading-[32px] tracking-normal text-white">
+        Offer registration closes on 31st December 2026. The two-month free
+        period begins when the company account is activated. Full access
+        applies to V-Watch HRMS features available during the promotional
+        period. Continued use is optional and will be charged at RM5 per
+        subscribed employee per month based on the number of subscriptions
+        selected by the company. Additional terms and conditions may apply.
+      </p>
     </section>
   );
 }

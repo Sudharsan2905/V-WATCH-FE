@@ -21,7 +21,7 @@ const FAQS = [
   {
     question: "Is the entire V-Watch HRMS platform free for two months?",
     answer:
-      "Yes. Companies that register by 15 September 2026 will receive full access to all available V-Watch HRMS features for two months.",
+      "Yes. Companies that register by 31st December 2026 will receive full access to all available V-Watch HRMS features for two months.",
   },
   {
     question: "Are any modules excluded from the offer?",
@@ -55,7 +55,7 @@ const FAQS = [
   {
     question: "Who can claim this offer?",
     answer:
-      "The offer is available to Malaysian SMEs that complete their registration by 15 September 2026.",
+      "The offer is available to Malaysian SMEs that complete their registration by 31st December 2026.",
   },
 ];
 
@@ -99,41 +99,54 @@ export default function HrmsFAQ() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden bg-[#F2F8FE] px-6 py-14 lg:px-15 lg:py-20">
-        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[380px_1fr] lg:items-center lg:gap-16">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-8 lg:gap-10">
+          {/* Full-width header — deliberately OUTSIDE the two-column grid
+              below, same pattern as PlanStructure. Nesting it inside the
+              left column made `lg:items-center` vertically center the whole
+              (heading + blob) column against the taller FAQ list, dropping
+              the heading well below the section's top instead of pinning it
+              there. */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={VIEWPORT}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-2"
           >
-            <div className="flex flex-col gap-2">
-              <motion.h2
-                variants={fadeUp}
-                custom={0.05}
-                className="font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[30px]"
-              >
-                Frequently Asked Questions
-              </motion.h2>
-              <motion.p
-                variants={fadeUp}
-                custom={0.12}
-                className="font-lato text-[15px] leading-[24px] text-[#0A6FA8] sm:text-[16px]"
-              >
-                Everything you need to know before you start.
-              </motion.p>
-            </div>
-            <motion.div variants={fadeUp} custom={0.2} className="hidden lg:block">
-              <QuestionBlob />
-            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              custom={0.05}
+              className="font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[30px]"
+            >
+              Frequently Asked Questions
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={0.12}
+              className="font-lato text-[15px] leading-[24px] text-[#0A6FA8] sm:text-[16px]"
+            >
+              Everything you need to know before you start.
+            </motion.p>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-            className="flex flex-col gap-3"
-          >
-            {FAQS.map((faq, i) => {
+          <div className="grid gap-10 lg:grid-cols-[380px_1fr] lg:items-start lg:gap-16">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              variants={fadeUp}
+              custom={0.2}
+              className="hidden lg:block"
+            >
+              <QuestionBlob />
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="flex flex-col gap-3"
+            >
+              {FAQS.map((faq, i) => {
               const open = openIndex === i;
               return (
                 <motion.div
@@ -185,7 +198,8 @@ export default function HrmsFAQ() {
                 </motion.div>
               );
             })}
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
     </MotionConfig>
