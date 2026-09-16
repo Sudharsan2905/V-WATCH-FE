@@ -93,7 +93,7 @@ function RefreshIcon({ className = "" }: Readonly<{ className?: string }>) {
 function SectionLabel({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="flex items-center gap-3">
-      <span className="shrink-0 font-lato text-[13px] font-bold uppercase tracking-[0.04em] text-white">
+      <span className="shrink-0 font-lato text-[20px] font-bold uppercase tracking-[0.04em] text-white">
         {children}
       </span>
       <span className="relative min-w-0 flex-1">
@@ -151,7 +151,7 @@ export default function HrmsPlanStructure() {
             <motion.p
               variants={fadeUp}
               custom={0.12}
-              className="font-lato text-[15px] text-[#93A3B8]"
+              className="font-lato  font-normal text-[20px] text-[#FFFFFF]"
             >
               This is not a limited-feature demonstration.
             </motion.p>
@@ -168,26 +168,24 @@ export default function HrmsPlanStructure() {
             <motion.div
               variants={fadeUp}
               custom={0.2}
-              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5"
+              className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.04] px-4 py-3.5"
             >
-              {/* calendar.svg bakes its own rounded-square badge, border and
-                  drop shadow in — no wrapping span/background needed. Its
-                  160x92 canvas holds a 64x64 badge at (14,14), with the rest
-                  reserved for the shadow's blur bleed, so it's sized here at
-                  ~0.69x to land the badge itself back at ~44px (matching the
-                  old manual span) rather than at native size. */}
-              <Image
-                src="/hrms-new/calendar.svg"
-                alt=""
-                aria-hidden
-                width={160}
-                height={92}
-                unoptimized
-                className="h-[63px] w-[110px] shrink-0"
-              />
-              <span className="font-lato text-[14px] leading-[21px] text-[#DCE6F0] sm:text-[15px]">
+              {/* calendar.svg is just the glyph — the rounded-square badge
+                  around it is built here, not baked into the asset. */}
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/[0.06] shadow-[0_8px_16px_rgba(0,0,0,0.25)]">
+                <Image
+                  src="/hrms-new/calendar.svg"
+                  alt=""
+                  aria-hidden
+                  width={39}
+                  height={38}
+                  unoptimized
+                  className="h-8 w-8"
+                />
+              </span>
+              <span className="font-lato text-[18px] leading-[21px] text-[#DCE6F0] sm:text-[18px]">
                 Sign up by{" "}
-                <span className="font-semibold text-[#4ADE80]">
+                <span className="font-bold text-[18px] text-[#C5EB4C]">
                   31st December 2026
                 </span>{" "}
                 and receive full access to the V-Watch HRMS platform for two
@@ -207,7 +205,7 @@ export default function HrmsPlanStructure() {
               {FREE_ACCESS.map((item) => (
                 <div
                   key={item}
-                  className="flex items-center gap-2 font-lato text-[14px] text-[#DCE6F0] sm:text-[15px]"
+                  className="flex items-center gap-2 font-lato text-[18px] text-[#DCE6F0] sm:text-[18px]"
                 >
                   <CheckTick className="shrink-0 text-[#3DA9F5]" />
                   {item}
@@ -218,7 +216,7 @@ export default function HrmsPlanStructure() {
             <motion.div variants={fadeUp} custom={0.42}>
               <Link
                 href="#trial"
-                className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-lato text-[15px] font-bold text-white shadow-[0_10px_30px_-6px_rgba(74,222,128,0.45)] transition hover:brightness-110"
+                className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-lato text-[18px] font-bold text-white shadow-[0_10px_30px_-6px_rgba(74,222,128,0.45)] transition hover:brightness-110"
                 style={{
                   background: "linear-gradient(90deg,#12967F 0%,#5CBE72 100%)",
                 }}
@@ -235,14 +233,20 @@ export default function HrmsPlanStructure() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VIEWPORT}
             transition={{ duration: 0.55, ease: EASE, delay: 0.15 }}
-            className="flex flex-col gap-5 rounded-[22px] border border-white/10 bg-white/[0.04] p-6 lg:p-7"
+            className="relative flex flex-col gap-5 overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.04] p-6 lg:p-7"
           >
-            <div className="flex items-center justify-between gap-3">
+            {/* soft dark-blue glow blobs */}
+            <div className="pointer-events-none absolute -right-16 top-8 h-56 w-56 rounded-full bg-[#1D4ED8] opacity-40 blur-[110px]" />
+            <div className="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-[#2563EB] opacity-35 blur-[130px]" />
+            <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[#1D4ED8] opacity-35 blur-[130px]" />
+            <div className="pointer-events-none absolute -left-10 top-1/3 h-48 w-48 rounded-full bg-[#2563EB] opacity-30 blur-[110px]" />
+
+            <div className="relative flex items-center justify-between gap-3">
               <h3 className="font-lato text-[16px] font-bold text-white">
                 Your Cost for the First Two Months
               </h3>
               <span
-                className="shrink-0 rounded-full px-3 py-1 font-lato text-[11px] font-bold uppercase tracking-[0.04em] text-white"
+                className="shrink-0 rounded-full px-3 py-1 font-lato text-[11px] font-bold uppercase tracking-[0.04em] text-[#0A4B6E]"
                 style={{
                   background: "linear-gradient(90deg,#3DA9F5 0%,#4ADE80 100%)",
                 }}
@@ -251,12 +255,24 @@ export default function HrmsPlanStructure() {
               </span>
             </div>
 
-            <div>
+            <div className="relative">
               <p className="flex items-center gap-1.5">
-                <span className="font-lato text-[30px] font-bold text-[#3DA9F5]">
+                <span
+                  className="bg-clip-text font-lato text-[30px] font-black leading-none tracking-normal text-transparent"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+                  }}
+                >
                   RM
                 </span>
-                <span className="font-lato text-[80px] font-extrabold leading-none text-white">
+                <span
+                  className="bg-clip-text font-lato text-[80px] font-extrabold leading-none text-transparent"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+                  }}
+                >
                   0
                 </span>
               </p>
@@ -265,26 +281,28 @@ export default function HrmsPlanStructure() {
               </p>
             </div>
 
-            <div className="h-px w-full bg-white/10" />
+            <div className="relative h-px w-full bg-white/10" />
 
-            <div>
+            <div className="relative">
               <p className="font-lato text-[13px] text-[#93A3B8]">
                 Continue using V-Watch HRMS for only
               </p>
               <p className="mt-1 flex flex-wrap items-center gap-x-2">
                 <span
                   className="bg-clip-text font-lato text-[30px] font-black leading-none tracking-normal text-transparent"
-                  style={{
-                    backgroundImage: "linear-gradient(90deg,#5CB7E8,#B8E6FF)",
-                  }}
+                 style={{
+                  backgroundImage: "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+            
+                 }}
                 >
                   RM
                 </span>
                 <span
                   className="bg-clip-text font-lato text-[80px] font-black leading-none tracking-normal text-transparent"
-                  style={{
-                    backgroundImage: "linear-gradient(90deg,#21B1F1,#A6C936)",
-                  }}
+                 style={{
+                  backgroundImage: "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+            
+                 }}
                 >
                   5
                 </span>
@@ -301,9 +319,9 @@ export default function HrmsPlanStructure() {
               </p>
             </div>
 
-            <div className="h-px w-full bg-white/10" />
+            <div className="relative h-px w-full bg-white/10" />
 
-            <div>
+            <div className="relative">
               <div className="mb-3">
                 <SectionLabel>Simple Pricing Example</SectionLabel>
               </div>
@@ -311,7 +329,7 @@ export default function HrmsPlanStructure() {
                 {PRICING_EXAMPLES.map((ex) => (
                   <div
                     key={ex.employees}
-                    className="relative flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+                    className="relative flex flex-col gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] p-3.5"
                   >
                     {/* Each icon already bakes in its own circular badge
                         background (rx=12 on a 24x24 canvas) — no wrapping
@@ -334,12 +352,21 @@ export default function HrmsPlanStructure() {
                       </p>
                     </div>
                     <div>
-                      <p className="font-lato text-[16px]">
-                        <span className="font-semibold text-white">RM </span>
+                      <p className="font-lato leading-tight">
                         <span
-                          className="bg-clip-text font-extrabold text-transparent"
+                          className="bg-clip-text text-[13px] font-semibold text-transparent"
                           style={{
-                            backgroundImage: "linear-gradient(90deg,#3DA9F5,#4ADE80)",
+                            backgroundImage:
+                              "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
+                          }}
+                        >
+                          RM{" "}
+                        </span>
+                        <span
+                          className="bg-clip-text text-[20px] font-extrabold text-transparent"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
                           }}
                         >
                           {ex.price}
@@ -354,7 +381,7 @@ export default function HrmsPlanStructure() {
               </div>
             </div>
 
-            <p className="text-center font-lato text-[12px] text-[#93A3B8]">
+            <p className="relative text-center font-lato text-[12px] text-[#93A3B8]">
               There is no obligation to continue after the free period.
             </p>
           </motion.div>

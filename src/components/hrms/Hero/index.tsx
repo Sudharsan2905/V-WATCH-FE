@@ -274,9 +274,10 @@ export default function HrmsHero() {
         {/* Bottom curve — matches the pattern used across the other Hero
             components (see pre-construction/Hero): a single smooth arc on a
             fixed 1440x100 viewBox, plus a 2px sealing strip so no subpixel
-            gap can bleed through between sections. Blends into the white top
-            of the section that follows (HrmsOverview's gradient starts at
-            #FFFFFF). */}
+            gap can bleed through between sections. Filled with the solid
+            color HrmsOverview actually sits on (#F2F8FE) rather than white,
+            so the curve reads as that section's background peeking through
+            instead of a separate white band. */}
         <svg
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-12 w-full lg:h-[100px]"
@@ -284,9 +285,9 @@ export default function HrmsHero() {
           preserveAspectRatio="none"
           fill="none"
         >
-          <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="#FFFFFF" />
+          <path d="M0 0 Q720 100 1440 0 L1440 100 L0 100 Z" fill="#F2F8FE" />
         </svg>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[2px] bg-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[2px] bg-[#F2F8FE]" />
       </section>
     </MotionConfig>
   );
