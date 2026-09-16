@@ -57,7 +57,7 @@ export default function HrmsGetStarted() {
             <motion.p
               variants={fadeUp}
               custom={0.12}
-              className="font-lato text-[15px] leading-[24px] text-[#0A6FA8] sm:text-[16px]"
+              className="font-lato  font-normal text-[15px] leading-[24px] text-[#0A4B6E] sm:text-[20px]"
             >
               A simpler way to start. A smarter way to manage your workforce.
             </motion.p>
@@ -82,7 +82,7 @@ export default function HrmsGetStarted() {
                 centering on the whole column's height (which varies with
                 description length) dragged the wave down toward the text
                 instead of through the circles' centers. */}
-            <div className="pointer-events-none absolute inset-x-0 top-[55px] hidden w-full -translate-y-1/2 lg:block">
+            <div className="pointer-events-none absolute inset-x-0 top-[65px] hidden w-full -translate-y-1/2 lg:block">
               <svg
                 viewBox="0 0 1200 220"
                 fill="none"
@@ -124,16 +124,16 @@ export default function HrmsGetStarted() {
                     square card) — the webp is inset smaller inside it so the
                     square card reads as the icon's artwork, not the badge
                     shape itself. Number overlaps its top-right edge. */}
-                <div className="relative h-[110px] w-[110px]">
+                <div className="relative h-[130px] w-[130px]">
                   <div className="absolute inset-0 rounded-full bg-white shadow-[0_14px_30px_rgba(10,75,110,0.16)]" />
-                  <div className="absolute inset-[16px]">
+                  <div className="absolute inset-[16px] overflow-hidden rounded-full">
                     <Image
                       src={step.icon}
                       alt=""
                       aria-hidden
                       fill
                       unoptimized
-                      sizes="80px"
+                      sizes="98px"
                       className="object-contain"
                     />
                   </div>
@@ -145,16 +145,16 @@ export default function HrmsGetStarted() {
                       A plain circle is trivial to place exactly. */}
                   <span
                     aria-hidden
-                    className="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-full border border-[#8ED0F5] bg-white font-lato text-[12px] font-bold text-[#0A8EC8] shadow-[0_4px_10px_rgba(10,75,110,0.14)]"
+                    className="absolute -right-2.5 -top-2.5 flex h-11 w-11 items-center justify-center rounded-full border border-[#8ED0F5] bg-white font-lato text-[14px] font-bold text-[#0A8EC8] shadow-[0_4px_10px_rgba(10,75,110,0.14)]"
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="font-lato text-[16px] font-bold text-[#0A4B6E]">
+                  <h3 className="font-lato text-[18px] font-bold text-[#0F172A]">
                     {step.title}
                   </h3>
-                  <p className="max-w-[280px] font-lato text-[13.5px] leading-[20px] text-[#5C7E97]">
+                  <p className="max-w-[280px] font-lato text-[18px] font-normal leading-[20px] text-[#314158]">
                     {step.description}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export default function HrmsGetStarted() {
             viewport={VIEWPORT}
             variants={fadeUp}
             custom={0.5}
-            className="mx-auto max-w-[640px] text-center font-lato text-[14px] font-semibold leading-[22px] text-[#0A6FA8]"
+            className="mx-auto max-w-[640px] text-center font-lato text-[17px] font-semibold leading-[22px] text-[#006F9F]"
           >
             At the end of the free period, you can choose whether to continue
             for RM5 per subscribed employee each month.

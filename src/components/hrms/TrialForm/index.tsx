@@ -486,7 +486,7 @@ function TrialFormCard() {
                 setForm((p) => ({ ...p, consent: e.target.checked }));
               }}
               aria-invalid={errors.consent ? true : undefined}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#BFE0F0] text-[#0a8ec8] focus:ring-[#0a8ec8]/30"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#BFE0F0] accent-[#2C8FC2] focus:ring-[#2C8FC2]/30"
             />
             <span>
               By submitting this form, you agree to be contacted by V-Watch
@@ -572,7 +572,7 @@ export default function HrmsTrialForm() {
           band empty otherwise, sized via its own responsive height so the
           band stays taller than this text on narrow/mobile viewports where
           it wraps to many more lines). */}
-      <p className="relative mx-auto mt-6 max-w-[820px] px-4 text-center font-lato text-[20px] font-medium leading-[32px] tracking-normal text-white">
+      <p className="relative mx-auto mt-6 max-w-[940px] px-4 text-center font-lato text-[20px] font-medium leading-[32px] tracking-normal text-white">
         Offer registration closes on 31st December 2026. The two-month free
         period begins when the company account is activated. Full access
         applies to V-Watch HRMS features available during the promotional

@@ -69,13 +69,13 @@ export default function HrmsAudience() {
                 key={card.title}
                 variants={fadeUp}
                 custom={0.1 + i * 0.08}
-                className="flex aspect-[150/161] flex-col justify-between rounded-[20px] border border-[#E3EEFB] bg-white p-5 shadow-[0_10px_32px_rgba(10,75,110,0.08)]"
+                className="flex h-full flex-col justify-between rounded-[20px] border border-[#E3EEFB] bg-white p-5 shadow-[0_10px_32px_rgba(10,75,110,0.08)]"
               >
                 <h3 className="font-lato text-[20px] font-bold text-[#0F172A]">
                   {card.title}
                 </h3>
 
-                <div className="relative mx-auto my-4 aspect-[242/161] w-full max-w-[180px]">
+                <div className="relative mx-auto my-4 aspect-[242/161] w-full max-w-[240px]">
                   <Image
                     src={card.image}
                     alt=""

@@ -53,14 +53,14 @@ export default function HrmsFeatures() {
             <motion.h2
               variants={fadeUp}
               custom={0.05}
-              className="max-w-[720px] font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[30px]"
+              className="max-w-[760px] font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[26px]"
             >
               Everything Your Team Needs in One Connected HRMS
             </motion.h2>
             <motion.p
               variants={fadeUp}
               custom={0.12}
-              className="max-w-[700px] font-lato text-[15px] leading-[24px] text-[#0A6FA8] sm:text-[16px]"
+              className="max-w-[700px] font-lato text-[20px] leading-[28px] text-[#0A4B6E] sm:text-[20px]"
             >
               Give HR teams, managers and employees the tools they need to
               complete everyday tasks faster and with fewer manual processes.
@@ -107,14 +107,14 @@ export default function HrmsFeatures() {
                   </span>
                 </div>
                 <div className="relative flex items-start gap-2.5">
-                  <span className="font-lato text-[28px] font-bold leading-[1.1] text-[#5CB7E8]">
+                  <span className="font-lato text-[32px] font-bold leading-[42px] text-[#5CB7E8]">
                     {f.number}
                   </span>
                   <div className="flex flex-col gap-0.5 pt-0.5">
-                    <span className="font-lato text-[16px] font-bold text-[#0A4B6E]">
+                    <span className="font-lato text-[20px] font-bold text-[#0A4B6E]">
                       {f.title}
                     </span>
-                    <h3 className="font-lato text-[15px] font-bold leading-[21px] text-[#0A4B6E]">
+                    <h3 className="font-lato text-[18px] font-semibold leading-[21px] text-[#0A4B6E]">
                       {f.headline}
                     </h3>
                   </div>
@@ -124,7 +124,7 @@ export default function HrmsFeatures() {
                   {f.bullets.map((bullet) => (
                     <li
                       key={bullet}
-                      className="flex items-start gap-2 font-lato text-[13.5px] leading-[19px] text-[#314158]"
+                      className="flex items-start gap-2 font-lato text-[18px] leading-[26px] text-[#314158]"
                     >
                       {/* <CheckTick className="mt-0.5 shrink-0 text-[#2FA84F]" /> */}
                       <Image
@@ -140,7 +140,7 @@ export default function HrmsFeatures() {
                 </ul>
 
                 {f.footnote && (
-                  <p className="relative font-lato text-[13.5px] italic leading-[19px] text-[#5C7E97]">
+                  <p className="relative font-lato text-[18px] leading-[26px] text-[#314158]">
                     {f.footnote}
                   </p>
                 )}

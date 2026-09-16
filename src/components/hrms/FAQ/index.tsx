@@ -98,14 +98,15 @@ export default function HrmsFAQ() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden bg-[#F2F8FE] px-6 py-14 lg:px-15 lg:py-20">
+      {/* No overflow-hidden here — any ancestor with non-visible overflow
+          silently disables position:sticky for the blob below, since sticky
+          only works relative to a genuine scrolling container. */}
+      <section className="relative bg-[#F2F8FE] px-6 py-14 lg:px-15 lg:py-20">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-8 lg:gap-10">
-          {/* Full-width header — deliberately OUTSIDE the two-column grid
-              below, same pattern as PlanStructure. Nesting it inside the
-              left column made `lg:items-center` vertically center the whole
-              (heading + blob) column against the taller FAQ list, dropping
-              the heading well below the section's top instead of pinning it
-              there. */}
+          {/* Full-width header — its own row above the two-column grid below,
+              so the image (left) and the first question card (right) start
+              level with each other instead of the image being pushed down
+              by the heading sitting in the same column. */}
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -122,13 +123,18 @@ export default function HrmsFAQ() {
             <motion.p
               variants={fadeUp}
               custom={0.12}
-              className="font-lato text-[15px] leading-[24px] text-[#0A6FA8] sm:text-[16px]"
+              className="font-lato text-[15px] leading-[24px] text-[#0A4B6E] sm:text-[20px]"
             >
               Everything you need to know before you start.
             </motion.p>
           </motion.div>
 
-          <div className="grid gap-10 lg:grid-cols-[380px_1fr] lg:items-start lg:gap-16">
+          {/* lg:items-start would shrink this grid row's left cell down to
+              its content's own height, leaving the sticky wrapper below no
+              room to actually stick — it needs the FAQ column's full
+              (taller) height as its containing block, so this row stretches
+              (the default) instead. */}
+          <div className="grid gap-10 lg:grid-cols-[380px_1fr] lg:gap-16">
             <motion.div
               initial="hidden"
               whileInView="show"
@@ -137,7 +143,15 @@ export default function HrmsFAQ() {
               custom={0.2}
               className="hidden lg:block"
             >
-              <QuestionBlob />
+              {/* Sticks in place while the (taller) question list on the
+                  right scrolls past, and un-sticks naturally once the last
+                  question does too: its containing block is the stretched
+                  grid cell above, exactly as tall as that list. The top
+                  offset clears the fixed header (--nav-h, kept in sync by
+                  Navbar) plus a little breathing room. */}
+              <div className="lg:sticky lg:top-[calc(var(--nav-h,60px)+24px)]">
+                <QuestionBlob />
+              </div>
             </motion.div>
 
             <motion.div
@@ -153,10 +167,10 @@ export default function HrmsFAQ() {
                   key={faq.question}
                   variants={fadeUp}
                   custom={0.1 + i * 0.05}
-                  className={`overflow-hidden rounded-2xl border bg-white transition-colors ${
+                  className={`overflow-hidden rounded-[20px] border transition-colors ${
                     open
-                      ? "border-[#3DA9F5]"
-                      : "border-[#DCEFFC] hover:border-[#8ED0F5]"
+                      ? "border-[#3DA9F5]/20 border-b-2 border-b-[#3DA9F5] bg-gradient-to-b from-[#EAF4FC] to-[#F7FBFF] shadow-[0px_24px_36px_-12px_rgba(61,169,245,0.45)]"
+                      : "border-transparent bg-white shadow-[0px_6px_20px_0px_rgba(10,75,110,0.06)] hover:border-[#8ED0F5]"
                   }`}
                 >
                   <button
@@ -164,15 +178,23 @@ export default function HrmsFAQ() {
                     onClick={() => setOpenIndex(open ? -1 : i)}
                     className="flex w-full items-center gap-3 px-5 py-4 text-left"
                   >
-                    <span className="shrink-0 font-lato text-[13px] font-bold text-[#5CB7E8]">
+                    <span
+                      className={`shrink-0 font-lato text-[13px] font-bold ${
+                        open ? "text-[#0A6FA8]" : "text-[#AEBBD1]"
+                      }`}
+                    >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="min-w-0 flex-1 font-lato text-[14.5px] font-semibold text-[#0A4B6E] sm:text-[15px]">
+                    <span
+                      className={`min-w-0 flex-1 font-lato text-[18px] font-semibold sm:text-[18px] ${
+                        open ? "text-[#0A6FA8]" : "text-[#0A4B6E]"
+                      }`}
+                    >
                       {faq.question}
                     </span>
                     <span
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                        open ? "bg-[#EAF4FC] text-[#3DA9F5]" : "text-[#5C7E97]"
+                        open ? "text-[#0A6FA8]" : "text-[#5C7E97]"
                       }`}
                     >
                       <PlusMinusIcon open={open} />
@@ -189,7 +211,7 @@ export default function HrmsFAQ() {
                         transition={{ duration: 0.25, ease: EASE }}
                         className="overflow-hidden"
                       >
-                        <p className="px-5 pb-4 pl-[42px] font-lato text-[13.5px] leading-[20px] text-[#5C7E97]">
+                        <p className="px-5 pb-4 pl-[42px] font-lato text-[16px] leading-[20px] text-[#0A6FA8]">
                           {faq.answer}
                         </p>
                       </motion.div>
