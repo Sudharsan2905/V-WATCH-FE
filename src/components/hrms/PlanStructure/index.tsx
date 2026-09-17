@@ -242,7 +242,7 @@ export default function HrmsPlanStructure() {
             <div className="pointer-events-none absolute -left-10 top-1/3 h-48 w-48 rounded-full bg-[#2563EB] opacity-30 blur-[110px]" />
 
             <div className="relative flex items-center justify-between gap-3">
-              <h3 className="font-lato text-[16px] font-bold text-white">
+              <h3 className="font-lato text-[20px] font-bold text-white">
                 Your Cost for the First Two Months
               </h3>
               <span
@@ -267,24 +267,19 @@ export default function HrmsPlanStructure() {
                   RM
                 </span>
                 <span
-                  className="bg-clip-text font-lato text-[80px] font-extrabold leading-none text-transparent"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(180deg, rgb(33,177,241) 20.69%, rgb(166,201,54) 151.72%)",
-                  }}
+                  className="bg-clip-text font-lato text-[80px] font-extrabold leading-none text-transparent text-white"
                 >
                   0
                 </span>
               </p>
-              <p className="mt-2 font-lato text-[13px] text-[#93A3B8]">
+              <p className="mt-2 font-lato text-[16px] text-[#EFF9FF]">
                 No credit card required.
               </p>
             </div>
 
-            <div className="relative h-px w-full bg-white/10" />
 
             <div className="relative">
-              <p className="font-lato text-[13px] text-[#93A3B8]">
+              <p className="font-lato font-medium text-[18px] text-[#EFF9FF]">
                 Continue using V-Watch HRMS for only
               </p>
               <p className="mt-1 flex flex-wrap items-center gap-x-2">
@@ -306,14 +301,17 @@ export default function HrmsPlanStructure() {
                 >
                   5
                 </span>
-                <span className="font-lato text-[13px] text-[#DCE6F0]">
-                  Per Subscribed Employee/ Month
+                <span className="flex flex-col items-start gap-1.5">
+                  <span className="font-lato  font-medium text-[18px] text-white">
+                    Per Subscribed Employee/ Month
+                  </span>
+                  <span className="inline-block rounded-full border border-white/40 px-2.5 py-1 font-lato text-[10px] font-bold uppercase tracking-[0.04em] text-white">
+                    After Your Free Period
+                  </span>
                 </span>
               </p>
-              <span className="mt-2 inline-block rounded-full border border-white/15 px-2.5 py-1 font-lato text-[10px] font-bold uppercase tracking-[0.04em] text-[#93A3B8]">
-                After Your Free Period
-              </span>
-              <p className="mt-2 font-lato text-[13px] leading-[19px] text-[#93A3B8]">
+              
+              <p className="mt-2 font-lato text-[16px] leading-[24px] text-[#EFF9FF]">
                 You decide how many employee subscriptions your company
                 requires.
               </p>
@@ -381,7 +379,7 @@ export default function HrmsPlanStructure() {
               </div>
             </div>
 
-            <p className="relative text-center font-lato text-[12px] text-[#93A3B8]">
+            <p className="relative text-center font-lato text-[16px] text-[#EFF9FFCC]">
               There is no obligation to continue after the free period.
             </p>
           </motion.div>

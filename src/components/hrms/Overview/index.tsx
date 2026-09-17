@@ -105,7 +105,7 @@ export default function HrmsOverview() {
             <motion.p
               variants={fadeUp}
               custom={0.5}
-              className="max-w-[560px] text-center font-lato text-[18px] font-semibold leading-[24px] text-[#0A6FA8] sm:text-[18px]"
+              className="max-w-[580px] text-center font-lato text-[18px] font-semibold leading-[24px] text-[#0A6FA8] sm:text-[18px]"
             >
               V-Watch HRMS brings everything together, giving your team one
               reliable place to manage employees and the HR work surrounding
