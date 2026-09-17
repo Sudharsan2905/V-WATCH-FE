@@ -103,54 +103,40 @@ export default function HrmsFAQ() {
           only works relative to a genuine scrolling container. */}
       <section className="relative bg-[#F2F8FE] px-6 py-14 lg:px-15 lg:py-20">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-8 lg:gap-10">
-          {/* Full-width header — its own row above the two-column grid below,
-              so the image (left) and the first question card (right) start
-              level with each other instead of the image being pushed down
-              by the heading sitting in the same column. */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-            className="flex flex-col gap-2"
-          >
-            <motion.h2
-              variants={fadeUp}
-              custom={0.05}
-              className="font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[30px]"
-            >
-              Frequently Asked Questions
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              custom={0.12}
-              className="font-lato text-[15px] leading-[24px] text-[#0A4B6E] sm:text-[20px]"
-            >
-              Everything you need to know before you start.
-            </motion.p>
-          </motion.div>
-
-          {/* lg:items-start would shrink this grid row's left cell down to
-              its content's own height, leaving the sticky wrapper below no
-              room to actually stick — it needs the FAQ column's full
-              (taller) height as its containing block, so this row stretches
-              (the default) instead. */}
-          <div className="grid gap-10 lg:grid-cols-[380px_1fr] lg:gap-16">
+          {/* flex-row (not a grid) so the left column's width is driven by
+              its own content — the heading renders at full size on one line
+              instead of being squeezed into a fixed track. Default
+              align-items: stretch (don't override with items-start) gives
+              this column the full row height, i.e. room for the sticky
+              wrapper below to actually move within. */}
+          <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
             <motion.div
               initial="hidden"
               whileInView="show"
               viewport={VIEWPORT}
               variants={fadeUp}
               custom={0.2}
-              className="hidden lg:block"
+              className="lg:shrink-0"
             >
-              {/* Sticks in place while the (taller) question list on the
-                  right scrolls past, and un-sticks naturally once the last
-                  question does too: its containing block is the stretched
-                  grid cell above, exactly as tall as that list. The top
-                  offset clears the fixed header (--nav-h, kept in sync by
-                  Navbar) plus a little breathing room. */}
-              <div className="lg:sticky lg:top-[calc(var(--nav-h,60px)+24px)]">
-                <QuestionBlob />
+              {/* Heading + image stick together as one unit while the
+                  (taller) question list on the right scrolls past, and
+                  un-stick naturally once the last question does too: their
+                  containing block is the stretched column above, exactly as
+                  tall as that list. The top offset clears the fixed header
+                  (--nav-h, kept in sync by Navbar) plus a little breathing
+                  room. */}
+              <div className="flex flex-col gap-6 lg:sticky lg:top-[calc(var(--nav-h,60px)+24px)]">
+                <div className="flex flex-col gap-2">
+                  <h2 className="whitespace-nowrap font-lato text-[26px] font-bold leading-[1.25] text-[#0A4B6E] sm:text-[30px]">
+                    Frequently Asked Questions
+                  </h2>
+                  <p className="whitespace-nowrap font-lato text-[15px] leading-[24px] text-[#0A4B6E] sm:text-[20px]">
+                    Everything you need to know before you start.
+                  </p>
+                </div>
+                <div className="hidden lg:block">
+                  <QuestionBlob />
+                </div>
               </div>
             </motion.div>
 
@@ -158,7 +144,7 @@ export default function HrmsFAQ() {
               initial="hidden"
               whileInView="show"
               viewport={VIEWPORT}
-              className="flex flex-col gap-3"
+              className="flex min-w-0 flex-col gap-3"
             >
               {FAQS.map((faq, i) => {
               const open = openIndex === i;

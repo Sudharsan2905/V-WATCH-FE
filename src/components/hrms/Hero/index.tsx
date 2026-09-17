@@ -103,7 +103,7 @@ function HeroCopy() {
       <motion.span
         variants={fadeUp}
         custom={0.05}
-        className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-semibold text-white"
+        className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[18px] font-semibold text-white"
       >
         <span className="h-2 w-2 rounded-full bg-[#4ADE80]" />
         One HR System for Your Entire Team
@@ -112,7 +112,7 @@ function HeroCopy() {
       <motion.h1
         variants={fadeUp}
         custom={0.15}
-        className="max-w-[560px] text-[34px] font-extrabold leading-[1.15] sm:text-[42px] lg:text-[48px]"
+        className="max-w-[560px] text-[34px] font-extrabold leading-[1.15] sm:text-[42px] lg:text-[50px]"
       >
         <span className="block text-white">Take HR Off Your Spreadsheets</span>
         <span
@@ -128,7 +128,7 @@ function HeroCopy() {
       <motion.p
         variants={fadeUp}
         custom={0.25}
-        className="max-w-[520px] text-[15px] leading-[24px] text-[#C7D3E0] sm:text-[16px]"
+       className="max-w-[520px] font-bold text-[18px] leading-[30px] text-[#FFFFFF] sm:text-[16px] sm:leading-[24px] lg:text-[18px] lg:leading-[30px]"
       >
         Manage employee records, attendance, leave, claims and payroll from
         one connected HR platform built for Malaysian SMEs. Sign up by 31st
@@ -258,14 +258,14 @@ export default function HrmsHero() {
             {FEATURE_STRIP.map((f) => (
               <div key={f.title} className="px-6 py-5">
                 <h4 className="text-[14px] font-bold text-white">{f.title}</h4>
-                <p className="mt-1 text-[13px] leading-[19px] text-[#AEBBCC]">
+                <p className="mt-1 text-[14px] leading-[19px] text-[#EFF9FF]">
                   {f.description}
                 </p>
               </div>
             ))}
           </motion.div>
 
-          <p className="relative mx-auto mt-8 max-w-[720px] text-center text-[13px] text-[#93A3B8]">
+          <p className="relative mx-auto mt-8 max-w-[720px] text-center text-[16px] text-[#FFFFFF]">
             Limited-time offer for Malaysian SMEs. Registration closes on
             31st December 2026.
           </p>

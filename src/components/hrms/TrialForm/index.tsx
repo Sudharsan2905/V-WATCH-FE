@@ -390,7 +390,7 @@ function TrialFormCard() {
       <h2 className="text-center font-lato text-[20px] font-bold text-[#0A4B6E] sm:text-[24px]">
         Claim Your 2 Free Months of V-Watch HRMS
       </h2>
-      <p className="mx-auto mb-6 mt-2 max-w-[420px] text-center font-lato text-[13px] leading-[19px] text-[#3890C0] sm:text-[14px]">
+      <p className="mx-auto mb-6 mt-2 max-w-[420px] text-center font-lato text-[13px] leading-[19px] text-[#0A4B6E] sm:text-[18px]">
         Register by 31st December 2026 to receive full HRMS access at no
         cost for two months.
       </p>
