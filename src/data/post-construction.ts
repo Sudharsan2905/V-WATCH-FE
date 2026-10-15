@@ -154,16 +154,16 @@ export const postConstructionContent = {
         ],
         image: "/post-construction/platform-overview/incident-response.webp",
       },
-      {
-        number: "06",
-        title: "Audit & Forensics",
-        points: [
-          "Historical data analysis",
-          "Incident investigation support",
-          "Full operational traceability",
-        ],
-        image: "/post-construction/platform-overview/audit-forensics.webp",
-      },
+      // {
+      //   number: "06",
+      //   title: "Audit & Forensics",
+      //   points: [
+      //     "Historical data analysis",
+      //     "Incident investigation support",
+      //     "Full operational traceability",
+      //   ],
+      //   image: "/post-construction/platform-overview/audit-forensics.webp",
+      // },
     ],
   },
 

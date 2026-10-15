@@ -71,20 +71,20 @@ const CAPABILITIES: Capability[] = [
       "Pass and badge management",
     ],
   },
+  // {
+  //   number: "02",
+  //   title: "Operations & Workflow Control",
+  //   image:
+  //     "/pre-construction/platform-overview/Operations_Workflow_Control_image.webp",
+  //   points: [
+  //     "Task and project management",
+  //     "Work program tracking",
+  //     "Site coordination and execution",
+  //     "Container and site logistics management",
+  //   ],
+  // },
   {
     number: "02",
-    title: "Operations & Workflow Control",
-    image:
-      "/pre-construction/platform-overview/Operations_Workflow_Control_image.webp",
-    points: [
-      "Task and project management",
-      "Work program tracking",
-      "Site coordination and execution",
-      "Container and site logistics management",
-    ],
-  },
-  {
-    number: "03",
     title: "Vehicle, Fleet & Logistics",
     image:
       "/pre-construction/platform-overview/Vehicle_Fleet_Logistics_image.webp",
@@ -96,7 +96,7 @@ const CAPABILITIES: Capability[] = [
     ],
   },
   {
-    number: "04",
+    number: "03",
     title: "Assets & Quality Management",
     image:
       "/pre-construction/platform-overview/Assets_Quality_Management_image.webp",
@@ -107,7 +107,7 @@ const CAPABILITIES: Capability[] = [
     ],
   },
   {
-    number: "05",
+    number: "04",
     title: "Safety & Compliance",
     image: "/pre-construction/platform-overview/Safety_Compliance_image.webp",
     points: [
@@ -118,7 +118,7 @@ const CAPABILITIES: Capability[] = [
     ],
   },
   {
-    number: "06",
+    number: "05",
     title: "Productivity & Intelligence",
     image:
       "/pre-construction/platform-overview/Productivity_Intelligence_image.webp",
