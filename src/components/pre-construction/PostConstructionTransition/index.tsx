@@ -239,42 +239,39 @@ export default function PostConstructionTransition({
             </motion.div>
           </div>
 
-          {/* Card field with the glass panel woven behind the right column.
-              On lg the panel spans the full height on the right (z-0) while the
-              cards sit in front (z-10); the top-right grid cell is left open so
-              the panel's copy shows through, and the Access card overlays the
-              panel's lower-left — mirroring the Figma. */}
+          {/* Card field with the glass panel woven behind the right column (commented out) */}
+          {/*
           <motion.div
             className="relative mt-20"
             initial="hidden"
             whileInView="show"
             viewport={VIEWPORT}
           >
-            {/* Feature cards — row 1 holds two cards, row 2 holds three. Within a
-                row the gap is 30px (gap-7.5). Between rows it's 60px (gap-15): the
-                lower row's icon badges float up 30px past their cards, so the extra
-                30px keeps a true 30px clear gap between the rows. Row 1 stops at two
-                so the panel occupies the open top-right, and the third card in row 2
-                nests into the panel's chamfered bottom-left corner. */}
-            {/* lg: let clicks in the empty card area fall through to the panel
-                CTA behind it (the cards re-enable their own pointer events). */}
+            // Feature cards — row 1 holds two cards, row 2 holds three. Within a
+            // row the gap is 30px (gap-7.5). Between rows it's 60px (gap-15): the
+            // lower row's icon badges float up 30px past their cards, so the extra
+            // 30px keeps a true 30px clear gap between the rows. Row 1 stops at two
+            // so the panel occupies the open top-right, and the third card in row 2
+            // nests into the panel's chamfered bottom-left corner.
+            // lg: let clicks in the empty card area fall through to the panel
+            // CTA behind it (the cards re-enable their own pointer events).
             <div className="relative z-10 flex flex-col gap-15 lg:pointer-events-none">
-              {/* Row 1 — two cards. Horizontal gap stays 30px (gap-x-7.5) for
-                  the side-by-side layout; when the cards stack (mobile) the
-                  vertical gap is 60px (gap-y-15) so the next card's floating
-                  badge still clears the card above by 30px. lg restores 30px. */}
+              // Row 1 — two cards. Horizontal gap stays 30px (gap-x-7.5) for
+              // the side-by-side layout; when the cards stack (mobile) the
+              // vertical gap is 60px (gap-y-15) so the next card's floating
+              // badge still clears the card above by 30px. lg restores 30px.
               <div className="flex flex-wrap justify-center gap-x-7.5 gap-y-15 lg:justify-start lg:gap-7.5">
                 <FeatureCard {...features[0]} delay={0.45} />
                 <FeatureCard {...features[1]} delay={0.55} />
               </div>
-              {/* Row 2 — on mobile & desktop shows 3 cards; on tablet the
-                  5th card is hidden here (shown with the panel instead). */}
+              // Row 2 — on mobile & desktop shows 3 cards; on tablet the
+              // 5th card is hidden here (shown with the panel instead).
               <div className="flex flex-wrap justify-center gap-x-7.5 gap-y-15 lg:justify-start lg:gap-7.5">
                 <FeatureCard {...features[2]} delay={0.65} />
                 <FeatureCard {...features[3]} delay={0.75} />
-                {/* 5th card in grid — kept in the grid on mobile AND tablet (so
-                    a lone wrapped card centers with the row); on lg it nests into
-                    the panel's chamfered corner via the decorative fills below. */}
+                // 5th card in grid — kept in the grid on mobile AND tablet (so
+                // a lone wrapped card centers with the row); on lg it nests into
+                // the panel's chamfered corner via the decorative fills below.
                 <motion.div variants={cardIn} custom={0.85} className="relative lg:block lg:pointer-events-auto">
                   <div
                     className="pointer-events-none absolute hidden lg:block -z-10"
@@ -305,16 +302,16 @@ export default function PostConstructionTransition({
               </div>
             </div>
 
-            {/* PANEL + 5th card group — on tablet they stack together below
-                the first 4 cards; on lg the panel is absolutely positioned
-                behind the card grid with the 5th card overlapping. */}
+            // PANEL + 5th card group — on tablet they stack together below
+            // the first 4 cards; on lg the panel is absolutely positioned
+            // behind the card grid with the 5th card overlapping.
             <motion.div
               variants={fromRight}
               custom={0.5}
               className="relative mt-6 flex w-full flex-col md:min-h-[500px] lg:absolute lg:inset-y-0 lg:left-145 lg:right-[-1.5%] lg:z-0 lg:mt-0 lg:min-h-0 lg:w-auto"
               // style={{ filter: "drop-shadow(0 26px 50px rgba(20,46,92,0.20))" }}
             >
-              {/* Inner glass */}
+              // Inner glass
               <div
                 className="relative flex w-full flex-1 flex-col overflow-hidden rounded-[24px] lg:absolute lg:inset-0"
                 style={{
@@ -323,18 +320,18 @@ export default function PostConstructionTransition({
                   border: "1px solid rgba(255,255,255,0.6)",
                 }}
               >
-                {/* Copy — on mobile this is a normal block that sits ABOVE the
-                    image (text and image separated, both fully readable); on
-                    md+ it's anchored top-left over the full-bleed image. */}
+                // Copy — on mobile this is a normal block that sits ABOVE the
+                // image (text and image separated, both fully readable); on
+                // md+ it's anchored top-left over the full-bleed image.
                 <div className="relative z-10 max-w-full p-6 text-center md:max-w-[88%] md:text-left lg:max-w-135 lg:p-8">
                   <p className="font-lato text-[17px] font-bold leading-8 tracking-normal text-[#0A4B6E] md:text-[20px]">
                     {panelTitle}
                   </p>
                 </div>
 
-                {/* Glowing tower — on mobile it's in-flow below the text with its
-                    own space, so it's shown at full size and never covered by the
-                    copy; on md+ it fills the entire panel behind the copy. */}
+                // Glowing tower — on mobile it's in-flow below the text with its
+                // own space, so it's shown at full size and never covered by the
+                // copy; on md+ it fills the entire panel behind the copy.
                 <div className="pointer-events-none relative z-0 aspect-[16/11] w-full md:absolute md:inset-0 md:aspect-auto">
                   <Image
                     src={panelImage}
@@ -348,9 +345,9 @@ export default function PostConstructionTransition({
                   />
                 </div>
 
-                {/* 5th card — no longer docked in the panel. On tablet it now
-                    lives in the card grid (like mobile); only lg overlaps it onto
-                    the panel. Kept hidden at every breakpoint here. */}
+                // 5th card — no longer docked in the panel. On tablet it now
+                // lives in the card grid (like mobile); only lg overlaps it onto
+                // the panel. Kept hidden at every breakpoint here.
                 <motion.div
                   variants={cardIn}
                   custom={0.85}
@@ -369,7 +366,7 @@ export default function PostConstructionTransition({
                       WebkitMaskImage: CHAMFER_MASK_TR,
                     }}
                   />
-                  {/* Bump — rises upward around the badge icon. */}
+                  // Bump — rises upward around the badge icon.
                   <div
                     className="pointer-events-none absolute -z-10"
                     style={{
@@ -386,6 +383,7 @@ export default function PostConstructionTransition({
               </div>
             </motion.div>
           </motion.div>
+          */}
         </div>
       </section>
     </MotionConfig>
