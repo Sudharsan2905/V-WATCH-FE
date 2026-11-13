@@ -196,9 +196,21 @@ function ChevronDown({
   );
 }
 
-function Logo({ minimal = false }: Readonly<{ minimal?: boolean }>) {
+function Logo({
+  minimal = false,
+  light = false,
+}: Readonly<{ minimal?: boolean; light?: boolean }>) {
   const pathname = usePathname();
-  const image = (
+  const image = light ? (
+    <Image
+      src="/landing/vwatch-logo-dark.png"
+      alt="V-WATCH"
+      width={92}
+      height={40}
+      priority
+      className="h-10 w-auto"
+    />
+  ) : (
     <Image
       src="/vwatch-logo.svg"
       alt="V-WATCH"
@@ -253,6 +265,35 @@ function DemoButton({ className = "" }: Readonly<{ className?: string }>) {
     >
       Request Demo
     </Link>
+  );
+}
+
+// Landing-page (light variant) CTA — Figma "Button Primary Home". A plain <a>
+// so Lenis smooth-scrolls to the page's own demo form.
+function LandingDemoButton({ className = "" }: Readonly<{ className?: string }>) {
+  return (
+    <a
+      href="#book-demo"
+      className={`group h-[42px] shrink-0 items-center gap-[9px] whitespace-nowrap rounded-[8px] bg-[#C2E357] px-[15px] font-[family-name:var(--font-inter)] text-[13px] font-[760] text-[#142A23] transition-colors duration-200 hover:bg-[#B3D748] ${className}`}
+    >
+      Book a Demonstration
+      <svg
+        width="17"
+        height="17"
+        viewBox="0 0 17 17"
+        fill="none"
+        aria-hidden
+        className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+      >
+        <path
+          d="M4.958 4.958h7.084v7.084M4.958 12.042l7.084-7.084"
+          stroke="currentColor"
+          strokeWidth="1.417"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </a>
   );
 }
 
@@ -496,6 +537,7 @@ export default function Navbar({
   active,
   minimal = false,
   topBar,
+  variant = "dark",
 }: Readonly<{
   active?: string;
   minimal?: boolean;
@@ -504,7 +546,13 @@ export default function Navbar({
   // here — and nothing else about the header changes — unless a page passes
   // one, so this is opt-in per page rather than a site-wide change.
   topBar?: React.ReactNode;
+  // "light" is the landing page (/) header from the Figma "V-Watch LP" design:
+  // white bar, dark logo, blue Inter links and a lime "Book a Demonstration"
+  // button that jumps to the page's own form. Only the bar's look changes —
+  // the nav items, dropdown pop-ups and mobile menu are identical to "dark".
+  variant?: "dark" | "light";
 }>) {
+  const light = variant === "light";
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -586,8 +634,23 @@ export default function Navbar({
       <div ref={barRef}>
       {topBar}
       {/* ── Desktop bar ─────────────────────────────────────────────────── */}
-      <nav className="flex h-[60px] items-center gap-2 bg-[rgba(3,5,21,0.80)] px-3 shadow-[inset_0px_-5px_27px_rgba(255,255,255,0.10)] sm:px-5">
-        <Logo minimal={minimal} />
+      <nav
+        className={
+          light
+            ? "flex h-[77px] items-center border-b border-[#E2EEEB] bg-white px-5 xl:px-10"
+            : "flex h-[60px] items-center gap-2 bg-[rgba(3,5,21,0.80)] px-3 shadow-[inset_0px_-5px_27px_rgba(255,255,255,0.10)] sm:px-5"
+        }
+      >
+        {/* Light variant: content sits in Figma's centred 1230px column.
+            Dark variant: `contents` keeps the original full-width layout. */}
+        <div
+          className={
+            light
+              ? "mx-auto flex w-full max-w-[1230px] items-center gap-2.5"
+              : "contents"
+          }
+        >
+        <Logo minimal={minimal} light={light} />
 
         {/* Minimal mode (site-visibility): no nav items, Request Demo, or
             hamburger — just the logo on a bare bar. */}
@@ -618,19 +681,31 @@ export default function Navbar({
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className={`mt-0.5 flex h-8 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-white transition-colors hover:bg-white/[0.14] ${
-                  item.label === activeLabel
-                    ? "border-b border-white bg-white/[0.14]"
-                    : openDropdown === item.label
-                      ? "bg-white/[0.14]"
-                      : ""
-                }`}
+                className={
+                  light
+                    ? // Tighter padding + 13px text at lg (1024–1279px) so the
+                      // seven items and the CTA fit on one line; Figma sizing from xl.
+                      `mt-0.5 flex h-8 items-center gap-1 whitespace-nowrap rounded-full px-2 font-[family-name:var(--font-inter)] text-[13px] font-[570] text-[#0A8EC8] transition-colors hover:bg-[#0A8EC8]/[0.08] xl:gap-1.5 xl:px-4 xl:text-sm ${
+                        item.label === activeLabel
+                          ? "border-b border-[#0A8EC8] bg-[#0A8EC8]/[0.08]"
+                          : openDropdown === item.label
+                            ? "bg-[#0A8EC8]/[0.08]"
+                            : ""
+                      }`
+                    : `mt-0.5 flex h-8 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-white transition-colors hover:bg-white/[0.14] ${
+                        item.label === activeLabel
+                          ? "border-b border-white bg-white/[0.14]"
+                          : openDropdown === item.label
+                            ? "bg-white/[0.14]"
+                            : ""
+                      }`
+                }
               >
                 {item.label}
                 {item.hasDropdown && (
                   <ChevronDown
                     open={openDropdown === item.label}
-                    className="text-white"
+                    className={light ? "text-[#0A8EC8]" : "text-white"}
                   />
                 )}
               </Link>
@@ -663,7 +738,11 @@ export default function Navbar({
         </ul>
 
         <div className="flex-1 lg:hidden" />
-        <DemoButton className="hidden sm:inline-flex" />
+        {light ? (
+          <LandingDemoButton className="hidden min-[400px]:inline-flex" />
+        ) : (
+          <DemoButton className="hidden sm:inline-flex" />
+        )}
 
         {/* Hamburger */}
         <button
@@ -671,7 +750,11 @@ export default function Navbar({
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle navigation menu"
           aria-expanded={mobileOpen}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
+          className={`flex h-9 shrink-0 items-center justify-center rounded-full transition-colors lg:hidden ${
+            light
+              ? "w-6 text-[#0A8EC8] hover:bg-[#0A8EC8]/10" // Figma: 24px icon
+              : "w-9 text-white hover:bg-white/10"
+          }`}
         >
           <svg
             width="22"
@@ -699,6 +782,7 @@ export default function Navbar({
         </button>
           </>
         )}
+        </div>
       </nav>
       </div>
 

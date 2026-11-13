@@ -1,106 +1,45 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
-import Hero from "@/components/common/Hero";
-import FragmentedOps from "@/components/common/FragmentedOps";
-import UnifiedSystem from "@/components/home/UnifiedSystem";
-import FeatureGrid from "@/components/home/FeatureGrid";
-import Industries from "@/components/home/Industries";
-import BuiltToScale from "@/components/home/BuiltToScale";
-import Footer from "@/components/layout/Footer";
+import { inter } from "@/components/landing/fonts";
+import Hero from "@/components/landing/Hero";
+import Testimonials from "@/components/landing/Testimonials";
+import HandoverGap from "@/components/landing/HandoverGap";
+import Journey from "@/components/landing/Journey";
+import Products from "@/components/landing/Products";
+import WhoItHelps from "@/components/landing/WhoItHelps";
+import About from "@/components/landing/About";
+import FAQ from "@/components/landing/FAQ";
+import DemoForm from "@/components/landing/DemoForm";
+import LandingFooter from "@/components/landing/Footer";
 
-// TODO: replace with the real production origin before launch — this drives the
-// canonical URL and the absolute OG/Twitter URLs.
-const SITE_URL = "https://www.v-watch.ai";
-
-// The platform's core modules. HRMS is the flagship (rendered as the central,
-// highlighted tile in the hero visual), so it leads the list for SEO weight.
-const KEYS = [
-  "HRMS (Human Resource Management System)",
-  "Secure Access",
-  "SMS",
-  "RTL",
-  "Workflow Management",
-  "AI Location Tracking",
-] as const;
-
-// export const metadata: Metadata = {
-//   metadataBase: new URL(SITE_URL),
-//   title: "HRMS, Secure Access & AI Location Tracking — V-Watch AI",
-//   description:
-//     "V-Watch AI unifies HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking into one intelligent platform — real-time visibility and control across people, work, assets and movement.",
-//   keywords: [
-//     "HRMS",
-//     "Human Resource Management System",
-//     "Secure Access",
-//     "SMS",
-//     "RTL",
-//     "Workflow Management",
-//     "AI Location Tracking",
-//     "V-Watch AI",
-//   ],
-//   alternates: { canonical: "/" },
-//   openGraph: {
-//     type: "website",
-//     url: "/",
-//     siteName: "V-Watch AI",
-//     title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
-//     description:
-//       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "V-Watch AI — HRMS, Secure Access & AI Location Tracking",
-//     description:
-//       "One intelligent system for HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
-//   },
-// };
-
-// schema.org structured data so search engines can read the module list that is
-// otherwise baked into the hero PNG. HRMS is position 1 (the flagship module).
-
-
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "V-Watch AI",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  url: SITE_URL,
+// Landing page from the Figma "V-Watch LP" design. The previous home page now
+// lives at /home.
+export const metadata: Metadata = {
+  title: "V-Watch Ai — From Construction to Live Operations",
   description:
-    "AI-driven operations platform unifying HRMS, Secure Access, SMS, RTL, Workflow Management and AI Location Tracking.",
-  featureList: KEYS,
+    "Keep relevant construction records available at handover, through the Defects Liability Period (DLP) and into live operations with Atlas, Digital Handover and Aegis.",
+  alternates: { canonical: "/" },
 };
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="relative">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <Navbar />
-      <Hero />
-
-      {/* Crawlable, screen-reader-only list of the platform modules. These appear
-          as labelled tiles inside the hero visual (a PNG), so without this they
-          are invisible to search engines. Placed after the hero so it follows
-          the page <h1> in the heading order. */}
-      <section aria-label="V-Watch AI platform modules" className="sr-only">
-        <h2>V-Watch AI platform modules</h2>
-        <ul>
-          {KEYS.map((m) => (
-            <li key={m}>{m}</li>
-          ))}
-        </ul>
-      </section>
-
-      {/* <FragmentedOps /> */}
-      {/* <UnifiedSystem /> */}       
-      <FeatureGrid />
-      <Industries />
-      <BuiltToScale />
-      <Footer />
+    // Inter is applied to <main> and the footer only — not the wrapper — so the
+    // shared Navbar's dropdown pop-ups and mobile menu keep their Lato styling.
+    <div className={`${inter.variable} relative bg-white text-[#19213D]`}>
+      <Navbar variant="light" />
+      {/* Offset for the fixed header (Navbar publishes its height as --nav-h). */}
+      <main className="pt-[var(--nav-h,77px)] font-[family-name:var(--font-inter)]">
+        <Hero />
+        <Testimonials />
+        <HandoverGap />
+        <Journey />
+        <Products />
+        <WhoItHelps />
+        <About />
+        <FAQ />
+        <DemoForm />
+      </main>
+      <LandingFooter />
     </div>
   );
 }
