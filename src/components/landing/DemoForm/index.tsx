@@ -2,16 +2,23 @@
 
 import { useRouter } from "next/navigation";
 import {
+  useEffect,
+  useRef,
   useState,
   type ChangeEvent,
   type FormEvent,
+  type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { submitForm } from "@/lib/submitForm";
+import { DEMO_ROLES } from "@/constants/demo-form";
 import { ArrowUpRight, Check, T } from "../ui";
 
-// TODO: dropdown options are still to be confirmed by the business. While a
-// list is empty its field shows only the placeholder and is not required.
-const ROLE_OPTIONS: string[] = [];
+// Role uses the same options as /book-demo. Location and stage are Figma-only
+// fields with no counterpart in the forms API, so they have no options yet and
+// are not submitted.
+const ROLE_OPTIONS = DEMO_ROLES;
 const LOCATION_OPTIONS: string[] = [];
 const STAGE_OPTIONS: string[] = [];
 
@@ -51,8 +58,21 @@ const INITIAL: FormState = {
   consent: false,
 };
 
+// Same patterns as /book-demo.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Phone: digits only, with an optional leading "+" country code; 7–15 digits
+// (E.164 maximum).
+const PHONE_RE = /^\+?\d{7,15}$/;
 
+// Strips everything except digits (and a "+" typed or pasted first), so letters
+// and symbols can't be entered at all.
+function sanitizePhone(raw: string) {
+  const digits = raw.replace(/\D/g, "").slice(0, 15);
+  return (raw.trimStart().startsWith("+") ? "+" : "") + digits;
+}
+
+// Required fields follow the Figma labels: name, email, organisation and the
+// consent box. Phone, interests and the message are optional.
 function validate(form: FormState): Errors {
   const errors: Errors = {};
   if (!form.fullName.trim()) errors.fullName = "Please enter your full name.";
@@ -61,12 +81,7 @@ function validate(form: FormState): Errors {
     errors.workEmail = "Please enter a valid email address.";
   if (!form.organisation.trim())
     errors.organisation = "Please enter your organisation.";
-  if (ROLE_OPTIONS.length && !form.role) errors.role = "Please select your role.";
-  if (LOCATION_OPTIONS.length && !form.location)
-    errors.location = "Please select a location.";
-  if (STAGE_OPTIONS.length && !form.stage)
-    errors.stage = "Please select a project stage.";
-  if (form.phone.trim() && !/^\+?[\d\s()-]{6,20}$/.test(form.phone.trim()))
+  if (form.phone.trim() && !PHONE_RE.test(form.phone.trim()))
     errors.phone = "Please enter a valid phone number.";
   if (!form.consent) errors.consent = "Please confirm we may contact you.";
   return errors;
@@ -94,7 +109,11 @@ function Field({
 }>) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className={`${T.label} pb-0.5 pt-px text-[#223B4B]`}>
+      <label
+        id={`${id}-label`}
+        htmlFor={id}
+        className={`${T.label} pb-0.5 pt-px text-[#223B4B]`}
+      >
         {label}
         {optional && (
           <span className="font-normal text-[#607386]"> (optional)</span>
@@ -110,6 +129,11 @@ function Field({
   );
 }
 
+// Custom dropdown styled like the form's inputs — a native <select>'s option
+// list can't be styled and renders as the OS default. Follows the WAI-ARIA
+// select-only combobox pattern: Enter/Space/↑/↓ open it, ↑/↓/Home/End move,
+// typing jumps to a matching option, Enter/Space pick, Esc/Tab close.
+// The first entry is the placeholder, which clears an optional choice.
 function SelectField({
   id,
   label,
@@ -122,48 +146,237 @@ function SelectField({
   id: keyof FormState;
   label: string;
   placeholder: string;
-  options: string[];
+  options: readonly string[];
   value: string;
   error?: string;
   onChange: (value: string) => void;
 }>) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const typeahead = useRef({ text: "", at: 0 });
+  const items = options.length ? ["", ...options] : [];
+  const listId = `${id}-listbox`;
+  const optionId = (i: number) => `${id}-option-${i}`;
+
+  // Close on outside click.
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onPointer);
+    return () => document.removeEventListener("mousedown", onPointer);
+  }, [open]);
+
+  // Keep the highlighted option in view while navigating.
+  useEffect(() => {
+    if (!open) return;
+    listRef.current
+      ?.querySelector(`#${CSS.escape(optionId(active))}`)
+      ?.scrollIntoView({ block: "nearest" });
+    // optionId is derived from the stable `id` prop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, active]);
+
+  function openList(start?: number) {
+    setActive(start ?? Math.max(0, items.indexOf(value)));
+    setOpen(true);
+  }
+
+  function close(returnFocus = true) {
+    setOpen(false);
+    // Start the next type-ahead search fresh.
+    typeahead.current.text = "";
+    if (returnFocus) buttonRef.current?.focus();
+  }
+
+  function choose(i: number) {
+    if (i < 0 || i >= items.length) return;
+    onChange(items[i]);
+    close();
+  }
+
+  // Index of the next option starting with the typed text (600ms buffer).
+  function typeaheadMatch(e: KeyboardEvent<HTMLButtonElement>) {
+    if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return -1;
+    const t = typeahead.current;
+    t.text = e.timeStamp - t.at > 600 ? e.key.toLowerCase() : t.text + e.key.toLowerCase();
+    t.at = e.timeStamp;
+    return items.findIndex((opt, i) => i > 0 && opt.toLowerCase().startsWith(t.text));
+  }
+
+  // Focus never leaves the combobox button (WAI-ARIA select-only combobox):
+  // it handles every key and points at the highlighted option through
+  // aria-activedescendant, so no keystroke is lost while the list opens.
+  function onKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
+    if (!open) {
+      if (["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        const current = Math.max(0, items.indexOf(value));
+        openList(e.key === "ArrowUp" ? Math.max(0, current - 1) : current);
+        return;
+      }
+      const match = typeaheadMatch(e);
+      if (match > 0) {
+        e.preventDefault();
+        openList(match);
+      }
+      return;
+    }
+    const last = items.length - 1;
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setActive((a) => Math.min(last, a + 1));
+        return;
+      case "ArrowUp":
+        e.preventDefault();
+        setActive((a) => Math.max(0, a - 1));
+        return;
+      case "Home":
+        e.preventDefault();
+        setActive(0);
+        return;
+      case "End":
+        e.preventDefault();
+        setActive(last);
+        return;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        choose(active);
+        return;
+      case "Escape":
+        e.preventDefault();
+        close();
+        return;
+      case "Tab":
+        close(false);
+        return;
+    }
+    const match = typeaheadMatch(e);
+    if (match > 0) {
+      e.preventDefault();
+      setActive(match);
+    }
+  }
+
   return (
     <Field id={id} label={label} error={error}>
-      <div className="relative">
-        <select
+      <div ref={rootRef} className="relative">
+        <button
+          ref={buttonRef}
           id={id}
-          name={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          type="button"
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-controls={listId}
+          aria-labelledby={`${id}-label ${id}`}
+          aria-activedescendant={
+            open && items.length ? optionId(active) : undefined
+          }
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
-          className={`${fieldBase} ${fieldBorder(error)} h-[47px] cursor-pointer lg:h-[52px] appearance-none pr-9 ${
-            value ? "" : "text-[#607386]"
+          onClick={() => (open ? close(false) : openList())}
+          onKeyDown={onKeyDown}
+          className={`${fieldBase} ${fieldBorder(error)} flex h-[47px] cursor-pointer items-center pr-9 text-left lg:h-[52px] ${
+            open ? "border-[#0A8EC8] ring-2 ring-[#0A8EC8]/30" : ""
           }`}
         >
-          <option value="">{placeholder}</option>
-          {options.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
+          <span className={`truncate ${value ? "" : "text-[#607386]"}`}>
+            {value || placeholder}
+          </span>
+        </button>
         <svg
           width="16"
           height="16"
           viewBox="0 0 16 16"
           fill="none"
           aria-hidden
-          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2"
+          className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
         >
           <path
             d="M4 6l4 4 4-4"
-            stroke="#466579"
+            stroke={open ? "#0A8EC8" : "#466579"}
             strokeWidth="1.333"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         </svg>
+
+        <AnimatePresence>
+          {open && (
+            <motion.ul
+              ref={listRef}
+              id={listId}
+              role="listbox"
+              aria-labelledby={`${id}-label`}
+              // Let the list scroll natively instead of Lenis scrolling the page.
+              data-lenis-prevent
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-0 top-full z-30 mt-1.5 max-h-[248px] overflow-y-auto rounded-[7px] border border-[#C3D3DD] bg-white p-1 shadow-[0_12px_32px_rgba(1,13,28,0.14)]"
+            >
+              {items.length === 0 && (
+                <li className="px-3 py-2 text-[11px] leading-[1.5] text-[#607386] lg:text-[14px]">
+                  No options available
+                </li>
+              )}
+              {items.map((opt, i) => {
+                const selected = opt === value;
+                return (
+                  <li
+                    key={opt || "__placeholder"}
+                    id={optionId(i)}
+                    role="option"
+                    aria-selected={selected}
+                    onMouseEnter={() => setActive(i)}
+                    // Keep focus on the combobox so keyboard use continues.
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => choose(i)}
+                    className={`flex cursor-pointer items-center justify-between gap-2 rounded-[5px] px-3 py-2 text-[11px] leading-[1.5] transition-colors lg:text-[14px] ${
+                      i === active ? "bg-[#F4F8FA]" : ""
+                    } ${
+                      !opt
+                        ? "text-[#607386]" // placeholder row stays muted
+                        : selected
+                          ? "font-[570] text-[#0A4B6E]"
+                          : "text-[#19213D]"
+                    }`}
+                  >
+                    <span className="truncate">{opt || placeholder}</span>
+                    {selected && opt && (
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden
+                        className="shrink-0"
+                      >
+                        <path
+                          d="m3.5 8.5 3 3 6-6.5"
+                          stroke="#0A8EC8"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </li>
+                );
+              })}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
     </Field>
   );
@@ -173,6 +386,8 @@ export default function DemoForm() {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Errors>({});
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -194,17 +409,43 @@ export default function DemoForm() {
     );
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (sending) return;
     const nextErrors = validate(form);
     if (Object.keys(nextErrors).length) {
       setErrors(nextErrors);
       document.getElementById(Object.keys(nextErrors)[0])?.focus();
       return;
     }
-    // TODO: submit to the forms API once the backend payload for this form is
-    // agreed. Until then a valid form goes straight to the confirmation page.
-    router.push("/thank-you");
+    setErrors({});
+
+    // Same API and payload shape as the /book-demo form. Fields this form
+    // doesn't collect (industry, opSize) are sent empty; Project location,
+    // Project stage and the consent tick have no API field and are not sent.
+    const payload = {
+      formId: "DEMO_INQ" as const,
+      fullName: form.fullName.trim(),
+      workEmail: form.workEmail.trim(),
+      companyName: form.organisation.trim(),
+      phoneNumber: form.phone.trim(),
+      role: form.role,
+      industry: "",
+      services: form.interests.join(", "),
+      opSize: "",
+      additionalDetails: form.message.trim(),
+    };
+
+    try {
+      setSending(true);
+      setSendError(false);
+      await submitForm(payload);
+      router.push("/thank-you");
+    } catch (err) {
+      console.error("Demo request submit failed:", err);
+      setSendError(true);
+      setSending(false);
+    }
   }
 
   const input = (key: "fullName" | "workEmail" | "organisation" | "phone") =>
@@ -356,6 +597,7 @@ export default function DemoForm() {
           <Field id="phone" label="Phone" optional error={errors.phone}>
             <input
               {...input("phone")}
+              onChange={(e) => update("phone", sanitizePhone(e.target.value))}
               type="tel"
               autoComplete="tel"
               inputMode="tel"
@@ -400,11 +642,18 @@ export default function DemoForm() {
 
           <button
             type="submit"
-            className="group flex h-[52px] w-full items-center justify-between gap-2.5 rounded-[8px] bg-[#7A0CA2] px-5 text-[14px] font-[760] text-white transition-colors hover:bg-[#6A0A8D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0A8EC8]"
+            disabled={sending}
+            aria-busy={sending}
+            className="group flex h-[52px] w-full items-center justify-between gap-2.5 rounded-[8px] bg-[#7A0CA2] px-5 text-[14px] font-[760] text-white transition-colors hover:bg-[#6A0A8D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0A8EC8] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Book a Demonstration
+            {sending ? "Sending…" : "Book a Demonstration"}
             <ArrowUpRight />
           </button>
+          {sendError && (
+            <p role="alert" className="-mt-1.5 text-[12px] text-[#D14343]">
+              Something went wrong. Please try again.
+            </p>
+          )}
         </form>
       </div>
     </section>

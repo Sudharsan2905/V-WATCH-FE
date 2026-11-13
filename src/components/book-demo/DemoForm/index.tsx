@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { submitForm } from "@/lib/submitForm";
+import { DEMO_ROLES } from "@/constants/demo-form";
 import FormSuccess from "@/components/common/FormSuccess";
 
 const SELECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -92,15 +93,7 @@ const SERVICES = [
 
 const OP_SIZES = ["<50 people", "50-200", "200-1,000", "1,000-5,000", "5,000+"];
 
-const ROLES = [
-  "Project Director / Manager",
-  "Operations Manager",
-  "Safety / HSE Manager",
-  "Facility Manager",
-  "HR / Admin",
-  "IT / Systems",
-  "Other",
-];
+const ROLES = DEMO_ROLES;
 
 const INDUSTRIES = [
   "Construction",
