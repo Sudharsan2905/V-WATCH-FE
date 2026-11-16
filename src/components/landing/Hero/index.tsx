@@ -69,13 +69,15 @@ export default function Hero() {
           >
             <HeroVideo />
           </div>
-          <figcaption className="flex items-center border-t-[0.5px] border-[#D4D4D4] bg-white">
+          {/* Cells are equal width and their text wraps on narrow phones, so
+              nothing is cut off at the card edge. Titles stay top-aligned. */}
+          <figcaption className="flex items-stretch border-t-[0.5px] border-[#D4D4D4] bg-white">
             {STAGES.map((stage, i) => (
               <Fragment key={stage.title}>
-                {i > 0 && <ArrowRightNarrow />}
-                {/* nowrap: Figma lets "Carry context forward" overflow its
-                    narrow mobile cell rather than wrap. */}
-                <div className="flex min-w-0 flex-1 basis-0 flex-col items-center gap-0.5 whitespace-nowrap px-3 py-3.5 text-center">
+                {i > 0 && (
+                  <ArrowRightNarrow className="size-5 self-center lg:size-[25px]" />
+                )}
+                <div className="flex min-w-0 flex-1 basis-0 flex-col items-center gap-0.5 text-balance px-1.5 py-3.5 text-center lg:px-3">
                   <span className="text-[12px] font-[750] leading-[1.3] text-[#0A8EC8]">
                     {stage.title}
                   </span>

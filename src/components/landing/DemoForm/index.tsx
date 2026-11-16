@@ -12,15 +12,19 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { submitForm } from "@/lib/submitForm";
-import { DEMO_ROLES } from "@/constants/demo-form";
+import {
+  LANDING_ROLES,
+  PROJECT_LOCATIONS,
+  PROJECT_STAGES,
+} from "@/constants/demo-form";
 import { ArrowUpRight, Check, T } from "../ui";
 
-// Role uses the same options as /book-demo. Location and stage are Figma-only
-// fields with no counterpart in the forms API, so they have no options yet and
-// are not submitted.
-const ROLE_OPTIONS = DEMO_ROLES;
-const LOCATION_OPTIONS: string[] = [];
-const STAGE_OPTIONS: string[] = [];
+// Role, location and stage options come from the revision notes (wireframe).
+// Role is sent in the API's `role` field; the forms API has no field for
+// location or stage, so they are not submitted (pending a decision).
+const ROLE_OPTIONS = LANDING_ROLES;
+const LOCATION_OPTIONS = PROJECT_LOCATIONS;
+const STAGE_OPTIONS = PROJECT_STAGES;
 
 const INTERESTS = ["Atlas", "Digital Handover", "Aegis", "Not sure yet"] as const;
 
@@ -476,16 +480,13 @@ export default function DemoForm() {
             Request a walkthrough
           </p>
           <h2 id="book-demo-title" className={`${T.h2} text-white`}>
-            Book a
+            Book a Free
             <br />
             Demonstration
           </h2>
           <p className={`${T.body} text-[#D1E2EC]`}>
-            {/* Hard line breaks as in both Figma frames. */}
-            Tell us about your project so we can arrange a
-            <br className="hidden min-[400px]:inline" /> demonstration around
-            your role, project stage and
-            <br className="hidden min-[400px]:inline" /> priorities.
+            Tell us about your project and we can arrange a demonstration
+            around your role, project stage and priorities all at zero cost!
           </p>
           <h3 className={`${T.h6} text-white`}>What we can cover</h3>
           <ul className="flex flex-col gap-1.5 lg:gap-3">

@@ -9,3 +9,27 @@ export const DEMO_ROLES = [
   "IT / Systems",
   "Other",
 ];
+
+// Landing-page form only (from the revision notes / ChatGPT wireframe).
+export const LANDING_ROLES = [
+  "Owner or developer",
+  "Project or construction",
+  "Facility or operations",
+  "Consultant",
+  "Other",
+];
+
+export const PROJECT_LOCATIONS = [
+  "Johor Bahru",
+  "Kulai",
+  "Pasir Gudang",
+  "Other Malaysia",
+  "Other",
+];
+
+export const PROJECT_STAGES = [
+  "Construction",
+  "Approaching handover",
+  "In DLP",
+  "Live operations",
+];

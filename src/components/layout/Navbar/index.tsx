@@ -274,7 +274,7 @@ function LandingDemoButton({ className = "" }: Readonly<{ className?: string }>)
   return (
     <a
       href="#book-demo"
-      className={`group h-[42px] shrink-0 items-center gap-[9px] whitespace-nowrap rounded-[8px] bg-[#C2E357] px-[15px] font-[family-name:var(--font-inter)] text-[13px] font-[760] text-[#142A23] transition-colors duration-200 hover:bg-[#B3D748] ${className}`}
+      className={`group h-[42px] shrink-0 items-center gap-[9px] whitespace-nowrap rounded-[8px] bg-[#7A0CA2] px-[15px] font-[family-name:var(--font-inter)] text-[13px] font-[760] text-white transition-colors duration-200 hover:bg-[#6A0A8D] ${className}`}
     >
       Book a Demonstration
       <svg
