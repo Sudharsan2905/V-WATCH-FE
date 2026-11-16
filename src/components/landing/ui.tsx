@@ -21,8 +21,10 @@ export const T = {
   pointsBold: "font-[570] text-[11px] leading-[1.5] lg:text-[14px]",
   // Form field labels (bold) — Figma mobile 10px, desktop 13px.
   label: "font-bold text-[10px] leading-[1.2] lg:text-[13px]",
-  // Fine print ("Footer" style) — 9px / 12px, both on a 19.8px line.
-  small: "text-[9px] leading-[19.8px] lg:text-[12px]",
+  // Fine print ("Footer" style): medium weight on a tight 10.8px line on
+  // mobile (revised Figma), regular 12px on a 19.8px line on desktop.
+  small:
+    "text-[9px] font-medium leading-[10.8px] lg:text-[12px] lg:font-normal lg:leading-[19.8px]",
 } as const;
 
 // Section shell: full-bleed background, 1200px content column, Figma spacing
@@ -83,7 +85,9 @@ export function Eyebrow({
 
 const BUTTON_TONES = {
   primary: "bg-[#7A0CA2] text-white hover:bg-[#6A0A8D]",
-  light: "bg-[#C5F588] text-[#142A23] hover:bg-[#B6EC72]",
+  // White button with purple label + icon, for dark sections (Figma
+  // "Button Primary Light", revised from lime).
+  light: "bg-white text-[#7A0CA2] hover:bg-[#F4EAF8]",
   dark: "bg-[#19213D] text-white hover:bg-[#252F55]",
 } as const;
 

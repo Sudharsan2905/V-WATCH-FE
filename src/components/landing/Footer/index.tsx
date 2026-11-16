@@ -38,7 +38,7 @@ export default function LandingFooter({
                 height={40}
                 className="h-10 w-auto"
               />
-              <span className="text-[9px] leading-[19.8px] text-[#B5C7D5] lg:text-[12px]">
+              <span className="text-[9px] font-medium leading-[10.8px] text-[#B5C7D5] lg:text-[12px] lg:font-normal lg:leading-[19.8px]">
                 By SS Group International
               </span>
             </div>
@@ -70,13 +70,13 @@ export default function LandingFooter({
         </div>
 
         <div className="flex flex-col items-center gap-[5px] border-t border-[#304558] pb-[15px] pt-2.5 lg:flex-row lg:justify-between lg:pb-[21px] lg:pt-4">
-          <p className="text-[9px] leading-[19.8px] text-[#B8CAD9] lg:text-[12px]">
+          <p className="flex h-5 items-center text-[9px] font-medium leading-[10.8px] text-[#B8CAD9] lg:text-[12px] lg:font-normal lg:leading-[19.8px]">
             © {new Date().getFullYear()} V-Watch Ai by SS Group International
           </p>
           <button
             type="button"
             onClick={() => scrollPageTo(0)}
-            className="group flex items-center gap-0.5 text-[9px] leading-[19.8px] text-[#B8CAD9] transition-colors hover:text-white lg:gap-1.5 lg:text-[12px]"
+            className="group flex items-center gap-0.5 text-[9px] font-medium leading-[10.8px] text-[#B8CAD9] transition-colors hover:text-white lg:gap-1.5 lg:text-[12px] lg:font-normal lg:leading-[19.8px]"
           >
             Back to top
             <ArrowUpRight className="size-3 lg:size-[15px]" />

@@ -83,7 +83,10 @@ export default function FAQ() {
                   aria-expanded={isOpen}
                   aria-controls={`faq-a-${i}`}
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-start justify-between gap-4 py-[15px] text-left text-[13px] font-bold leading-[1.6] text-[#122338] transition-colors hover:text-[#0A8EC8] lg:text-[16px]"
+                  // Open: 10px between question and answer (Figma) via the
+                  // button's bottom padding — not a negative margin on the
+                  // answer, which the clipping wrapper would cut off.
+                  className={`flex w-full items-start justify-between gap-4 pt-[15px] text-left text-[13px] font-bold leading-[1.6] text-[#122338] transition-[padding,color] duration-300 hover:text-[#0A8EC8] lg:text-[16px] ${isOpen ? "pb-2.5" : "pb-[15px]"}`}
                 >
                   {item.q}
                   <ToggleIcon open={isOpen} />
@@ -98,7 +101,7 @@ export default function FAQ() {
                 }`}
               >
                 <div className="overflow-hidden" inert={!isOpen}>
-                  <p className={`-mt-[5px] pb-[15px] pr-[25px] ${T.points} text-[#4E6174]`}>
+                  <p className={`pb-[15px] pr-[25px] ${T.points} text-[#4E6174]`}>
                     {item.a}
                   </p>
                 </div>
