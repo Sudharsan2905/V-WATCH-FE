@@ -12,19 +12,14 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { submitForm } from "@/lib/submitForm";
-import {
-  LANDING_ROLES,
-  PROJECT_LOCATIONS,
-  PROJECT_STAGES,
-} from "@/constants/demo-form";
+import { LANDING_ROLES } from "@/constants/demo-form";
 import { ArrowUpRight, Check, T } from "../ui";
 
-// Role, location and stage options come from the revision notes (wireframe).
-// Role is sent in the API's `role` field; the forms API has no field for
-// location or stage, so they are not submitted (pending a decision).
+// Role options come from the revision notes (wireframe) and are sent in the
+// API's `role` field. Project location and stage are free-text inputs; the
+// forms API has no field for them, so they are not submitted (pending a
+// decision on where they should go).
 const ROLE_OPTIONS = LANDING_ROLES;
-const LOCATION_OPTIONS = PROJECT_LOCATIONS;
-const STAGE_OPTIONS = PROJECT_STAGES;
 
 const INTERESTS = ["Atlas", "Digital Handover", "Aegis", "Not sure yet"] as const;
 
@@ -452,7 +447,9 @@ export default function DemoForm() {
     }
   }
 
-  const input = (key: "fullName" | "workEmail" | "organisation" | "phone") =>
+  const input = (
+    key: "fullName" | "workEmail" | "organisation" | "phone" | "location" | "stage",
+  ) =>
     ({
       id: key,
       name: key,
@@ -550,24 +547,22 @@ export default function DemoForm() {
               error={errors.role}
               onChange={(v) => update("role", v)}
             />
-            <SelectField
-              id="location"
-              label="Project location"
-              placeholder="Select location"
-              options={LOCATION_OPTIONS}
-              value={form.location}
-              error={errors.location}
-              onChange={(v) => update("location", v)}
-            />
-            <SelectField
-              id="stage"
-              label="Project stage"
-              placeholder="Select stage"
-              options={STAGE_OPTIONS}
-              value={form.stage}
-              error={errors.stage}
-              onChange={(v) => update("stage", v)}
-            />
+            <Field id="location" label="Project location" error={errors.location}>
+              <input
+                {...input("location")}
+                type="text"
+                autoComplete="off"
+                placeholder="Enter location"
+              />
+            </Field>
+            <Field id="stage" label="Project stage" error={errors.stage}>
+              <input
+                {...input("stage")}
+                type="text"
+                autoComplete="off"
+                placeholder="Enter project stage"
+              />
+            </Field>
           </div>
 
           <fieldset className="flex flex-col gap-2">

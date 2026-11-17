@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { Check, Eyebrow, Section, T } from "../ui";
+
+// How long the pointer must rest on a card before it auto-expands (mobile).
+const HOVER_OPEN_DELAY_MS = 1500;
 
 // A feature is either a plain item or a group with nested items (Aegis → CMMS).
 type Feature = string | { title: string; items: string[] };
@@ -138,9 +141,60 @@ function FeatureList({ features }: Readonly<{ features: Feature[] }>) {
 function ProductCard({ product }: Readonly<{ product: Product }>) {
   const [open, setOpen] = useState(false);
   const listId = useId();
+  // Hover-to-expand (mobile layout, mouse/pen pointers only): resting the
+  // pointer on the card for 1.5s opens it and leaving closes it again. A card
+  // the visitor opened with the toggle stays open until "View less". Touch
+  // screens have no hover, so they keep using the toggle.
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openedByHover = useRef(false);
+
+  function cancelHoverTimer() {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = null;
+  }
+
+  useEffect(
+    () => () => {
+      if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    },
+    [],
+  );
+
+  // Armed by real pointer movement over the card, not by the card moving
+  // under a still pointer (e.g. when the card above collapses).
+  function onPointerMove(e: PointerEvent<HTMLElement>) {
+    if (e.pointerType === "touch" || open) return;
+    if (hoverTimer.current) return;
+    if (!e.movementX && !e.movementY) return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    hoverTimer.current = setTimeout(() => {
+      hoverTimer.current = null;
+      openedByHover.current = true;
+      setOpen(true);
+    }, HOVER_OPEN_DELAY_MS);
+  }
+
+  function onPointerLeave(e: PointerEvent<HTMLElement>) {
+    if (e.pointerType === "touch") return;
+    cancelHoverTimer();
+    if (openedByHover.current) {
+      openedByHover.current = false;
+      setOpen(false);
+    }
+  }
+
+  function setOpenByToggle(next: boolean) {
+    cancelHoverTimer();
+    openedByHover.current = false;
+    setOpen(next);
+  }
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-[5px] border border-[#DCE7EB] bg-white lg:flex-1">
+    <article
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
+      className="flex flex-col overflow-hidden rounded-[5px] border border-[#DCE7EB] bg-white lg:flex-1"
+    >
       <header
         className={`flex min-h-[131px] items-center justify-between border-b px-5 py-5 lg:min-h-[139px] lg:px-[30px] ${product.headerBorder}`}
         style={{ background: product.headerBg }}
@@ -167,7 +221,7 @@ function ProductCard({ product }: Readonly<{ product: Product }>) {
         {!open && (
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenByToggle(true)}
             aria-expanded={false}
             aria-controls={listId}
             className={`${TOGGLE} mt-2.5`}
@@ -194,7 +248,7 @@ function ProductCard({ product }: Readonly<{ product: Product }>) {
               <FeatureList features={product.features} />
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenByToggle(false)}
                 aria-expanded
                 aria-controls={listId}
                 className={`${TOGGLE} mt-2.5`}

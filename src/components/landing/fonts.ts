@@ -7,5 +7,8 @@ import { Inter } from "next/font/google";
 export const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  // The footer's "An SS Group International" line is italic; load the real
+  // italic face rather than letting the browser fake a slant.
+  style: ["normal", "italic"],
   display: "swap",
 });
