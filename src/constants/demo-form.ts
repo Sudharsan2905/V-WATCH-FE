@@ -18,18 +18,3 @@ export const LANDING_ROLES = [
   "Consultant",
   "Other",
 ];
-
-export const PROJECT_LOCATIONS = [
-  "Johor Bahru",
-  "Kulai",
-  "Pasir Gudang",
-  "Other Malaysia",
-  "Other",
-];
-
-export const PROJECT_STAGES = [
-  "Construction",
-  "Approaching handover",
-  "In DLP",
-  "Live operations",
-];
