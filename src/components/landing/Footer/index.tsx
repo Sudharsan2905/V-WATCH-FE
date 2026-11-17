@@ -70,8 +70,8 @@ export default function LandingFooter({
         </div>
 
         <div className="flex flex-col items-center gap-[5px] border-t border-[#304558] pb-[15px] pt-2.5 lg:flex-row lg:justify-between lg:pb-[21px] lg:pt-4">
-          <p className="flex h-5 items-center text-[9px] font-medium italic leading-[10.8px] text-[#B8CAD9] lg:text-[12px] lg:font-normal lg:leading-[19.8px]">
-            © {new Date().getFullYear()} V-Watch Ai An SS Group International
+          <p className="flex h-5 items-center text-[9px] font-medium leading-[10.8px] text-[#B8CAD9] lg:text-[12px] lg:font-normal lg:leading-[19.8px]">
+            © {new Date().getFullYear()} V-Watch Ai by SS Group International
           </p>
           <button
             type="button"
