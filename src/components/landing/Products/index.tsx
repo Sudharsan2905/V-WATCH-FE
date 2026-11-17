@@ -63,6 +63,7 @@ const PRODUCTS: Product[] = [
           "Support & Maintenance",
           "Task Management",
           "Work Programme",
+          "Work Order",
           "Power BI Reporting",
         ],
       },
