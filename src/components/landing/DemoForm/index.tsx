@@ -13,7 +13,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { submitForm } from "@/lib/submitForm";
 import { LANDING_ROLES } from "@/constants/demo-form";
-import { ArrowUpRight, Check, T } from "../ui";
+import { ArrowUpRight, Check, T } from "../ui"; 
 
 // Role options come from the revision notes (wireframe) and are sent in the
 // API's `role` field. Project location and stage are free-text inputs; the
