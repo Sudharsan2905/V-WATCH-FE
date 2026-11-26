@@ -10,19 +10,19 @@ const STAGES = [
     icon: "/landing/icons/icon-atlas-stage.svg",
     step: "1 / Build",
     title: "Atlas",
-    desc: "Manage construction delivery and capture relevant workforce, access and vendor records as work happens.",
+    desc: "Manage construction delivery while capturing workforce, site access and vendor records as work progresses.",
   },
   {
     icon: "/landing/icons/icon-handover-stage.svg",
     step: "2 / Connect",
     title: "Digital Handover",
-    desc: "Carry relevant construction information into Aegis so it can inform the operating team’s work after handover.",
+    desc: "Carry relevant construction records and project information into Aegis to support a more connected transition after handover.",
   },
   {
     icon: "/landing/icons/icon-aegis-stage.svg",
     step: "3 / Operate",
     title: "Aegis",
-    desc: "Use the project context to support the Defects Liability Period and ongoing facility operations.",
+    desc: "Use construction project information to support Defects Liability Period management and ongoing facility operations.",
   },
 ] as const;
 
@@ -51,12 +51,11 @@ export default function Journey() {
         <div className="flex flex-col gap-[15px] lg:max-w-[720px] lg:flex-1">
           <Eyebrow>How it works</Eyebrow>
           <h2 id="journey-title" className={`${T.h2} text-[#122338]`}>
-            One journey, three connected stages.
+            One Construction Journey. Three Connected Stages.
           </h2>
           <p className={`${T.body} text-[#4E6174]`}>
-            Atlas supports the build. Digital Handover brings relevant
-            information across. Aegis supports the people operating the
-            facility.
+            From construction delivery to digital handover and facility
+            operations...
           </p>
         </div>
         <Image

@@ -31,7 +31,7 @@ const PRODUCTS: Product[] = [
     headerBorder: "border-[#DCEBE3]",
     icon: "/landing/icons/icon-atlas-product.svg",
     intro:
-      "Support the people, access and records involved in delivering a complex site.",
+      "Support construction site operations with integrated workforce management, access control, delivery coordination and real-time site visibility.",
     features: [
       "Smart Access Control",
       "Delivery Management",
@@ -53,7 +53,7 @@ const PRODUCTS: Product[] = [
     headerBorder: "border-[#DCEAF1]",
     icon: "/landing/icons/icon-aegis-product.svg",
     intro:
-      "Support the Defects Liability Period and the work that keeps the facility running.",
+      "Support Defects Liability Period (DLP) management and ongoing facility operations through integrated maintenance, asset and workforce management capabilities.",
     // CMMS is a headline keyword, so the maintenance features sit under it.
     features: [
       {
@@ -275,12 +275,13 @@ export default function Products() {
       <div className="flex flex-col gap-[15px]">
         <Eyebrow>The products</Eyebrow>
         <h2 id="products-title" className={`${T.h2} text-[#122338]`}>
-          Choose the module that fits your project.
+          Construction and Facility Management Software for Every Project Stage
         </h2>
         <p className={`${T.body} text-[#4E6174]`}>
-          Atlas and Aegis are separate modules on the V-Watch Ai platform. Use
-          either module on its own or bring them together for construction,
-          handover and operations.
+          Explore V-Watch AI&apos;s connected construction and facility
+          management modules. Use Atlas and Aegis independently or together to
+          manage construction site operations, digital handover, Defects
+          Liability Period (DLP) activities and ongoing facility operations.
         </p>
       </div>
 

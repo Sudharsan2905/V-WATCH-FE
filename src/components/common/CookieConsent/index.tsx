@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
 import { DEFAULT_PREFERENCES } from "@/lib/cookieConsent";
-import { initGoogleAnalytics } from "@/lib/analytics";
+import { initGoogleAnalytics, initGoogleTagManager } from "@/lib/analytics";
 import CookieBanner from "@/components/common/CookieConsent/CookieBanner";
 import CookiePreferencesModal from "@/components/common/CookieConsent/CookiePreferencesModal";
 
@@ -21,10 +21,11 @@ export default function CookieConsent() {
     closePreferences,
   } = useCookieConsent();
 
-  // Example third-party integration: only initializes gtag.js once the
-  // visitor has actually granted analytics consent (see lib/analytics.ts).
+  // Third-party tags: only initialised once the visitor has actually granted
+  // analytics consent (see lib/analytics.ts).
   useEffect(() => {
     initGoogleAnalytics();
+    initGoogleTagManager();
   }, [consent]);
 
   return (

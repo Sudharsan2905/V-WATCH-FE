@@ -70,8 +70,9 @@ function sanitizePhone(raw: string) {
   return (raw.trimStart().startsWith("+") ? "+" : "") + digits;
 }
 
-// Required fields follow the Figma labels: name, email, organisation and the
-// consent box. Phone, interests and the message are optional.
+// Required fields: name, email, organisation, phone and the consent box
+// (phone is required to match /book-demo). Interests and the message are
+// optional.
 function validate(form: FormState): Errors {
   const errors: Errors = {};
   if (!form.fullName.trim()) errors.fullName = "Please enter your full name.";
@@ -80,7 +81,8 @@ function validate(form: FormState): Errors {
     errors.workEmail = "Please enter a valid email address.";
   if (!form.organisation.trim())
     errors.organisation = "Please enter your organisation.";
-  if (form.phone.trim() && !PHONE_RE.test(form.phone.trim()))
+  if (!form.phone.trim()) errors.phone = "Please enter your phone number.";
+  else if (!PHONE_RE.test(form.phone.trim()))
     errors.phone = "Please enter a valid phone number.";
   if (!form.consent) errors.consent = "Please confirm we may contact you.";
   return errors;
@@ -483,9 +485,9 @@ export default function DemoForm() {
           </h2>
           <p className={`${T.body} text-[#D1E2EC]`}>
             Tell us about your project and we can arrange a demonstration
-            around your role, project stage and priorities all at zero cost!
+            around your role, project stage and priorities, all at zero cost!
           </p>
-          <h3 className={`${T.h6} text-white`}>What we can cover</h3>
+          <h3 className={`${T.h6} text-white`}>What We Can Cover</h3>
           <ul className="flex flex-col gap-1.5 lg:gap-3">
             {COVERAGE.map((item) => (
               <li key={item} className="flex items-center gap-2">
@@ -503,7 +505,7 @@ export default function DemoForm() {
           className="flex w-full flex-col gap-4 rounded-[5px] border border-[#E4EAF0] bg-white p-5 shadow-[0_23px_50px_rgba(1,13,28,0.29)] sm:p-[39px] lg:max-w-[686px]"
         >
           <div className="flex flex-col gap-[5px]">
-            <h3 className={`${T.h5} text-[#122338]`}>Your project details</h3>
+            <h3 className={`${T.h5} text-[#122338]`}>Your Project Details</h3>
             <p className={`${T.points} text-[#4E6174]`}>
               Fields are required unless marked optional.
             </p>
@@ -590,7 +592,7 @@ export default function DemoForm() {
             </div>
           </fieldset>
 
-          <Field id="phone" label="Phone" optional error={errors.phone}>
+          <Field id="phone" label="Phone" error={errors.phone}>
             <input
               {...input("phone")}
               onChange={(e) => update("phone", sanitizePhone(e.target.value))}

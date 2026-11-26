@@ -26,15 +26,17 @@ export default function Hero() {
         {/* Copy */}
         <div className="flex flex-col gap-5">
           <Eyebrow marker="dot">V-Watch Ai by SS Group International</Eyebrow>
-          <h1 className={`flex flex-col gap-2 ${T.h1}`}>
-            <span className="text-[#000B47]">One operational data journey.</span>
-            <span className="text-[#0A8EC8]">
-              From construction to live operations.
-            </span>
+          {/* One H1 phrase, shown in two tones. The literal space keeps the
+              heading text reading "…Construction DLP Management Software". */}
+          <h1 className={T.h1}>
+            <span className="text-[#000B47]">AI-Powered Construction</span>{" "}
+            <span className="block text-[#0A8EC8]">DLP Management Software</span>
           </h1>
           <p className={`${T.bodyBig} text-[#19213D]`}>
-            Keep relevant construction records available at handover, through
-            the Defects Liability Period (DLP) and into live operations.
+            Manage construction operations with greater visibility,
+            coordination and control. VWatch connects project teams, workflows
+            and site activities through one intelligent platform, supporting
+            better oversight throughout the construction lifecycle.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
             <ButtonLink href="#book-demo">Book a Demonstration</ButtonLink>

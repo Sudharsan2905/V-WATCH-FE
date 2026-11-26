@@ -36,9 +36,12 @@ export default function CookieBanner({
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
               <div className="min-w-0">
-                <h2 className="text-base font-semibold text-neutral sm:text-lg dark:text-white">
+                {/* A <p>, not a heading: the banner shows on every page and
+                    would otherwise add a stray H2 to each page's outline. The
+                    dialog is already named by its aria-label. */}
+                <p className="text-base font-semibold text-neutral sm:text-lg dark:text-white">
                   We value your privacy
-                </h2>
+                </p>
                 <p
                   id="cookie-banner-description"
                   className="mt-1.5 text-sm leading-relaxed text-neutral/70 dark:text-navy-100"

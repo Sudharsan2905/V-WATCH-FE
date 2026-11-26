@@ -8,8 +8,8 @@ const TEAMS = [
   {
     tab: "Owners",
     icon: "/landing/icons/icon-owners.svg",
-    title: "Owners and developers",
-    desc: "Keep relevant records available to the teams that inherit the asset.",
+    title: "Owners and Developers",
+    desc: "Keep essential construction and asset records accessible to the teams responsible for the property after handover.",
     points: [
       "Review outstanding items through handover and DLP",
       "Refer back to relevant asset and contractor records",
@@ -19,8 +19,8 @@ const TEAMS = [
   {
     tab: "Project teams",
     icon: "/landing/icons/icon-project-teams.svg",
-    title: "Project and delivery teams",
-    desc: "Prepare useful project records before responsibility moves to the operating team.",
+    title: "Project and Delivery Teams",
+    desc: "Prepare and organize essential construction project records before responsibility transitions to the facility operations team.",
     points: [
       "Capture relevant workforce, access and contractor information in Atlas",
       "Plan which project information needs to carry forward",
@@ -30,8 +30,8 @@ const TEAMS = [
   {
     tab: "Facility teams",
     icon: "/landing/icons/icon-facility-teams.svg",
-    title: "Facility and operations teams",
-    desc: "Bring relevant project history into the workflows that support day-to-day operations.",
+    title: "Facility and Operations Teams",
+    desc: "Access relevant construction project information to support facility management, maintenance activities and ongoing operations after handover.",
     points: [
       "Access useful construction information after handover",
       "Manage assets, maintenance and reporting with Aegis",
@@ -43,7 +43,6 @@ const TEAMS = [
 export default function WhoItHelps() {
   const [active, setActive] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const team = TEAMS[active];
 
   // WAI-ARIA tabs keyboard pattern: arrows move (and activate) the tab,
   // Home/End jump to the ends.
@@ -69,11 +68,14 @@ export default function WhoItHelps() {
       <div className="flex flex-col gap-[15px] lg:max-w-[487px]">
         <Eyebrow>Who it helps</Eyebrow>
         <h2 id="who-it-helps-title" className={`${T.h2} text-white`}>
-          Built around the teams responsible for the asset.
+          Built for the Teams Managing Construction and Facility Operations
         </h2>
         <p className={`${T.body} text-[#C7DBE5]`}>
-          Different teams need different information as the project moves into
-          operations. See where V-Watch Ai can support your role.
+          Different teams need access to the right project information as
+          construction projects transition into facility operations. V-Watch AI
+          helps asset owners, project teams and facility managers maintain
+          access to relevant records, coordinate responsibilities and support a
+          more connected handover and Defects Liability Period (DLP).
         </p>
         <ButtonLink href="#book-demo" tone="light" className="self-start">
           Book a Demonstration
@@ -99,7 +101,7 @@ export default function WhoItHelps() {
                 type="button"
                 role="tab"
                 aria-selected={selected}
-                aria-controls="team-panel"
+                aria-controls={`team-panel-${i}`}
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={`flex-1 whitespace-nowrap rounded-[5px] border-[0.5px] px-1 py-[15px] text-center text-[13px] font-[680] leading-[1.2] transition-colors sm:px-5 lg:px-2 xl:px-5 ${
@@ -114,30 +116,38 @@ export default function WhoItHelps() {
           })}
         </div>
 
-        <div
-          id="team-panel"
-          role="tabpanel"
-          aria-labelledby={`team-tab-${active}`}
-          className="flex flex-col gap-1.5 px-5 pb-[25px] pt-5 lg:px-[25px] lg:pb-7 lg:pt-[23px]"
-        >
-          <Image
-            key={team.icon}
-            src={team.icon}
-            alt=""
-            width={70}
-            height={70}
-            unoptimized
-            className="size-[60px] lg:size-[70px]"
-          />
-          <h3 className={`${T.h5} text-[#19213D]`}>{team.title}</h3>
-          <p className={`${T.body} text-[#4E6174]`}>{team.desc}</p>
-          <CheckList
-            items={team.points}
-            checkColor="#A6C936"
-            itemClassName={`${T.points} text-[#263E4D]`}
-            gapClassName="gap-2"
-          />
-        </div>
+        {/* All three panels stay in the page (inactive ones are `hidden`), so
+            each team's heading and copy is in the HTML, not only the active
+            tab's. */}
+        {TEAMS.map((team, i) => (
+          <div
+            key={team.tab}
+            id={`team-panel-${i}`}
+            role="tabpanel"
+            aria-labelledby={`team-tab-${i}`}
+            hidden={i !== active}
+            className={`${
+              i === active ? "flex" : "hidden"
+            } flex-col gap-1.5 px-5 pb-[25px] pt-5 lg:px-[25px] lg:pb-7 lg:pt-[23px]`}
+          >
+            <Image
+              src={team.icon}
+              alt=""
+              width={70}
+              height={70}
+              unoptimized
+              className="size-[60px] lg:size-[70px]"
+            />
+            <h3 className={`${T.h5} text-[#19213D]`}>{team.title}</h3>
+            <p className={`${T.body} text-[#4E6174]`}>{team.desc}</p>
+            <CheckList
+              items={team.points}
+              checkColor="#A6C936"
+              itemClassName={`${T.points} text-[#263E4D]`}
+              gapClassName="gap-2"
+            />
+          </div>
+        ))}
       </div>
     </Section>
   );

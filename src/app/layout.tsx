@@ -36,10 +36,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Google Tag Manager container (public ID, not a secret). Tags themselves are
-// managed by the marketing team in the GTM dashboard.
-const GTM_ID = "GTM-FVTW6PSJ";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,21 +46,6 @@ export default function RootLayout({
       lang="en" 
       className={`${lato.variable} ${plusJakarta.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        {/* Google Tag Manager — rendered server-side so it is in the HTML of
-            every page, immediately after <head>, as GTM's install steps ask. */}
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());`,
-          }}
-        />
-      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <SmoothScroll />
         {children}
