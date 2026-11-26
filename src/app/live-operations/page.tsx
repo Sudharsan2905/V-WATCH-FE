@@ -11,6 +11,29 @@ import ComplexEnvironments from "@/components/pre-construction/ComplexEnvironmen
 import PostConstructionTransition from "@/components/pre-construction/PostConstructionTransition";
 import PlatformVideo from "@/components/common/PlatformVideo";
 import { postConstructionContent } from "@/data/post-construction";
+import SeoKeywords from "@/components/common/SeoKeywords";
+import { buildPageMetadata, type PageSeo } from "@/lib/seo";
+
+// SEO for the post-construction keywords of the "Construction Site Management"
+// tab. Same approach as /home: meta tags + JSON-LD + a screen-reader-only
+// keyword list. No visible text on the page is changed.
+const SEO: PageSeo = {
+  path: "/live-operations",
+  name: "V-Watch Aegis",
+  title: "VWatch Aegis | Post Construction Monitoring Platform",
+  description:
+    "VWatch Aegis supports post construction monitoring, defects liability period follow-up and facility operations, carrying project records into live use.",
+  heading: "V-Watch Aegis post construction topics",
+  keywords: [
+    "post construction monitoring",
+    // CONFIRM with client: the site mentions the Defects Liability Period but
+    // never warranty tracking.
+    "construction warranty management software",
+    "construction hr software",
+  ],
+};
+
+export const metadata = buildPageMetadata(SEO);
 
 export default function PostConstructionPage() {
   const {
@@ -28,6 +51,7 @@ export default function PostConstructionPage() {
     <div className="relative">
       <Navbar active="Solutions" />
       <PreConstructionHero hero={hero} />
+      <SeoKeywords {...SEO} />
       <SinglePlatform content={unifiedPlatform} />
       <ConnectedCapabilities content={connectedCapabilities} />
       <ConnectedCapabilitiesShowcase
