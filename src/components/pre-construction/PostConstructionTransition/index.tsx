@@ -193,15 +193,15 @@ export default function PostConstructionTransition({
     panelImage = "/pre-construction/post-construction/transition-tower.webp",
   } = content;
 
-  // Toggle target + label: from the post-construction page link back to
-  // pre-construction, otherwise (e.g. the pre-construction page) link forward to
-  // post-construction. Explicit `ctaHref` / `ctaLabel` from content always win.
+  // Toggle target + label: from the post-construction page (served at
+  // /live-operations) link back to pre-construction, otherwise (e.g. the
+  // pre-construction page) link forward to it. Explicit `ctaHref` / `ctaLabel`
+  // from content always win.
   const pathname = usePathname();
-  const onPostConstruction =
-    pathname?.startsWith("/post-construction") ?? false;
+  const onPostConstruction = pathname?.startsWith("/live-operations") ?? false;
   const ctaTarget =
     ctaHref ??
-    (onPostConstruction ? "/pre-construction" : "/post-construction");
+    (onPostConstruction ? "/pre-construction" : "/live-operations");
   const resolvedLabel =
     ctaLabel ??
     (onPostConstruction
