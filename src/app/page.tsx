@@ -15,9 +15,9 @@ import LandingFooter from "@/components/landing/Footer";
 // Landing page from the Figma "V-Watch LP" design. The previous home page now
 // lives at /home.
 export const metadata: Metadata = {
-  title: "V-Watch Ai — From Construction to Live Operations",
+  title: "VWatch | AI-Powered Construction DLP Management Software",
   description:
-    "Keep relevant construction records available at handover, through the Defects Liability Period (DLP) and into live operations with Atlas, Digital Handover and Aegis.",
+    "Discover a smarter approach to construction operations with VWatch. Connect project teams, workflows and site activities through one intelligent platform.",
   alternates: { canonical: "/" },
 };
 

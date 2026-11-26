@@ -4,18 +4,18 @@ import { Eyebrow, Section, T } from "../ui";
 const QUESTIONS = [
   {
     icon: "/landing/icons/icon-records.svg",
-    title: "Which records carry forward?",
-    desc: "Asset details, test records and contractor information may sit in different places when the site changes hands.",
+    title: "Which Records Need to Carry Forward?",
+    desc: "Asset details, inspection records, test documentation and contractor information can become fragmented when construction projects transition to facility operations.",
   },
   {
     icon: "/landing/icons/icon-fix.svg",
-    title: "What still needs to be fixed?",
-    desc: "Open defects and rectification work can be harder to follow when project records are fragmented.",
+    title: "Which Defects Still Need Attention?",
+    desc: "Outstanding defects and rectification activities require clear visibility to help teams follow up on unresolved issues throughout the Defects Liability Period.",
   },
   {
     icon: "/landing/icons/icon-responsible.svg",
-    title: "Who is responsible after handover?",
-    desc: "The operating team may need to trace who did the work and who should follow up during DLP.",
+    title: "Who Is Responsible After Handover?",
+    desc: "Facility teams may need to identify the contractors involved, trace previous work records and coordinate follow-ups when issues arise during the DLP.",
   },
 ] as const;
 
@@ -30,19 +30,21 @@ export default function HandoverGap() {
       <div className="flex flex-col gap-[15px]">
         <Eyebrow>The handover gap</Eyebrow>
         <h2 id="handover-gap-title" className={`${T.h2} text-[#19213D]`}>
-          Construction ends.
+          Construction Ends.
           <br />
-          The questions do not.
+          The Questions Don&apos;t.
         </h2>
         <p className={`${T.body} text-[#4E6174]`}>
-          During the Defects Liability Period, contractors may return to
-          complete rectification work while the facility team is already
-          operating the site.
+          During the Defects Liability Period (DLP), contractors may need to
+          return to complete outstanding defect rectification while facility
+          teams have already taken over daily site operations.
         </p>
         <p className={`${T.body} text-[#4E6174]`}>
-          When project information is spread across different teams and
-          systems, the people taking over can have a harder time finding what
-          they need. V-Watch Ai helps teams carry relevant records forward.
+          When construction records are scattered across different teams and
+          systems, tracking outstanding defects, contractor responsibilities
+          and project information becomes increasingly challenging. V-Watch AI
+          helps teams maintain access to relevant project records beyond
+          handover.
         </p>
       </div>
 

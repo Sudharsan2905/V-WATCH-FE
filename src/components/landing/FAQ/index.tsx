@@ -5,24 +5,24 @@ import { Eyebrow, Section, T } from "../ui";
 
 const FAQS = [
   {
-    q: "Why does project information still matter after construction?",
-    a: "During the Defects Liability Period, project and facility teams may need to check which assets were installed, what was tested, who did the work and which issues remain open. Keeping relevant records available helps teams follow up on defects and plan maintenance.",
+    q: "Why Does Project Information Matter During the Defects Liability Period?",
+    a: "During the Defects Liability Period (DLP), project and facility teams may need to verify which assets were installed, what was tested, who carried out the work and which issues remain unresolved. Keeping construction records accessible helps teams follow up on outstanding defects and plan ongoing maintenance.",
   },
   {
-    q: "What does Atlas do during construction?",
-    a: "Atlas supports construction delivery and workforce management. Depending on the project setup, teams can use it for worker enrolment, site access and screening, vendor management and training or compliance records.",
+    q: "What Does Atlas Do in Construction Site Management?",
+    a: "Atlas supports construction delivery and workforce management. Depending on the project configuration, teams can use it for worker enrolment, site access and screening, vendor management, and training or compliance records.",
   },
   {
-    q: "What is Digital Handover?",
-    a: "Digital Handover supports the transfer of relevant construction information from Atlas into Aegis. The project team can confirm which records are needed and how they will be carried forward for the agreed setup.",
+    q: "What Is Digital Handover in Construction?",
+    a: "Digital Handover supports the transfer of relevant construction information from Atlas into Aegis. Project teams can identify which records are required and determine how they will be carried forward based on the agreed project setup.",
   },
   {
-    q: "What does Aegis do in operations?",
-    a: "Aegis supports the Defects Liability Period and day-to-day facility operations. Depending on the package, it can support asset records, maintenance, preventive maintenance and reporting. Work order availability depends on the Aegis package.",
+    q: "How Does Aegis Support DLP and Facility Operations?",
+    a: "Aegis supports the Defects Liability Period and day-to-day facility operations. Depending on the selected package, its capabilities include asset records, maintenance, preventive maintenance and reporting. Work order availability is subject to the Aegis package.",
   },
   {
-    q: "Can we use Atlas and Aegis separately?",
-    a: "Yes. Atlas and Aegis are separate modules on the V-Watch Ai platform. They can be used separately or together based on project requirements. On-premises, cloud and hybrid deployment options are subject to the agreed technical configuration.",
+    q: "Can Atlas and Aegis Be Used Separately?",
+    a: "Yes. Atlas and Aegis are separate modules within the V-Watch AI platform. They can be used independently or together, depending on project requirements. On-premises, cloud and hybrid deployment options are available subject to the agreed technical configuration.",
   },
 ] as const;
 
@@ -62,12 +62,12 @@ export default function FAQ() {
       <div className="flex flex-col gap-[15px]">
         <Eyebrow>Good to know</Eyebrow>
         <h2 id="faq-title" className={`${T.h2} text-[#122338]`}>
-          Frequently asked
-          <br />
-          questions
+          Frequently Asked Questions About V-Watch AI
         </h2>
         <p className={`${T.body} text-[#4E6174]`}>
-          What to know before exploring the platform for your project.
+          Find answers to common questions about construction management,
+          digital handover, Defects Liability Period (DLP) management and
+          facility operations.
         </p>
       </div>
 

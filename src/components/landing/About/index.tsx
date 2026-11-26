@@ -20,19 +20,21 @@ export default function About() {
         <article className="flex flex-col gap-[15px] lg:max-w-[564px]">
           <Eyebrow>About the company</Eyebrow>
           <h2 id="about-title" className={`${T.h3} text-[#122338]`}>
-            V-Watch Ai by
+            V-Watch AI by
             <br />
             SS Group International
           </h2>
           <p className={`${T.body} text-[#4E6174]`}>
-            V-Watch Ai is the business process automation platform from SS
-            Group International. It digitalises operational processes across
-            industries, including workforce, access, compliance, assets,
-            maintenance and site management.
+            V-Watch AI is a business process automation platform developed by
+            SS Group International. It helps businesses digitise and manage
+            operational processes across workforce management, site access,
+            compliance, asset management, maintenance and site operations.
           </p>
           <p className={`${T.body} text-[#4E6174]`}>
-            Data centre construction and operations are one application of the
-            wider platform.
+            Supporting construction delivery, digital handover and facility
+            operations, V-Watch AI connects relevant operational information
+            through integrated solutions designed for complex business
+            environments.
           </p>
         </article>
 
@@ -43,12 +45,11 @@ export default function About() {
         >
           <p className={`${T.eyebrow} text-[#28614D]`}>Deployment</p>
           <h3 id="deployment-title" className={`${T.h4} text-[#122338]`}>
-            Deployment that fits your
-            <br className="hidden lg:block" /> environment.
+            Flexible Deployment Options for Your Operational Environment
           </h3>
           <p className={`${T.points} text-[#4E6174]`}>
-            Explore options based on your site’s operational, connectivity and
-            IT requirements.
+            Choose a deployment approach that aligns with your site&apos;s
+            operational requirements, connectivity and IT infrastructure.
           </p>
           <ul className="flex flex-wrap gap-2">
             {DEPLOYMENT_OPTIONS.map((opt) => (
@@ -99,11 +100,14 @@ export default function About() {
           <div className="flex flex-col gap-1.5">
             <p className={`${T.eyebrow} text-[#28614D]`}>Where to begin</p>
             <h2 className={`${T.h3} max-w-[760px] text-[#19213D]`}>
-              Start with the need. Connect the journey when it adds value.
+              Start with Your Operational Needs. Connect Every Stage When It
+              Adds Value.
             </h2>
             <p className={`${T.body} text-[#19213D]`}>
-              Bring us the workflow you need to support, from construction site
-              access to handover records or facility maintenance.
+              Tell us which workflows you need to support, from construction
+              site access and digital handover to Defects Liability Period (DLP)
+              management and facility maintenance. We&apos;ll help you explore
+              the right V-Watch AI solutions for your operational requirements.
             </p>
           </div>
           <ButtonLink href="#book-demo" tone="dark" className="self-start">

@@ -35,6 +35,36 @@ export function initGoogleAnalytics(): void {
   window.gtag("config", GA_MEASUREMENT_ID);
 }
 
+// Google Tag Manager container (public ID, not a secret). The marketing team
+// manages the tags inside it from the GTM dashboard.
+const GTM_ID = "GTM-FVTW6PSJ";
+
+/**
+ * Loads Google Tag Manager, following the same consent flow as GA4 above: it
+ * only runs once the visitor has granted "analytics" consent, and is safe to
+ * call on every render (it no-ops if consent is missing or GTM is already
+ * loaded). Mirrors the install snippet from Google: the gtm.js script plus the
+ * dataLayer / gtag('js') setup.
+ */
+export function initGoogleTagManager(): void {
+  if (typeof window === "undefined") return;
+  if (!shouldLoadAnalytics()) return;
+  if (document.querySelector(`script[src*="googletagmanager.com/gtm.js?id=${GTM_ID}"]`)) return;
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer ?? [];
+  // gtag must push the `arguments` object (not an array) for Google to read it.
+  window.gtag = function gtag() {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer?.push(arguments);
+  };
+  window.gtag("js", new Date());
+}
+
 /**
  * Same pattern for any future marketing pixel (Facebook Pixel, LinkedIn
  * Insight, TikTok Pixel, etc). Guard the actual script injection with this
